@@ -954,6 +954,9 @@ block.power-node.category: effect
 block.battery.requirements: [dormant-cyst/5]
 block.battery.category: effect
 
+block.segment.requirements: [dormant-cyst/80]
+block.segment.category: effect
+
 block.mechanical-pump.requirements: [dormant-cyst/4]
 block.mechanical-pump.category: effect
 
