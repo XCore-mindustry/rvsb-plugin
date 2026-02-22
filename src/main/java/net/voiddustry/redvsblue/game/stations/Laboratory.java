@@ -36,7 +36,10 @@ public class Laboratory {
     public static final int evolutionMenu = Menus.registerMenu((player, option) -> {
         if (option == -1) return;
 
+        if (player.unit() == null || player.unit().type() == null) return;
         Evolution evolution = Evolutions.evolutions.get(player.unit().type().name);
+
+        if (evolution == null || option < 0 || option >= evolution.evolutions.length) return;
         Evolution evolutionOption = Evolutions.evolutions.get(evolution.evolutions[option]);
 
         PlayerData playerData = players.get(player.uuid());
