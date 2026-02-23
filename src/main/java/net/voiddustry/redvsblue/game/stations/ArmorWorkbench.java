@@ -54,7 +54,7 @@ public class ArmorWorkbench {
                                     maxShield = p.unit().type.health/3;
                                 } else if (p.unit().type.health <= 290) {
                                     maxShield = p.unit().type.health*4;
-                                } else if (p.unit().type.health >= 11000) {
+                                } else if (p.unit().type == UnitTypes.aegires) {
                                     maxShield = p.unit().type.health/2;
                                 }
     

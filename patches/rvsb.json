@@ -1,10 +1,10 @@
 name: rvsb
 
-//flare rework rollback
+//flare rework
 unit.flare.omniMovement: true
 unit.flare.rotateSpeed: 99999
 unit.flare.health: 120
-unit.flare.maxRange: 80
+unit.flare.maxRange: 120
 unit.flare.rotateMoveFirst: false
 unit.flare.weapons: [
     {
@@ -14,8 +14,8 @@ unit.flare.weapons: [
         ejectEffect: casing1
         shootSound: shoot
         bullet: {
-            range: 80
-            maxRange: 80
+            range: 120
+            maxRange: 120
             speed: 2.2
             damage: 8
             type: basicBulletType
@@ -24,7 +24,7 @@ unit.flare.weapons: [
             lifetime: 45f
             shootEffect: shootSmall
             smokeEffect: shootSmallSmoke
-            keepVelocity: true
+            keepVelocity: false
         }
     }
     {
@@ -37,8 +37,8 @@ unit.flare.weapons: [
             firstShotDelay: 20
         }
         bullet: {
-            range: 80
-            maxRange: 80
+            range: 120
+            maxRange: 120
             speed: 2.2
             damage: 8
             type: basicBulletType
@@ -47,7 +47,7 @@ unit.flare.weapons: [
             lifetime: 45f
             shootEffect: shootSmall
             smokeEffect: shootSmallSmoke
-            keepVelocity: true
+            keepVelocity: false
         }
     }
 ]
@@ -1050,3 +1050,16 @@ unit.avert.buildSpeed: 0.01
 unit.obviate.buildSpeed: 0.01
 unit.quell.buildSpeed: 0.01
 unit.disrupt.buildSpeed: 0.01
+
+//boat accesibility to match cheat clients/mods
+unit.risso.omniMovement: true
+unit.minke.omniMovement: true
+unit.bryde.omniMovement: true
+unit.sei.omniMovement: true
+unit.omura.omniMovement: true
+
+unit.retusa.omniMovement: true
+unit.oxynoe.omniMovement: true
+unit.cyerce.omniMovement: true
+unit.aegires.omniMovement: true
+unit.navanax.omniMovement: true
