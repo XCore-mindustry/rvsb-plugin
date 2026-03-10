@@ -709,6 +709,7 @@ public class RedVsBluePlugin extends Plugin {
     }
 
     public static void gameOver(Team winner) {
+        Events.fire("rvsb_game_over:" + winner.name);
         
         Groups.player.each(p -> {
             PlayerData data = players.get(p.uuid());
