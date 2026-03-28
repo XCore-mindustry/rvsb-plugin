@@ -40,9 +40,12 @@ public class Laboratory {
         Evolution evolution = Evolutions.evolutions.get(player.unit().type().name);
 
         if (evolution == null || option < 0 || option >= evolution.evolutions.length) return;
-        Evolution evolutionOption = Evolutions.evolutions.get(evolution.evolutions[option]);
+        String selectedEvolution = evolution.evolutions[option];
+        Evolution evolutionOption = Evolutions.evolutions.get(selectedEvolution);
+        if (evolutionOption == null) return;
 
         PlayerData playerData = players.get(player.uuid());
+        if (playerData == null) return;
 
         if (playerData.getScore() >= ((int)(evolutionOption.cost*getMultiplier(evolutionOption, player)))) {
             if (player.unit() != null && (player.tileOn().block() == Blocks.air || evolutionOption.unitType.flying==true || evolutionOption.unitType.canBoost == true || evolutionOption.unitType.groundLayer==Layer.legUnit)) {
@@ -60,7 +63,7 @@ public class Laboratory {
                     playerData.setEvolutionStage(evolutionOption.tier);
                     playerData.setLastEvolutionTime(Instant.now().getEpochSecond());
 
-                    Utils.sendBundled("game.evolved", player.name(), evolution.evolutions[option]);
+                    Utils.sendBundled("game.evolved", player.name(), selectedEvolution);
                 }
             }
         }

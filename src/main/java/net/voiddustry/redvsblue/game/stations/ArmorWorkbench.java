@@ -62,6 +62,10 @@ public class ArmorWorkbench {
     
                                 float finalMaxShield = maxShield;
                                 int menu = Menus.registerMenu((player, option) -> {
+                                    if (option < 0) {
+                                        return;
+                                    }
+
                                     if (option == 0 && players.get(p.uuid()).getScore() >= 1 && p.unit().shield <= (int) finalMaxShield) {
                                         p.unit().shield = p.unit().shield + shieldPerPoint;
                                         players.get(p.uuid()).subtractScore(1);

@@ -31,8 +31,12 @@ public class ClassChooseMenu {
         });
 
         int menu = Menus.registerMenu((playerInMenu, option) -> {
-            selectedUnit.put(player.uuid(), unitsNumbers[option]);
-            CruxUnit.callSpawn(player);
+            if (option < 0 || option >= unitsNumbers.length) {
+                return;
+            }
+
+            selectedUnit.put(playerInMenu.uuid(), unitsNumbers[option]);
+            CruxUnit.callSpawn(playerInMenu);
         });
 
         Call.menu(player.con, menu, Bundle.get("units.crux.menu.title", player.locale), "", unitsBundleKeys);
@@ -53,4 +57,3 @@ public class ClassChooseMenu {
         }
     }
 }
-

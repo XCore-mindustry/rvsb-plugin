@@ -10,6 +10,10 @@ public class StationsMenu {
     public static void openMenu(Player player) {
         if (!player.dead() && player.team() == Team.blue) {
             int menu = Menus.registerMenu((player1, option) -> {
+                if (option < 0) {
+                    return;
+                }
+
                 switch (option) {
                     case 0 -> SuppressorTower.buyTower(player, null);
                     case 1 -> Miner.buyMiner(player, null);
