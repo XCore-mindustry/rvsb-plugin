@@ -842,6 +842,28 @@ ammoMultiplier: 2
 }
 }
 
+
+//crux vela wproc bullet
+unit.vela.weapons.+: {
+shoot: {
+firstShotDelay: 9999999
+}
+bullet: {
+type: ShrapnelBulletType
+length: 90f
+damage: 110f
+width: 25f
+serrations : 5
+serrationLenScl: 7
+serrationSpaceOffset: 60f
+serrationFadeOffset: 0f
+serrationWidth: 4f
+fromColor: ffcb82
+toColor: c2ffbf
+shootEffect: sparkShoot
+}
+}
+
 //dont register crawlers that manually explode
 unit.crawler.weapons.0.shootStatus: noRegisterKills
 unit.crawler.weapons.0.shootStatusDuration: 1000
