@@ -104,7 +104,7 @@ public class ArmorWorkbench {
                     if (tile == null) {
                         tile = tileUnderPlayer;
                     }
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty) {
                         StationData workbenchData = new StationData(player, tile);
                         workbenches.put(player.uuid(), workbenchData);
                         Call.constructFinish(tile, Blocks.radar, null, (byte) 0, Team.blue, null);

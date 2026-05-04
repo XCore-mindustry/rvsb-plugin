@@ -55,7 +55,7 @@ public class Miner {
                         tile = tileUnderPlayer;
                     }
 
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty) {
                         MinerData minerData = new MinerData(player, tile);
                         minersMap.put(player.uuid(), minerData);
                         Call.constructFinish(tile, Blocks.pulverizer, null, (byte) 0, Team.blue, null);

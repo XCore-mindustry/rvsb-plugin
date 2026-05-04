@@ -175,7 +175,7 @@ public class Laboratory {
                         tile = tileUnderPlayer;
                     }
 
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.block() != Blocks.empty) {
                         StationData laboratoryData = new StationData(player, tile);
                         labsMap.put(player.uuid(), laboratoryData);
                         Call.constructFinish(tile, Blocks.carbideWall, null, (byte) 0, Team.blue, null);

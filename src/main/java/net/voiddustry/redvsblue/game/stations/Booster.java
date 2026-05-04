@@ -58,7 +58,7 @@ public class Booster {
                         tile = tileUnderPlayer;
                     }
 
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty) {
                         StationData boosterData = new StationData(player, tile);
                         boostersMap.put(player.uuid(), boosterData);
                         Call.constructFinish(tile, Blocks.beamNode, null, (byte) 0, Team.blue, null);

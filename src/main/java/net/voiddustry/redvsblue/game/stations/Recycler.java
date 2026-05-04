@@ -67,7 +67,7 @@ public class Recycler {
                         tile = tileUnderPlayer;
                     }
 
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty) {
                         StationData recyclerData = new StationData(player, tile);
                         recyclersmap.put(player.uuid(), recyclerData);
                         Call.constructFinish(tile, Blocks.slagIncinerator, null, (byte) 0, Team.blue, null);
