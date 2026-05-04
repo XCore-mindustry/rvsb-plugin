@@ -68,7 +68,7 @@ public class RepairPoint {
                         tile = tileUnderPlayer;
                     }
 
-                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty()) {
+                    if (!player.dead() && player.team() == Team.blue && tile.block().isAir() && tile.floor() != Blocks.empty) {
                         StationData repairPointsData = new StationData(player, tile);
                         repairPointsMap.put(player.uuid(), repairPointsData);
                         Call.constructFinish(tile, Blocks.mender, null, (byte) 0, Team.blue, null);
