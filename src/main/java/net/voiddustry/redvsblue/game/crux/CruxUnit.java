@@ -50,10 +50,10 @@ public class CruxUnit {
                 //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
                 unit.apply(Vars.content.statusEffect("shielded"), 300f);
 
-                if (unit.type == UnitTypes.obviate) {
+                if (unit.type == UnitTypes.corvus) {
                     if (RedVsBluePlugin.stage == 11) {
                         unit.apply(StatusEffects.shielded, 600f);
-                        unit.apply(StatusEffects.overdrive, 99999f);
+                        unit.apply(StatusEffects.sapped, 99999f);
                         unit.apply(StatusEffects.fast, 99999f);
                     }
                 }

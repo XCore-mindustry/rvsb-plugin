@@ -59,7 +59,7 @@ public class StageUnits {
     );
 
     public final static ObjectMap<UnitType, String> eleventhStage = ObjectMap.of(
-            UnitTypes.obviate, "units.crux.menu.obviate",
+            UnitTypes.corvus, "units.crux.menu.corvus",
             UnitTypes.vanquish, "units.crux.menu.vanquish"
     );
 

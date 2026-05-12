@@ -371,7 +371,7 @@ lightningDamage: 24
 lightningColor: "ffff6b"
 hitSound: explosionMissile
 killShooter: false
-splashDamage: 2000
+splashDamage: 750
 scaledSplashDamage: true
 splashDamageRadius: 45
 buildingDamageMultiplier: 999
