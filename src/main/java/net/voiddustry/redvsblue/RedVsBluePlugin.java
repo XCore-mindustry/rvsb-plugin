@@ -2,10 +2,17 @@ package net.voiddustry.redvsblue;
 
 import arc.Events;
 import arc.Core;
+import arc.files.Fi;
+import arc.struct.Seq;
+import arc.util.Log;
+import arc.util.serialization.Jval;
+import arc.util.serialization.Jval.*;
+
 
 import arc.graphics.Color;
 import arc.struct.Seq;
 import arc.util.*;
+import arc.math.*;
 import mindustry.Vars;
 import mindustry.type.unit.*;
 import mindustry.ai.Pathfinder;
@@ -144,6 +151,9 @@ public class RedVsBluePlugin extends Plugin {
         Boss.forEachBoss();
         Premium.init();
         CruxUnit.addEvent();
+
+        Fi poolDir = Vars.dataDirectory.child("bosses");
+        poolDir.mkdirs();
         
 
         for (UnitType unit : Vars.content.units()) {
@@ -280,6 +290,28 @@ public class RedVsBluePlugin extends Plugin {
         });
 
         Events.on(EventType.BlockDestroyEvent.class, event -> {
+        });
+
+        //random boss
+        Events.on(EventType.ContentPatchLoadEvent.class, event -> {
+            Seq<Fi> pool = poolDir.findAll(f -> true);
+
+            if(pool.isEmpty()){
+                Log.info("No boss patch files found.");
+                return;
+            }
+
+            Fi chosen = pool.random();
+
+            try{
+                String patchText = Jval.read(chosen.readString()).toString(Jformat.plain);
+
+                event.patches.addUnique(patchText);
+
+                Log.info("Selected random patch: @", chosen.name());
+            }catch(Throwable t){
+                Log.info("Invalid random patch file: @", chosen.name(), t);
+            }
         });
 
 
