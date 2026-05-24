@@ -5,6 +5,7 @@ import mindustry.content.UnitTypes;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
+import mindustry.logic.LAccess;
 import mindustry.Vars;
 
 import mindustry.gen.Unit;
@@ -32,7 +33,7 @@ public class Hud {
 
         Groups.unit.each(u -> {
             if (u.team == Team.crux) {
-                u.ammo = u.type.ammoCapacity;
+                u.setProp(LAccess.ammo, u.type.ammoCapacity);
             }
 
         });
