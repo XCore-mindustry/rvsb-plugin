@@ -1,7 +1,8 @@
-name: empire boss by alphy,evoke base
+name: empire boss, author: alphy
 
 unit.evoke: {
 localizedName: Empire
+description: "Siege machine. Deals insane damage to buildings."
 region: "reign"
 
 parts: [
@@ -59,6 +60,7 @@ autoFindTarget: true
 useUnitCap: true
 createScorch: true
 uiIcon: "unit-reign-ui"
+cellRegion: "scepter-cell"
 
 
 speed: 0.3f
@@ -66,7 +68,7 @@ range: 350
 maxRange: 450
 rotateSpeed: 0.6
 aimDst: 120
-hitSize: 45f
+hitSize: 40f
 health: 62000
 mechStepParticles: true
 stepShake: 1.2f
@@ -132,7 +134,7 @@ type: BasicBulletType
 speed: 14
 width: 20
 height: 80
-lifetime: 25
+lifetime: 12.5
 shootEffect: shootBig
 hitEffect: blastExplosion
 fragBullets: 1
@@ -218,7 +220,7 @@ type: BasicBulletType
 speed: 14
 width: 20
 height: 80
-lifetime: 25
+lifetime: 12.5
 shootEffect: shootBig
 hitEffect: blastExplosion
 fragBullets: 1
@@ -371,7 +373,7 @@ lightningDamage: 24
 lightningColor: "ffff6b"
 hitSound: explosionMissile
 killShooter: false
-splashDamage: 750
+splashDamage: 420
 scaledSplashDamage: true
 splashDamageRadius: 45
 buildingDamageMultiplier: 999

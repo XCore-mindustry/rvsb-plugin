@@ -52,9 +52,9 @@ public class CruxUnit {
 
                 if (unit.type == UnitTypes.corvus) {
                     if (RedVsBluePlugin.stage == 11) {
-                        unit.apply(StatusEffects.shielded, 600f);
+                        unit.apply(StatusEffects.electrified, 600f);
                         unit.apply(StatusEffects.sapped, 99999f);
-                        unit.apply(StatusEffects.fast, 99999f);
+                        unit.apply(StatusEffects.freezing, 99999f);
                     }
                 }
 

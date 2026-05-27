@@ -874,7 +874,7 @@ unit.crawler.weapons.0.shootStatusDuration: 1000
 unit.vanquish.hitSize: 16
 
 // Health
-
+unit.nova.health: 250
 unit.stell.health: 400
 unit.mono.health: 200
 unit.locus.armor: -20
