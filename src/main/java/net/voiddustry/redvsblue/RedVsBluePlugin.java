@@ -705,7 +705,7 @@ public class RedVsBluePlugin extends Plugin {
         
         handler.register("setstage","<number>" ,"Sets rvsb stage", (args) -> {
             try {
-                stage = Integer.parseInt(args[0]-1);
+                stage = Integer.parseInt(args[0])-1;
                 task.run();
             } catch (Exception e) {
                 Log.info("Failed to set stage");
