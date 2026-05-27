@@ -37,13 +37,13 @@ public class PlayerData {
         this.selectedBoss = UnitTypes.mace;
         this.level = 1;
         this.exp = 0;
-        this.maxExp = 25;
+        this.maxExp = 35;
         this.lastEvolutionTime = 0;
         this.lastRedeemTime = 0;
     }
 
     public PlayerData(Player player) {
-        this(player.name(), player.uuid(), player.ip(), null, player.team(), 0, 1, 0, 25);
+        this(player.name(), player.uuid(), player.ip(), null, player.team(), 0, 1, 0, 35);
     }
 
     public String getName() {
