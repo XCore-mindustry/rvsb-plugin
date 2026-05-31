@@ -139,6 +139,9 @@ public class Laboratory {
     }
 
     public static float getMultiplier(Evolution evo, Player player) {
+        if (RedVsBluePlugin.players.get(player.uuid()) == null) {
+            return 4;
+        }
         double timeSinceLastEvo = Instant.now().getEpochSecond()-RedVsBluePlugin.players.get(player.uuid()).getLastEvolutionTime();
         int stage = evo.stage;
         float multiplier = 0;
