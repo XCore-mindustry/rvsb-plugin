@@ -869,7 +869,7 @@ unit.tecta.details: "This unit's shield does not deflect bullets."
 unit.tecta.abilities: [
 {
     type: ShieldArcAbility     
-    max: 12000    
+    max: 9500    
     chanceDeflect: -1  
     regen: 4.5
     cooldown: 1200
