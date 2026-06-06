@@ -864,6 +864,55 @@ shootEffect: sparkShoot
 }
 }
 
+//tecta alternate shield
+unit.tecta.details: "This unit's shield does not deflect bullets."
+unit.tecta.abilities: [
+{
+    type: ShieldArcAbility     
+    max: 12000    
+    chanceDeflect: -1  
+    regen: 4.5
+    cooldown: 1200
+    radius: 65
+    width: 80
+    angle: 100        
+    y: 0              
+    whenShooting: false
+    pushUnits: false
+    region: tecta-weapon
+}
+]
+unit.tecta.weapons.+: [ {
+    name: retusa-weapon
+    layerOffset: -5
+    controllable: false
+    recoil: 0
+    recoils: 1
+    recoilTime: 5
+    rotate: false
+    x: 0
+    y: 0
+    top: true
+    parts: [ 
+    {
+        name: tecta-weapon
+        layerOffset: 5.0001
+    }
+    {
+        name: tecta-weapon
+        layerOffset: 5.0001
+        xScl: -1
+    }
+    {
+        name: anthicus-weapon
+        layerOffset: 5.0002
+    }
+    ]
+}  
+]
+
+
+
 //dont register crawlers that manually explode
 unit.crawler.weapons.0.shootStatus: noRegisterKills
 unit.crawler.weapons.0.shootStatusDuration: 1000
