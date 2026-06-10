@@ -119,7 +119,7 @@ maxRange: 420
 rotateSpeed: 1.1
 aimDst: 100
 hitSize: 55f
-health: 72000
+health: 45000
 armor: 19
 lightRadius: 170
 drownTimeMultiplier: 4
@@ -186,7 +186,7 @@ bullet: {
 type: SapBulletType
 sapStrength: 1
 length: 200
-damage: 160
+damage: 1600
 width: 1
 lifetime: 35
 knockback: -2
@@ -244,7 +244,7 @@ bullet: {
 type: basicBulletType
 speed: 4.5
 lifetime: 70
-damage: 90
+damage: 600
 width: 16
 height: 16
 shrinkY: 0
@@ -311,7 +311,7 @@ bullet: {
 type: basicBulletType
 speed: 4.5
 lifetime: 70
-damage: 90
+damage: 600
 width: 16
 height: 16
 shrinkY: 0
@@ -391,7 +391,7 @@ bullet: {
 type: basicBulletType
 speed: 3.5
 lifetime: 55
-damage: 40
+damage: 400
 width: 14
 height: 14
 shrinkY: 0
@@ -463,7 +463,7 @@ speed: 3
 lifetime: 90
 width: 24
 height: 24
-splashDamage: 60
+splashDamage: 300
 splashDamageRadius: 40
 collidesAir: false
 backColor: "665c81"
@@ -511,7 +511,7 @@ bullet: {
 type: explosionBulletType
 killShooter: false
 collidesAir: true
-splashDamage: 70
+splashDamage: 700
 splashDamageRadius: 100
 buildingDamageMultiplier: 0.25
 status: slow
@@ -655,7 +655,7 @@ fragBullet: {
 type: explosionBulletType
 collidesAir: true
 killShooter: false
-splashDamage: 420
+splashDamage: 80
 scaledSplashDamage: true
 splashDamageRadius: 60
 buildingDamageMultiplier: 1.5
@@ -663,7 +663,7 @@ status: sapped
 statusDuration: 480
 lightning: 5
 lightningLength: 22
-lightningDamage: 30
+lightningDamage: 15
 lightningColor: "c45edd"
 hitSound: shockwaveTower
 despawnHit: true
