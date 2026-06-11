@@ -4,7 +4,6 @@ unit.evoke: {
 localizedName: "Venomreach"
 description: "THE giant enemy spider"
 region: "toxopid"
-layer: 75.5
 
 parts: [
 {
@@ -80,6 +79,7 @@ flying: false
 controller: groundAI
 aiController: GroundAI
 
+groundLayer: 75.5
 type: legs
 legCount: 8
 legLength: 55
