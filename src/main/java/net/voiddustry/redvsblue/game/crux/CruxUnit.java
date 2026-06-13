@@ -59,9 +59,15 @@ public class CruxUnit {
 
                 if (unit.type == UnitTypes.corvus) {
                     if (RedVsBluePlugin.stage == 11) {
-                        unit.apply(StatusEffects.electrified, 600f);
+                        unit.apply(StatusEffects.electrified, 99999f);
                         unit.apply(StatusEffects.sapped, 99999f);
                         unit.apply(StatusEffects.freezing, 99999f);
+                        unit.apply(StatusEffects.burning, 99999f);
+                        unit.apply(StatusEffects.fast, 99999f);
+                        unit.apply(StatusEffects.corroded, 99999f);
+                        unit.apply(StatusEffects.tarred, 99999f);
+                        unit.apply(StatusEffects.sporeSlowed, 99999f);
+                        unit.apply(StatusEffects.shocked, 99999f);
                     }
                 }
 
@@ -143,9 +149,15 @@ public class CruxUnit {
 
             if (unit.type == UnitTypes.corvus) {
                 if (RedVsBluePlugin.stage == 11) {
-                    unit.apply(StatusEffects.electrified, 600f);
+                    unit.apply(StatusEffects.electrified, 99999f);
                     unit.apply(StatusEffects.sapped, 99999f);
                     unit.apply(StatusEffects.freezing, 99999f);
+                    unit.apply(StatusEffects.burning, 99999f);
+                    unit.apply(StatusEffects.fast, 99999f);
+                    unit.apply(StatusEffects.corroded, 99999f);
+                    unit.apply(StatusEffects.tarred, 99999f);
+                    unit.apply(StatusEffects.sporeSlowed, 99999f);
+                    unit.apply(StatusEffects.shocked, 99999f);
                 }
             }
 
