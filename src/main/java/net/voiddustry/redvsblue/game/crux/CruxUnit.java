@@ -43,6 +43,13 @@ public class CruxUnit {
             }
             Unit unit = type.spawn(Team.crux, cruxSpawn);
 
+            if (RedVsBluePlugin.stage == 11) {
+                int renaleAmount = 2 + new Random().nextInt(8);
+                for (int i = 0; i < renaleAmount; i++) {
+                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
+                }
+            }
+
             if (unit != null && !unit.dead) {
                 unit.health = Integer.MAX_VALUE;
                 unit.apply(StatusEffects.overclock, 180);;
@@ -123,6 +130,13 @@ public class CruxUnit {
             
             Unit unit = unitType.spawn(Team.crux, cruxSpawn);
             spawnTimes.put(unit, System.currentTimeMillis());
+
+            if (RedVsBluePlugin.stage == 11) {
+                int renaleAmount = 2 + new Random().nextInt(8);
+                for (int i = 0; i < renaleAmount; i++) {
+                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
+                }
+            }
 
             //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
             unit.apply(Vars.content.statusEffect("shielded"), 300f);
