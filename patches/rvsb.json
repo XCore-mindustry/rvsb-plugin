@@ -1007,6 +1007,12 @@ block.thorium-wall-large.category: effect
 block.blast-door.requirements: [dormant-cyst/30]
 block.blast-door.category: effect
 
+block.plastanium-wall.requirements: [dormant-cyst/6]
+block.plastanium-wall.category: effect
+
+block.plastanium-wall-large.requirements: [dormant-cyst/30]
+block.plastanium-wall-large.category: effect
+
 block.combustion-generator.requirements: [dormant-cyst/9]
 block.combustion-generator.category: effect
 
