@@ -20,7 +20,7 @@ ext {
 
 dependencies {
     compileOnly "com.github.Anuken.Arc:arc-core:$versions.mindustry"
-    compileOnly ("com.github.Anuken.Mindustry:core:$versions.mindustry") { exclude module: 'flabel' }
+    compileOnly ("com.github.Anuken.MindustryJitpack:core:$versions.mindustry") { exclude module: 'flabel' }
 
     compileOnly "org.projectlombok:lombok:$versions.lombok"
     annotationProcessor "org.projectlombok:lombok:$versions.lombok"
