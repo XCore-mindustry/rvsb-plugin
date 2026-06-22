@@ -49,6 +49,7 @@ import net.voiddustry.redvsblue.player.Premium;
 import net.voiddustry.redvsblue.util.MapVote;
 import net.voiddustry.redvsblue.util.UnitsConfig;
 import net.voiddustry.redvsblue.util.Utils;
+import net.voiddustry.redvsblue.logic.LInstructions;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -142,7 +143,7 @@ public class RedVsBluePlugin extends Plugin {
 
         Log.info("&gRedVsBlue Plugin &rStarted!");
 
-
+        LInstructions.register();
         Utils.initRules();
         Utils.initTimers();
         Utils.loadContent();

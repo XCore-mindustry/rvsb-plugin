@@ -1,0 +1,18 @@
+
+displayName: "rvsb world logic editor helper mod"
+
+
+name: "rvsb-world-logic-editor-helper-mod"
+
+author: "alphy"
+
+
+main: "rvsblogicmod.GivePointsEditorMod"
+
+description: "helper mod for developing maps with world logic instructions for server plugins"
+
+version: 1.0
+
+minGameVersion: 158
+
+hidden: true
