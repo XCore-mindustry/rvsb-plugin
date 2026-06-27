@@ -186,6 +186,7 @@ layerOffset: 0.0003
 bullet: {
 type: SapBulletType
 sapStrength: 1
+buildingDamageMultiplier: 99999
 length: 200
 damage: 160
 width: 1
