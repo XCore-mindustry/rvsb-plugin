@@ -2321,10 +2321,6 @@ unit.navanax.weapons.5.bullet.healAmount: 30
 ================================================
 FILE: patches/bosses/Aranethys.json
 ================================================
-name: aranethys boss, author: alphy
-
-unit.evoke: {
-
 localizedName: Aranethys
 
 description: "The other giant enemy spider, because big spiders come in pairs."
@@ -2337,7 +2333,7 @@ region: "toxopid"
 
 cellRegion: "quad-cell"
 
-uiIcon: "unit-toxopid-ui"
+dp-aranethys: "unit-toxopid-ui"
 
 
 
@@ -11233,44 +11229,32 @@ public final class LInstructions {
         @Override
         public void run(LExecutor exec) {
             if (unit == null || result == null) {
-                Log.info("fetchpoints: unit=@ result=@", unit, result);
                 return;
             }
 
-            Log.info("fetchpoints: exec.privileged=@", exec.privileged);
-            Log.info("fetchpoints: unit.objval=@ isobj=@ constant=@", unit.objval, unit.isobj, unit.constant);
-            Log.info("fetchpoints: result.isobj=@ constant=@", result.isobj, result.constant);
 
             if (!(unit.objval instanceof Unit u)) {
-                Log.info("fetchpoints: not a Unit, setting null");
                 result.setobj(null);
                 return;
             }
 
-            Log.info("fetchpoints: u=@ team=@ isPlayer=@", u, u.team(), u.isPlayer());
 
             Player player = u.getPlayer();
-            Log.info("fetchpoints: player=@", player);
+
 
             if (player == null) {
-                Log.info("fetchpoints: player null");
                 result.setobj(null);
                 return;
             }
 
             PlayerData data = RedVsBluePlugin.players.get(player.uuid());
-            Log.info("fetchpoints: data=@", data);
 
             if (data == null) {
-                Log.info("fetchpoints: data null, uuid=@", player.uuid());
                 result.setobj(null);
                 return;
             }
 
-            Log.info("fetchpoints: about to setnum score=@", data.getScore());
             result.setnum(data.getScore());
-            Log.info("fetchpoints: after setnum result.isobj=@ result.numval=@ result.objval=@",
-                result.isobj, result.numval, result.objval);
         }
     }
 }

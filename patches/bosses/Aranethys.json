@@ -1,7 +1,3 @@
-name: aranethys boss, author: alphy
-
-unit.evoke: {
-
 localizedName: Aranethys
 
 description: "The other giant enemy spider, because big spiders come in pairs."
@@ -14,7 +10,7 @@ region: "toxopid"
 
 cellRegion: "quad-cell"
 
-uiIcon: "unit-toxopid-ui"
+dp-aranethys: "unit-toxopid-ui"
 
 
 

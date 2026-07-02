@@ -1,0 +1,4743 @@
+Directory structure:
+└── src/
+    └── main/
+        ├── java/
+        │   └── net/
+        │       └── voiddustry/
+        │           └── redvsblue/
+        │               ├── Bundle.java
+        │               ├── PlayerData.java
+        │               ├── RedVsBluePlugin.java
+        │               ├── admin/
+        │               │   └── Admin.java
+        │               ├── ai/
+        │               │   ├── AirAI.java
+        │               │   ├── BluePlayerTarget.java
+        │               │   ├── StalkerGroundAI.java
+        │               │   └── StalkerSuicideAI.java
+        │               ├── clan/
+        │               │   ├── Clan.java
+        │               │   └── Clans.java
+        │               ├── domain/
+        │               │   └── PlayerBoss.java
+        │               ├── evolution/
+        │               │   ├── Evolution.java
+        │               │   ├── Evolutions.java
+        │               │   └── UnitEvolutions.java
+        │               ├── game/
+        │               │   ├── Menu.java
+        │               │   ├── building/
+        │               │   │   └── UpdateConstructBlocks.java
+        │               │   ├── crux/
+        │               │   │   ├── Boss.java
+        │               │   │   ├── BossChooseMenu.java
+        │               │   │   ├── ClassChooseMenu.java
+        │               │   │   ├── CruxUnit.java
+        │               │   │   ├── SpawnEffect.java
+        │               │   │   ├── StageUnits.java
+        │               │   │   └── nest/
+        │               │   │       ├── Nest.java
+        │               │   │       └── NestData.java
+        │               │   ├── starting_menu/
+        │               │   │   ├── StartingItem.java
+        │               │   │   ├── StartingItems.java
+        │               │   │   └── StartingMenu.java
+        │               │   ├── stations/
+        │               │   │   ├── ArmorWorkbench.java
+        │               │   │   ├── Booster.java
+        │               │   │   ├── Laboratory.java
+        │               │   │   ├── Miner.java
+        │               │   │   ├── Recycler.java
+        │               │   │   ├── RepairPoint.java
+        │               │   │   ├── StationsMenu.java
+        │               │   │   ├── StationUtils.java
+        │               │   │   ├── SuppressorTower.java
+        │               │   │   └── stationData/
+        │               │   │       ├── MinerData.java
+        │               │   │       └── StationData.java
+        │               │   └── units/
+        │               │       ├── SpecialUnits.java
+        │               │       └── special/
+        │               │           └── Quad.java
+        │               ├── logic/
+        │               │   └── LInstructions.java
+        │               ├── player/
+        │               │   ├── Hud.java
+        │               │   └── Premium.java
+        │               └── util/
+        │                   ├── Config.java
+        │                   ├── MapVote.java
+        │                   ├── UnitsConfig.java
+        │                   └── Utils.java
+        └── resources/
+            ├── plugin.json
+            └── bundles/
+                ├── bundle_en.properties
+                ├── bundle_router.properties
+                ├── bundle_ru.properties
+                └── bundle_uk_UA.properties
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/Bundle.java
+================================================
+package net.voiddustry.redvsblue;
+
+import arc.files.Fi;
+import arc.struct.ObjectMap;
+import arc.util.Log;
+import arc.util.Structs;
+import mindustry.Vars;
+
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+@SuppressWarnings("unused")
+public class Bundle {
+    private static final ObjectMap<Locale, ResourceBundle> bundles = new ObjectMap<>();
+    private static final ObjectMap<Locale, MessageFormat> formats = new ObjectMap<>();
+
+    public static final Locale defaultLocale = new Locale("en");
+    public static final Locale[] supportedLocales;
+
+    private Bundle() {}
+
+    static {
+        Fi[] files = Vars.mods.getMod("red-vs-blue").root.child("bundles").list();
+        supportedLocales = new Locale[files.length];
+
+        for (int i = 0; i < files.length; i++) {
+            String code = files[i].nameWithoutExtension();
+            if (!code.contains("_"))
+                supportedLocales[i] = Locale.ROOT;
+            else {
+                String[] codes;
+                if ((codes = code.replace("bundle_", "").split("_")).length == 1)
+                    supportedLocales[i] = new Locale(codes[0]);
+                else supportedLocales[i] = new Locale(codes[0], codes[1]);
+            }
+        }
+    }
+
+    private static ResourceBundle getResource(Locale locale) {
+        ResourceBundle bundle = bundles.get(locale);
+        if (bundle == null) {
+            if (Structs.contains(supportedLocales, locale))
+                bundles.put(locale, bundle = ResourceBundle.getBundle("bundles.bundle", locale));
+            else bundle = getResource(defaultLocale);
+        }
+        return bundle;
+    }
+
+    public static Locale findLocale(String localeString) {
+        Locale locale = Structs.find(supportedLocales, l -> localeString.equals(l.toString()) || localeString.startsWith(l.toString()));
+        return locale != null ? locale : defaultLocale;
+    }
+
+    public static String format(String key, Locale locale, Object... values){
+        String pattern = get(key, locale);
+        if (values.length == 0)
+            return pattern;
+
+        MessageFormat format = formats.get(locale);
+        if (format == null)
+            formats.put(locale, format = new MessageFormat(pattern, locale));
+        else if (!Structs.contains(supportedLocales, locale))
+            format = formats.get(defaultLocale, () -> new MessageFormat(pattern, defaultLocale));
+        format.applyPattern(pattern);
+        return format.format(values);
+    }
+
+    public static String format(String key, Object... values) {
+        return format(key, defaultLocale, values);
+    }
+
+    public static String get(String key, Locale locale) {
+        try {
+            return getResource(locale).getString(key);
+        } catch (MissingResourceException e) {
+            Log.err("Key '@' doesn't exist in locale '@'", key, locale);
+            return (locale == defaultLocale)? "?" + key + "?" : get(key);
+        }
+    }
+
+    public static String get(String key) {
+        return get(key, defaultLocale);
+    }
+
+    public static String get(String key, String locale) {
+        return get(key, findLocale(locale));
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/PlayerData.java
+================================================
+package net.voiddustry.redvsblue;
+
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import mindustry.type.UnitType;
+
+@SuppressWarnings("unused")
+public class PlayerData {
+    private final String name, uuid, ip;
+    private int score;
+    private int kills;
+    private Unit unit;
+    private Team team;
+    private int evolutionStage;
+    private boolean canEvolve;
+    private boolean canConstruct;
+    private UnitType selectedBoss;
+    private int level;
+    private int exp;
+    private int maxExp;
+    private double lastEvolutionTime;
+    private double lastRedeemTime;
+
+    public PlayerData(String name, String uuid, String ip, Unit unit, Team team, Integer evolutionStage, Integer level, Integer exp, Integer maxExp) {
+        this.name = name;
+        this.uuid = uuid;
+        this.ip = ip;
+        this.unit = unit;
+        this.score = 15;
+        this.kills = 0;
+        this.team = team;
+        this.evolutionStage = 1;
+        this.canEvolve = false;
+        this.canConstruct = false;
+        this.selectedBoss = UnitTypes.mace;
+        this.level = 1;
+        this.exp = 0;
+        this.maxExp = 35;
+        this.lastEvolutionTime = 0;
+        this.lastRedeemTime = 0;
+    }
+
+    public PlayerData(Player player) {
+        this(player.name(), player.uuid(), player.ip(), null, player.team(), 0, 1, 0, 35);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public double getLastEvolutionTime() {
+        return lastEvolutionTime;
+    }
+    public double getLastRedeemTime() {
+        return lastRedeemTime;
+    }
+
+    public void addScore(int amount) {
+        score += amount;
+    }
+
+    public void subtractScore(int amount) {
+        score -= amount;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public void addKill() {
+        this.kills += 1;
+    }
+
+    public void setSelectedBoss(UnitType selectedBoss) {
+        this.selectedBoss = selectedBoss;
+    }
+
+    public UnitType getSelectedBoss() {
+        return selectedBoss;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setEvolutionStage(int stage) {
+        this.evolutionStage = stage;
+    }
+
+    public int getEvolutionStage() {
+        return evolutionStage;
+    }
+
+    public void setCanEvolve(boolean mode) {
+        this.canEvolve = mode;
+    }
+
+    public boolean isCanEvolve() {
+        return canEvolve;
+    }
+
+    public void setCanConstruct(boolean mode) {
+        this.canConstruct = mode;
+    }
+
+    public boolean CanConstruct() {
+        return canConstruct;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void addExp(int amount) {
+        this.exp += amount;
+    }
+
+    public void setExp(int amount) {
+        this.exp = amount;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+
+    public int getMaxExp() {
+        return maxExp;
+    }
+
+    public void setMaxExp(int amount) {
+        this.maxExp = amount;
+    }
+    
+    public void setLastEvolutionTime(double time) {
+        this.lastEvolutionTime = time;
+    }
+    public void setLastRedeemTime(double time) {
+        this.lastRedeemTime = time;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/RedVsBluePlugin.java
+================================================
+package net.voiddustry.redvsblue;
+
+import arc.Events;
+import arc.Core;
+import arc.files.Fi;
+import arc.struct.Seq;
+import arc.util.Log;
+import arc.util.serialization.Jval;
+import arc.util.serialization.Jval.*;
+
+
+import arc.graphics.Color;
+import arc.struct.Seq;
+import arc.util.*;
+import arc.math.*;
+import mindustry.Vars;
+import mindustry.type.unit.*;
+import mindustry.ai.Pathfinder;
+import mindustry.ai.types.*;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.content.UnitTypes;
+import mindustry.type.*;
+import mindustry.game.EventType;
+import mindustry.game.Team;
+import mindustry.gen.*;
+import mindustry.mod.Plugin;
+import mindustry.type.UnitType;
+import mindustry.ui.Menus;
+import mindustry.world.Tile;
+import mindustry.net.*;
+import net.voiddustry.redvsblue.admin.Admin;
+import net.voiddustry.redvsblue.ai.AirAI;
+import net.voiddustry.redvsblue.ai.BluePlayerTarget;
+import net.voiddustry.redvsblue.ai.StalkerGroundAI;
+import net.voiddustry.redvsblue.ai.StalkerSuicideAI;
+import net.voiddustry.redvsblue.evolution.Evolution;
+import net.voiddustry.redvsblue.evolution.Evolutions;
+import net.voiddustry.redvsblue.game.crux.*;
+import net.voiddustry.redvsblue.game.stations.StationsMenu;
+import net.voiddustry.redvsblue.game.stations.Laboratory;
+import net.voiddustry.redvsblue.game.building.UpdateConstructBlocks;
+import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
+import net.voiddustry.redvsblue.game.stations.*;
+import net.voiddustry.redvsblue.game.units.SpecialUnits;
+import net.voiddustry.redvsblue.player.Hud;
+import net.voiddustry.redvsblue.player.Premium;
+import net.voiddustry.redvsblue.util.MapVote;
+import net.voiddustry.redvsblue.util.UnitsConfig;
+import net.voiddustry.redvsblue.util.Utils;
+import net.voiddustry.redvsblue.logic.LInstructions;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Objects;
+import java.lang.Math;
+import java.time.Instant;
+
+import static net.voiddustry.redvsblue.util.MapVote.callMapVoting;
+import static net.voiddustry.redvsblue.util.Utils.*;
+
+public class RedVsBluePlugin extends Plugin {
+    public static final int bluePlayerTargeting;
+
+    static {
+        Pathfinder.fieldTypes.add(BluePlayerTarget::new);
+        bluePlayerTargeting = Pathfinder.fieldTypes.size - 1;
+    }
+
+    public static final HashMap<String, PlayerData> players = new HashMap<>();
+
+    public float blueSpawnX;
+    public float blueSpawnY;
+
+    public static Seq<Tile> redSpawns = new Seq<>();
+
+    private static int tick = 0;
+
+    public static int stage = 0;
+    public static float stageTimer = 0;
+    public static boolean playing = false;
+
+    public static boolean stage11 = false;
+
+    public int restartCounter = 0;
+    public int gamesUntilRestart = 2000000;
+
+    static Timer.Task task = new Timer.Task() {
+        @Override
+        public void run() {
+            if (stage != 10) {
+                stage++;
+                stageTimer = 300;
+                spawnBoss();
+                announceBundled("game.new-stage", 15, stage);
+                ClassChooseMenu.updateUnitsMap();
+            } else {
+                 //calculate blue unit value for stage 11
+                int blueUnitValue = 0;
+                float typeModifier = 1;
+                for (Unit u : Groups.unit) {
+                    if (u.team==Team.blue) {
+                        typeModifier = 1;
+                        if (u.type == UnitTypes.quad) {
+                            typeModifier = 2;
+                        } else if (u.type == UnitTypes.sei) {
+                            typeModifier = 2;
+                        } else if (u.type == UnitTypes.aegires) {
+                            typeModifier = 3;
+                        } else if (u.type == UnitTypes.omura) {
+                            typeModifier = 2;
+                        } else if (u.type == UnitTypes.navanax) {
+                            typeModifier = 1.5f;
+                        }
+                        blueUnitValue = blueUnitValue + ((int)(u.type.health*typeModifier));
+                    }
+                }
+                Log.info("Blue unit value for stage 11: " + blueUnitValue);
+                if (blueUnitValue < 100000) {
+                gameOver(Team.blue);
+                } else {
+                    stage11 = true;
+                    announceBundled("game.stage11", 5);
+                    Timer timer = new Timer();
+                    timer.schedule(() -> {
+                        stage++;
+                        stageTimer = 300;
+                        spawnBoss();
+                        announceBundled("game.new-stage", 15, 11);
+                        ClassChooseMenu.updateUnitsMap();
+                    }, 6);
+                }
+            }
+            if (stage >= 12) {
+                gameOver(Team.blue);
+            }
+        }
+    };
+
+    @Override
+    public void init() {
+
+        Log.info("&gRedVsBlue Plugin &rStarted!");
+
+        LInstructions.register();
+        Utils.initRules();
+        Utils.initTimers();
+        Utils.loadContent();
+        SpecialUnits.init();
+        SpawnEffect.initEffect();
+        Boss.forEachBoss();
+        Premium.init();
+        CruxUnit.addEvent();
+
+        Fi poolDir = Vars.dataDirectory.child("bosses");
+        poolDir.mkdirs();
+        
+
+        for (UnitType unit : Vars.content.units()) {
+            if (unit == UnitTypes.crawler) {
+                unit.aiController = StalkerSuicideAI::new;
+            }
+            if (!unit.flying) {
+                unit.aiController = StalkerGroundAI::new;
+            }
+            if (unit.flying) {
+                unit.aiController = AirAI::new;
+            }
+            if (unit.naval) {
+                unit.flying = true;
+            }
+        }
+
+
+        Events.on(EventType.PlayerJoin.class, event -> {
+            Player player = event.player;
+            if (playing) {
+                if (players.containsKey(player.uuid())) {
+                    PlayerData data = players.get(player.uuid());
+                    player.team(data.getTeam());
+                    if (player.team() == Team.blue) {
+                        player.unit(data.getUnit());
+                    }
+
+                } else {
+                    players.put(player.uuid(), new PlayerData(player));
+                    PlayerData data = players.get(player.uuid());
+                    Vars.world.tile(((int)blueSpawnX)/8,((int)blueSpawnY)/8).setNet(Blocks.air,Team.derelict,0);
+                    Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
+
+                    data.setUnit(unit);
+                    player.unit(unit);
+                }
+                if (playing && player.team() == Team.crux) {
+                    CruxUnit.callSpawn(player);
+                }
+            }
+
+            int menu = Menus.registerMenu(((player1, option) -> {}));
+
+            Call.menu(player.con, menu, Bundle.get("welcome", player.locale), Bundle.get("welcome.text", player.locale), new String[][]{{Bundle.get("stations.buttons.close", player.locale)}});
+        });
+
+        Events.on(EventType.PlayerChatEvent.class, event -> {
+            if (Utils.voting) {
+                if (Strings.canParseInt(event.message)) {
+                    MapVote.registerVote(event.player, Strings.parseInt(event.message));
+                }
+            }
+        });
+
+        //kill credit
+        HashMap<Unit, Unit> spawnedUnitOwnership = new HashMap<>();
+        HashMap<Unit, Player> killCredit = new HashMap<>();
+
+        //situations where kills should not be registered
+        StatusEffect noRegisterKills = new StatusEffect("noRegisterKills") {{
+            show = false;
+        }};
+        
+
+        Events.on(EventType.UnitDamageEvent.class, event -> {
+            if (event.unit != null && event.bullet.owner() instanceof Unit damager) {
+                if ((damager.isPlayer() || (spawnedUnitOwnership.get(damager) != null && spawnedUnitOwnership.get(damager).isPlayer())) && damager.team == Team.blue) {
+                    Player damagerPlayer;
+                    if (damager.isPlayer()) {
+                        damagerPlayer = damager.getPlayer();
+                    } else {
+                        damagerPlayer = spawnedUnitOwnership.get(damager).getPlayer();
+                    }
+                    if (!(damagerPlayer == null)) {
+                        killCredit.put(event.unit, damagerPlayer);
+                    }
+                }
+            }
+        });
+
+        Events.on(EventType.PlayEvent.class, event -> {
+            Utils.initRules();
+        });
+
+        
+        //blue kill registration
+        Events.on(EventType.UnitDestroyEvent.class, event -> {
+            
+            if (!(event.unit.hasEffect(Vars.content.statusEffect("noRegisterKills"))) && !(event.unit.type instanceof MissileUnitType)) {
+                Player killerPlayer = killCredit.get(event.unit);
+                killCredit.remove(event.unit);
+                
+                if (killerPlayer == null) {
+                    float minDist = 69420;
+                    for (Player p : Groups.player) {
+                        if (((!(p.unit() == null)) && event.unit.dst(p)<minDist) && (!(event.unit.team == p.team()))) {
+                            if (event.unit.dst(p) < ((p.unit().type.range)*1.2+p.unit().type.speed*8))
+                                killerPlayer=p;
+                                minDist = event.unit.dst(p);
+                        }
+                    }
+                }
+                
+                if (killerPlayer != null) {
+                    if (killerPlayer.team() == Team.blue) {
+                        PlayerData data = players.get(killerPlayer.uuid());
+                        if (!(data == null)) {
+                            players.get(killerPlayer.uuid()).addScore(data.getLevel());
+                            Call.label(killerPlayer.con, "[lime]+" + data.getLevel(), 2, event.unit.x, event.unit.y);
+                            data.addExp(1);
+                            processLevel(killerPlayer, data);
+                        }
+                    }
+                }
+            }
+        });
+
+        //crux kill registration
+        Events.on(EventType.UnitBulletDestroyEvent.class, event -> {
+            if (event.unit != null && event.bullet.owner() instanceof Unit killer) {
+                if (killer.isPlayer() && killer.team == Team.crux) {
+                    PlayerData data = players.get(killer.getPlayer().uuid());
+                    if (!(data == null)) {
+                        data.addKill();
+                        Call.label(killer.getPlayer().con, "[scarlet]+1", 2, event.unit.x, event.unit.y);
+                        if (data.getKills() >= 2) {
+                            Boss.spawnBoss(killer.getPlayer());
+                        }
+                    }
+
+                }
+            }
+        });
+
+        Events.on(EventType.BlockDestroyEvent.class, event -> {
+        });
+
+        //random boss
+        Events.on(EventType.ContentPatchLoadEvent.class, event -> {
+            Seq<Fi> pool = poolDir.findAll(f -> true);
+
+            if(pool.isEmpty()){
+                Log.info("No boss patch files found.");
+                return;
+            }
+
+            Fi chosen = pool.random();
+
+            try{
+                String patchText = Jval.read(chosen.readString()).toString(Jformat.plain);
+
+                event.patches.addUnique(patchText);
+
+                Log.info("Selected random patch: @", chosen.name());
+            }catch(Throwable t){
+                Log.info("Invalid random patch file: @", chosen.name(), t);
+            }
+        });
+
+
+
+        Events.on(EventType.UnitDestroyEvent.class, event -> {
+
+            spawnedUnitOwnership.remove(event.unit);
+            killCredit.remove(event.unit);
+            
+            if (event.unit.isPlayer()) {
+                if (event.unit.team() == Team.blue) {
+                    event.unit.getPlayer().team(Team.crux);
+                    PlayerData data = players.get(event.unit.getPlayer().uuid());
+                    if (!(data == null)) {
+                        data.setTeam(Team.crux);
+                        data.setScore(0);
+                        data.setKills(0);
+                    }
+
+                    UnitTypes.renale.spawn(Team.malis, event.unit.x, event.unit.y).kill();
+
+                    ClassChooseMenu.selectedUnit.put(event.unit.getPlayer().uuid(), UnitTypes.dagger);
+                    CruxUnit.callSpawn(event.unit.getPlayer());
+                } else if (event.unit.getPlayer().team() == Team.crux) {
+                  CruxUnit.callSpawn(event.unit.getPlayer());
+                  Player player = event.unit.getPlayer();
+                  Boss.bosses.forEach(boss -> {
+                      if (player == boss.player) {
+                          Boss.bosses.remove(boss);
+                      }
+                  });
+                }
+            }
+            gameOverCheck();
+        });
+
+
+        Timer.schedule(() -> {
+            if (playing) {
+                Hud.update();
+            }
+        },0.2f,0.2f);
+
+
+
+
+        
+
+        Events.on(EventType.WorldLoadEvent.class, event -> {
+            Miner.clearMiners();
+            RepairPoint.clearPoints();
+            Laboratory.clearLabs();
+            Booster.clearBoosters();
+            ArmorWorkbench.clearWorkbenches();
+            Recycler.clearRecyclers();
+            SuppressorTower.clearTowers();
+            Boss.bosses.clear();
+
+            initRules();
+
+            StartingMenu.canOpenMenu = true;
+
+
+            Groups.player.each(p -> {
+                PlayerData data = players.get(p.uuid());
+                if (!(data == null)) {
+                    data.setUnit(null);
+                    data.setExp(0);
+                    data.setLevel(1);
+                    data.setScore(0);
+                }
+            });
+            Log.info("Games until restart: "+(gamesUntilRestart-restartCounter));
+            restartCounter = restartCounter+1;
+            if (restartCounter >= gamesUntilRestart) {
+                Log.info("[scarlet]The server is restarting");
+                //net.dispose(); where do you find this mythical method
+                Groups.player.each(p -> p.kick("[scarlet]Server is restarting"));
+                System.exit(0);
+            }
+            
+        });
+
+        Events.on(EventType.WorldLoadEvent.class, event -> Timer.schedule(() -> {
+
+            players.clear();
+
+            Vars.state.rules.canGameOver = false;
+            Vars.state.rules.unitCap = 32;
+
+            Timer.schedule(() -> {
+                UpdateConstructBlocks updateConstructBlocks = new UpdateConstructBlocks();
+                Timer.schedule(updateConstructBlocks, 10f, 0.2f);
+                Vars.state.rules.bannedBlocks.clear();
+                initRules();
+            }, 0.5f);
+
+            Building core = Vars.state.teams.cores(Team.blue).first();
+
+            redSpawns.clear();
+
+            blueSpawnX = core.x();
+            blueSpawnY = core.y();
+
+            stage11 = false;
+
+            Vars.state.teams.cores(Team.blue).each(Building::kill);
+
+            for (int x = 0; x < Vars.state.map.width; x++) {
+                for (int y = 0; y < Vars.state.map.height; y++) {
+                    Tile tile = Vars.world.tile(x, y);
+                    if (tile.overlay() == Blocks.spawn) {
+                        redSpawns.add(tile);
+                        break;
+                    }
+                }
+            }
+
+            Timer timer = new Timer();
+            timer.scheduleTask(task, 300, 300);
+
+
+            Groups.player.each(player -> {
+                if (player != null) {
+                    player.team(Team.blue);
+                    players.put(player.uuid(), new PlayerData(player));
+
+                    Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
+                    PlayerData data = players.get(player.uuid());
+                    data.setUnit(unit);
+
+                }
+            });
+
+            playing = true;
+            gameRun = false;
+            gameover = false;
+            hardcore = false;
+            stage = 1;
+            stageTimer = 300;
+            voting = false;
+            StartingMenu.canOpenMenu = true;
+
+            ClassChooseMenu.selectedUnit.clear();
+            ClassChooseMenu.updateUnitsMap();
+
+            initRules();
+            launchGameStartTimer();
+
+            spawnedUnitOwnership.clear();
+            killCredit.clear();
+
+
+            Call.setRules(Vars.state.rules);
+
+
+        }, 10));
+
+    //    StatusEffect superShielded = new StatusEffect("superShielded") {{
+       //     show = false;
+        //    healthMultiplier = 9;
+       // }};
+
+        Events.run(EventType.Trigger.update, () -> {
+            tick++;
+            if (playing) {
+
+                //shitty redspawn updater
+                if (Vars.state.rules.objectiveFlags.contains("updateRedSpawns")) {
+                    Vars.state.rules.objectiveFlags.remove("updateRedSpawns");
+                    
+                    RedVsBluePlugin.redSpawns.each(spawnpoint -> {
+                        if (spawnpoint != RedVsBluePlugin.redSpawns.firstOpt()) {
+                            RedVsBluePlugin.redSpawns.remove(spawnpoint);
+                        }
+                    });
+                    Groups.build.each(bildeng -> {
+                        if (bildeng.block == Blocks.reinforcedLiquidRouter && bildeng.team == Team.all[100]) {
+                            RedVsBluePlugin.redSpawns.add(Vars.world.tile((((int)bildeng.x)/8),(((int)bildeng.y)/8)));
+                            Vars.world.tile((((int)bildeng.x)/8),(((int)bildeng.y)/8)).setBlock(Blocks.air);
+                        }
+                    });
+                    RedVsBluePlugin.redSpawns.remove(RedVsBluePlugin.redSpawns.firstOpt());  
+                }
+                
+
+                CruxUnit.checkUnitCount();
+
+                if(tick%3==0){
+
+                    // draw hitboxes 
+                    Groups.unit.each(u -> Call.label("[orange]X", 0.05F, u.x, u.y));
+                    //register missiles
+                    for (Unit unit : Groups.unit) {
+                    if (unit.type instanceof MissileUnitType) {
+                        if (!spawnedUnitOwnership.containsKey(unit)) {
+                            Unit spawnerUnit = null;
+                            int mindist = 999999;
+                            int dist;
+                            for (Unit unait : Groups.unit) {
+                                dist = (int)(Math.round(Math.sqrt((unait.x - unit.x)*(unait.x - unit.x) + (unait.y - unit.y)*(unait.y - unit.y))));
+                                if (dist<mindist && (unait.type == UnitTypes.disrupt || unait.type == UnitTypes.quell)) {
+                                    spawnerUnit = unait;
+                                    mindist = dist;
+                                }
+                            }
+                            spawnedUnitOwnership.put(unit, spawnerUnit);
+                        }
+                    }
+                }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void registerClientCommands(CommandHandler handler) {
+        handler.<Player>register("m", "Open Evolve menu, you must stand near lab", (args, player) -> {
+            if (players.containsKey(player.uuid()) && players.get(player.uuid()).isCanEvolve()) {
+                Locale locale = Bundle.findLocale(player.locale());
+
+                Evolution evolution = Evolutions.evolutions.get(player.unit().type().name);
+
+                String[][] buttons = new String[evolution.evolutions.length][1];
+
+                for (int i = 0; i < evolution.evolutions.length; i++) {
+                    float multiplier = Laboratory.getMultiplier(evolution.evolutions[i], player);
+                    int cost = (int)(Evolutions.evolutions.get(evolution.evolutions[i]).cost*multiplier);
+
+                    String textColor = "";
+
+                    if (multiplier > 1 && multiplier <= 1.99) {
+                        textColor = "[orange]";
+                    } else if (cost>Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
+                        textColor = "[red]";
+                    } else if (cost<Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
+                        textColor = "[green]";
+                    } else {
+                        textColor = "[yellow]";
+                    }
+                    buttons[i][0] = Bundle.format("menu.evolution.evolve", locale, evolution.evolutions[i],(textColor+cost+" - "+(multiplier*100)+"%"));
+                }
+
+                Call.menu(player.con, Laboratory.evolutionMenu, Bundle.get("menu.evolution.title", locale), Bundle.format("menu.evolution.message", locale, players.get(player.uuid()).getEvolutionStage(), Bundle.get("evolution.branch.initial", locale)), buttons);
+            }
+        });
+//        handler.<Player>register("sm", "Starting menu, you can open it only util 1 stage", (args, player) -> {
+//            Log.info(StartingMenu.canOpenMenu);
+//            StartingMenu.openMenu(player, 0);
+//        });
+       // handler.<Player>register("b", "Open Building menu", (args, player) -> {
+          //  if (playing && player.team() == Team.blue) {
+              //  BuildMenu.openMenu(player);
+            //}
+       // });
+
+        handler.<Player>register("bc", "Boss select menu", (args, player) -> {
+            if (playing) {
+                BossChooseMenu.openMenu(player);
+            }
+        });
+
+        handler.<Player>register("c", "Open Class Choose menu, only for crux", (args, player) -> {
+            if (player.team() == Team.crux) {
+                ClassChooseMenu.openMenu(player);
+            } else {
+                player.sendMessage(Bundle.get("", player.locale));
+            }
+        });
+
+        handler.<Player>register("s", "Open stations selecting menu", (args, player) -> StationsMenu.openMenu(player));
+
+        handler.<Player>register("vote-map", "<map-number>", "Vote for specific map", (args, player) -> {
+            if (Strings.canParseInt(args[0])) {
+                MapVote.registerVote(player, Integer.valueOf(args[0]));
+            } else {
+                player.sendMessage(Bundle.get("not-a-number", player.locale));
+            }
+        });
+
+        handler.<Player>register("ap", "Open a Admin Panel, only for admins", (args, player) -> {
+            if (player.admin) {
+                Admin.openAdminPanelMenu(player);
+            }
+
+        });
+        
+        handler.<Player>register("list-pinned-maps", "[scarlet]Admin only", (args, player) -> {
+            if (player.admin) {
+                try {
+                    String mapList = "";
+                    for (String mn : MapVote.pinnedMaps) {
+                        mapList = mapList+"\n"+mn;
+                    }
+                    player.sendMessage(mapList);
+                } catch (Exception e) {
+                    player.sendMessage("Failed to list pinned maps" + e);
+                }
+            }
+        });
+
+        handler.<Player>register("pin-map","<filename>", "[scarlet]Admin only", (args, player) -> {
+            if (player.admin) {
+                try {
+                    MapVote.pinnedMaps.add(args[0].trim());
+                } catch (Exception e) {
+                    player.sendMessage("Failed to pin a map" + e);
+                }
+            }
+        });
+
+        handler.<Player>register("clear-pinned-maps", "[scarlet]Admin only", (args, player) -> {
+            if (player.admin) {
+                try {
+                    MapVote.pinnedMaps.clear();
+                } catch (Exception e) {
+                    player.sendMessage("Failed to clear pinned maps" + e);
+                }
+            }
+        });
+
+        handler.<Player>register("gameover", "Only for admins", (args, player) -> {
+            if (player.admin) {
+                callMapVoting();
+                task.cancel();
+            }
+        });
+
+        handler.<Player>register("blue", "Makes you blue, works only before stage 3", (args, player) -> {
+            if (stage <= 3 && playing && player.team() != Team.blue && players.get(player.uuid()).getLastRedeemTime()+45<Instant.now().getEpochSecond()) {
+                Unit oldUnit = player.unit();
+
+                if (player.unit() != null) oldUnit.kill();
+
+                player.team(Team.blue);
+                players.put(player.uuid(), new PlayerData(player));
+                PlayerData data = players.get(player.uuid());
+                Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
+
+                data.setUnit(unit);
+                player.unit(unit);
+                data.setLastRedeemTime(Instant.now().getEpochSecond());
+                sendBundled("game.redeemed", player.name);
+            } else {
+                player.sendMessage(Bundle.get("game.late", player.locale));
+            }
+        });
+        
+        handler.<Player>removeCommand("rtv");
+        handler.<Player>removeCommand("observer");
+        handler.<Player>removeCommand("spectator");
+//        handler.<Player>register("reset-data", "Use that if you blue and dont have unit.", (args, player) -> {
+//            if (player.team() == Team.blue) {
+//                players.put(player.uuid(), new PlayerData(player));
+//            }
+//        });
+    }
+    @Override
+    public void registerServerCommands(CommandHandler handler) {
+//        handler.register("reload", "<config-name>", "Reload config", (args) -> {
+//            if (Objects.equals(args[0], "units")) {
+//                int multipler = UnitsConfig.getPrices_multipler();
+//                Log.info(multipler);
+//            } else if (Objects.equals(args[0], "premium")) {
+//                Premium.init();
+//            }
+//        });
+
+        handler.register("setpoints", "[number] [playername...]",  "give people money, or take it(better), admin abuse, breaks capitalism, evil", (args) -> {
+            try {
+                Player player = null;
+                for (Player p : Groups.player) {
+                    if (p.name.contains(args[1].trim())) {
+                        player = p;
+                    }
+                }
+                players.get(player.uuid()).setScore(Integer.parseInt(args[0]));
+                Log.info("Gave " + args[0] + " points to player " + player.name);
+            } catch (Exception e) {
+                Log.info("An error occured while executing the command");
+                e.printStackTrace();
+            }
+        });
+
+        handler.register("restart", "now actually works", (args) -> {
+            Groups.player.each(p -> p.kick("[scarlet]Server is restarting"));
+            Log.info("Server is restarting");
+            System.exit(0);
+        });
+        
+        handler.register("setstage","<number>" ,"Sets rvsb stage", (args) -> {
+            try {
+                stage = Integer.parseInt(args[0])-1;
+                task.run();
+            } catch (Exception e) {
+                Log.info("Failed to set stage");
+            }
+        });
+
+        
+        handler.register("autorestart", "<yes/no> <gamesUntilRestart>", "self explanatory", (args) -> {
+            try {
+                if (args[0].trim().contains("yes")) {
+                    Log.info("Games until restart: "+Integer.parseInt(args[1]));
+                    gamesUntilRestart = Integer.parseInt(args[1]);
+                } else {
+                    Log.info("Autorestart disabled");
+                    gamesUntilRestart = 2000000;
+                }
+            } catch (Exception e) {
+                Log.info("A mysterious error has appeared while executing the command");
+            }
+        });
+    }    
+
+    public static void gameOverCheck() {
+        int blueUnitCount = 0;
+        int PlayerCount = 0;
+        for (Unit u : Groups.unit) {
+            if (u.team == Team.blue) {
+                blueUnitCount = blueUnitCount+1;
+            }
+        }
+        if ((playerCount(Team.blue) == 0 || blueUnitCount== 0) && ((playerCount(Team.blue) + playerCount(Team.crux)) != 0)) {
+            gameOver(Team.crux);
+        }
+    }
+
+    public static void gameOver(Team winner) {
+        Events.fire("rvsb_game_over:" + winner.name);
+        
+        Groups.player.each(p -> {
+            PlayerData data = players.get(p.uuid());
+            if (!(data == null)) {
+                data.setUnit(null);
+                data.setExp(0);
+                data.setLevel(1);
+                data.setScore(0);
+            }
+        });
+        
+        if (winner == Team.crux) {
+            if (playing) {
+                RedVsBluePlugin.playing = false;
+                if (!gameover) {
+                    gameover = true;
+                    callMapVoting();
+
+                    task.cancel();
+
+                    Groups.player.each(p -> {
+                        int randomInt = getRandomInt(1, 255);
+                        players.get(p.uuid()).setTeam(Team.get(randomInt));
+                        p.team(Team.get(randomInt));
+                    });
+                }
+            }
+        } else if (winner == Team.blue) {
+            if (!gameover) {
+                gameover = true;
+                callMapVoting();
+
+                task.cancel();
+
+                Groups.player.each(p -> {
+                    int randomInt = getRandomInt(1, 255);
+                    players.get(p.uuid()).setTeam(Team.get(randomInt));
+                    p.team(Team.get(randomInt));
+                });
+            }
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/admin/Admin.java
+================================================
+package net.voiddustry.redvsblue.admin;
+
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Player;
+import mindustry.ui.Menus;
+import net.voiddustry.redvsblue.game.crux.Boss;
+import net.voiddustry.redvsblue.util.Utils;
+
+public class Admin {
+    public static void openAdminPanelMenu(Player player) {
+        int menu = Menus.registerMenu((playerInMenu, option) -> {
+            if (option < 0) {
+                return;
+            }
+
+            switch (option) {
+                case 0 -> Boss.spawnBoss(Utils.getRandomPlayer(Team.crux));
+            }
+        });
+        Call.menu(player.con, menu, "[scarlet]Admin Panel", "", new String[][]{{"[red]Spawn Random Boss"}});
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/ai/AirAI.java
+================================================
+package net.voiddustry.redvsblue.ai;
+
+import mindustry.Vars;
+import mindustry.ai.types.GroundAI;
+import mindustry.entities.Predict;
+import mindustry.entities.Units;
+import mindustry.gen.Building;
+import mindustry.gen.Hitboxc;
+import mindustry.gen.Teamc;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.liquid.Conduit;
+
+@SuppressWarnings("unused")
+public class AirAI extends GroundAI {
+
+    @Override
+    public void updateUnit(){
+        if(Units.invalidateTarget(target, unit.team, unit.x, unit.y, 800000)){
+            target = null;
+        }
+
+        if(retarget()){
+            target = target(unit.x, unit.y, 999, unit.type.targetAir, unit.type.targetGround);
+        }
+
+        boolean rotate = false, shoot = false;
+
+        if(!Units.invalidateTarget(target, unit, unit.range()) && unit.hasWeapons()){
+            rotate = true;
+            shoot = unit.within(target, unit.range() + (target instanceof Building ? 1.5f * Vars.tilesize / 2f : ((Hitboxc) target).hitSize() / 2f));
+
+            if(unit.type.hasWeapons())
+                unit.aimLook(Predict.intercept(unit, target, unit.type.weapons.first().bullet.speed));
+        }
+
+        if(target != null){
+            unit.moveAt(vec.set(target).sub(unit).limit(unit.speed()));
+            if(unit.moving()) unit.lookAt(unit.vel().angle());
+            unit.controlWeapons(rotate, shoot);
+        }
+    }
+
+    @Override
+    public Teamc target(float x, float y, float range, boolean air, boolean ground){
+        return Units.closestTarget(unit.team, x, y, range, u -> u.checkTarget(air, ground), t -> ground && !(t.block instanceof Conveyor || t.block instanceof Conduit));
+    }
+}
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/ai/BluePlayerTarget.java
+================================================
+package net.voiddustry.redvsblue.ai;
+
+import arc.struct.IntSeq;
+import mindustry.Vars;
+import mindustry.ai.Pathfinder;
+import mindustry.game.Team;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+
+public class BluePlayerTarget extends Pathfinder.Flowfield {
+
+    public BluePlayerTarget() {
+        this.refreshRate = 800;
+    }
+
+    @Override
+    public void getPositions(IntSeq out) {
+        for (Player p : Groups.player) {
+            if (p.team() != Team.blue || p.dead()) {
+                continue;
+            }
+
+            out.add(Vars.world.packArray(p.tileX(), p.tileY()));
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/ai/StalkerGroundAI.java
+================================================
+package net.voiddustry.redvsblue.ai;
+
+import arc.math.Mathf;
+import arc.util.Log;
+import mindustry.entities.units.AIController;
+import mindustry.game.Team;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.bluePlayerTargeting;
+
+public class StalkerGroundAI extends AIController {
+    @Override
+    public void updateMovement() {
+        Player closest = null;
+        float closestDst = Float.MAX_VALUE;
+        for (Player p : Groups.player) {
+            if (p.team() != Team.blue || p.dead()) {
+                continue;
+            }
+
+            float dst = unit.dst2(p);
+            if (closestDst > dst) {
+                closest = p;
+                closestDst = dst;
+            }
+        }
+
+        if (closest == null) {
+            return;
+        }
+
+        target = closest.unit();
+
+        if (unit.within(closest, unit.type.range * 0.125f)) {
+            for (var mount : unit.mounts) {
+                if (mount.weapon.controllable && mount.weapon.bullet.collidesGround) {
+                    mount.target = closest.unit();
+                }
+            }
+        } else {
+            Log.debug("PATHFIND TRIGGERES");
+            pathfind(bluePlayerTargeting);
+            if (unit.type.canBoost && unit.elevation > 0.001f && !unit.onSolid()) {
+                unit.elevation = Mathf.approachDelta(unit.elevation, 0f, unit.type.riseSpeed);
+            }
+        }
+
+        faceTarget();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/ai/StalkerSuicideAI.java
+================================================
+package net.voiddustry.redvsblue.ai;
+
+import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
+import mindustry.Vars;
+import mindustry.core.World;
+import mindustry.entities.Units;
+import mindustry.entities.units.AIController;
+import mindustry.game.Team;
+import mindustry.gen.*;
+import mindustry.world.Tile;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.liquid.Conduit;
+import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.meta.BlockGroup;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+
+public class StalkerSuicideAI extends AIController {
+    static boolean blockedByBlock;
+
+    @Override
+    public void updateUnit() {
+        if (Units.invalidateTarget(target, unit.team, unit.x, unit.y, Float.MAX_VALUE)) {
+            target = null;
+        }
+
+        if (retarget()) {
+            Player closest = null;
+            float closestDst = Float.MAX_VALUE;
+            for (Player p : Groups.player) {
+                if (p.team() != Team.blue || p.dead()) {
+                    continue;
+                }
+
+                float dst = unit.dst2(p);
+                if (closestDst > dst) {
+                    closest = p;
+                    closestDst = dst;
+                }
+            }
+
+            if (closest != null) {
+                target = closest.unit();
+            } else {
+                target = target(unit.x, unit.y, unit.range(), unit.type.targetAir, unit.type.targetGround);
+            }
+        }
+
+        boolean rotate = false, shoot = false, moveToTarget = false;
+
+        if (!Units.invalidateTarget(target, unit, unit.range()) && unit.hasWeapons()) {
+            rotate = true;
+            shoot = unit.within(target, unit.type.weapons.first().bullet.range +
+                    (target instanceof Building b ? b.block.size * Vars.tilesize / 2f : ((Hitboxc) target).hitSize() / 2f));
+
+            //do not move toward walls or transport blocks
+            if (!(target instanceof Building build && !(build.block instanceof CoreBlock) && (
+                    build.block.group == BlockGroup.walls ||
+                            build.block.group == BlockGroup.liquids ||
+                            build.block.group == BlockGroup.transportation
+            ))) {
+                blockedByBlock = false;
+
+                //raycast for target
+                boolean blocked = World.raycast(unit.tileX(), unit.tileY(), target.tileX(), target.tileY(), (x, y) -> {
+                    for (Point2 p : Geometry.d4c) {
+                        Tile tile = Vars.world.tile(x + p.x, y + p.y);
+                        if (tile != null && tile.build == target) return false;
+                        if (tile != null && tile.build != null && tile.build.team != unit.team()) {
+                            blockedByBlock = true;
+                            return true;
+                        } else {
+                            return tile == null || tile.solid();
+                        }
+                    }
+                    return false;
+                });
+
+                //shoot when there's an enemy block in the way
+                if (blockedByBlock) {
+                    shoot = true;
+                }
+
+                if (!blocked) {
+                    moveToTarget = true;
+                    //move towards target directly
+                    unit.movePref(vec.set(target).sub(unit).limit(unit.speed()));
+                }
+            }
+        }
+
+        if (!moveToTarget) {
+            pathfind(RedVsBluePlugin.bluePlayerTargeting);
+        }
+
+        unit.controlWeapons(rotate, shoot);
+
+        faceTarget();
+    }
+
+    @Override
+    public Teamc target(float x, float y, float range, boolean air, boolean ground) {
+        return Units.closestTarget(unit.team, x, y, range, u -> u.checkTarget(air, ground), t -> ground &&
+                !(t.block instanceof Conveyor || t.block instanceof Conduit)); //do not target conveyors/conduits
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/clan/Clan.java
+================================================
+package net.voiddustry.redvsblue.clan;
+
+public class Clan {
+
+    private final String name;
+    private final String ownerUuid;
+
+    public Clan(String name, String owner_uuid) {
+        this.name = name;
+        this.ownerUuid = owner_uuid;
+    }
+
+    public String getOwner() {
+        return ownerUuid;
+    }
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/clan/Clans.java
+================================================
+package net.voiddustry.redvsblue.clan;
+
+import arc.files.Fi;
+import arc.util.serialization.Json;
+import arc.util.serialization.JsonWriter;
+import lombok.Getter;
+import mindustry.Vars;
+
+public class Clans {
+
+    @Getter
+    private static String clan = "";
+
+    static {
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        json.setUsePrototypes(false);
+        Fi configFile = Vars.modDirectory.child("RedVsBlue/Clans/");
+
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/domain/PlayerBoss.java
+================================================
+package net.voiddustry.redvsblue.domain;
+
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import mindustry.type.UnitType;
+
+public class PlayerBoss {
+    public Player player;
+    public Unit unit;
+    public UnitType unitType;
+
+    public PlayerBoss(Player player) {
+        this.player = player;
+        this.unit = player.unit();
+        this.unitType = player.unit().type;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/evolution/Evolution.java
+================================================
+package net.voiddustry.redvsblue.evolution;
+
+import mindustry.content.UnitTypes;
+import mindustry.type.UnitType;
+
+import static net.voiddustry.redvsblue.util.UnitsConfig.multp;
+
+public enum Evolution {
+
+    DAGGER(UnitTypes.dagger, 1, 2*multp, new String[] { "atrax", "mace", "merui", "flare", "nova", "mono" }, 1),
+    NOVA(UnitTypes.nova, 1, 3*multp, new String[] { "pulsar", "merui", "flare", "dagger", "mono" }, 1),
+    MERUI(UnitTypes.merui, 1, 8*multp, new String[] { "atrax", "nova", "flare", "dagger", "mono" }, 1),
+    FLARE(UnitTypes.flare, 1, 6*multp, new String[] { "risso", "nova", "merui", "dagger", "mono" }, 1),
+    MONO(UnitTypes.mono, 1, 5*multp, new String[] { "poly", "nova", "merui", "dagger" }, 1),
+
+    PULSAR(UnitTypes.pulsar, 2, 25*multp, new String[] { "quasar" }, 2),
+    ATRAX(UnitTypes.atrax, 2, 18*multp, new String[] { "cleroi" }, 2),
+    RISSO(UnitTypes.risso, 2, 45*multp, new String[] { "zenith" }, 3),
+    POLY(UnitTypes.poly, 2, 21*multp, new String[] { "retusa" }, 2),
+
+    MACE(UnitTypes.mace, 3, 20*multp, new String[] { "fortress"}, 2),
+    QUASAR(UnitTypes.quasar, 3, 60*multp, new String[] { "vela" }, 3),
+    CLEROI(UnitTypes.cleroi, 3, 65*multp, new String[] { "spiroct" }, 3),
+    ZENITH(UnitTypes.zenith, 3, 70*multp, new String[] { "minke" }, 3),
+    RETUSA(UnitTypes.retusa, 3, 15*multp, new String[] { "oxynoe" }, 3),
+
+    FORTRESS(UnitTypes.fortress, 4, 48*multp, new String[] { "locus" }, 2),
+    VELA(UnitTypes.vela, 4, 170*multp, new String[] { "corvus" }, 6),
+    SPIROCT(UnitTypes.spiroct, 4, 95*multp, new String[] { "toxopid" }, 4),
+    MINKE(UnitTypes.minke, 4, 90*multp, new String[] { "avert" }, 3),
+    OXYNOE(UnitTypes.oxynoe, 4, 35*multp, new String[] { "mega" }, 3),
+
+    LOCUS(UnitTypes.locus, 5, 55*multp, new String[] { "precept" }, 4),
+    CORVUS(UnitTypes.corvus, 5, 300*multp, new String[] { "aegires" }, 7),
+    MEGA(UnitTypes.mega, 5, 100*multp, new String[] { "cyerce" }, 4),
+
+    PRECEPT(UnitTypes.precept, 6, 60*multp, new String[] { "scepter" }, 5),
+    AEGIRES(UnitTypes.aegires, 6, 450*multp, new String[] { "navanax" }, 8),
+    AVERT(UnitTypes.avert, 6, 27*multp, new String[] { "bryde" , "obviate" }, 4),
+    CYERCE(UnitTypes.cyerce, 6, 150*multp, new String[] { "quad" }, 5),
+
+    SCEPTER(UnitTypes.scepter, 7, 105*multp, new String[] { "vanquish" }, 6),
+    NAVANAX(UnitTypes.navanax, 7, 450*multp, new String[] { "flare", "merui", "dagger" }, 9),
+    TOXOPID(UnitTypes.toxopid, 7, 415*multp, new String[] { "collaris" }, 7),
+    BRYDE(UnitTypes.bryde, 7, 180*multp, new String[] { "antumbra" }, 5),
+    OBVIATE(UnitTypes.obviate, 7, 90*multp, new String[] { "quell" }, 5),
+    QUAD(UnitTypes.quad, 7, 450*multp, new String[] { "oct" }, 7),
+
+    VANQUISH(UnitTypes.vanquish, 8, 250*multp, new String[] { "reign" }, 6),
+    COLLARIS(UnitTypes.collaris, 8, 1170*multp, new String[] { "nova", "flare", "dagger", "mono" }, 7),
+    ANTUMBRA(UnitTypes.antumbra, 8, 180*multp, new String[] { "eclipse" }, 6),
+    OCT(UnitTypes.oct, 8, 1500*multp, new String[] { "merui", "nova", "flare", "dagger" }, 9),
+    QUELL(UnitTypes.quell, 8, 180*multp, new String[] { "disrupt" }, 6),
+
+    REIGN(UnitTypes.reign, 9, 450*multp, new String[] { "conquer" }, 7),
+    ECLIPSE(UnitTypes.eclipse, 9, 270*multp, new String[] { "sei" }, 6),
+    DISRUPT(UnitTypes.disrupt, 9, 800*multp, new String[] { "nova", "flare", "dagger"}, 8),
+
+
+    CONQUER(UnitTypes.conquer, 10, 450*multp, new String[] { "merui", "nova", "flare", "mono" }, 7),
+    SEI(UnitTypes.sei, 10, 270*multp, new String[] { "omura" }, 8),
+    
+    OMURA(UnitTypes.omura, 11, 1650*multp, new String[] { "merui", "nova", "dagger", "mono" }, 9);
+
+    public final UnitType unitType;
+    public final int tier, cost, stage;
+    public final String[] evolutions;
+
+    Evolution(mindustry.type.UnitType unitType, int tier, int cost, String[] evolutions, int stage) {
+        this.unitType = unitType;
+        this.tier = tier;
+        this.cost = cost;
+        this.evolutions = evolutions;
+        this.stage = stage;
+    }
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/evolution/Evolutions.java
+================================================
+package net.voiddustry.redvsblue.evolution;
+
+
+import arc.struct.ObjectMap;
+
+@SuppressWarnings("unused")
+public class Evolutions {
+    public final static ObjectMap<String, Evolution> evolutions = ObjectMap.of(
+            "dagger", Evolution.DAGGER,
+        "nova", Evolution.NOVA,
+        "merui", Evolution.MERUI,
+        "flare", Evolution.FLARE,
+        "mono", Evolution.MONO,
+
+        "dagger", Evolution.DAGGER,
+        "pulsar", Evolution.PULSAR,
+        "atrax", Evolution.ATRAX,
+        "risso", Evolution.RISSO,
+        "poly", Evolution.POLY,
+
+        "mace", Evolution.MACE,
+        "quasar", Evolution.QUASAR,
+        "cleroi", Evolution.CLEROI,
+        "zenith", Evolution.ZENITH,
+        "retusa", Evolution.RETUSA,
+
+        "fortress", Evolution.FORTRESS,
+        "vela", Evolution.VELA,
+        "spiroct", Evolution.SPIROCT,
+        "minke", Evolution.MINKE,
+        "oxynoe", Evolution.OXYNOE,
+
+        "locus", Evolution.LOCUS,
+        "corvus", Evolution.CORVUS,
+        "merui", Evolution.MERUI,
+        "mega", Evolution.MEGA,
+
+        "precept", Evolution.PRECEPT,
+        "aegires", Evolution.AEGIRES,
+        "avert", Evolution.AVERT,
+        "cyerce", Evolution.CYERCE,
+
+        "scepter", Evolution.SCEPTER,
+        "navanax", Evolution.NAVANAX,
+        "toxopid", Evolution.TOXOPID,
+        "bryde", Evolution.BRYDE,
+        "quad", Evolution.QUAD,
+
+        "vanquish", Evolution.VANQUISH,
+        "collaris", Evolution.COLLARIS,
+        "antumbra", Evolution.ANTUMBRA,
+        "obviate", Evolution.OBVIATE,
+        "oct", Evolution.OCT,
+
+        "reign", Evolution.REIGN,
+        "sei", Evolution.SEI,
+        "quell", Evolution.QUELL,
+
+        "conquer", Evolution.CONQUER,
+        "disrupt", Evolution.DISRUPT,
+        "eclipse", Evolution.ECLIPSE,
+
+
+        "omura", Evolution.OMURA
+    );
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/evolution/UnitEvolutions.java
+================================================
+package net.voiddustry.redvsblue.evolution;
+
+import mindustry.content.UnitTypes;
+import mindustry.type.UnitType;
+
+public enum UnitEvolutions {
+    dagger("units.dagger", UnitTypes.dagger, null, 150, 0, 3, null, new String[]{"novager", "magger"});
+
+    public String key;
+    public UnitType first;
+    public UnitType second;
+    public int maxHp;
+    public int armor;
+    public int cost;
+    public String ability;
+    public String[] evolvesTo;
+
+    UnitEvolutions(String key, UnitType first, UnitType second, int maxHp, int armor, int cost, String ability, String[] evolvesTo) {
+        if (second == null) {
+            second = first;
+        }
+
+        this.key = key;
+        this.first = first;
+        this.second = second;
+        this.maxHp = maxHp;
+        this.armor = armor;
+        this.cost = cost;
+        this.ability = ability;
+        this.evolvesTo = evolvesTo;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/Menu.java
+================================================
+package net.voiddustry.redvsblue.game;
+
+public class Menu {
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/building/UpdateConstructBlocks.java
+================================================
+package net.voiddustry.redvsblue.game.building;
+
+import java.lang.Math;
+import java.lang.Runnable;
+import arc.util.Timer;
+import java.util.HashMap;
+import java.util.WeakHashMap;
+import arc.*;
+import arc.util.*;
+import arc.struct.Seq;
+import arc.math.geom.QuadTree.*;
+import mindustry.*;
+import mindustry.world.Tile;
+import mindustry.world.blocks.payloads.*;
+import mindustry.world.blocks.*;
+import mindustry.world.Block;
+import mindustry.Vars;
+import mindustry.game.Rules;
+import mindustry.content.*;
+import mindustry.type.Item;
+import mindustry.type.ItemStack;
+import mindustry.game.EventType.*;
+import mindustry.gen.*;
+import mindustry.gen.Call;
+import mindustry.game.Team;
+import mindustry.mod.*;
+import mindustry.net.Administration.*;
+import mindustry.content.Blocks;
+import mindustry.entities.units.BuildPlan;
+import mindustry.type.Category;
+
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.game.stations.*;
+
+
+// updates construct blocks instead of the game doing it, original in usurvplugin
+public class UpdateConstructBlocks implements Runnable {
+  @Override
+  public void run() {
+    try {
+      
+      for (Unit u : Groups.unit) {
+        if (u.team == Team.blue && u.buildPlan() != null) {
+          if (u.buildPlan().worldContext) { 
+            if (u.isBuilding()) {
+              BuildPlan bp = u.buildPlan();
+              
+              int cost = 0;
+              Tile tile = Vars.world.tile(bp.x,bp.y);
+              
+              for(int i = 0; i < bp.block.requirements.length; i++){
+                if (bp.block.requirements[i].item==Items.dormantCyst) {
+                  cost = bp.block.requirements[i].amount;
+                  break;
+                }
+              }
+                           
+              if (u.getPlayer() != null && u.buildPlan().placeable(Team.blue) && u.dst(bp.x*8,bp.y*8)<Vars.buildingRange) {
+                Player player = u.getPlayer();
+                if (u.buildPlan().breaking == false && u.isBuilding()) {
+                  //Log.info("Attempting to consume " + cost + " ,from player " + player);
+                  if (RedVsBluePlugin.players.get(player.uuid()).getScore()>=cost && cost!=0) {
+                    //Log.info("finishing construction");
+                    if (bp.block.category == Category.logic) {
+                      if (bp.block == Blocks.pulverizer) {
+                        Miner.buyMiner(player, tile);
+                      } else if (bp.block == Blocks.mender) {
+                        RepairPoint.buyRepairPoint(player, tile);
+                      } else if (bp.block == Blocks.phaseWall) {
+                        SuppressorTower.buyTower(player, tile);
+                      } else if (bp.block == Blocks.radar) {
+                        ArmorWorkbench.buyWorkbench(player, tile);
+                      } else if (bp.block == Blocks.carbideWall) {
+                        Laboratory.buyLab(player, tile);
+                      } else if (bp.block == Blocks.beamNode) {
+                        Booster.buyBooster(player, tile);
+                      } else if (bp.block == Blocks.slagIncinerator) {
+                        Recycler.buyRecycler(player, tile);
+                      }
+                    } else {
+                    RedVsBluePlugin.players.get(player.uuid()).subtractScore(cost);
+                    Call.constructFinish(tile,bp.block,null,(byte)bp.rotation,player.team(),bp.config);
+                    tile.build.placed();
+                    }
+                  } else {
+                    if (tile.block() instanceof ConstructBlock cb) {
+                      tile.setNet(Blocks.air,Team.derelict,0);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (Exception e) {
+      Log.info("goofy ahh exception in the building system");
+      e.printStackTrace();
+    }
+  }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/Boss.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import arc.graphics.Color;
+import arc.struct.Seq;
+import arc.util.Timer;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.domain.PlayerBoss;
+import net.voiddustry.redvsblue.util.Utils;
+
+import java.util.Locale;
+
+public class Boss {
+    public static Seq<PlayerBoss> bosses = new Seq<>();
+
+    public static void spawnBoss(Player player) {
+        boolean spawnBoss = true;
+
+        for (PlayerBoss boss : bosses) {
+            if (player == boss.player) {
+                spawnBoss = false;
+                break;
+            }
+        }
+
+        if (spawnBoss) {
+            Unit unit = UnitTypes.mace.spawn(Team.crux, RedVsBluePlugin.redSpawns.random());
+
+            if (Utils.playerCount(Team.blue) <= 2) {
+                unit.health = 700;
+            } else {
+                unit.health = (250 * Utils.playerCount(Team.blue)) * RedVsBluePlugin.stage;
+            }
+
+            RedVsBluePlugin.players.get(player.uuid()).setKills(0);
+
+            player.unit(unit);
+            bosses.add(new PlayerBoss(player));
+
+            Groups.player.forEach(p -> {
+                Locale locale = Bundle.findLocale(p.locale());
+                String bossName = Bundle.get("boss.bosses.mace", locale);
+                p.sendMessage(Bundle.format("boss.spawn", locale, player.name, bossName));
+            });
+        }
+    }
+
+    public static void forEachBoss() {
+        Timer.schedule(() -> bosses.forEach(boss -> {
+            Player p = boss.player;
+
+            if (p == null) {
+                return;
+            }
+            if (boss.unit.dead) {
+                bosses.remove(boss);
+            }
+
+            if (boss.unitType.equals(UnitTypes.mace)) {
+                for (int i = 0; i < 19; i++) {
+                    Call.effect(Fx.vaporSmall, (float) (p.x + Math.sin(i) * 64), (float) (p.y + Math.cos(i) * 64), 0, Color.red);
+                }
+                Groups.player.each(pl -> {
+                    if (!(pl.unit() == null)) {
+                        if (pl.team() == Team.blue && p.dst(pl) <= 64) {
+                            pl.unit().apply(StatusEffects.sapped, 30);
+                        }
+                    }
+                });
+            }
+        }), 0, 0.3F);
+
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/BossChooseMenu.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Player;
+import mindustry.ui.Menus;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+
+public class BossChooseMenu {
+    public static void openMenu(Player player) {
+        if (player.team() != Team.crux) {
+            return;
+        }
+
+        PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+
+        int menu = Menus.registerMenu(((player1, option) -> {
+            if (option < 0) {
+                return;
+            }
+
+            switch (option) {
+                case 0 -> data.setSelectedBoss(UnitTypes.mace);
+            }
+        }));
+
+        String title = Bundle.get("boss.title", player.locale);
+
+        String[][] buttons = {
+                { Bundle.get("boss.bosses.mace", player.locale) }
+        };
+
+        Call.menu(player.con, menu, title, "", buttons);
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/ClassChooseMenu.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import arc.struct.ObjectMap;
+import mindustry.gen.Call;
+import mindustry.gen.Player;
+import mindustry.type.UnitType;
+import mindustry.ui.Menus;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+
+public class ClassChooseMenu {
+
+    public static final ObjectMap<UnitType, String> units = new ObjectMap<>();
+    public static final Map<String, UnitType> selectedUnit = new HashMap<>();
+
+    public static void openMenu(Player player) {
+        String[][] unitsBundleKeys = new String[units.size][1];
+        UnitType[] unitsNumbers = new UnitType[units.size];
+
+        AtomicInteger i = new AtomicInteger();
+
+        units.forEach((object) -> {
+            unitsBundleKeys[i.get()][0] = Bundle.get(object.value, player.locale);
+            unitsNumbers[i.get()] = object.key;
+            i.addAndGet(1);
+        });
+
+        int menu = Menus.registerMenu((playerInMenu, option) -> {
+            if (option < 0 || option >= unitsNumbers.length) {
+                return;
+            }
+
+            selectedUnit.put(playerInMenu.uuid(), unitsNumbers[option]);
+            CruxUnit.callSpawn(playerInMenu);
+        });
+
+        Call.menu(player.con, menu, Bundle.get("units.crux.menu.title", player.locale), "", unitsBundleKeys);
+    }
+
+    public static void updateUnitsMap() {
+        units.clear();
+        switch (RedVsBluePlugin.stage) {
+            case 1 -> units.putAll(StageUnits.firstStage);
+            case 2 -> units.putAll(StageUnits.secondStage);
+            case 3 -> units.putAll(StageUnits.thirdStage);
+            case 4,5 -> units.putAll(StageUnits.fourthAndFifrhStage);
+            case 6 -> units.putAll(StageUnits.sixthStage);
+            case 7 -> units.putAll(StageUnits.sevenStage);
+            case 8,9 -> units.putAll(StageUnits.eighthAndNinthStage);
+            case 10 -> units.putAll(StageUnits.tenthStage);
+            case 11,12 -> units.putAll(StageUnits.eleventhStage);
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/CruxUnit.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import arc.util.Timer;
+import arc.Events;
+import mindustry.Vars;
+import mindustry.content.Items;
+import mindustry.content.StatusEffects;
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.game.EventType;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import mindustry.type.UnitType;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.Utils;
+
+import java.util.Random;
+import java.util.HashMap;
+import java.lang.Math;
+
+public class CruxUnit {
+
+    private static final HashMap<Unit, Long> spawnTimes = new HashMap<>();
+
+    public static void addEvent() {
+        Events.on(EventType.UnitDestroyEvent.class, event -> {
+                spawnTimes.remove(event.unit);
+        });
+    }
+    
+    public static void callSpawn(Player player) {
+        
+        UnitType type = ClassChooseMenu.selectedUnit.get(player.uuid());
+
+        if (type != null) {
+            Tile cruxSpawn = RedVsBluePlugin.redSpawns.random();
+
+            if (cruxSpawn != null && cruxSpawn.block() != null) {
+                Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
+            }
+            Unit unit = type.spawn(Team.crux, cruxSpawn);
+
+            if (RedVsBluePlugin.stage == 11) {
+                int renaleAmount = 2 + new Random().nextInt(8);
+                for (int i = 0; i < renaleAmount; i++) {
+                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
+                }
+            }
+
+            if (unit != null && !unit.dead) {
+                unit.health = Integer.MAX_VALUE;
+                unit.apply(StatusEffects.overclock, 180);;
+
+                //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
+                unit.apply(Vars.content.statusEffect("shielded"), 300f);
+
+                if (unit.type == UnitTypes.corvus) {
+                    if (RedVsBluePlugin.stage == 11) {
+                        unit.apply(StatusEffects.electrified, 99999f);
+                        unit.apply(StatusEffects.sapped, 99999f);
+                        unit.apply(StatusEffects.freezing, 99999f);
+                        unit.apply(StatusEffects.burning, 99999f);
+                        unit.apply(StatusEffects.fast, 99999f);
+                        unit.apply(StatusEffects.corroded, 99999f);
+                        unit.apply(StatusEffects.tarred, 99999f);
+                        unit.apply(StatusEffects.sporeSlowed, 99999f);
+                        unit.apply(StatusEffects.shocked, 99999f);
+                    }
+                }
+
+                Timer.schedule(() -> {
+                    if (unit.type == UnitTypes.crawler) {
+                        unit.health = 20;
+                        unit.addItem(Items.pyratite, 10);
+                    } else if (unit.type == UnitTypes.merui) {
+                        unit.health = 100;
+                        unit.addItem(Items.pyratite, 99);
+                    } else if (unit.type == UnitTypes.mace) {
+                        unit.health = 100;
+                    } else if (unit.type == UnitTypes.dagger) {
+                        unit.health = 100;
+                    } else {
+                        unit.health = unit.type.health;
+                    }
+
+                }, 3);
+
+                player.unit(unit);
+                unit.spawnedByCore = true;
+            }
+        }
+    }
+
+    private static void spawnCrux() {
+        UnitType unitType = UnitTypes.alpha;
+        if (!ClassChooseMenu.units.isEmpty()) {
+            unitType = ClassChooseMenu.units.keys().toSeq().get(Utils.getRandomInt(0, ClassChooseMenu.units.size)); //Utils.getRandomInt(0, ClassChooseMenu.units.size)
+        }
+        spawnCrux(unitType);
+    }
+
+    private static void spawnCrux(UnitType unitType) {
+        if (Utils.gameRun) {
+            Tile cruxSpawn = RedVsBluePlugin.redSpawns.random();
+
+            if (cruxSpawn != null && cruxSpawn.block() != null) {
+                Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
+            }
+
+            if (RedVsBluePlugin.stage >= 11) {
+
+                boolean s11BossDead = true;
+                
+                for (Unit u : Groups.unit) {
+                    if (u.type==UnitTypes.evoke) {
+                        s11BossDead = false;
+                    }
+                }
+
+                if (s11BossDead) {
+                    Random rand = new Random();
+                    if (rand.nextInt(20) == 1) {
+                        UnitTypes.latum.spawn(Team.crux, cruxSpawn);
+                    }
+                    if (rand.nextInt(13) == 1) {
+                        UnitTypes.conquer.spawn(Team.crux, cruxSpawn);
+                    }
+                    if (rand.nextInt(7) == 1) {
+                        UnitTypes.tecta.spawn(Team.crux, cruxSpawn);
+                    }
+                }
+            }
+            
+            Unit unit = unitType.spawn(Team.crux, cruxSpawn);
+            spawnTimes.put(unit, System.currentTimeMillis());
+
+            if (RedVsBluePlugin.stage == 11) {
+                int renaleAmount = 2 + new Random().nextInt(8);
+                for (int i = 0; i < renaleAmount; i++) {
+                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
+                }
+            }
+
+            //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
+            unit.apply(Vars.content.statusEffect("shielded"), 300f);
+
+            if (unit.type == UnitTypes.corvus) {
+                if (RedVsBluePlugin.stage == 11) {
+                    unit.apply(StatusEffects.electrified, 99999f);
+                    unit.apply(StatusEffects.sapped, 99999f);
+                    unit.apply(StatusEffects.freezing, 99999f);
+                    unit.apply(StatusEffects.burning, 99999f);
+                    unit.apply(StatusEffects.fast, 99999f);
+                    unit.apply(StatusEffects.corroded, 99999f);
+                    unit.apply(StatusEffects.tarred, 99999f);
+                    unit.apply(StatusEffects.sporeSlowed, 99999f);
+                    unit.apply(StatusEffects.shocked, 99999f);
+                }
+            }
+
+            Timer.schedule(() -> {
+                if (unit.type == UnitTypes.crawler) {
+                    unit.health = 20;
+                    unit.addItem(Items.pyratite, 10);
+                } else if (unit.type == UnitTypes.merui) {
+                    unit.health = 100;
+                    unit.addItem(Items.pyratite, 99);
+                } else if (unit.type == UnitTypes.mace) {
+                    unit.health = 100;
+                } else if (unit.type == UnitTypes.dagger) {
+                    unit.health = 100;
+                } else {
+                    unit.health = unit.type.health;
+                }
+            }, 2);
+        }
+    };
+
+
+    public static void checkUnitCount() {
+        if (Utils.gameRun) {
+            int players = Groups.player.size();
+            int stage = RedVsBluePlugin.stage;
+
+            int cruxUnitsCount = Math.round((players + stage) / (float) 3);
+
+            final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();
+
+            if (!ClassChooseMenu.units.isEmpty()) {
+                ClassChooseMenu.units.keys().toSeq().each(type -> {
+                    Groups.unit.each(u -> {
+                        if (u.team == Team.crux && u.type == type) {
+                        
+                            if ((!(spawnTimes.get(u) == null)) && System.currentTimeMillis()-spawnTimes.get(u)<45000) {
+                                if (cruxUnits.get(type) == null) {
+                                    cruxUnits.put(type, 0);
+                                } else {
+                                    cruxUnits.put(type, cruxUnits.get(type)+1);
+                                }
+                            }
+                        }
+                    });
+                    if (cruxUnits.get(type) == null || cruxUnits.get(type) < cruxUnitsCount/ClassChooseMenu.units.keys().toSeq().size) {
+                        spawnCrux(type);
+                    }
+                });
+            }
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/SpawnEffect.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import mindustry.content.Fx;
+import mindustry.gen.Call;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.Utils;
+
+public class SpawnEffect {
+    public static void initEffect() {
+        Timer.schedule(() -> {
+            if (!RedVsBluePlugin.redSpawns.isEmpty()) {
+                RedVsBluePlugin.redSpawns.forEach(spawn -> {
+                    int r = Utils.getRandomInt(-1,2);
+                    for (int i = r; i < 19+r; i++) {
+                        Call.effect(Fx.fire, (float) (spawn.x*8 + Math.sin(i) * 80), (float) (spawn.y*8 + Math.cos(i) * 80), 0, Color.red);
+                    }
+                });
+            }
+        }, 0, 0.5F);
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/StageUnits.java
+================================================
+package net.voiddustry.redvsblue.game.crux;
+
+import arc.struct.ObjectMap;
+import mindustry.content.UnitTypes;
+import mindustry.type.UnitType;
+
+public class StageUnits {
+    //String - Key
+    public final static ObjectMap<UnitType, String> firstStage = ObjectMap.of(
+            UnitTypes.crawler, "units.crux.menu.crawler",
+            UnitTypes.dagger, "units.crux.menu.dagger"
+    );
+
+    public final static ObjectMap<UnitType, String> secondStage = ObjectMap.of(
+            UnitTypes.crawler, "units.crux.menu.crawler",
+            UnitTypes.dagger, "units.crux.menu.dagger",
+            UnitTypes.mace, "units.crux.menu.mace"
+    );
+
+    public final static ObjectMap<UnitType, String> thirdStage = ObjectMap.of(
+            UnitTypes.crawler, "units.crux.menu.crawler",
+            UnitTypes.dagger, "units.crux.menu.dagger",
+            UnitTypes.mace, "units.crux.menu.mace"
+    );
+
+    public final static ObjectMap<UnitType, String> fourthAndFifrhStage = ObjectMap.of(
+            UnitTypes.crawler, "units.crux.menu.crawler",
+            UnitTypes.merui, "units.crux.menu.merui",
+            UnitTypes.dagger, "units.crux.menu.dagger",
+            UnitTypes.mace, "units.crux.menu.mace",
+            UnitTypes.stell, "units.crux.menu.stell"
+    );
+
+    public final static ObjectMap<UnitType, String> sixthStage = ObjectMap.of(
+            UnitTypes.crawler, "units.crux.menu.crawler",
+            UnitTypes.elude, "units.crux.menu.elude",
+            UnitTypes.merui, "units.crux.menu.merui",
+            UnitTypes.dagger, "units.crux.menu.dagger",
+            UnitTypes.nova, "units.crux.menu.nova",
+            UnitTypes.cleroi, "units.crux.menu.cleroi"
+    );
+
+    public final static ObjectMap<UnitType, String> sevenStage = ObjectMap.of(
+            UnitTypes.cleroi, "units.crux.menu.cleroi",
+            UnitTypes.flare, "units.crux.menu.flare",
+            UnitTypes.horizon, "units.crux.menu.horizon",
+            UnitTypes.elude, "units.crux.menu.elude"
+    );
+
+    public final static ObjectMap<UnitType, String> eighthAndNinthStage = ObjectMap.of(
+            UnitTypes.fortress, "units.crux.menu.fortress",
+            UnitTypes.cleroi, "units.crux.menu.cleroi",
+            UnitTypes.locus, "units.crux.menu.locus"
+    );
+
+    public final static ObjectMap<UnitType, String> tenthStage = ObjectMap.of(
+            UnitTypes.obviate, "units.crux.menu.obviate",
+            UnitTypes.precept, "units.crux.menu.precept"
+    );
+
+    public final static ObjectMap<UnitType, String> eleventhStage = ObjectMap.of(
+            UnitTypes.corvus, "units.crux.menu.corvus",
+            UnitTypes.vanquish, "units.crux.menu.vanquish"
+    );
+
+    public final static ObjectMap<Integer, UnitType> bosses = ObjectMap.of(
+            2, UnitTypes.horizon,
+            3, UnitTypes.locus,
+            4, UnitTypes.quasar,
+            5, UnitTypes.avert,
+            6, UnitTypes.spiroct,
+            7, UnitTypes.precept,
+            8, UnitTypes.tecta,
+            9, UnitTypes.vanquish,
+            10, UnitTypes.eclipse,
+            11, UnitTypes.evoke,
+            12, UnitTypes.navanax
+    );
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/nest/Nest.java
+================================================
+package net.voiddustry.redvsblue.game.crux.nest;
+
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+
+public class Nest {
+
+    private static NestData nest;
+
+    public static void createNest(Player player) {
+        if (nest == null) {
+            if (player.tileOn().block().isAir()) {
+                nest = new NestData(Vars.world.tile(player.tileOn().x, player.tileOn().y-1), player);
+
+            }
+        }
+    }
+
+    public static void checkNest() {
+        Tile blockTile = Vars.world.tile(nest.tileOn.x-1, nest.tileOn.y);
+        if (blockTile.block() != Blocks.copperWall) {
+
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/crux/nest/NestData.java
+================================================
+package net.voiddustry.redvsblue.game.crux.nest;
+
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+
+public class NestData {
+    public Tile tileOn;
+    public Player owner;
+
+    public NestData(Tile tileOn, Player owner) {
+        this.tileOn = tileOn;
+        this.owner = owner;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/starting_menu/StartingItem.java
+================================================
+package net.voiddustry.redvsblue.game.starting_menu;
+
+public class StartingItem {
+    public String name;
+    public String displayNameKey;
+    public String category;
+    public String desc;
+    public boolean isUnit;
+    public int cost;
+
+    public StartingItem(String name, String displayNameKey, String category, String desc, boolean isUnit, int cost) {
+        this.name = name;
+        this.displayNameKey = displayNameKey;
+        this.category = category;
+        this.desc = desc;
+        this.isUnit = isUnit;
+        this.cost = cost;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/starting_menu/StartingItems.java
+================================================
+package net.voiddustry.redvsblue.game.starting_menu;
+
+public class StartingItems {
+
+    public static StartingItem
+            nova, flare, merui, stell;
+
+    public static void load() {
+        StartingItem nova = new StartingItem("nova", "", "units", "Unit Nova, heals allies.", true, 10);
+        StartingItem flare = new StartingItem("flare", "", "units", "Unit Flare, flying, nice for killing meruis.", true, 15);
+        StartingItem merui = new StartingItem("merui", "", "units", "Unit Merui, Artillery, many hp.", true, 10);
+        StartingItem stell = new StartingItem("stell", "", "units", "Unit Stell, many HP, many DMG, nice unit", true, 18);
+
+    }
+
+    public static StartingItem getStartingItem(String string) {
+        switch (string) {
+            case "nova" -> {
+                return nova;
+            }
+            case "flare" -> {
+                return flare;
+            }
+            case "merui" -> {
+                return merui;
+            }
+            case "stell" -> {
+                return stell;
+            }
+        }
+        return null;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/starting_menu/StartingMenu.java
+================================================
+package net.voiddustry.redvsblue.game.starting_menu;
+
+import arc.struct.ObjectMap;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import mindustry.net.NetConnection;
+import mindustry.type.UnitType;
+import mindustry.ui.Menus;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.Utils;
+
+public class StartingMenu {
+
+    private final ObjectMap<Integer ,StartingItem> selectedItemsList = new ObjectMap<>();
+
+    public static boolean canOpenMenu;
+
+    // settings
+
+    public static void openMenu(Player player, int category) {
+        NetConnection connection = player.con;
+        if (canOpenMenu) {
+            int menu = Menus.registerMenu((player1, option) -> {
+                if (option < 0) {
+                    return;
+                }
+
+                if (option <= 3) {
+                    switch (option) {
+                        case 0 -> openMenu(player, 0);
+                        case 1 -> openMenu(player, 1);
+                        case 2 -> openMenu(player, 2);
+                        case 3 -> openMenu(player, 4);
+                    }
+                }
+            });
+
+            String[] categories = {"[gray]X", "[lime]Unit", "[royal]Build", "[red]Item"};
+            String[] util = {"[cyan]Finish", "[lime]20", "[lightgray]Close"};
+
+            switch (category) {
+                case 0 -> {
+
+                    String[][] buttons = {
+                            categories,
+                            {"[accent]Random"},
+                            {""},
+                            {""},
+                            {""},
+                            {""},
+                            {""},
+                            util
+                    };
+                    menu(connection, menu, "", buttons);
+                }
+            }
+        } else {
+            // TODO:
+        }
+
+    }
+
+    private static void menu(NetConnection connection, int menu, String text, String[][] buttons) {
+        Call.menu(connection, menu, Bundle.get("menu.build.title", connection.player.locale), text, buttons);
+    }
+
+    private static void giveUnit(Player player, UnitType unitType) {
+        PlayerData playerData = RedVsBluePlugin.players.get(player.uuid());
+
+        Unit unit = unitType.spawn(Team.blue, player.x(), player.y());
+        unit.health = unit.type.health/2;
+
+        if (!unit.dead()) {
+            Unit oldUnit = playerData.getUnit();
+            playerData.setUnit(unit);
+
+            player.unit(unit);
+            oldUnit.kill();
+
+            playerData.subtractScore(StartingItems.getStartingItem(unitType.name).cost);
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/ArmorWorkbench.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.*;
+import mindustry.Vars;
+import mindustry.content.*;
+import mindustry.content.Fx;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.ui.Menus;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class ArmorWorkbench {
+    private static final Map<String, StationData> workbenches = new ConcurrentHashMap<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            for (int i = 0; i < 38; i++) {
+                Call.effect(Fx.pointHit, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.blue);
+            }
+            String text = pointData.owner().name + "[gold]'s\n[blue]Workbench";
+            StationUtils.drawStationName(pointData.tileOn(), text, 0.4F);
+        }), 0, 0.25F);
+        Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            Groups.player.each(p -> {
+                if (!(p.unit() == null)) {
+                    if (p.team() == Team.blue) {
+                        if (p.dst(centerX, centerY) <= 64) {
+                            if (p.unit().shield >= 0 && p.unit().shield < 30) {
+                                p.unit().shield += 10;
+                                Call.label("[blue]+10", 1, p.x, p.y);
+                            }
+    
+                            if(Vars.world.tile(Math.round(p.mouseX / 8), Math.round(p.mouseY / 8)) != null && Vars.world.tile(Math.round(p.mouseX / 8), Math.round(p.mouseY / 8)).block() == Blocks.radar && p.shooting){
+    
+                                //int maxShield = (int) p.unit().type.health; // /50;
+                                float maxShield = p.unit().type.health;
+                                if (p.unit().type.health >= 17000) {
+                                    maxShield = p.unit().type.health/3;
+                                } else if (p.unit().type.health <= 290) {
+                                    maxShield = p.unit().type.health*4;
+                                } else if (p.unit().type == UnitTypes.aegires) {
+                                    maxShield = p.unit().type.health/2;
+                                }
+    
+                                int shieldPerPoint = (int) maxShield/20;
+    
+                                float finalMaxShield = maxShield;
+                                int menu = Menus.registerMenu((player, option) -> {
+                                    if (option < 0) {
+                                        return;
+                                    }
+
+                                    if (option == 0 && players.get(p.uuid()).getScore() >= 1 && p.unit().shield <= (int) finalMaxShield) {
+                                        p.unit().shield = p.unit().shield + shieldPerPoint;
+                                        players.get(p.uuid()).subtractScore(1);
+    
+                                        Call.label("[royal]+" + shieldPerPoint, 3, p.x, p.y);
+                                    }
+                                });
+    
+                                String[][] buttons = new String[][]{
+                                        {
+                                            Bundle.format("stations.workbench.buy-armor", Bundle.findLocale(p.locale), shieldPerPoint),
+                                        },
+                                        {
+                                            Bundle.get("stations.buttons.close", p.locale)
+                                        }
+                                };
+    
+                                openMenu(p, menu, buttons);
+                            }
+                        }
+                    }
+                }
+            });
+        }), 0, 1);
+        Timer.schedule(ArmorWorkbench::renderWorkbenches, 0, 1);
+    }
+
+    public static void buyWorkbench(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 8) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 8));
+        } else {
+            if (!workbenches.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        StationData workbenchData = new StationData(player, tile);
+                        workbenches.put(player.uuid(), workbenchData);
+                        Call.constructFinish(tile, Blocks.radar, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.regenParticle, tile.x * 8, tile.y * 8, 0, Color.red);
+                        players.get(player.uuid()).subtractScore(8);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderWorkbenches() {
+        workbenches.forEach((owner, workbench) -> {
+            if (workbench != null) {
+                if (workbench.tileOn().block() != Blocks.radar || workbench.owner().team() != Team.blue) {
+                    workbenches.remove(owner);
+                    if (workbench.tileOn().block() == Blocks.radar) {
+                        workbench.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    private static void openMenu(Player p, int menu, String[][] buttons) {
+        Call.menu(p.con, menu, "[royal]" + Bundle.get("stations.buttons.workbench"), Bundle.format("stations.workbench.unit-armor", Bundle.findLocale(p.locale), p.unit().shield), buttons);
+    }
+
+    public static void clearWorkbenches() {
+        workbenches.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/Booster.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class Booster {
+    private static final Map<String, StationData> boostersMap = new ConcurrentHashMap<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> boostersMap.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            for (int i = 0; i < 19; i++) {
+                Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.orange);
+            }
+
+            String text = pointData.owner().name + "[gold]'s\n[orange]Booster";
+            StationUtils.drawStationName(pointData.tileOn(), text, 1.1F);
+
+            Groups.unit.each(u -> {
+                if (u.team == Team.blue) {
+                    if (u.dst(centerX, centerY) <= 64) {
+                        u.apply(StatusEffects.overclock, 70);
+                    }
+                }
+            });
+
+        }), 0, 1);
+        Timer.schedule(Booster::renderBoosters, 0, 1);
+    }
+
+    public static void buyBooster(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 18) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 18));
+        } else {
+            if (!boostersMap.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        StationData boosterData = new StationData(player, tile);
+                        boostersMap.put(player.uuid(), boosterData);
+                        Call.constructFinish(tile, Blocks.beamNode, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        players.get(player.uuid()).subtractScore(18);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderBoosters() {
+        boostersMap.forEach((owner, booster) -> {
+            if (booster != null) {
+                if (booster.tileOn().block() != Blocks.beamNode || booster.owner().team() != Team.blue) {
+                    boostersMap.remove(owner);
+                    if (booster.tileOn().block() == Blocks.beamNode) {
+                        booster.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void clearBoosters() {
+        boostersMap.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/Laboratory.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import arc.util.Log;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.game.Team;
+import mindustry.gen.*;
+import mindustry.ui.Menus;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.evolution.Evolution;
+import net.voiddustry.redvsblue.evolution.Evolutions;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+import net.voiddustry.redvsblue.util.Utils;
+import mindustry.graphics.Layer;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.lang.Math;
+import java.time.Instant;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class Laboratory {
+    private static final Map<String, StationData> labsMap = new ConcurrentHashMap<>();
+
+    public static final int evolutionMenu = Menus.registerMenu((player, option) -> {
+        if (option == -1) return;
+
+        if (player.unit() == null || player.unit().type() == null) return;
+        Evolution evolution = Evolutions.evolutions.get(player.unit().type().name);
+
+        if (evolution == null || option < 0 || option >= evolution.evolutions.length) return;
+        String selectedEvolution = evolution.evolutions[option];
+        Evolution evolutionOption = Evolutions.evolutions.get(selectedEvolution);
+        if (evolutionOption == null) return;
+
+        PlayerData playerData = players.get(player.uuid());
+        if (playerData == null) return;
+
+        if (playerData.getScore() >= ((int)(evolutionOption.cost*getMultiplier(evolutionOption, player)))) {
+            if (player.unit() != null && (player.tileOn().block() == Blocks.air || evolutionOption.unitType.flying==true || evolutionOption.unitType.canBoost == true || evolutionOption.unitType.groundLayer==Layer.legUnit)) {
+                Unit unit = evolutionOption.unitType.spawn(Team.blue, player.x(), player.y());
+                unit.health = unit.type.health/2;
+
+                if (!unit.dead()) {
+                    Unit oldUnit = playerData.getUnit();
+                    playerData.setUnit(unit);
+
+                    player.unit(unit);
+                    oldUnit.kill();
+
+                    playerData.subtractScore((int)(getMultiplier(evolutionOption, player)*evolutionOption.cost));
+                    playerData.setEvolutionStage(evolutionOption.tier);
+                    playerData.setLastEvolutionTime(Instant.now().getEpochSecond());
+
+                    Utils.sendBundled("game.evolved", player.name(), selectedEvolution);
+                }
+            }
+        }
+    });
+
+    public static void initTimer() {
+
+        Timer.schedule(() -> {
+            renderLabs();
+
+
+            Groups.player.each(p -> {
+                if (players.containsKey(p.uuid())) {
+                    players.get(p.uuid()).setCanEvolve(false);
+                }
+
+                labsMap.forEach((uuid, lab) -> {
+                    int centerX = lab.tileOn().x * 8;
+                    int centerY = lab.tileOn().y * 8;
+
+                    if (p.team() == Team.blue && !(p.unit() == null)) {
+                        if (p.dst(centerX, centerY) <= 48) {
+                            if(Vars.world.tile(Math.round(p.mouseX / 8), Math.round(p.mouseY / 8)) != null && Vars.world.tile(Math.round(p.mouseX / 8), Math.round(p.mouseY / 8)).block() == Blocks.carbideWall && p.shooting) {
+                                Locale locale = Bundle.findLocale(p.locale());
+
+                                Evolution evolution = Evolutions.evolutions.get(p.unit().type().name);
+
+                                if (!(evolution == null)) {
+    
+                                    String[][] buttons = new String[evolution.evolutions.length][1];
+    
+                                    for (int i = 0; i < evolution.evolutions.length; i++) {
+                                        float multiplier = getMultiplier(evolution.evolutions[i], p);
+                                        int cost = (int)(Evolutions.evolutions.get(evolution.evolutions[i]).cost*multiplier);
+
+                                        String textColor = "";
+
+                                       if (multiplier > 1 && multiplier <= 1.99) {
+                                            textColor = "[orange]";
+                                        } else if (cost>Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
+                                            textColor = "[red]";
+                                        } else if (cost<Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
+                                            textColor = "[green]";
+                                        } else {
+                                            textColor = "[yellow]";
+                                        }
+                                        buttons[i][0] = Bundle.format("menu.evolution.evolve", locale, evolution.evolutions[i],(textColor+cost+" - "+(multiplier*100)+"%"));
+                                    }
+    
+                                    Call.menu(p.con, evolutionMenu, Bundle.get("menu.evolution.title", locale), Bundle.format("menu.evolution.message", locale, players.get(p.uuid()).getEvolutionStage(), Bundle.get("evolution.branch.initial", locale)), buttons);
+                                }
+                            }
+                            if (!(players.get(p.uuid()) == null)) {
+                            players.get(p.uuid()).setCanEvolve(true);
+                            }
+                            Call.infoPopup(p.con, Bundle.get("evolution.evolution-available", p.locale), 0.5F, 0, 0, 0, -200, 0);
+                        }
+                    }
+                });
+            });
+
+            labsMap.forEach((uuid, lab) -> {
+
+                int centerX = lab.tileOn().x * 8;
+                int centerY = lab.tileOn().y * 8;
+
+                for (int i = 0; i < 19; i++) {
+                    Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 48), (float) (centerY + Math.cos(i) * 48), 1, Color.purple);
+                }
+                StationUtils.drawStationName(lab.tileOn(), lab.owner().name + "[gold]'s\n[purple]Lab", 0.6F);
+            });
+        }, 0, 0.5F);
+    }
+
+    public static float getMultiplier(Evolution evo, Player player) {
+        if (RedVsBluePlugin.players.get(player.uuid()) == null) {
+            return 4;
+        }
+        double timeSinceLastEvo = Instant.now().getEpochSecond()-RedVsBluePlugin.players.get(player.uuid()).getLastEvolutionTime();
+        int stage = evo.stage;
+        float multiplier = 0;
+        if (timeSinceLastEvo<180) {
+            multiplier = (float)((180-timeSinceLastEvo)/1000);
+            multiplier = multiplier + (((float)Math.sqrt(evo.cost))/evo.cost)*multiplier;
+        }
+        if (RedVsBluePlugin.stage == stage) {
+            multiplier = multiplier+1f;
+        } else if (RedVsBluePlugin.stage > stage) {
+            multiplier = multiplier+0.75f;
+        } else {
+            multiplier = multiplier+1+((float)Math.pow(2,stage-RedVsBluePlugin.stage)/4);
+        }
+        BigDecimal bd = new BigDecimal(String.valueOf(multiplier));
+        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        multiplier = bd.floatValue();
+        return multiplier;
+    }
+
+    public static float getMultiplier(String evolution, Player player) {
+        return getMultiplier(Evolutions.evolutions.get(evolution), player);
+    }
+
+    public static void buyLab(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 7) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 7));
+        } else {
+            if (!labsMap.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        StationData laboratoryData = new StationData(player, tile);
+                        labsMap.put(player.uuid(), laboratoryData);
+                        Call.constructFinish(tile, Blocks.carbideWall, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        players.get(player.uuid()).subtractScore(7);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderLabs() {
+        labsMap.forEach((owner, lab) -> {
+            if (lab != null) {
+                if (lab.tileOn().block() != Blocks.carbideWall || lab.owner().team() != Team.blue) {
+                    labsMap.remove(owner);
+                    if (lab.tileOn().block() == Blocks.carbideWall) {
+                        lab.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void clearLabs() {
+        labsMap.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/Miner.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.game.stations.stationData.MinerData;
+import net.voiddustry.redvsblue.util.Utils;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class Miner {
+
+    private static final Map<String, MinerData> minersMap = new ConcurrentHashMap<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> minersMap.forEach((owner, minerData) -> {
+            PlayerData data = players.get(minerData.getOwner().uuid());
+            data.addScore(minerData.getLvl());
+            minerData.addExp(1);
+
+            Utils.label(minerData.getTileOn().centerX()*8, minerData.getTileOn().centerY()*8, "[lime]+" + minerData.getLvl(), 5, 0.8F);
+            if (minerData.getExp() >= minerData.getMaxExp()) {
+                minerData.addLvl();
+                int expLimit = minerData.getMaxExp();
+                int expLimitToSet = expLimit + expLimit/2;
+                minerData.setMaxExp(expLimitToSet);
+                minerData.setExp(0);
+            }
+        }), 0, 20);
+        Timer.schedule(Miner::renderMiners, 0, 1);
+    }
+
+    public static void buyMiner(Player player, Tile tile) {
+        if ((!(players.get(player.uuid()) == null)) && players.get(player.uuid()).getScore() < 20) {
+            player.sendMessage(Bundle.format("station.not-enough-money", 20));
+        } else {
+            if (!minersMap.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        MinerData minerData = new MinerData(player, tile);
+                        minersMap.put(player.uuid(), minerData);
+                        Call.constructFinish(tile, Blocks.pulverizer, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.explosion, tile.x*8, tile.y*8, 5, Color.red);
+                        players.get(player.uuid()).subtractScore(20);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderMiners() {
+        minersMap.forEach((owner, miner) -> {
+            if (miner != null) {
+                if (miner.getTileOn().block() != Blocks.pulverizer || miner.getOwner().team() != Team.blue) {
+                    minersMap.remove(owner, miner);
+                    if (miner.getTileOn().block() == Blocks.pulverizer) {
+                        miner.getTileOn().build.kill();
+                    }
+                } else {
+
+                    String text = miner.getOwner().name + "[gold]'s Miner\n[gray][ [gold]" + miner.getLvl() + "[] | [accent]" + miner.getExp() + " / " + miner.getMaxExp() + "[gray] ]";
+                    StationUtils.drawStationName(miner.getTileOn(), text, 1.1F);
+                }
+            }
+        });
+    }
+
+    public static void clearMiners() {
+        minersMap.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/Recycler.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.game.Team;
+import mindustry.gen.*;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+import net.voiddustry.redvsblue.util.Utils;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import mindustry.content.Items;
+import mindustry.content.UnitTypes;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class Recycler {
+    private static final Map<String, StationData> recyclersmap = new ConcurrentHashMap<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> recyclersmap.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            for (int i = 0; i < 19; i++) {
+                Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.gray);
+            }
+
+            String text = pointData.owner().name + "[gold]'s\n[#023919]Recycler";
+            StationUtils.drawStationName(pointData.tileOn(), text, 0.8F);
+
+            Groups.player.each(p -> {
+                if (p.team() == Team.blue && p.unit() != null && (!(players.get(p.uuid()) == null))) {
+                    if (p.dst(centerX, centerY) <= 32) {
+                        if (p.unit().stack.amount >= 20) {
+                            if (!((p.unit().stack.item == Items.plastanium && p.unit().type == UnitTypes.cyerce) || (p.unit().stack.item == Items.sporePod && p.unit().type == UnitTypes.spiroct) || (p.unit().stack.item == Items.blastCompound && p.unit().type == UnitTypes.reign) || (p.unit().stack.item == Items.sporePod && p.unit().type == UnitTypes.toxopid) || (p.unit().stack.item == Items.surgeAlloy && (p.unit().type == UnitTypes.quad || p.unit().type == UnitTypes.oct)) || (p.unit().stack.item == Items.carbide && p.unit().type == UnitTypes.disrupt))) {
+                                int add = p.unit().stack.amount/20;
+                                Utils.label(p.x, p.y, "[#023919]+" + add, 3, 0.8F);
+                                p.unit().stack.amount -= add * 20;
+    
+                                players.get(p.uuid()).addScore(add);
+                            }
+                        }
+                    }
+                }
+            });
+        }), 0, 0.7F);
+
+        Timer.schedule(Recycler::renderRecycler, 0, 1);
+    }
+
+    public static void buyRecycler(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 6) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 6));
+        } else {
+            if (!recyclersmap.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        StationData recyclerData = new StationData(player, tile);
+                        recyclersmap.put(player.uuid(), recyclerData);
+                        Call.constructFinish(tile, Blocks.slagIncinerator, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        players.get(player.uuid()).subtractScore(6);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderRecycler() {
+        recyclersmap.forEach((owner, recycler) -> {
+            if (recycler != null) {
+                if (recycler.tileOn().block() != Blocks.slagIncinerator || recycler.owner().team() != Team.blue) {
+                    recyclersmap.remove(owner);
+                    if (recycler.tileOn().block() == Blocks.slagIncinerator) {
+                        recycler.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void clearRecyclers() {
+        recyclersmap.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/RepairPoint.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class RepairPoint {
+    private static final Map<String, StationData> repairPointsMap = new ConcurrentHashMap<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> repairPointsMap.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            for (int i = 0; i < 19; i++) {
+                Call.effect(Fx.healWaveDynamic, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.red);
+            }
+
+            String text = pointData.owner().name + "[gold]'s\n[cyan]Repair Point";
+            StationUtils.drawStationName(pointData.tileOn(), text, 1.1F);
+
+            Groups.unit.each(u -> {
+                if (u.team == Team.blue) {
+                    if (u.dst(centerX, centerY) <= 32) {
+                        if (u.health <= u.type.health) {
+                            float add = u.type.health/100;
+                            if (u.type.health >= 8200) {
+                                add = u.type.health/400;
+                            } else if (u.type.health <= 130) {
+                                add = u.type.health/50;
+                            }
+
+                            u.health += add;
+                            Call.label("[lime]+" + add, 1, u.x, u.y);
+                        }
+                    }
+                }
+            });
+
+        }), 0, 1);
+        Timer.schedule(RepairPoint::renderRepairPoints, 0, 1);
+    }
+
+    public static void buyRepairPoint(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 10) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 10));
+        } else {
+            if (!repairPointsMap.containsKey(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        StationData repairPointsData = new StationData(player, tile);
+                        repairPointsMap.put(player.uuid(), repairPointsData);
+                        Call.constructFinish(tile, Blocks.mender, null, (byte) 0, Team.blue, null);
+                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        players.get(player.uuid()).subtractScore(10);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderRepairPoints() {
+        repairPointsMap.forEach((owner, repairPoint) -> {
+            if (repairPoint != null) {
+                if (repairPoint.tileOn().block() != Blocks.mender || repairPoint.owner().team() != Team.blue) {
+                    repairPointsMap.remove(owner);
+                    if (repairPoint.tileOn().block() == Blocks.mender) {
+                        repairPoint.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void clearPoints() {
+        repairPointsMap.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/StationsMenu.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Player;
+import mindustry.ui.Menus;
+import net.voiddustry.redvsblue.Bundle;
+
+public class StationsMenu {
+    public static void openMenu(Player player) {
+        if (!player.dead() && player.team() == Team.blue) {
+            int menu = Menus.registerMenu((player1, option) -> {
+                if (option < 0) {
+                    return;
+                }
+
+                switch (option) {
+                    case 0 -> SuppressorTower.buyTower(player, null);
+                    case 1 -> Miner.buyMiner(player, null);
+                    case 2 -> RepairPoint.buyRepairPoint(player, null);
+                    case 3 -> ArmorWorkbench.buyWorkbench(player, null);
+                    case 4 -> Laboratory.buyLab(player, null);
+                    case 5 -> Recycler.buyRecycler(player, null);
+                    case 6 -> Booster.buyBooster(player, null);
+                }
+            });
+
+
+            String title = Bundle.get("stations.title", player.locale);
+            String text = Bundle.get("stations.text", player.locale);
+
+            String[][] buttons = {
+                    { Bundle.get("stations.buttons.suppressor-tower", player.locale)},
+                    { Bundle.get("stations.buttons.miner", player.locale) },
+                    { Bundle.get("stations.buttons.repair-point", player.locale) },
+                    { Bundle.get("stations.buttons.workbench", player.locale)},
+                    { Bundle.get("stations.buttons.lab", player.locale)},
+                    { Bundle.get("stations.buttons.recycler", player.locale)},
+                    { Bundle.get("stations.buttons.booster", player.locale)},
+                    { Bundle.get("stations.buttons.close", player.locale)}
+            };
+
+            Call.menu(player.con, menu, title, text, buttons);
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/StationUtils.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.util.Time;
+import arc.util.Timer;
+import mindustry.gen.Call;
+import mindustry.gen.WorldLabel;
+import mindustry.net.NetConnection;
+import mindustry.world.Tile;
+
+public class StationUtils {
+    public static void drawStationName(Tile tile, String text, float time) {
+        WorldLabel label = WorldLabel.create();
+        label.x(tile.x * 8);
+        label.y(tile.y * 8 + 4);
+
+        label.fontSize = 0.8F;
+        label.text = text;
+
+        label.add();
+
+        Timer.schedule(label::hide, time);
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/SuppressorTower.java
+================================================
+package net.voiddustry.redvsblue.game.stations;
+
+import arc.graphics.Color;
+import arc.util.Timer;
+import arc.struct.Seq;
+
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class SuppressorTower {
+    private static final Map<String, StationData> suppressorTowerMap = new ConcurrentHashMap<>();
+    private static final Seq<String> suppressorPlaced = new Seq<>();
+
+    public static void initTimer() {
+        Timer.schedule(() -> suppressorTowerMap.forEach((owner, pointData) -> {
+            int centerX = pointData.tileOn().x * 8;
+            int centerY = pointData.tileOn().y * 8;
+
+            for (int i = 0; i < 19; i++) {
+                Call.effect(Fx.fire, (float) (centerX + Math.sin(i) * 128), (float) (centerY + Math.cos(i) * 128), 0, Color.red);
+            }
+
+
+            String text = pointData.owner().name + "[gold]'s\n[accent]Suppressor Tower";
+            StationUtils.drawStationName(pointData.tileOn(), text, 0.8F);
+
+            Groups.unit.each(u -> {
+               if (u.team() == Team.crux) {
+                    if (u.dst(centerX, centerY) <= 128) {
+                        float removedHp = u.maxHealth / 125;
+
+                        u.health -= removedHp;
+                        u.apply(StatusEffects.sapped, 50);
+
+                        String removedHpText = "[#55557F]-" + Math.round(removedHp*10)/10;
+                        Call.label(removedHpText, 0.5F, u.x, u.y);
+                    }
+
+                }
+            });
+        }), 0, 0.5F);
+        Timer.schedule(SuppressorTower::renderSuppressorTowers, 0, 0.5F);
+    }
+
+    public static void buyTower(Player player, Tile tile) {
+        if (players.get(player.uuid()).getScore() < 20) {
+            player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 20));
+        } else {
+            if (!suppressorTowerMap.containsKey(player.uuid()) && !suppressorPlaced.contains(player.uuid())) {
+                if (!player.dead()) {
+                    Tile playerTileOn = player.tileOn();
+                    Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
+                    if (tile == null) {
+                        tile = tileUnderPlayer;
+                    }
+
+                    final Tile placeTile = tile;
+                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                        Call.constructFinish(tile, Blocks.phaseWall, null, (byte) 0, Team.blue, null);
+                        players.get(player.uuid()).subtractScore(20);
+                        StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Suppressor Tower" + " - deploying", 10.5F);
+                        suppressorPlaced.add(player.uuid());
+                        Timer.schedule(() -> {
+                            StationData towerData = new StationData(player, placeTile);
+                            suppressorTowerMap.put(player.uuid(), towerData);
+                            suppressorPlaced.remove(player.uuid());
+                            Call.effect(Fx.regenParticle, placeTile.x*8, placeTile.y*8, 0, Color.red);
+                        }, 10);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void renderSuppressorTowers() {
+        suppressorTowerMap.forEach((owner, tower) -> {
+            if (tower != null) {
+                if (tower.tileOn().block() != Blocks.phaseWall || tower.owner().team() != Team.blue) {
+                    suppressorTowerMap.remove(owner);
+                    if (tower.tileOn().block() == Blocks.phaseWall) {
+                        tower.tileOn().build.kill();
+                    }
+                }
+            }
+        });
+    }
+
+    public static void clearTowers() {
+        suppressorTowerMap.clear();
+        suppressorPlaced.clear();
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/stationData/MinerData.java
+================================================
+package net.voiddustry.redvsblue.game.stations.stationData;
+
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+
+public class MinerData {
+    private Player owner;
+    private Tile tileOn;
+    private int exp;
+    private int maxExp;
+    private int lvl;
+
+
+    public MinerData(Player owner, Tile tileOn, Integer exp, Integer maxExp, Integer lvl) {
+        this.owner = owner;
+        this.tileOn = tileOn;
+        this.exp = exp;
+        this.maxExp = maxExp;
+        this.lvl = lvl;
+    }
+
+    public MinerData(Player owner, Tile tileOn) {
+        this(owner, tileOn, 0, 15, 1);
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public Tile getTileOn() {
+        return tileOn;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int amount) {
+        this.exp = amount;
+    }
+
+    public void addExp(int amount) {
+        this.exp += amount;
+    }
+
+    public int getMaxExp() {
+        return maxExp;
+    }
+
+    public void setMaxExp(int amount) {
+        this.maxExp = amount;
+    }
+
+    public void setLvl(int amount) {
+        this.lvl = amount;
+    }
+
+    public void addLvl() {
+        this.lvl++;
+    }
+
+    public int getLvl() {
+        return lvl;
+    }
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/stations/stationData/StationData.java
+================================================
+package net.voiddustry.redvsblue.game.stations.stationData;
+
+import mindustry.gen.Player;
+import mindustry.world.Tile;
+
+public record StationData(Player owner, Tile tileOn) {}
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/units/SpecialUnits.java
+================================================
+package net.voiddustry.redvsblue.game.units;
+
+import arc.util.Log;
+import arc.util.Timer;
+import net.voiddustry.redvsblue.game.units.special.Quad;
+
+public class SpecialUnits {
+    public static void init() {
+        Log.info("&gStarting init units specs");
+
+        Timer.schedule(Quad::initAbilities, 1, 0.5f);
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/game/units/special/Quad.java
+================================================
+package net.voiddustry.redvsblue.game.units.special;
+
+import arc.graphics.Color;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import net.voiddustry.redvsblue.PlayerData;
+import mindustry.Vars;
+
+import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
+
+public class Quad {
+    public static void initAbilities() {
+        Groups.unit.forEach(unit -> {
+            if(unit.type == UnitTypes.quad && unit.team == Team.blue) {
+                if (unit.x < Vars.world.width()*8-8 && unit.x > 8 && unit.y < Vars.world.height()*8-8 && unit.y > 8) {
+                    int centerX = unit.tileOn().x * 8;
+                    int centerY = unit.tileOn().y * 8;
+
+                    for (int i = 0; i < 40; i++) {
+                        Call.effect(Fx.healWaveDynamic, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.red);
+                    }
+                    Groups.unit.forEach(u -> {
+                        if(u.team == Team.crux && u.dst(unit.x, unit.y) <= 64) {
+                            Call.effect(Fx.fire, u.x, u.y, 2, Color.red);
+
+                            u.apply(StatusEffects.shocked, 120);
+
+                            float damage = u.maxHealth/200;
+
+                            if (u.health >= damage) {
+                                u.health = u.health() - damage;
+                                Call.label("[#55557F]-" + damage, 0.5f, u.x, u.y);
+                            } else {
+                                u.kill();
+                                if(unit.getPlayer() != null) {
+                                    PlayerData data = players.get(unit.getPlayer().uuid());
+                                    data.addScore(data.getLevel());
+                                    data.addExp(1);
+                                }
+
+                                Call.label("[scarlet]-" + damage, 3f, u.x, u.y);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/logic/LInstructions.java
+================================================
+package net.voiddustry.redvsblue.logic;
+
+import arc.func.Prov;
+import arc.scene.ui.layout.Table;
+import arc.util.Log;
+import mindustry.game.Team;
+import mindustry.gen.LogicIO;
+import mindustry.gen.Player;
+import mindustry.gen.Unit;
+import mindustry.logic.LAssembler;
+import mindustry.logic.LExecutor;
+import mindustry.logic.LStatement;
+import mindustry.logic.LVar;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+
+
+public final class LInstructions {
+    private LInstructions() {}
+
+    public static void register() {
+        LogicIO.allStatements.add((Prov<LStatement>) GivePointsStatement::new);
+        LAssembler.customParsers.put(GivePointsStatement.OPCODE, GivePointsStatement::read);
+
+        LogicIO.allStatements.add((Prov<LStatement>) FetchPointsStatement::new);
+        LAssembler.customParsers.put(FetchPointsStatement.OPCODE, FetchPointsStatement::read);
+    }
+
+    public static final class GivePointsStatement extends LStatement {
+        public static final String OPCODE = "givepoints";
+
+        public String unit = "0";
+        public String amount = "0";
+
+        @Override
+        public String name() {
+            return OPCODE;
+        }
+
+        @Override
+        public boolean privileged() {
+            return true;
+        }
+
+        @Override
+        public void build(Table table) {
+        }
+
+        @Override
+        public LExecutor.LInstruction build(LAssembler builder) {
+            return new GivePointsI(builder.var(unit), builder.var(amount));
+        }
+
+        @Override
+        public void write(StringBuilder builder) {
+            builder.append(OPCODE).append(' ');
+            builder.append(unit).append(' ');
+            builder.append(amount).append(' ');
+        }
+
+        public static LStatement read(String[] tokens) {
+            GivePointsStatement s = new GivePointsStatement();
+            if (tokens.length > 1) s.unit = tokens[1];
+            if (tokens.length > 2) s.amount = tokens[2];
+            return s;
+        }
+    }
+
+    public static final class GivePointsI implements LExecutor.LInstruction {
+        public LVar unit;
+        public LVar amount;
+
+        public GivePointsI() {}
+
+        public GivePointsI(LVar unit, LVar amount) {
+            this.unit = unit;
+            this.amount = amount;
+        }
+
+        @Override
+        public void run(LExecutor exec) {
+            if (unit == null || amount == null) return;
+
+            if (!(unit.objval instanceof Unit u)) return;
+
+            if (u == null || !u.isPlayer()) return;
+
+            Player player = u.getPlayer();
+            if (player == null) return;
+
+            PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+            if (data == null) return;
+
+            data.addScore((int) amount.numval);
+        }
+    }
+
+    public static final class FetchPointsStatement extends LStatement {
+        public static final String OPCODE = "fetchpoints";
+
+        public String unit = "0";
+        public String result = "result";
+
+        @Override
+        public String name() {
+            return OPCODE;
+        }
+
+        @Override
+        public boolean privileged() {
+            return true;
+        }
+
+        @Override
+        public void build(Table table) {
+        }
+
+        @Override
+        public LExecutor.LInstruction build(LAssembler builder) {
+            return new FetchPointsI(builder.var(unit), builder.var(result));
+        }
+
+        @Override
+        public void write(StringBuilder builder) {
+            builder.append(OPCODE).append(' ');
+            builder.append(unit).append(' ');
+            builder.append(result).append(' ');
+        }
+
+        public static LStatement read(String[] tokens) {
+            FetchPointsStatement s = new FetchPointsStatement();
+            if (tokens.length > 1) s.unit = tokens[1];
+            if (tokens.length > 2) s.result = tokens[2];
+            return s;
+        }
+    }
+
+    public static final class FetchPointsI implements LExecutor.LInstruction {
+        public LVar unit;
+        public LVar result;
+
+        public FetchPointsI() {}
+
+        public FetchPointsI(LVar unit, LVar result) {
+            this.unit = unit;
+            this.result = result;
+        }
+
+        @Override
+        public void run(LExecutor exec) {
+            if (unit == null || result == null) {
+                return;
+            }
+
+
+            if (!(unit.objval instanceof Unit u)) {
+                result.setobj(null);
+                return;
+            }
+
+
+            Player player = u.getPlayer();
+
+
+            if (player == null) {
+                result.setobj(null);
+                return;
+            }
+
+            PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+
+            if (data == null) {
+                result.setobj(null);
+                return;
+            }
+
+            result.setnum(data.getScore());
+        }
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/player/Hud.java
+================================================
+package net.voiddustry.redvsblue.player;
+
+import mindustry.content.Blocks;
+import mindustry.content.UnitTypes;
+import mindustry.game.Team;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.logic.LAccess;
+import mindustry.Vars;
+
+import mindustry.gen.Unit;
+import mindustry.net.Administration;
+import mindustry.type.UnitType;
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.game.crux.CruxUnit;
+
+import static net.voiddustry.redvsblue.util.Utils.playerCount;
+
+public class Hud {
+    public static void update() {
+
+        int minutes = (int) Math.floor(RedVsBluePlugin.stageTimer / 60);
+        int seconds = (int) (RedVsBluePlugin.stageTimer - minutes * 60);
+
+        String minutesString = ((minutes < 10)? "0" : "") + minutes;
+        String secondsString = ((seconds < 10)? "0" : "") + seconds;
+
+        String time = minutesString + ":" + secondsString;
+        String playersText = "[royal]\uE872 " + playerCount(Team.blue) + " [scarlet]\uE872 " + playerCount(Team.crux) + "[gray] | [white]\uE872 " + playerCount();
+
+
+        Groups.unit.each(u -> {
+            if (u.team == Team.crux) {
+                u.setProp(LAccess.ammo, u.type.ammoCapacity);
+            }
+
+        });
+
+
+
+        Groups.player.each(player -> {
+            Unit unit = player.unit();
+           
+            PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+            if (!(data == null)) {
+    
+                if(!RedVsBluePlugin.players.containsKey(player.uuid())) {
+                    RedVsBluePlugin.players.put(player.uuid(), new PlayerData(player));
+                }
+        
+                String textHud = (data.getLevel() == 5)? "[scarlet]Max" : "[accent]" + data.getExp() + " / " + data.getMaxExp();
+      
+                String hudText = "";
+                if (!(player.unit() == null)) {
+                    hudText = Bundle.format("game.hud", Bundle.findLocale(player.locale()), Administration.Config.serverName.get(), Math.floor(unit.health()), Math.floor(unit.shield()), data.getScore(), RedVsBluePlugin.stage, time, playersText, data.getLevel(), textHud);
+                } else {
+                    hudText = Bundle.format("game.hud", Bundle.findLocale(player.locale()), Administration.Config.serverName.get(), "-", "-", data.getScore(), RedVsBluePlugin.stage, time, playersText, data.getLevel(), textHud);
+                }
+    
+                Call.setHudText(player.con, hudText);
+                
+                if (RedVsBluePlugin.playing && data.getUnit() != null) {
+                    if (data.getUnit().dead) {
+                        data.setTeam(Team.crux);
+                        player.team(data.getTeam());
+                    }
+                }
+                
+                if (RedVsBluePlugin.playing && data.getUnit() != null && player.team() == Team.blue) {
+                    if (!data.getUnit().dead) {
+                        player.unit(data.getUnit());
+                    }
+                }
+            }
+        });
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/player/Premium.java
+================================================
+package net.voiddustry.redvsblue.player;
+
+
+import arc.files.Fi;
+import arc.util.Log;
+import arc.util.serialization.Json;
+import arc.util.serialization.JsonValue;
+import arc.util.serialization.JsonWriter;
+import mindustry.Vars;
+import mindustry.gen.Player;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Premium {
+    private static final Map<String, Boolean> premiumPlayers = new HashMap<>();
+
+    public static void init() {
+//        Json json = new Json();
+//        json.setOutputType(JsonWriter.OutputType.json);
+//        Fi configFile = Vars.modDirectory.child("RedVsBlue/premiums.json");
+//        JsonValue jsonValue = json.fromJson(null, configFile);
+//        String readValue = json.readValue("players", String.class, jsonValue);
+//        String[] uuids = readValue.split(",");
+//        Log.info("===== (Premium) =====");
+//        Log.info("Premium player's uuid's loaded:");
+//        Log.info("");
+//        for (String uuid : uuids) {
+//            Log.info(uuid);
+//            premiumPlayers.put(uuid, true);
+//        }
+    }
+
+    public static boolean isPremium(Player player){
+        return false;
+    }
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/util/Config.java
+================================================
+package net.voiddustry.redvsblue.util;
+
+import arc.files.Fi;
+import arc.util.serialization.Json;
+import arc.util.serialization.JsonValue;
+import arc.util.serialization.JsonWriter;
+import lombok.Getter;
+import mindustry.Vars;
+
+public class Config {
+
+    @Getter
+    private static String discordUrl = "";
+    @Getter
+    private static String discordBansUrl = "";
+    @Getter
+    private static String discordReportsUrl = "";
+    @Getter
+    private static String discordReportsRoleID = "";
+
+    static {
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        json.setUsePrototypes(false);
+        Fi configFile = Vars.modDirectory.child("RedVsBlue/RedVsBlue.json");
+        if (configFile.exists()) {
+            JsonValue jsonValue = json.fromJson(null, configFile);
+            Config.discordUrl = json.readValue("discordUrl", String.class, jsonValue);
+            Config.discordBansUrl = json.readValue("discordBansUrl", String.class, jsonValue);
+            Config.discordReportsUrl = json.readValue("discordReportsUrl", String.class, jsonValue);
+            Config.discordReportsRoleID = json.readValue("discordReportsRoleID", String.class, jsonValue);
+        }
+    }
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/util/MapVote.java
+================================================
+package net.voiddustry.redvsblue.util;
+
+import arc.Events;
+import arc.struct.Seq;
+import arc.util.Log;
+import arc.util.Timer;
+import mindustry.Vars;
+import mindustry.gen.Call;
+import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustry.maps.MapException;
+import mindustry.net.WorldReloader;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.ArrayList;
+public class MapVote {
+
+    private static final Map<String, Integer> playersVotesMap = new HashMap<>();
+    private static Seq<Integer> avaibleMapnumbers = new Seq<Integer>();
+    public static Seq<String> pinnedMaps = new Seq<String>();
+
+    public static void callMapVoting() {
+        if (!Utils.voting) {
+            Random rand = new Random();
+            avaibleMapnumbers.clear();
+            for (int mapnum = 0; mapnum < 6; mapnum++) {
+                avaibleMapnumbers.add(rand.nextInt(getMaps().size));
+            }
+            playersVotesMap.clear();
+            Utils.voting = true;
+            Utils.gameRun = false;
+            int[] i = {61};
+            Events.fire("rvsb-world-reload");
+
+            Timer.Task task = new Timer.Task() {
+                @Override
+                public void run() {
+                    Seq<mindustry.maps.Map> maps = getMaps();
+
+                    StringBuilder mapsList = new StringBuilder();
+
+                    int[] mapVotes = getMapVotes();
+                    for (int j = 0; j < getMaps().size; j++) {
+                        if (avaibleMapnumbers.contains(j)) {
+                            int mapNumber = j + 1;
+                            mapsList.append("\n[lightgray]").append(mapNumber).append(" [gray]| [gold]").append(mapVotes[j]).append(" [gray]| ").append(maps.get(j).file.name().replace(".msav", ""));
+                        } else if (pinnedMaps.contains(maps.get(j).file.name())) {
+                            int mapNumber = j + 1;
+                            mapsList.append("\n[lightgray]").append(mapNumber).append(" [gray]| [gold]").append(mapVotes[j]).append(" [gray]| ").append("[blue]").append(maps.get(j).file.name().replace(".msav", ""));
+                        }
+                    }
+                    
+
+                    Groups.player.each(p -> Call.infoPopup(p.con, "[gray][ [royal]Vote []]\n" + mapsList + "\n\n[gold]Time left: " + Arrays.toString(i), 1, 0, 0, (p.con.mobile)? 300 : 600, 0, 0));
+
+                    i[0]--;
+
+                    if (i[0] == 0) {
+                        this.cancel();
+                        reloadWorld(() -> {
+                            mindustry.maps.Map target = getMostVotedMap();
+                            Vars.world.loadMap(target, target.applyRules(Vars.state.rules.mode()));
+                        });
+                    }
+                }
+            };
+            Timer timer = new Timer();
+            timer.scheduleTask(task, 0, 1);
+        }
+    }
+
+    private static mindustry.maps.Map getMostVotedMap() {
+        Seq<mindustry.maps.Map> maps = getMaps();
+        int[] votes = getMapVotes();
+        int largest = 0;
+        Random rand = new Random();
+
+        for (int i = 0; i < votes.length; i++) {
+            largest = votes[i] > votes[largest] ? i : largest;
+        }
+        
+        if (votes[largest] == 0) {
+            largest = rand.nextInt(getMaps().size-1);
+        }
+
+        return maps.get(largest);
+
+    }
+
+    private static int[] getMapVotes() {
+        int[] votes = new int[getMaps().size];
+        playersVotesMap.forEach((key, voteNumber) -> votes[voteNumber]++);
+        return votes;
+    }
+
+    public static void registerVote(Player player, Integer voteNumber) {
+        if (!playersVotesMap.containsKey(player.uuid())) {
+            if (avaibleMapnumbers.contains(voteNumber-1) || pinnedMaps.contains(getMaps().get(voteNumber-1).file.name())) {
+                playersVotesMap.put(player.uuid(), voteNumber-1);
+            }
+        }
+    }
+
+    public static Seq<mindustry.maps.Map> getMaps() {
+        return Vars.maps.customMaps();
+    }
+
+    public static void reloadWorld(Runnable runnable) {
+        try {
+            var reloader = new WorldReloader();
+            reloader.begin();
+
+            runnable.run();
+            Vars.state.rules = Vars.state.map.applyRules(Vars.state.rules.mode());
+            Vars.logic.play();
+
+            reloader.end();
+        } catch (MapException e) {
+            Log.err("@: @", e.map.name(), e.getMessage());
+        }
+    }
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/util/UnitsConfig.java
+================================================
+package net.voiddustry.redvsblue.util;
+
+import arc.files.Fi;
+import arc.util.serialization.Json;
+import arc.util.serialization.JsonValue;
+import arc.util.serialization.JsonWriter;
+import lombok.Getter;
+import mindustry.Vars;
+
+public class UnitsConfig {
+
+    @Getter
+    private static int prices_multipler = 1;
+
+    static {
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        json.setUsePrototypes(false);
+        Fi configFile = Vars.modDirectory.child("RedVsBlue/Units.json");
+        if (configFile.exists()) {
+            JsonValue jsonValue = json.fromJson(null, configFile);
+            UnitsConfig.prices_multipler= json.readValue("prices_multipler", Integer.class, jsonValue);
+        }
+    }
+
+    public static int multp = getPrices_multipler();
+
+}
+
+
+
+================================================
+FILE: main/java/net/voiddustry/redvsblue/util/Utils.java
+================================================
+package net.voiddustry.redvsblue.util;
+
+import arc.graphics.Color;
+
+import arc.*;
+import arc.struct.Seq;
+import arc.util.Time;
+import arc.util.Timer;
+import arc.util.serialization.*;
+import mindustry.Vars;
+import mindustry.content.*;
+import mindustry.entities.bullet.BasicBulletType;
+import mindustry.game.Team;
+import mindustry.gen.*;
+import mindustry.io.JsonIO;
+
+import mindustry.type.UnitType;
+import java.util.Locale;
+import java.util.HashMap;
+
+import mindustry.type.Weapon;
+import mindustry.world.Block;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.meta.BuildVisibility;
+
+import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.game.crux.StageUnits;
+import net.voiddustry.redvsblue.game.starting_menu.StartingItems;
+import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
+import net.voiddustry.redvsblue.game.stations.*;
+
+import static mindustry.Vars.*;
+import static net.voiddustry.redvsblue.RedVsBluePlugin.*;
+
+public class Utils {
+
+    public static boolean voting;
+    public static boolean gameRun;
+    public static boolean gameover;
+    public static boolean hardcore;
+    public static int money_per_min = 3;
+
+    public static void initRules() {
+
+        state.rules.bannedBlocks.clear();
+        state.rules.revealedBlocks.clear();
+
+        for (Block block : Vars.content.blocks()) {
+            state.rules.bannedBlocks.add(block);
+            for(int i = 0; i < block.requirements.length; i++){
+                if (block.requirements[i].item==Items.dormantCyst) {
+                    state.rules.bannedBlocks.remove(block);
+                    state.rules.revealedBlocks.add(block);
+                    
+                    break;
+                }
+            }
+        }
+        
+        state.rules.buildSpeedMultiplier = 0;
+
+        state.rules.env = Vars.defaultEnv;
+        state.rules.planet = Planets.sun;
+
+        state.rules.waveSpacing = Integer.MAX_VALUE;
+        state.rules.waves = true;
+        state.rules.bannedUnits.add(UnitTypes.alpha);
+
+        state.rules.hideBannedBlocks = true;
+        state.rules.blockWhitelist = false;
+
+        state.rules.teams.get(Team.malis).blockHealthMultiplier = 2;
+
+        Call.setRules(state.rules);
+    }
+
+    public static void launchGameStartTimer() {
+        int[] i = {120};
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                announceBundled("game.game-starts-soon", 1, i[0]);
+                i[0]--;
+                if (i[0] <= 0) {
+                    gameRun = true;
+                    this.cancel();
+                    StartingMenu.canOpenMenu = false;
+                }
+            }
+        };
+        Timer timer = new Timer();
+        timer.scheduleTask(task, 0, 1);
+    }
+
+    public static void loadContent() {
+        StartingItems.load();
+    }
+
+    public static void initTimers() {
+        Miner.initTimer();
+        RepairPoint.initTimer();
+        Laboratory.initTimer();
+        Booster.initTimer();
+        ArmorWorkbench.initTimer();
+        Recycler.initTimer();
+        SuppressorTower.initTimer();
+
+        Timer.schedule(() -> {
+            if (playing) {
+                Groups.player.each(p -> {
+                    if (p.team() == Team.blue && (!(players.get(p.uuid()) == null)) && (!(((Integer)players.get(p.uuid()).getScore()) == null))) {
+                        players.get(p.uuid()).setScore(players.get(p.uuid()).getScore() + money_per_min);
+                        p.sendMessage(Bundle.format("game.salary", Bundle.findLocale(p.locale), money_per_min));
+
+                    }
+                });
+            }
+        }, 0, 60);
+
+        Timer.schedule(() -> stageTimer--, 0, 1);
+
+         Timer.schedule(() -> Groups.player.each(player -> {
+            if (player.tileOn() != null && player.team() == Team.blue && player.unit() != null) {
+                if (player.tileOn().block() != null && (player.tileOn().block() == Blocks.cliff || (player.tileOn().block() instanceof Prop && player.tileOn().block().breakable) || player.tileOn().block() instanceof TallBlock)) {
+                    return;
+                }
+                if (player.tileOn().build != null && player.tileOn().build.team != Team.blue && player.tileOn().build.team != Team.derelict) {
+                    if (player.unit().health <= 1) {
+                        player.unit().kill();
+                    }
+                    player.unit().health -= player.unit().type.health/100;
+                    Call.effect(Fx.burning, player.x, player.y, 1, Color.red);
+
+                } else if (!player.tileOn().block().isAir() || player.tileOn().isDarkened()) {
+                    if (player.unit().health <= 1) {
+                        player.unit().kill();
+                    }
+                    if (!player.tileOn().block().canBeBuilt()) {
+                        player.unit().health -= player.unit().type.health/100;
+                        Call.effect(Fx.burning, player.x, player.y, 1, Color.red);
+                    }
+                }
+            } else if (player.tileOn() == null && player.unit() != null) {
+                if (player.unit().health <= 1) {
+                    player.unit().kill();
+                }
+                player.unit().health -= player.unit().type.health/100;
+                Call.effect(Fx.burning, player.x, player.y, 1, Color.red);
+            }
+        }), 0, 0.1F);
+    }
+
+    public static void processLevel(Player player, PlayerData data) {
+        if (data.getLevel() < 5) {
+            if (data.getExp() >= data.getMaxExp()) {
+                int expLimit = data.getExp();
+                int expLimitToSet = expLimit + expLimit/4;
+                data.setMaxExp(expLimitToSet);
+                data.setExp(0);
+                data.setLevel(data.getLevel() + 1);
+                sendBundled("game.level-up", player.name);
+            }
+        }
+    }
+
+    public static void label(float x, float y, String text, float time, float fontsize) {
+        WorldLabel label = WorldLabel.create();
+        label.x(x);
+        label.y(y + 4);
+
+        label.fontSize = fontsize;
+        label.text = text;
+
+        label.add();
+
+        Time.run(time, label::hide);
+    }
+
+    public static int getRandomInt(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public static Player getRandomPlayer(Team team) {
+        Seq<Player> playerSeq = new Seq<>();
+        Groups.player.each(p -> {
+            if (p.team() == team) {
+                playerSeq.add(p);
+            }
+        });
+        return playerSeq.random();
+    }
+
+    public static Player getRandomPlayer() {
+        return Groups.player.index(getRandomInt(0, Groups.player.size() - 1));
+    }
+
+    public static void spawnBoss() {
+        Unit boss = StageUnits.bosses.get(stage).spawn(Team.crux, redSpawns.random());
+        boss.health = boss.type.health + boss.type.health/3;
+
+        if (!boss.dead()) {
+            Player player = getRandomPlayer(Team.crux);
+            if (player != null) {
+                Call.unitControl(player, boss);
+                sendBundled("game.boss.spawn", player.name());
+            }
+        }
+    }
+
+    public static int playerCount(Team team) {
+        final int[] i = { 0 };
+        Groups.player.each(p -> {
+            if (p.team() == team)
+                i[0]++;
+        });
+        return i[0];
+    }
+
+    public static int playerCount() {
+        return Groups.player.size();
+    }
+
+    public static void sendBundled(String key, Object... format) {
+        Groups.player.forEach(p -> {
+            Locale locale = Bundle.findLocale(p.locale());
+            p.sendMessage(Bundle.format(key, locale, format));
+        });
+    }
+
+    public void sendBundled(String key) {
+        Groups.player.forEach(p -> {
+            Locale locale = Bundle.findLocale(p.locale());
+            p.sendMessage(Bundle.get(key, locale));
+        });
+    }
+
+    public static UnitType getStartingUnit() {
+        switch (getRandomInt(1,11)) {
+            case 1, 2, 3, 4 -> {
+                return UnitTypes.dagger;
+            }
+            case 5, 6 -> {
+                return UnitTypes.nova;
+            }
+            case 7, 8 -> {
+                return UnitTypes.merui;
+            }
+            case 9 -> {
+                return UnitTypes.flare;
+            }
+            case 10 -> {
+                return UnitTypes.mono;
+            }
+        }
+        return UnitTypes.dagger;
+    }
+
+    public static void announceBundled(String key, int duration) {
+        Groups.player.forEach(p -> {
+            Locale locale = Bundle.findLocale(p.locale);
+            String text = Bundle.get(key, locale);
+            Call.infoPopup(p.con,  text, duration, 0, 0, 0, -200, 0);
+        });
+    }
+
+    public static void announceBundled(String key, int duration, Object... format) {
+        Groups.player.forEach(p -> {
+            Locale locale = Bundle.findLocale(p.locale);
+            String text = Bundle.format(key, locale, format);
+            Call.infoPopup(p.con, text, duration, 0, 0, 0, -200, 0);
+        });
+    }
+
+
+}
+
+
+
+================================================
+FILE: main/resources/plugin.json
+================================================
+{
+    "name": "red-vs-blue",
+    "displayName": "Red vs Blue V8",
+    "description": "Experimental gamemode with zombie-survival elements",
+    "author": "VoidDustry",
+    "main": "net.voiddustry.redvsblue.RedVsBluePlugin",
+    "hidden": false,
+    "java": true,
+    "version": "3.14",
+    "minGameVersion": 158
+}
+
+
+
+================================================
+FILE: main/resources/bundles/bundle_en.properties
+================================================
+admin-panel.title=
+build.cooldown=[yellow]Cooldown
+build.destroy-wall=[lime]Destroy wall
+build.not-enough-money=[gray]Not enough money.
+evolution.branch.initial=[gray][ unselected ][]
+evolution.evolution-available=[gray][ [purple]Evolve available [cyan]/m [gray]]
+evolution.no-lab=[scarlet]Find a [purple]laboratoy []first!
+evolution.not-enough=[scarlet]Not enough money to evolve.
+game.boss.spawn=[accent]{0}[] [scarlet]spawned as boss.
+game.evolved={0} [accent]evolved to [lime]{1}[]
+game.game-starts-soon=[cyan]Prepare!\nGame starts in {0}
+game.hud=[gray][ {0} [gray]]\n[ [scarlet]HP: {1} []| [blue]Shield: {2} []| [lime]Points: {3}[] ]\n[ [darkgray]Stage: [red]{4}[][] | [red]{5} []]\n[ {6} [gray]] {7}
+game.late=[scarlet]Stage is >3, too late.
+game.level-up={0}[accent] has leveled up!
+game.new-stage=[scarlet]Stage {0} has began!
+game.redeemed={0} [cyan]has been redeemed!
+game.salary=[lime]You survived one minute and got 3 points!
+game.stage11=[crimson]Team Blue has attracted unwanted attention...
+menu.build.build=[gold]Select
+menu.build.cancel=[lightgray]Cancel
+menu.build.single=Single
+menu.build.text=[accent]Block: {0}{1}\n\
+[scarlet]HP: {2}\n\
+[lime]Price: {3}
+menu.build.title=[lime]Building Menu
+menu.evolution.evolve=[lime]Evolve to {0}[] - [gold]{1}[]
+menu.evolution.message=Your evolution stage is [lime]{0}[]\n\
+Your evolution branch: {1}\n
+menu.evolution.title=Evolution menu
+starting-menu.units.flare=Flare
+starting-menu.units.nova=Nova
+station.not-enough-money=[scarlet]Not enough money to buy this station! This station cost {0}.
+stations.buttons.suppressor-tower=[accent]Suppressor Tower
+stations.buttons.close=[gray]Close
+stations.buttons.lab=[purple]Laboratory
+stations.buttons.miner=[gold]Miner
+stations.buttons.repair-point=[lime]Repair Point
+stations.text=\ 
+stations.title=\ 
+units.crux.menu.atrax=[pink]Atrax
+units.crux.menu.cleroi=[white]Cleroi
+units.crux.menu.crawler=[crimson]Crawler
+units.crux.menu.dagger=[accent]Dagger
+units.crux.menu.elude=[purple]Elude
+units.crux.menu.fortress=[accent]Fortress
+units.crux.menu.locus=[gold]Locus
+units.crux.menu.mace=[scarlet]Mace
+units.crux.menu.merui=[lightgray]Merui
+units.crux.menu.nova=[lime]Nova
+units.crux.menu.obviate=[purple]Obviate
+units.crux.menu.antumbra=[lightgray]Antumbra
+units.crux.menu.vanquish=[crimson]Vanquish
+units.crux.menu.precept=[lightgray]Precept
+units.crux.menu.stell=[gray]Stell
+units.crux.menu.corvus=[lime]Corvus
+units.crux.menu.title=[scarlet]Class Choose menu
+voting.already-voted=
+welcome=[cyan]Welcome!
+welcome.text=A synthetic life form called spores and an uncontrollable mass of rapidly dividing cells - neoplasm - united and gave birth to a zombie virus that killed all life on Serpulo. You are the last stronghold of life on this planet, destroy all the waves and defeat the Virus.\
+Scientists from IntergalacticUnion are ready to send you new, more powerful machines for slaying evil for the heads of the dead. The fact is that they are developing a vaccine against this virus so that in the future it will not be a threat to biological life.\
+Happy Survival!\
+To buy a unit, go to the laboratory and click on it\
+/s - construction of stations\
+/c - class selection menu\
+/b - select a block for construction\
+/build - construction or disabling construction
+units.crux.menu.flare=[lightgray]Flare
+units.crux.menu.horizon=[gray]Horizon
+stations.buttons.booster=[orange]Booster
+stations.buttons.workbench=[blue]Armor Workbench
+boss.title=[scarlet]Boss Choose Menu
+boss.bosses.mace=[#023919]Rotting Corpse
+boss.spawn=[accent]{0}[] [scarlet]spawned as {1}[scarlet].
+stations.buttons.recycler=[#023919]Recycler
+stations.workbench.buy-armor=[lime]Buy {0} Armor for 1 point 
+stations.workbench.unit-armor=[blue]Unit Shield: {0}
+
+
+
+================================================
+FILE: main/resources/bundles/bundle_router.properties
+================================================
+commands.no-admin=[scarlet]router router.
+game.boss.spawn=[accent]{0}[] [scarlet]router.
+game.hud=[gray][ [scarlet]router: {0} []| [accent]router: {1} []| [lime]router: {2}[]]\n[ [darkgray]router: [red]{3}[][] ]
+
+
+================================================
+FILE: main/resources/bundles/bundle_ru.properties
+================================================
+build.cooldown=[yellow]ÐÑÐ»Ð´Ð°ÑÐ½
+build.destroy-wall=[lime]Уничтожить стену
+build.not-enough-money=[gray]Не достаточно денег.
+evolution.branch.initial=[gray][ не выбрана ][]
+evolution.evolution-available=[gray][ [purple]Эволюция доступна [cyan]/m [gray]]
+evolution.no-lab=[scarlet]Найдите [purple]лаболаторию []чтобы эволюционировать!
+game.boss.spawn=[accent]{0}[] [scarlet]появился как босс.
+game.evolved={0} [accent]эволюционировал до [lime]{1}[]
+game.game-starts-soon=[cyan]Приготовьтесь!\nИгра начинеться через {0} секунд
+game.hud=[gray][ {0} [gray]]\n[ [scarlet]HP: {1} []| [blue]Щит: {2} []| [lime]Баланс: {3}[] ]\n[ [darkgray]Этап: [red]{4}[][] | [red]{5} []]\n[ {6} [gray]]\n\n[ [accent]Уровень: {7} []]\n[ {8} [gray]]
+game.late=[scarlet]Стадия уже > 3. слишком поздно
+game.level-up={0}[accent] повысил свой уровень!
+game.new-stage=[scarlet]Стадия {0} началась!
+game.redeemed={0} [cyan]has been redeemed!
+game.salary=[lime]Вы продержались одну минуту и получили 3 очка!
+game.stage11=[crimson]Синяя команда привлекла к себе ненужное внимание...
+menu.build.build=[gold]Выбрать
+menu.build.cancel=[lightgray]Отменить
+menu.build.single=Single
+menu.build.text=[accent]Блок: {0}{1}\n\
+[scarlet]ХП: {2}\n\
+[lime]Цена: {3}
+menu.build.title=[lime]Строительное Меню
+menu.evolution.evolve=[lime]Эволюционировать до {0}[] - [gold]{1}[]
+menu.evolution.message=Ваша стадия эволюции: [lime]{0}[]\n\
+Ваша ветвь эволюции: {1}\n
+menu.evolution.title=Меню эволюции
+starting-menu.units.flare=Вспышка
+starting-menu.units.nova=Нова
+station.not-enough-money=[scarlet]Недостаточно денег, чтобы купить эту станцию! Эта станция стоит {0}.
+stations.buttons.suppressor-tower=[accent]Подавительная башня
+stations.buttons.close=[gray]Закрыть
+stations.buttons.lab=[purple]Лаболатория
+stations.buttons.miner=[gold]Майнер
+stations.buttons.repair-point=[lime]Точка Ремонта
+stations.text=\ 
+stations.title=\ 
+units.crux.menu.atrax=[pink]Атракс
+units.crux.menu.cleroi=[white]Клерой
+units.crux.menu.crawler=[crimson]Ползун
+units.crux.menu.dagger=[accent]Кинжал
+units.crux.menu.elude=[purple]Уклонение
+units.crux.menu.fortress=[accent]Крепость
+units.crux.menu.locus=[gold]Очаг
+units.crux.menu.mace=[scarlet]Булава
+units.crux.menu.merui=[lightgray]Меруй
+units.crux.menu.nova=[lime]Нова
+units.crux.menu.obviate=[purple]Устранение
+units.crux.menu.precept=[lightgray]Заповедь
+units.crux.menu.antumbra=[lightgray]Затемь
+units.crux.menu.vanquish=[crimson]Покоритель
+units.crux.menu.corvus=[lime]Ворон
+units.crux.menu.stell=[gray]Основа
+units.crux.menu.title=[scarlet]Меню выбора класса
+welcome=[cyan]Добро пожаловать!
+welcome.text=Синтетическая форма жизни под названием споры и неконтролируемая масса быстро делящихся клеток - неоплазма объеденились и породили зомби-вирус, который убил все живое на Серпуло. Вы - последний оплот жизни на этой планете, уничтожьте все волны и победите Вирус.\
+Ученые из IntergalacticUnion готовы посылать вам новых, более мощных машин для крамсания нечести за головы мертвецов. Дело в том что они разрабатывают вакцину от этого вируса, чтобы впредь он не был угрозой биологической жизни.\
+Хорошего выживания!\
+Что бы купить юнита подойдите к лаболатории и нажмите на неё\
+/s - постройка станций\
+/c - меню выбора класса\
+/b  - выбор блока для строительства\
+/build - строительство или отключение строительства
+units.crux.menu.flare=[lightgray]Вспышка
+units.crux.menu.horizon=[gray]Горизонт
+stations.buttons.booster=[orange]Ускоритель
+stations.buttons.workbench=[blue]Верстак
+boss.title=[scarlet]Меню выбора босса
+boss.bosses.mace=[#023919]Гниющий Труп
+boss.spawn=[accent]{0}[] [scarlet]появился как {1}[scarlet].
+stations.buttons.recycler=[#023919]Переработчик
+stations.workbench.buy-armor=[lime]Купить {0} Брони за 1 поинт
+stations.workbench.unit-armor=[blue]Щит Юнита: {0}
+
+
+
+================================================
+FILE: main/resources/bundles/bundle_uk_UA.properties
+================================================
+build.cooldown=[yellow]Кулдаун
+build.destroy-wall=[lime]Знищити стіну
+build.not-enough-money=[gray]Не достатньо грошей.
+evolution.branch.initial=[gray][ не вибрано ][]
+evolution.evolution-available=[gray][ [purple]Еволюція доступна [cyan]/m [gray]]
+evolution.no-lab=[scarlet]Знайдіть [purple]лаболаторію []щоб еволюцінувати!
+game.boss.spawn=[accent]{0}[] [scarlet]з'явився як бос.
+game.evolved={0} [accent]еволюціонував в [lime]{1}[]
+game.game-starts-soon=[cyan]Приготуйтеся!\nГра починеться через {0} секунд
+game.hud=[gray][ {0} [gray]]\n[ [scarlet]HP: {1} []| [blue]Щит: {2} []| [lime]Баланс: {3}[] ]\n[ [darkgray]Стадія: [red]{4}[][] | [red]{5} []]\n[ {6} [gray]]\n\n[ [accent]Рівень: {7} []]\n[ {8} [gray]]
+game.late=[scarlet]Стадія вже > 3, надто пізно.
+game.level-up={0}[accent] повисив свій рівень!
+game.new-stage=[scarlet]Стадія {0} почалась!
+game.redeemed={0} [cyan]has been redeemed!
+game.salary=[lime]Ви протримались одну хвилину та отримали 3 бали!
+game.stage11="Ти привернув до себе занадто багато уваги..."
+menu.build.build=[gold]Вибрати
+menu.build.cancel=[lightgray]Скасувати
+menu.build.single=Single
+menu.build.text=[accent]Блок: {0}{1}\n\
+[scarlet]ХП: {2}\n\
+[lime]Ціна: {3}
+menu.build.title=[lime]Будівельне Меню
+menu.evolution.evolve=[lime]Еволюціонівати до {0}[] - [gold]{1}[]
+menu.evolution.message=Ваша стадія eволюції: [lime]{0}[]\n\
+Ваша гілка еволюції: {1}\n
+menu.evolution.title=Меню еволюції
+starting-menu.units.flare=Спалах
+starting-menu.units.nova=Нова
+station.not-enough-money=[scarlet]Недостатньо грошей, щоб купити цю станцію! Ця станція коштує {0}.
+stations.buttons.suppressor-tower=[accent]Подавлююча вежа
+stations.buttons.close=[gray]Закрити
+stations.buttons.lab=[purple]Лабораторія
+stations.buttons.miner=[gold]Майнер
+stations.buttons.repair-point=[lime]Ремонтна Точка
+stations.text=\ 
+stations.title=\ 
+units.crux.menu.atrax=[pink]Атракс
+units.crux.menu.cleroi=[white]Клерой
+units.crux.menu.crawler=[crimson]Плазун
+units.crux.menu.dagger=[accent]Кинджал
+units.crux.menu.elude=[purple]Ухиляч
+units.crux.menu.fortress=[accent]Фортеця
+units.crux.menu.locus=[gold]Локус
+units.crux.menu.mace=[scarlet]Булава
+units.crux.menu.merui=[lightgray]Меруй
+units.crux.menu.nova=[lime]Нова
+units.crux.menu.obviate=[purple]Уникач
+units.crux.menu.precept=[lightgray]Повчальник
+units.crux.menu.antumbra=[lightgray]Тіньовик
+units.crux.menu.vanquish=[crimson]Переможець
+units.crux.menu.stell=[gray]Стел
+units.crux.menu.corvus=[lime]Ворон
+units.crux.menu.title=[scarlet]Меню вибору класа
+welcome=[cyan]Добро пожаловать!
+welcome.text=Синтетична форма життя під назвою суперечки і неконтрольована маса клітин, що швидко діляться - неоплазма об'єдналися і породили зомбі-вірус, який вбив все живе на Серпуло. Ви – останній оплот життя на цій планеті, знищіть усі хвилі та переможете Вірус.\
+Вчені з IntergalacticUnion готові посилати вам нових, потужніших машин для крамсання безбожності за голови мерців. Справа в тому, що вони розробляють вакцину від цього вірусу, щоб надалі він не був загрозою біологічному життю.\
+Хороше виживання!\
+Щоб купити юніта підійдіть до лаболаторії і натисніть на неї\
+/s - будівництво станцій\
+/c - меню вибору класу\
+/b - вибір блоку для будівництва\
+/build - будівництво або відключення будівництва
+units.crux.menu.flare=[lightgray]Спалах
+units.crux.menu.horizon=[gray]Горизонт
+stations.buttons.booster=[orange]Прискорювач
+stations.buttons.workbench=[blue]Верстак
+boss.title=[scarlet]Меню вибору босса
+boss.bosses.mace=[#023919]Гниючий Труп
+boss.spawn=[accent]{0}[] [scarlet]з'явився як {1}[scarlet].
+stations.buttons.recycler=[#023919]Переробник
+stations.workbench.buy-armor=[lime]Придбати {0} Бронi за 1 поiнт
+stations.workbench.unit-armor=[blue]Щит Юнiта: {0}
+
+
