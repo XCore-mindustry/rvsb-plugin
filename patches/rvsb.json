@@ -950,6 +950,7 @@ unit.mega.weapons.2.bullet.damage: 18
 unit.mega.weapons.3.bullet.damage: 18
 
 //blocks
+block.core-shard.health: 1000000
 block.launch-pad.itemCapacity: 50000
 block.combustion-generator.health: 320
 block.mender.health: 120

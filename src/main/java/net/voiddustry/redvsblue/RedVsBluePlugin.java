@@ -41,7 +41,7 @@ import net.voiddustry.redvsblue.game.MapExpander;
 import net.voiddustry.redvsblue.game.crux.*;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
-import net.voiddustry.redvsblue.game.building.UpdateConstructBlocks;
+import net.voiddustry.redvsblue.game.building.BuildSystem;
 import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
 import net.voiddustry.redvsblue.game.stations.*;
 import net.voiddustry.redvsblue.game.units.SpecialUnits;
@@ -146,6 +146,7 @@ public class RedVsBluePlugin extends Plugin {
 
         LInstructions.register();
         MapExpander.init();
+        BuildSystem.init();
         Utils.initRules();
         Utils.initTimers();
         Utils.loadContent();
@@ -406,8 +407,6 @@ public class RedVsBluePlugin extends Plugin {
             Vars.state.rules.unitCap = 32;
 
             Timer.schedule(() -> {
-                UpdateConstructBlocks updateConstructBlocks = new UpdateConstructBlocks();
-                Timer.schedule(updateConstructBlocks, 10f, 0.2f);
                 Vars.state.rules.bannedBlocks.clear();
                 initRules();
             }, 0.5f);

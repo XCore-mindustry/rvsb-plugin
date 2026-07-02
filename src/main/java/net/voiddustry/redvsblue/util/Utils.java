@@ -58,7 +58,13 @@ public class Utils {
             }
         }
         
-        state.rules.buildSpeedMultiplier = 0;
+        //gradual construction: units are patched to 0.01 buildSpeed in rvsb.json, so
+        //100x gives a net ~1x vanilla build speed. BuildSystem drives server-side
+        //building for blue (no blue cores exist); other teams get 0 so any leftover
+        //map cores can never revive the vanilla builder loop for them.
+        state.rules.buildSpeedMultiplier = 100f;
+        state.rules.teams.get(Team.crux).buildSpeedMultiplier = 0;
+        state.rules.teams.get(Team.malis).buildSpeedMultiplier = 0;
 
         state.rules.env = Vars.defaultEnv;
         state.rules.planet = Planets.sun;
