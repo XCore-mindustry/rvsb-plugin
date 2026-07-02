@@ -37,6 +37,7 @@ import net.voiddustry.redvsblue.ai.StalkerGroundAI;
 import net.voiddustry.redvsblue.ai.StalkerSuicideAI;
 import net.voiddustry.redvsblue.evolution.Evolution;
 import net.voiddustry.redvsblue.evolution.Evolutions;
+import net.voiddustry.redvsblue.game.MapExpander;
 import net.voiddustry.redvsblue.game.crux.*;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
@@ -144,6 +145,7 @@ public class RedVsBluePlugin extends Plugin {
         Log.info("&gRedVsBlue Plugin &rStarted!");
 
         LInstructions.register();
+        MapExpander.init();
         Utils.initRules();
         Utils.initTimers();
         Utils.loadContent();
