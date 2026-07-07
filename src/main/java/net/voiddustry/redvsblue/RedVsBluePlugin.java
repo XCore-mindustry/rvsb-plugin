@@ -26,6 +26,7 @@ import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.mod.Plugin;
+import mindustry.mod.data.PatchAsset;
 import mindustry.type.UnitType;
 import mindustry.ui.Menus;
 import mindustry.world.Tile;
@@ -294,7 +295,7 @@ public class RedVsBluePlugin extends Plugin {
         });
 
         //random boss
-        Events.on(EventType.ContentPatchLoadEvent.class, event -> {
+        Events.on(EventType.DataPatchLoadEvent.class, event -> {
             Seq<Fi> pool = poolDir.findAll(f -> true);
 
             if(pool.isEmpty()){
@@ -306,14 +307,17 @@ public class RedVsBluePlugin extends Plugin {
 
             try{
                 String patchText = Jval.read(chosen.readString()).toString(Jformat.plain);
+                PatchAsset patchAsset = new PatchAsset(patchText);
+                patchAsset.setPath(chosen.name());
 
-                event.patches.addUnique(patchText);
+                event.assets.add(patchAsset);
 
                 Log.info("Selected random patch: @", chosen.name());
             }catch(Throwable t){
                 Log.info("Invalid random patch file: @", chosen.name(), t);
             }
         });
+
 
 
 
