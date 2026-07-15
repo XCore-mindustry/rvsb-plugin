@@ -39,6 +39,7 @@ public class Evolutions {
         "aegires", Evolution.AEGIRES,
         "avert", Evolution.AVERT,
         "cyerce", Evolution.CYERCE,
+        "tecta", Evolution.TECTA,
 
         "scepter", Evolution.SCEPTER,
         "navanax", Evolution.NAVANAX,

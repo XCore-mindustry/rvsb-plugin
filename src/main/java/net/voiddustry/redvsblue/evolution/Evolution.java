@@ -26,7 +26,7 @@ public enum Evolution {
 
     FORTRESS(UnitTypes.fortress, 4, 48*multp, new String[] { "locus" }, 2),
     VELA(UnitTypes.vela, 4, 170*multp, new String[] { "corvus" }, 6),
-    SPIROCT(UnitTypes.spiroct, 4, 95*multp, new String[] { "toxopid" }, 4),
+    SPIROCT(UnitTypes.spiroct, 4, 95*multp, new String[] { "toxopid", "tecta" }, 4),
     MINKE(UnitTypes.minke, 4, 90*multp, new String[] { "avert" }, 3),
     OXYNOE(UnitTypes.oxynoe, 4, 35*multp, new String[] { "mega" }, 3),
 
@@ -38,10 +38,11 @@ public enum Evolution {
     AEGIRES(UnitTypes.aegires, 6, 450*multp, new String[] { "navanax" }, 8),
     AVERT(UnitTypes.avert, 6, 27*multp, new String[] { "bryde" , "obviate" }, 4),
     CYERCE(UnitTypes.cyerce, 6, 150*multp, new String[] { "quad" }, 5),
+    TECTA(UnitTypes.tecta, 4, 265*multp, new String[] { "collaris" }, 6),
 
     SCEPTER(UnitTypes.scepter, 7, 105*multp, new String[] { "vanquish" }, 6),
     NAVANAX(UnitTypes.navanax, 7, 450*multp, new String[] { "flare", "merui", "dagger" }, 9),
-    TOXOPID(UnitTypes.toxopid, 7, 415*multp, new String[] { "collaris" }, 7),
+    TOXOPID(UnitTypes.toxopid, 7, 415*multp, new String[] { "nova", "flare", "dagger", "mono" }, 7),
     BRYDE(UnitTypes.bryde, 7, 180*multp, new String[] { "antumbra" }, 5),
     OBVIATE(UnitTypes.obviate, 7, 90*multp, new String[] { "quell" }, 5),
     QUAD(UnitTypes.quad, 7, 450*multp, new String[] { "oct" }, 7),

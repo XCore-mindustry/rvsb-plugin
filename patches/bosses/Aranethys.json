@@ -28,6 +28,8 @@ aiController: GroundAI
 
 type: legs
 
+allowLegStep: true
+
 legCount: 8
 
 legLength: 42
@@ -92,7 +94,7 @@ createScorch: true
 
 
 
-speed: 0.43
+speed: 0.63
 
 rotateSpeed: 1
 

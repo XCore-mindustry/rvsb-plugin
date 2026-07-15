@@ -81,6 +81,7 @@ aiController: GroundAI
 
 groundLayer: 75.5
 type: legs
+allowLegStep: true
 legCount: 8
 legLength: 55
 legExtension: -12
@@ -114,7 +115,7 @@ createScorch: true
 uiIcon: "unit-toxopid-ui"
 cellRegion: "toxopid-cell"
 
-speed: 0.3f
+speed: 0.6f
 range: 340
 maxRange: 420
 rotateSpeed: 1.1
