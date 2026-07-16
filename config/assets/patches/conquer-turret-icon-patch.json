@@ -1,0 +1,4 @@
+block.dp-conquer-turret: {
+	uiIcon: conquer-weapon
+	fullIcon: conquer-weapon
+}
