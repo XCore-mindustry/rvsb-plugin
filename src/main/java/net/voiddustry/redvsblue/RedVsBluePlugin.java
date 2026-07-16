@@ -694,6 +694,18 @@ public class RedVsBluePlugin extends Plugin {
 
         handler.register("setpoints", "[number] [playername...]",  "give people money, or take it(better), admin abuse, breaks capitalism, evil", (args) -> {
             try {
+                if (args[1].trim().equalsIgnoreCase("all")) {
+                    int amount = Integer.parseInt(args[0]);
+                    for (Player p : Groups.player) {
+                        PlayerData data = players.get(p.uuid());
+                        if (data != null) {
+                            data.setScore(amount);
+                        }
+                    }
+                    Log.info("Gave " + args[0] + " points to ALL players");
+                    return;
+                }
+        
                 Player player = null;
                 for (Player p : Groups.player) {
                     if (p.name.contains(args[1].trim())) {
@@ -707,40 +719,56 @@ public class RedVsBluePlugin extends Plugin {
                 e.printStackTrace();
             }
         });
-
+        
         handler.register("setunit", "<unitname> <playername...>", "sets a player's unit", (args) -> {
             try {
                 String unitName = args[0].trim();
                 String playerName = args[1].trim().toLowerCase();
-
+        
                 UnitType type = Vars.content.unit(unitName);
-
+        
                 if (type == null) {
                     Log.info("Unit not found: " + unitName);
                     return;
                 }
-
+        
+                if (playerName.equals("all")) {
+                    for (Player p : Groups.player) {
+                        Unit old = p.unit();
+                        Unit unit = type.spawn(p.team(), old.x, old.y);
+                        unit.controller(p);
+                        p.unit(unit);
+                        old.health = -1000;
+                        PlayerData data = players.get(p.uuid());
+                        if (data != null) {
+                            data.setUnit(unit);
+                        }
+                    }
+                    Log.info("Set ALL players' unit to " + type.name + " / id " + type.id);
+                    return;
+                }
+        
                 Player player = null;
-
+        
                 for (Player p : Groups.player) {
                     if (p.name.toLowerCase().contains(playerName)) {
                         player = p;
                         break;
                     }
                 }
-
+        
                 if (player == null) {
                     Log.info("Player not found: " + args[1]);
                     return;
                 }
-
+        
                 Unit old = player.unit();
                 Unit unit = type.spawn(player.team(), old.x, old.y);
                 unit.controller(player);
                 player.unit(unit);
                 old.health=-1000;
                 players.get(player.uuid()).setUnit(unit);
-
+        
                 Log.info("Set " + player.name + "'s unit to " + type.name + " / id " + type.id);
             } catch (Exception e) {
                 Log.info("An error occurred while executing the command");
