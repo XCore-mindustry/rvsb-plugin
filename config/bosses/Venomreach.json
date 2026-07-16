@@ -121,7 +121,7 @@ maxRange: 420
 rotateSpeed: 1.1
 aimDst: 100
 hitSize: 55f
-health: 72000
+health: 42000
 armor: 19
 lightRadius: 170
 drownTimeMultiplier: 4
