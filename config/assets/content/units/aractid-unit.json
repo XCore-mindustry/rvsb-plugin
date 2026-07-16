@@ -2,7 +2,7 @@ type: legs
 name: Aractid
 localizedName: Aractid
 description: Fires sapping projectiles at enemies. Can step over most terrain.
-speed: 0.4
+speed: 0.6
 health: 3200
 drag: 0.1
 hitSize: 21
