@@ -43,6 +43,7 @@ weapons: [
 		rotate: true
 		rotateSpeed: 3
 		name: spiroct-weapon
+		aimDst: 1
 		x: -8
 		y: 2
 		shake: 4f
