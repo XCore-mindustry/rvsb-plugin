@@ -2,6 +2,7 @@ package net.voiddustry.redvsblue.evolution;
 
 import mindustry.content.UnitTypes;
 import mindustry.type.UnitType;
+import mindustry.Vars;
 
 import static net.voiddustry.redvsblue.util.UnitsConfig.multp;
 
@@ -26,7 +27,7 @@ public enum Evolution {
 
     FORTRESS(UnitTypes.fortress, 4, 48*multp, new String[] { "locus" }, 2),
     VELA(UnitTypes.vela, 4, 170*multp, new String[] { "corvus" }, 6),
-    SPIROCT(UnitTypes.spiroct, 4, 95*multp, new String[] { "toxopid", "tecta" }, 4),
+    SPIROCT(UnitTypes.spiroct, 4, 95*multp, new String[] { "dp-aractid-unit", "tecta" }, 4),
     MINKE(UnitTypes.minke, 4, 90*multp, new String[] { "avert" }, 3),
     OXYNOE(UnitTypes.oxynoe, 4, 35*multp, new String[] { "mega" }, 3),
 
@@ -38,7 +39,8 @@ public enum Evolution {
     AEGIRES(UnitTypes.aegires, 6, 450*multp, new String[] { "navanax" }, 8),
     AVERT(UnitTypes.avert, 6, 27*multp, new String[] { "bryde" , "obviate" }, 4),
     CYERCE(UnitTypes.cyerce, 6, 150*multp, new String[] { "quad" }, 5),
-    TECTA(UnitTypes.tecta, 4, 265*multp, new String[] { "collaris" }, 6),
+    TECTA(UnitTypes.tecta, 6, 265*multp, new String[] { "collaris" }, 6),
+    ARACTID(Vars.content.unit("dp-aractid-unit"), 6, 115*multp, new String[] { "toxopid" }, 5),
 
     SCEPTER(UnitTypes.scepter, 7, 105*multp, new String[] { "vanquish" }, 6),
     NAVANAX(UnitTypes.navanax, 7, 450*multp, new String[] { "flare", "merui", "dagger" }, 9),

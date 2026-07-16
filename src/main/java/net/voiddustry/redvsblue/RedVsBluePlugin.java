@@ -158,20 +158,22 @@ public class RedVsBluePlugin extends Plugin {
         poolDir.mkdirs();
         
 
-        for (UnitType unit : Vars.content.units()) {
-            if (unit == UnitTypes.crawler) {
-                unit.aiController = StalkerSuicideAI::new;
+        Events.on(EventType.WorldLoadEvent.class, event -> {
+            for (UnitType unit : Vars.content.units()) {
+                if (unit == UnitTypes.crawler) {
+                    unit.aiController = StalkerSuicideAI::new;
+                }
+                if (!unit.flying) {
+                    unit.aiController = StalkerGroundAI::new;
+                }
+                if (unit.flying) {
+                    unit.aiController = AirAI::new;
+                }
+                if (unit.naval) {
+                    unit.flying = true;
+                }
             }
-            if (!unit.flying) {
-                unit.aiController = StalkerGroundAI::new;
-            }
-            if (unit.flying) {
-                unit.aiController = AirAI::new;
-            }
-            if (unit.naval) {
-                unit.flying = true;
-            }
-        }
+        });
 
 
         Events.on(EventType.PlayerJoin.class, event -> {
@@ -558,7 +560,11 @@ public class RedVsBluePlugin extends Plugin {
                     } else {
                         textColor = "[yellow]";
                     }
-                    buttons[i][0] = Bundle.format("menu.evolution.evolve", locale, evolution.evolutions[i],(textColor+cost+" - "+(multiplier*100)+"%"));
+                    String targetName = evolution.evolutions[i];
+                    UnitType targetType = Vars.content.unit(targetName);
+                    String displayName = targetType != null ? targetType.localizedName : targetName;
+
+                    buttons[i][0] = Bundle.format("menu.evolution.evolve", locale, displayName, (textColor + cost + " - " + (multiplier * 100) + "%"));
                 }
 
                 Call.menu(player.con, Laboratory.evolutionMenu, Bundle.get("menu.evolution.title", locale), Bundle.format("menu.evolution.message", locale, players.get(player.uuid()).getEvolutionStage(), Bundle.get("evolution.branch.initial", locale)), buttons);
@@ -698,6 +704,46 @@ public class RedVsBluePlugin extends Plugin {
                 Log.info("Gave " + args[0] + " points to player " + player.name);
             } catch (Exception e) {
                 Log.info("An error occured while executing the command");
+                e.printStackTrace();
+            }
+        });
+
+        handler.register("setunit", "<unitname> <playername...>", "sets a player's unit", (args) -> {
+            try {
+                String unitName = args[0].trim();
+                String playerName = args[1].trim().toLowerCase();
+
+                UnitType type = Vars.content.unit(unitName);
+
+                if (type == null) {
+                    Log.info("Unit not found: " + unitName);
+                    return;
+                }
+
+                Player player = null;
+
+                for (Player p : Groups.player) {
+                    if (p.name.toLowerCase().contains(playerName)) {
+                        player = p;
+                        break;
+                    }
+                }
+
+                if (player == null) {
+                    Log.info("Player not found: " + args[1]);
+                    return;
+                }
+
+                Unit old = player.unit();
+                Unit unit = type.spawn(player.team(), old.x, old.y);
+                unit.controller(player);
+                player.unit(unit);
+                old.health=-1000;
+                players.get(player.uuid()).setUnit(unit);
+
+                Log.info("Set " + player.name + "'s unit to " + type.name + " / id " + type.id);
+            } catch (Exception e) {
+                Log.info("An error occurred while executing the command");
                 e.printStackTrace();
             }
         });

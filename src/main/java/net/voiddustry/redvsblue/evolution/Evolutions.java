@@ -40,6 +40,7 @@ public class Evolutions {
         "avert", Evolution.AVERT,
         "cyerce", Evolution.CYERCE,
         "tecta", Evolution.TECTA,
+        "dp-aractid-unit", Evolution.ARACTID,
 
         "scepter", Evolution.SCEPTER,
         "navanax", Evolution.NAVANAX,

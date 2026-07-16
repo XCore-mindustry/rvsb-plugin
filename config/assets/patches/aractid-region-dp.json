@@ -1,0 +1,10 @@
+unit.dp-aractid-unit: {
+	region: spiroct
+	cellRegion: anthicus-cell
+	
+	legRegion: arkyid-leg
+	legBaseRegion: arkyid-leg-base
+	footRegion: spiroct-foot
+	uiIcon: unit-spiroct-ui
+	fullIcon: unit-spiroct-full
+}

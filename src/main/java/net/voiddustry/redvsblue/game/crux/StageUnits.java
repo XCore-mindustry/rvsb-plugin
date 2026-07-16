@@ -3,6 +3,7 @@ package net.voiddustry.redvsblue.game.crux;
 import arc.struct.ObjectMap;
 import mindustry.content.UnitTypes;
 import mindustry.type.UnitType;
+import mindustry.Vars;
 
 public class StageUnits {
     //String - Key
@@ -68,7 +69,7 @@ public class StageUnits {
             3, UnitTypes.locus,
             4, UnitTypes.quasar,
             5, UnitTypes.avert,
-            6, UnitTypes.spiroct,
+            6, Vars.content.unit("dp-aractid-unit"),
             7, UnitTypes.precept,
             8, UnitTypes.tecta,
             9, UnitTypes.vanquish,

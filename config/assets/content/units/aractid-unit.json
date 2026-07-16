@@ -1,0 +1,161 @@
+type: legs
+name: Aractid
+localizedName: Aractid
+description: Fires sapping projectiles at enemies. Can step over most terrain.
+speed: 0.4
+health: 3200
+drag: 0.1
+hitSize: 21
+armor: 4
+rotateSpeed: 3.5
+itemCapacity: 80
+buildSpeed: 0.01
+
+legCount: 6
+legMoveSpace: 0.6f
+legPairOffset: 3
+legLength: 20
+legExtension: -10
+legBaseOffset: 6
+stepShake: 0.6
+legLengthScl: 0.96
+rippleScale: 2
+legSpeed: 0.3f
+stepSound: walkerStep
+stepSoundVolume: 0.5
+stepSoundPitch: 1.3
+legSplashDamage: 20
+legSplashRange: 20
+allowLegStep: true
+hovering: true
+shadowElevation: 0.4
+groundLayer: 75
+
+weapons: [
+	//artillery
+	{
+		layerOffset: -0.03
+		top: true
+		recoil: 7
+		recoils: 1
+		recoilTime: 30
+		mirror: true
+		rotate: true
+		rotateSpeed: 3
+		name: spiroct-weapon
+		x: -8
+		y: 2
+		shake: 4f
+		shootSound: shootArtillery
+		reload: 60f
+		bullet: {
+		  maxRange: 120
+		  type: ArtilleryBulletType
+		  speed: 2
+		  damage: 12
+
+		  hitEffect: sapExplosion
+		  despawnSound: shootSap
+		  knockback: 0.8
+		  lifetime: 45
+
+		  width: 12
+		  height: 12
+
+		  collidesTiles: true
+
+		  splashDamageRadius: 35
+		  splashDamage: 70
+
+		  backColor: 6d56bfff
+		  frontColor: bf92f9ff
+
+		  hitShake: 4f
+		  
+		  fragBullets: 3
+		  fragBullet: {
+		  	type: sapBulletType
+		  	sapStrength: 0.6
+		  	length: 45
+		  	damage: 60
+		  	hitColor: bf92f9
+		  	color: bf92f9
+		  	despawnEffect: none
+		  	width: 0.35
+		  	lifetime: 30
+		  	knockback: -10
+		  }
+
+		  smokeEffect: shootBigSmoke2
+
+		  status: sapped
+		  statusDuration: 600
+		}
+		parts: [ {
+		layerOffset: 0.06
+			name: spiroct-weapon
+			outline: false
+			x: 0
+			y: 0
+		}]
+	}
+	// unit body
+	{
+	    name: spiroct-weapon
+	    layerOffset: -0.01
+	    display: false
+
+	    top: true
+	    x: 0
+	    y: 0
+	    mirror: false
+	    controllable: false
+
+	    parts: [	        {
+	            name: large-purple-mount
+	            x: 6
+	            y: 0
+	            layerOffset: 0.0002
+	            outline: false
+	        }
+	        {
+	            name: large-purple-mount
+	            xScl: -1
+	            x: -6
+	            y: 0
+	            layerOffset: 0.0002
+	            outline: false
+	        }
+	        {
+	            name: spiroct-weapon 
+	            x: 3
+	            y: 0
+	            layerOffset: 0.0002
+	            outline: false
+	        }
+	        {
+	            name: spiroct-weapon
+	            xScl: -1
+	            x: 3
+	            y: 0
+	            layerOffset: 0.0002
+	            outline: false
+	        }
+	        {
+	            name: arkyid
+	            x: 0
+	            y: 0
+	            xScl: 0.6
+	            yScl: 0.6
+	            layerOffset: 0.0002
+	            outline: false
+	        }
+	        {
+	        	name: atrax
+	        	yScl: -1
+	        	y: -6.5
+	        	outline: false
+	        }
+	    ]
+	}
+]
