@@ -39,8 +39,8 @@ public enum Evolution {
     AEGIRES(UnitTypes.aegires, 6, 450*multp, new String[] { "navanax" }, 8),
     AVERT(UnitTypes.avert, 6, 27*multp, new String[] { "bryde" , "obviate" }, 4),
     CYERCE(UnitTypes.cyerce, 6, 150*multp, new String[] { "quad" }, 5),
-    TECTA(UnitTypes.tecta, 6, 680*multp, new String[] { "collaris" }, 8),
-    ARACTID(Vars.content.unit("dp-aractid-unit"), 6, 115*multp, new String[] { "toxopid" }, 5),
+    TECTA(UnitTypes.tecta, 6, 520*multp, new String[] { "collaris" }, 8),
+    ARACTID(Vars.content.unit("dp-aractid-unit"), 6, 185*multp, new String[] { "toxopid" }, 5),
 
     SCEPTER(UnitTypes.scepter, 7, 105*multp, new String[] { "vanquish" }, 6),
     NAVANAX(UnitTypes.navanax, 7, 450*multp, new String[] { "flare", "merui", "dagger" }, 9),
