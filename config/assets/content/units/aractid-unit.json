@@ -53,6 +53,7 @@ weapons: [
 		  type: ArtilleryBulletType
 		  speed: 2
 		  damage: 12
+		  hittable: false
 
 		  hitEffect: sapExplosion
 		  despawnSound: shootSap
