@@ -1372,7 +1372,6 @@
                   "maxRange": 220.0,
                   "cellRegion": "quad-cell",
                   "type": "flying",
-                  "controller": "FlyingAI",
                   "armor": 10.0,
                   "localizedName": "Midnight",
                   "description": "Pierces enemies with harpoon, and lasers, armed with rocket lauchers",

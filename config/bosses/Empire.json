@@ -42,8 +42,6 @@ layerOffset: -0.003
 
 flying: false
 
-controller: groundAI
-
 type: mech
 legLength: 35
 legRegion: "reign-leg"
@@ -75,8 +73,6 @@ stepShake: 1.2f
 drownTimeMultiplier: 4
 mechFrontSway: 1f
 mechSideSway: 0.6f
-aiController: GroundAI
-controller: GroundAI
 
 stepSound: mechStepHeavy
 stepSoundPitch: 0.8

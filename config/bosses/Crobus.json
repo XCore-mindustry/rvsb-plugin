@@ -10,8 +10,6 @@
     "uiIcon": "unit-corvus-ui",
     "parts": [],
     "type": "legs",
-    "controller": "GroundAI",
-    "aiController": "GroundAI",
     "flying": false,
     "hovering": true,
     "allowLegStep": true,

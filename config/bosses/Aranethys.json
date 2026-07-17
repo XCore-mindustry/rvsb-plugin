@@ -22,10 +22,6 @@ flying: false
 
 groundLayer: 75.5
 
-controller: groundAI
-
-aiController: GroundAI
-
 type: legs
 
 allowLegStep: true
