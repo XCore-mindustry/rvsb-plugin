@@ -5,6 +5,8 @@ import mindustry.content.UnitTypes;
 import mindustry.type.UnitType;
 import mindustry.Vars;
 
+import net.voiddustry.redvsblue.RedVsBluePlugin;
+
 public class StageUnits {
     //String - Key
     public final static ObjectMap<UnitType, String> firstStage = ObjectMap.of(
@@ -74,7 +76,7 @@ public class StageUnits {
             8, UnitTypes.tecta,
             9, UnitTypes.vanquish,
             10, UnitTypes.eclipse,
-            11, UnitTypes.evoke,
+            11, RedVsBluePlugin.stage11Boss,
             12, UnitTypes.navanax
     );
 }

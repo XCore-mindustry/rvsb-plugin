@@ -84,6 +84,8 @@ public class RedVsBluePlugin extends Plugin {
 
     public static boolean stage11 = false;
 
+    public static UnitType stage11Boss;
+
     public int restartCounter = 0;
     public int gamesUntilRestart = 2000000;
 
@@ -139,6 +141,20 @@ public class RedVsBluePlugin extends Plugin {
         }
     };
 
+    //random boss
+    static void pickStage11Boss() {
+        Seq<UnitType> pool = Vars.content.units().select(u -> u.name.endsWith("-crux-t6"));
+
+        if (pool.isEmpty()) {
+            Log.info("No boss units found.");
+            stage11Boss = null;
+            return;
+        }
+
+        stage11Boss = pool.random();
+        Log.info("Selected stage 11 boss: @", stage11Boss.name);
+    }
+
     @Override
     public void init() {
 
@@ -153,9 +169,6 @@ public class RedVsBluePlugin extends Plugin {
         Boss.forEachBoss();
         Premium.init();
         CruxUnit.addEvent();
-
-        Fi poolDir = Vars.dataDirectory.child("bosses");
-        poolDir.mkdirs();
         
 
         Events.on(EventType.WorldLoadEvent.class, event -> {
@@ -296,29 +309,6 @@ public class RedVsBluePlugin extends Plugin {
         Events.on(EventType.BlockDestroyEvent.class, event -> {
         });
 
-        //random boss
-        Events.on(EventType.DataPatchLoadEvent.class, event -> {
-            Seq<Fi> pool = poolDir.findAll(f -> true);
-
-            if(pool.isEmpty()){
-                Log.info("No boss patch files found.");
-                return;
-            }
-
-            Fi chosen = pool.random();
-
-            try{
-                String patchText = Jval.read(chosen.readString()).toString(Jformat.plain);
-                PatchAsset patchAsset = new PatchAsset(patchText);
-                patchAsset.setPath(chosen.name());
-
-                event.assets.add(patchAsset);
-
-                Log.info("Selected random patch: @", chosen.name());
-            }catch(Throwable t){
-                Log.info("Invalid random patch file: @", chosen.name(), t);
-            }
-        });
 
 
 
@@ -378,6 +368,8 @@ public class RedVsBluePlugin extends Plugin {
             Boss.bosses.clear();
 
             initRules();
+
+            pickStage11Boss();
 
             StartingMenu.canOpenMenu = true;
 
