@@ -44,7 +44,7 @@ ext{
     // - v<number>: depend on a specific commit
     mindustryVersion = 'v' + plugin.minGameVersion
 
-    lombokVersion = '1.18.26'
+    lombokVersion = '1.18.42'
 
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
