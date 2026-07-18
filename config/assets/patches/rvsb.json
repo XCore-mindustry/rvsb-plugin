@@ -602,6 +602,8 @@ unit.disrupt-missile.health: 99999
 // ]
 
 unit.quell.targetAir: true
+unit.quell.weapons.0.bullet.collidesAir: true
+unit.quell.weapons.1.bullet.collidesAir: true
 unit.quell-missile.targetAir: true
 unit.quell-missile.weapons.0: {
 reload: 9999
