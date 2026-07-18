@@ -1,0 +1,8 @@
+// empire boss, author: alphy
+unit.dp-empire-crux-t6: {
+	localizedName: Empire
+	uiIcon: unit-reign-ui
+	cellRegion: scepter-cell
+	legRegion: reign-leg
+	region: reign
+}

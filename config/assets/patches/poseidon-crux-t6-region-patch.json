@@ -1,0 +1,10 @@
+// poseidon made by xexebe
+unit.dp-poseidon-crux-t6: {
+	localizedName: Poseidon
+	uiIcon: unit-omura-ui
+	shadowRegion: omura
+	fullIcon: unit-omura-full
+	cellRegion: omura-cell
+	previewRegion: unit-omura-full
+	region: omura
+}

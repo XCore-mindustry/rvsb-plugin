@@ -1,0 +1,10 @@
+// aranethys boss, author: alphy
+unit.dp-aranethys-crux-t6: {
+	localizedName: Aranethys
+	footRegion: arkyid-foot
+	uiIcon: unit-toxopid-ui
+	cellRegion: quad-cell
+	legRegion: arkyid-leg
+	region: toxopid
+	legBaseRegion: toxopid-leg-base
+}

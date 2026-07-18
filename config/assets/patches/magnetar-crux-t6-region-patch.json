@@ -1,0 +1,14 @@
+// magnetar made by alphy
+unit.dp-magnetar-crux-t6: {
+	localizedName: Magnetar
+	region: corvus
+	shadowRegion: corvus
+	cellRegion: quad
+	uiIcon: unit-corvus-ui
+	legRegion: corvus-leg
+	jointRegion: corvus-joint
+	footRegion: corvus-foot
+	baseRegion: corvus-base
+	legBaseRegion: corvus-leg-base
+	baseJointRegion: corvus-joint-base
+}
