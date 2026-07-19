@@ -2,250 +2,415 @@
 type: flying
 name: Poseidon
 description: "T6 Flying Dreadnought. Heavy support ship with automated flak defenses."
+
 engineSize: 0
 hitSize: 62
 flying: true
+
 health: 26000
 armor: 14
+
 speed: 0.32
 rotateSpeed: 0.6
 
 parts: [
   {
+    type: "RegionPart"
     name: "bryde"
+
+    outline: false
+
+    x: 0
     y: -14
+
     xScl: 1.0
     yScl: 1.1
-    layerOffset: -0.001
+
+    layerOffset: -0.010
+
     progress: "recoil"
     weaponIndex: 0
+
     moveY: -6.0
   }
+
   {
+    type: "RegionPart"
     name: "sei"
+
+    outline: false
+
     x: 13
     y: -4
+
     xScl: 0.65
     yScl: 0.95
-    layerOffset: -0.002
+
+    layerOffset: -0.012
+
     progress: "warmup"
     weaponIndex: 0
+
     moveX: 3.5
     moveRot: -10.0
   }
+
   {
+    type: "RegionPart"
     name: "sei"
+
+    outline: false
+
     x: -13
     y: -4
+
     xScl: -0.65
     yScl: 0.95
-    layerOffset: -0.002
+
+    layerOffset: -0.012
+
     progress: "warmup"
     weaponIndex: 0
+
     moveX: -3.5
     moveRot: 10.0
   }
+
   {
+    type: "RegionPart"
     name: "bryde"
+
+    outline: false
+
     x: 0
     y: 12
+
     xScl: 1.05
     yScl: 1.15
-    layerOffset: -0.001
+
+    layerOffset: -0.009
   }
+
   {
+    type: "RegionPart"
     name: "sei"
+
+    outline: false
+
     x: 0
     y: 24
+
     xScl: 0.9
     yScl: 1.0
-    layerOffset: -0.0015
+
+    layerOffset: -0.011
   }
+
   {
+    type: "RegionPart"
     name: "sei"
+
+    outline: false
+
     x: 0
     y: -25
+
     xScl: 0.9
     yScl: 1.0
-    layerOffset: -0.0015
+
+    layerOffset: -0.011
   }
 ]
 
 weapons: [
+  // Main cannon.
+  // The dummy name is intentionally not used as the visible sprite.
   {
-    name: "omura-cannon"
+    name: "poseidon-main-cannon"
+    showStatSprite: false
+
     x: 0
     y: 4
+
     mirror: false
     shootY: 42
+
     reload: 280
     recoil: 3
     recoilTime: 30
+
     shake: 8.0
+
     top: true
-    layerOffset: 0.002
+    layerOffset: 0.020
+
     shootSound: "shootReign"
     chargeSound: "loopMalign"
+
     shoot: {
       firstShotDelay: 90
     }
+
     parts: [
       {
         type: "RegionPart"
         name: "reign-weapon"
+
+        outline: false
+
         xScl: 1.2
         yScl: 0.95
+
+        progress: "recoil"
+        moveY: -3
+
         layerOffset: -0.0001
       }
+
       {
         type: "RegionPart"
         name: "scepter-weapon"
+
+        outline: false
+
         y: 14
+
         xScl: 0.8
         yScl: 1.1
+
+        progress: "recoil"
+        moveY: -2
+
         layerOffset: 0.0001
       }
+
       {
         type: "RegionPart"
-        name: "minke-weapon"
+        name: "large-weapon"
+
+        outline: false
+
         y: -8
-        xScl: 0.75
-        yScl: 0.8
+
+        xScl: 1.15
+        yScl: 1.0
+
+        progress: "recoil"
+        moveY: -1.5
+
         layerOffset: 0.0002
       }
     ]
+
     bullet: {
       type: "BasicBulletType"
+
       damage: 1400
       speed: 40
       lifetime: 15
+
       width: 8
       height: 220
+
       backColor: "e09d3f"
       frontColor: "ffffff"
+
       trailLength: 35
       trailWidth: 3
       trailColor: "ffd37f"
+
       hitEffect: "massiveExplosion"
+
       pierce: true
       pierceCap: 8
       pierceBuilding: true
+
       buildingDamageMultiplier: 30.0
       layer: 130.0
+
       chargeEffect: "scatheLight"
+
       lightning: 12
       lightningLength: 22
       lightningDamage: 90
       lightningColor: "ffd37f"
+
       fragBullets: 15
       fragVelocityMin: 0.8
       fragVelocityMax: 1.5
       fragRandomSpread: 25
       fragOnDespawn: true
+
       fragBullet: {
         type: "BasicBulletType"
+
         damage: 50
         speed: 12
         lifetime: 15
+
         sprite: "bullet"
+
         width: 6
         height: 22
+
         backColor: "e09d3f"
         frontColor: "ffd37f"
+
         hitEffect: "blastExplosion"
         layer: 130.0
       }
     }
   }
+
+  // Right artillery.
   {
-    name: "large-artillery"
+    name: "poseidon-artillery-right"
+    showStatSprite: false
+
     x: 15
     y: -2
+
     mirror: false
+
     rotate: true
     rotateSpeed: 4
+
     reload: 160
     recoil: 0
     inaccuracy: 6
+
     top: true
-    layerOffset: 0.002
+    layerOffset: 0.018
+
     shootSound: "shootArtillery"
+
+    parts: [
+      {
+        type: "RegionPart"
+        name: "artillery"
+
+        outline: false
+
+        xScl: 1.45
+        yScl: 1.45
+
+        progress: "recoil"
+        moveY: -3
+      }
+    ]
+
     bullet: {
       type: "ArtilleryBulletType"
+
       damage: 380
       speed: 5
       lifetime: 50
+
       width: 14
       height: 14
+
       backColor: "e09d3f"
       frontColor: "ffd37f"
+
       trailLength: 12
       trailWidth: 4
       trailColor: "e09d3f"
+
       hitEffect: "blastExplosion"
+
       collidesAir: true
       collidesGround: true
+
       layer: 130.0
+
       fragBullets: 1
+
       fragBullet: {
         type: "BasicBulletType"
+
         damage: 0
         speed: 0
         lifetime: 120
+
         width: 0
         height: 0
+
         trailInterval: 30
         layer: 130.0
+
         despawnSound: "explosionMissile"
+
         splashDamage: 450
         splashDamageRadius: 45
+
         trailEffect: {
-          type: MultiEffect
+          type: "MultiEffect"
+
           effects: [
             "hitLaserBlast"
+
             {
-              type: WaveEffect
-              colorFrom: ffd37f
-              colorTo: e09d3f
+              type: "WaveEffect"
+
+              colorFrom: "ffd37f"
+              colorTo: "e09d3f"
+
               sizeFrom: 0
               sizeTo: 32
+
               strokeFrom: 3
               strokeTo: 0
+
               lifetime: 20
             }
           ]
         }
+
         despawnEffect: {
-          type: MultiEffect
+          type: "MultiEffect"
+
           effects: [
             "blastExplosion"
+
             {
-              type: WaveEffect
-              colorFrom: ffd37f
-              colorTo: e09d3f
+              type: "WaveEffect"
+
+              colorFrom: "ffd37f"
+              colorTo: "e09d3f"
+
               sizeFrom: 0
               sizeTo: 110
+
               strokeFrom: 6
               strokeTo: 0
+
               lifetime: 35
             }
           ]
         }
+
         fragBullets: 12
+
         fragBullet: {
           type: "BasicBulletType"
+
           damage: 110
           speed: 3.5
           lifetime: 35
+
           width: 10
           height: 12
+
           backColor: "e09d3f"
           frontColor: "ffd37f"
+
           trailLength: 6
           trailWidth: 2
           trailColor: "ffd37f"
+
           hitEffect: "blastExplosion"
           layer: 130.0
+
           lightning: 1
           lightningLength: 10
           lightningDamage: 30
@@ -254,98 +419,160 @@ weapons: [
       }
     }
   }
+
+  // Left artillery.
   {
-    name: "large-artillery"
+    name: "poseidon-artillery-left"
+    showStatSprite: false
+
     x: -15
     y: -2
+
     mirror: false
+
     rotate: true
     rotateSpeed: 4
+
     reload: 160
     recoil: 0
     inaccuracy: 6
+
     top: true
-    layerOffset: 0.002
+    layerOffset: 0.018
+
     shootSound: "shootArtillery"
+
     shoot: {
       firstShotDelay: 80
     }
+
+    parts: [
+      {
+        type: "RegionPart"
+        name: "artillery"
+
+        outline: false
+
+        xScl: -1.45
+        yScl: 1.45
+
+        progress: "recoil"
+        moveY: -3
+      }
+    ]
+
     bullet: {
       type: "ArtilleryBulletType"
+
       damage: 380
       speed: 5
       lifetime: 50
+
       width: 14
       height: 14
+
       backColor: "e09d3f"
       frontColor: "ffd37f"
+
       trailLength: 12
       trailWidth: 4
       trailColor: "e09d3f"
+
       hitEffect: "blastExplosion"
+
       collidesAir: true
       collidesGround: true
+
       layer: 130.0
+
       fragBullets: 1
+
       fragBullet: {
         type: "BasicBulletType"
+
         damage: 0
         speed: 0
         lifetime: 120
+
         width: 0
         height: 0
+
         trailInterval: 30
         layer: 130.0
+
         despawnSound: "explosionMissile"
+
         splashDamage: 450
         splashDamageRadius: 45
+
         trailEffect: {
-          type: MultiEffect
+          type: "MultiEffect"
+
           effects: [
             "hitLaserBlast"
+
             {
-              type: WaveEffect
-              colorFrom: ffd37f
-              colorTo: e09d3f
+              type: "WaveEffect"
+
+              colorFrom: "ffd37f"
+              colorTo: "e09d3f"
+
               sizeFrom: 0
               sizeTo: 32
+
               strokeFrom: 3
               strokeTo: 0
+
               lifetime: 20
             }
           ]
         }
+
         despawnEffect: {
-          type: MultiEffect
+          type: "MultiEffect"
+
           effects: [
             "blastExplosion"
+
             {
-              type: WaveEffect
-              colorFrom: ffd37f
-              colorTo: e09d3f
+              type: "WaveEffect"
+
+              colorFrom: "ffd37f"
+              colorTo: "e09d3f"
+
               sizeFrom: 0
               sizeTo: 110
+
               strokeFrom: 6
               strokeTo: 0
+
               lifetime: 35
             }
           ]
         }
+
         fragBullets: 12
+
         fragBullet: {
           type: "BasicBulletType"
+
           damage: 110
           speed: 3.5
           lifetime: 35
+
           width: 10
           height: 12
+
           backColor: "e09d3f"
           frontColor: "ffd37f"
+
           trailLength: 6
           trailWidth: 2
           trailColor: "ffd37f"
+
           hitEffect: "blastExplosion"
           layer: 130.0
+
           lightning: 1
           lightningLength: 10
           lightningDamage: 30
@@ -354,85 +581,172 @@ weapons: [
       }
     }
   }
+
+  // Right automated flak launcher.
   {
-    name: "sei-launcher"
+    name: "poseidon-flak-right"
+    showStatSprite: false
+
     x: 11
     y: -18
+
     mirror: false
+
     rotate: true
     rotateSpeed: 5
+
+    shootY: 4.5
+
     reload: 60
     recoil: 0
     shootCone: 15
+
     top: true
-    layerOffset: 0.002
+    layerOffset: 0.016
+
     shootSound: "shootPulsar"
+
     controllable: false
     autoTarget: true
+
     shoot: {
-      shots: 3
-      shotDelay: 6
+      type: "ShootAlternate"
+
+      shots: 6
+      shotDelay: 1.5
+
+      spread: 4
+      barrels: 3
     }
+
+    parts: [
+      {
+        type: "RegionPart"
+        name: "spiroct-weapon"
+
+        outline: false
+
+        xScl: 0.9
+        yScl: 0.9
+
+        progress: "recoil"
+        moveY: -1.5
+      }
+    ]
+
     bullet: {
       type: "BasicBulletType"
+
       speed: 12
       lifetime: 20
+
       width: 8
       height: 16
+
       damage: 75
+
       backColor: "e09d3f"
       frontColor: "ffd37f"
+
       trailLength: 10
       trailWidth: 2
       trailColor: "ffd37f"
+
       hitEffect: "hitLaserBlast"
       despawnEffect: "hitLaserBlast"
+
       layer: 130.0
+
       homingPower: 0.2
       homingRange: 150.0
+
       lightning: 2
       lightningLength: 8
       lightningDamage: 25
       lightningColor: "ffd37f"
     }
   }
+
+  // Left automated flak launcher.
   {
-    name: "sei-launcher"
+    name: "poseidon-flak-left"
+    showStatSprite: false
+
     x: -11
     y: -18
+
     mirror: false
+
     rotate: true
     rotateSpeed: 5
+
+    shootY: 4.5
+
     reload: 60
     recoil: 0
     shootCone: 15
+
     top: true
-    layerOffset: 0.002
+    layerOffset: 0.016
+
     shootSound: "shootPulsar"
+
     controllable: false
     autoTarget: true
+
     shoot: {
+      type: "ShootAlternate"
+
       firstShotDelay: 30
-      shots: 3
-      shotDelay: 6
+
+      shots: 6
+      shotDelay: 1.5
+
+      spread: 4
+      barrels: 3
     }
+
+    parts: [
+      {
+        type: "RegionPart"
+        name: "spiroct-weapon"
+
+        outline: false
+
+        xScl: -0.9
+        yScl: 0.9
+
+        progress: "recoil"
+        moveY: -1.5
+      }
+    ]
+
     bullet: {
       type: "BasicBulletType"
+
       speed: 12
       lifetime: 20
+
       width: 8
       height: 16
+
       damage: 75
+
       backColor: "e09d3f"
       frontColor: "ffd37f"
+
       trailLength: 10
       trailWidth: 2
       trailColor: "ffd37f"
+
       hitEffect: "hitLaserBlast"
       despawnEffect: "hitLaserBlast"
+
       layer: 130.0
+
       homingPower: 0.2
       homingRange: 150.0
+
       lightning: 2
       lightningLength: 8
       lightningDamage: 25

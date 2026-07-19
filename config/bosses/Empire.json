@@ -73,6 +73,7 @@ stepShake: 1.2f
 drownTimeMultiplier: 4
 mechFrontSway: 1f
 mechSideSway: 0.6f
+armor: 10
 
 stepSound: mechStepHeavy
 stepSoundPitch: 0.8

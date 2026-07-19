@@ -66,7 +66,10 @@ public class StageUnits {
             UnitTypes.vanquish, "units.crux.menu.vanquish"
     );
 
-    public final static ObjectMap<Integer, UnitType> bosses = ObjectMap.of(
+    public static ObjectMap<Integer, UnitType> bosses;
+
+    public static void updateBosses() {
+        bosses = ObjectMap.of(
             2, UnitTypes.horizon,
             3, UnitTypes.locus,
             4, UnitTypes.quasar,
@@ -78,5 +81,6 @@ public class StageUnits {
             10, UnitTypes.eclipse,
             11, RedVsBluePlugin.stage11Boss,
             12, UnitTypes.navanax
-    );
+        );
+    }
 }

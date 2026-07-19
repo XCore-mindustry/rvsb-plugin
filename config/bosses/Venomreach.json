@@ -117,7 +117,7 @@ range: 340
 maxRange: 420
 rotateSpeed: 1.1
 aimDst: 100
-hitSize: 55f
+hitSize: 45f
 health: 42000
 armor: 19
 lightRadius: 170

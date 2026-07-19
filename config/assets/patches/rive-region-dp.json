@@ -1,0 +1,8 @@
+unit.dp-rive-unit: {
+  localizedName: Rive
+  region: obviate
+  cellRegion: quell-cell
+  shadowRegion: quell
+  uiIcon: unit-obviate-ui
+  fullIcon: unit-obviate-full
+}

@@ -19,7 +19,7 @@
     "rotateSpeed": 0.7,
     "hitSize": 88,
     "health": 50000,
-    "armor": 25,
+    "armor": 16,
     "range": 420,
     "aimDst": 150,
     "fogRadius": 420,

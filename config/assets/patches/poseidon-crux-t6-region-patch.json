@@ -5,6 +5,6 @@ unit.dp-poseidon-crux-t6: {
 	shadowRegion: omura
 	fullIcon: unit-omura-full
 	cellRegion: omura-cell
-	previewRegion: unit-omura-full
 	region: omura
+	previewRegion: unit-omura-full
 }

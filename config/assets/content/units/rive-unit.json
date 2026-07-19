@@ -1,0 +1,148 @@
+type: flying
+name: Rive
+localizedName: Rive
+description: Fast kamikaze drone
+flying: true
+controller: SuicideAI
+speed: 3.8
+health: 600
+drag: 0.04
+hitSize: 13
+armor: 0
+rotateSpeed: 5.0
+engineOffset: 0
+engineSize: 0
+drawSoftShadow: false
+itemCapacity: 0
+buildSpeed: 0
+drawBody: false
+
+deathExplosionEffect: {
+  type: MultiEffect
+  effects: [
+    massiveExplosion
+    {
+      type: ParticleEffect
+      particles: 20
+      length: 90
+      lifetime: 35
+      line: true
+      lenFrom: 12
+      lenTo: 0
+      strokeFrom: 3
+      colorFrom: ffd37f
+      colorTo: e09d3f
+    }
+  ]
+}
+deathSound: explosion
+
+parts: [
+  {
+    name: quell
+    y: -1
+    xScl: 0.75
+    yScl: 0.75
+    layerOffset: 0.002
+    outline: false
+  }
+  {
+    name: elude
+    y: 9.5
+    xScl: 0.65
+    yScl: 0.85
+    layerOffset: 0.0015
+    outline: false
+  }
+  {
+    name: obviate
+    x: 3.5
+    y: -6.5
+    xScl: 0.4
+    yScl: 0.5
+    rotation: -15
+    layerOffset: 0.001
+    outline: false
+  }
+  {
+    name: obviate
+    x: -3.5
+    y: -6.5
+    xScl: -0.4
+    yScl: 0.5
+    rotation: 15
+    layerOffset: 0.001
+    outline: false
+  }
+]
+
+weapons: [
+  {
+    x: 0
+    y: 0
+    mirror: false
+    reload: 30
+    shootCone: 180
+    
+    bullet: {
+      type: ExplosionBulletType
+      splashDamage: 4000
+      splashDamageRadius: 8
+      killShooter: true
+      
+      hitEffect: {
+        type: MultiEffect
+        effects: [
+          massiveExplosion
+          {
+            type: ParticleEffect
+            particles: 30
+            length: 180
+            lifetime: 40
+            line: true
+            lenFrom: 16
+            lenTo: 0
+            strokeFrom: 4
+            strokeTo: 0
+            colorFrom: ffd37f
+            colorTo: e05b3f
+          }
+          {
+            type: ParticleEffect
+            particles: 20
+            length: 110
+            lifetime: 55
+            line: true
+            lenFrom: 10
+            lenTo: 0
+            strokeFrom: 5
+            strokeTo: 1
+            colorFrom: b0b0b0
+            colorTo: 666666
+          }
+        ]
+      }
+      
+      fragBullets: 1
+      fragBullet: {
+        type: ExplosionBulletType
+        splashDamage: 1200
+        splashDamageRadius: 126
+        status: burning
+        statusDuration: 240
+        incendChance: 1
+        incendSpread: 72
+        incendAmount: 18
+        
+        fragBullets: 1
+        fragBullet: {
+          type: ExplosionBulletType
+          splashDamage: 0
+          splashDamageRadius: 45
+          status: slow
+          statusDuration: 180
+        }
+      }
+    }
+  }
+]

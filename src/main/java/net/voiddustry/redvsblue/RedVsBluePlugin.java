@@ -142,7 +142,7 @@ public class RedVsBluePlugin extends Plugin {
     };
 
     //random boss
-    static void pickStage11Boss() {
+    static void randomiseCruxUnits() {
         Seq<UnitType> pool = Vars.content.units().select(u -> u.name.endsWith("-crux-t6"));
 
         if (pool.isEmpty()) {
@@ -152,6 +152,7 @@ public class RedVsBluePlugin extends Plugin {
         }
 
         stage11Boss = pool.random();
+        StageUnits.updateBosses();
         Log.info("Selected stage 11 boss: @", stage11Boss.name);
     }
 
@@ -369,7 +370,7 @@ public class RedVsBluePlugin extends Plugin {
 
             initRules();
 
-            pickStage11Boss();
+            randomiseCruxUnits();
 
             StartingMenu.canOpenMenu = true;
 
