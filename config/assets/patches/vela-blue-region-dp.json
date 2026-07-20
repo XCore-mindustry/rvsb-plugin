@@ -1,0 +1,10 @@
+unit.dp-vela-blue-unit: {
+	localizedName: Vela
+	region: vela
+	cellRegion: vela-cell
+
+	baseRegion: vela-base
+	legRegion: vela-leg
+	uiIcon: unit-vela-ui
+	fullIcon: unit-vela-full
+}

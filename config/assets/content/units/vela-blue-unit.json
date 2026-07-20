@@ -1,0 +1,99 @@
+type: mech
+name: Vela
+
+health: 8200
+armor: 9
+hitSize: 24
+
+rotateSpeed: 1.8
+mechFrontSway: 1
+buildSpeed: 3
+
+mechStepParticles: true
+stepShake: 0.15
+drownTimeMultiplier: 1.3
+
+speed: 0.44
+boostMultiplier: 2.4
+engineOffset: 12
+engineSize: 6
+lowAltitude: true
+riseSpeed: 0.02
+descentSpeed: 0.02
+
+canBoost: true
+mechLandShake: 4
+immunities: [burning]
+
+singleTarget: true
+stepSound: mechStep
+stepSoundPitch: 0.9
+stepSoundVolume: 0.25
+
+weapons: [
+  {
+    name: vela-weapon
+    mirror: false
+    top: false
+    shake: 4
+    shootY: 14
+    x: 0
+    y: 0
+
+    //Fx.greenLaserChargeSmall.lifetime - 1; JSON can't reference effect lifetimes, so it's hardcoded
+    shoot: {
+      firstShotDelay: 59
+    }
+    parentizeEffects: true
+
+    reload: 155
+    recoil: 0
+    chargeSound: chargeVela
+    shootSound: beamPlasma
+    initialShootSound: shootBeamPlasma
+    continuous: true
+    cooldownTime: 200
+
+    shootStatus: slow
+    //bullet lifetime (160) + firstShotDelay (59)
+    shootStatusDuration: 219
+
+    bullet: {
+      type: ContinuousLaserBulletType
+      damage: 35
+      length: 180
+      hitEffect: hitMeltHeal
+      drawSize: 420
+      lifetime: 160
+      shake: 1
+      despawnEffect: smokeCloud
+      smokeEffect: none
+
+      chargeEffect: greenLaserChargeSmall
+
+      incendChance: 0.1
+      incendSpread: 5
+      incendAmount: 1
+
+      //constant healing
+      healPercent: 1
+      collidesTeam: true
+
+      //Pal.heal a(0.2), a(0.5), mul(1.2), white
+      colors: ["98ffa933", "98ffa980", "b6ffcaff", "ffffffff"]
+    }
+  }
+  {
+    type: RepairBeamWeapon
+    name: repair-beam-weapon-center-large
+    x: 11
+    y: -7.5
+    shootY: 6
+    beamWidth: 0.8
+    repairSpeed: 1.4
+
+    bullet: {
+      maxRange: 120
+    }
+  }
+]

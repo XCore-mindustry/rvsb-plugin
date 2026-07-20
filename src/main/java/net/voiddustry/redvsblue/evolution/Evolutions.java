@@ -6,7 +6,7 @@ import arc.struct.ObjectMap;
 @SuppressWarnings("unused")
 public class Evolutions {
     public final static ObjectMap<String, Evolution> evolutions = ObjectMap.of(
-            "dagger", Evolution.DAGGER,
+        "dagger", Evolution.DAGGER,
         "nova", Evolution.NOVA,
         "merui", Evolution.MERUI,
         "flare", Evolution.FLARE,
@@ -25,7 +25,7 @@ public class Evolutions {
         "retusa", Evolution.RETUSA,
 
         "fortress", Evolution.FORTRESS,
-        "vela", Evolution.VELA,
+        "dp-vela-blue-unit", Evolution.VELA,
         "spiroct", Evolution.SPIROCT,
         "minke", Evolution.MINKE,
         "oxynoe", Evolution.OXYNOE,
