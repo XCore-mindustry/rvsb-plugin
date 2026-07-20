@@ -40,9 +40,15 @@ weapons: [
     x: 0
     y: 0
 
-    //Fx.greenLaserChargeSmall.lifetime - 1; JSON can't reference effect lifetimes, so it's hardcoded
+    parts: [{
+      name: vela-weapon
+      x: 0
+      y: 0
+    }]
+
+
     shoot: {
-      firstShotDelay: 59
+      firstShotDelay: 39
     }
     parentizeEffects: true
 
@@ -55,8 +61,7 @@ weapons: [
     cooldownTime: 200
 
     shootStatus: slow
-    //bullet lifetime (160) + firstShotDelay (59)
-    shootStatusDuration: 219
+    shootStatusDuration: 199
 
     bullet: {
       type: ContinuousLaserBulletType
@@ -75,20 +80,28 @@ weapons: [
       incendSpread: 5
       incendAmount: 1
 
-      //constant healing
-      healPercent: 1
+      healAmount: 25
       collidesTeam: true
 
-      //Pal.heal a(0.2), a(0.5), mul(1.2), white
+
       colors: ["98ffa933", "98ffa980", "b6ffcaff", "ffffffff"]
     }
   }
   {
     type: RepairBeamWeapon
     name: repair-beam-weapon-center-large
+    parts: [{
+      name: repair-beam-weapon-center-large
+      outline: false
+      x: 0
+      y: 0
+    }]
     x: 11
     y: -7.5
     shootY: 6
+    recoil: 0
+    recoils: 1
+    recoilTime: 1
     beamWidth: 0.8
     repairSpeed: 1.4
 

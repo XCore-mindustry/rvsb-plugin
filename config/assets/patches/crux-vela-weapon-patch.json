@@ -2,27 +2,34 @@
 unit.vela.weapons: [ {
 
 name: vela-weapon
+recoil: 0
+recoils: 1
+recoilTime: 1
 shootY: 14
-reload: 180
+reload: 20
 shake: 4
 rotateSpeed: 2
 ejectEffect: casing1
 shootSound: shootFuse
-shootSoundVolume: 0.8
+shootSoundVolume: 0.4
 rotate: true
 recoil: 3
+shootStatus: slow
+shootStatusDuration: 30
+x: 0
+y: 0
+parentizeEffects: true
 
 shoot: {
-  type: ShootMulti
-  source: { type: ShootSpread, shots: 3, spread: 45 }
-  dest: [
-    { type: ShootPattern, shots: 9, shotDelay: 20 }
-  ]
+  type: ShootSpread
+  shots: 3
+  spread: 30
 }
+
 bullet: {
 type: ShrapnelBulletType
 length: 90f
-damage: 110f
+damage: 180f
 width: 25f
 serrations : 5
 serrationLenScl: 7
@@ -32,6 +39,7 @@ serrationWidth: 4f
 fromColor: ffcb82
 toColor: c2ffbf
 shootEffect: sparkShoot
+despawnEffect: smokeCloud
 }
 }
 ]
