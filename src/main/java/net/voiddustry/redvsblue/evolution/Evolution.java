@@ -75,7 +75,7 @@ public enum Evolution {
     BRYDE("bryde", 7, 180 * multp,
             new String[]{"antumbra"}, 5),
     OBVIATE("obviate", 7, 90 * multp,
-            new String[]{"quell"}, 5),
+            new String[]{"quell", "dp-spearhead-unit"}, 5),
     QUAD("quad", 7, 450 * multp,
             new String[]{"oct"}, 7),
     GIGA("dp-giga-unit", 7, 360 * multp,
@@ -94,6 +94,8 @@ public enum Evolution {
     OMNI("dp-omni-unit", 8, 980 * multp,
             new String[]{"flare", "merui", "mono", "nova"}, 8),
     QUELL("quell", 8, 180 * multp,
+            new String[]{"disrupt"}, 6),
+    SPEARHEAD("dp-spearhead-unit", 8, 140 * multp,
             new String[]{"disrupt"}, 6),
 
     REIGN("reign", 9, 450 * multp,

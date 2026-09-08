@@ -61,6 +61,7 @@ public class Evolutions {
         "dp-devastator-unit", Evolution.DEVASTATOR,
         "sei", Evolution.SEI,
         "quell", Evolution.QUELL,
+        "dp-spearhead-unit", EVOLUTION.SPEARHEAD,
 
         "conquer", Evolution.CONQUER,
         "disrupt", Evolution.DISRUPT,

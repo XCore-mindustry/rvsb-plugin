@@ -1,1 +1,15 @@
-{"name":"Spearhead patch","unit":{"dp-Spearhead":{"cellRegion":"atrax-cell","shadowRegion":"unit-obviate-full","fullIcon":"unit-obviate-ui","uiIcon":"unit-obviate-ui","credit":"Destro","hideDetails":"false","description":"Possesses high mobility and medium damage, armed with small plasma missile launchers, uses acceleration to generate field around itself, dealing damage, can activate overdrive at full speed","details":"Based off discarded \"Javelin\" ship from older versions"}}}
+{
+  name: Spearhead patch
+  unit: {
+    dp-spearhead-unit: {
+      cellRegion: atrax-cell
+      shadowRegion: unit-obviate-full
+      fullIcon: unit-obviate-ui
+      uiIcon: unit-obviate-ui
+      credit: Destro
+      hideDetails: false
+      description: "Fires missiles that chain to nearby enemy targets. Activates overdrive mode when firing while moving forward"
+      details: ""
+    }
+  }
+}
