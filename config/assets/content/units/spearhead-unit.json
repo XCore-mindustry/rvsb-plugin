@@ -9,7 +9,7 @@
   armor: 6
   buildSpeed: 0.01
   faceTarget: true
-  accel: 9999
+  accel: 1
 
   abilities: [
     {
