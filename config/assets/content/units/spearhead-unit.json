@@ -1,7 +1,6 @@
 {
   flying: true
   controller: FlyingAI
-  accel: 0.1
   drag: 0.09
   speed: 1.98
   strafePenalty: 0.4
@@ -10,6 +9,7 @@
   armor: 6
   buildSpeed: 0.01
   faceTarget: true
+  accel: 9999
 
   abilities: [
     {

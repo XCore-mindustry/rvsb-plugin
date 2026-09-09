@@ -1,7 +1,6 @@
-{
-  name: Spearhead patch
-  unit: {
-    dp-spearhead-unit: {
+
+    unit.dp-spearhead-unit: {
+      localizedName: Spearhead
       region: obviate
       cellRegion: atrax-cell
       shadowRegion: dp-spearhead-unit-shadow
@@ -13,5 +12,3 @@
       description: "Fires missiles that chain to nearby enemy targets. Activates overdrive mode when firing while moving forward"
       details: ""
     }
-  }
-}
