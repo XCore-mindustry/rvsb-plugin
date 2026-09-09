@@ -2,10 +2,12 @@
   name: Spearhead patch
   unit: {
     dp-spearhead-unit: {
+      region: obviate
       cellRegion: atrax-cell
-      shadowRegion: unit-obviate-full
-      fullIcon: unit-obviate-ui
-      uiIcon: unit-obviate-ui
+      shadowRegion: dp-spearhead-unit-shadow
+      fullIcon: dp-spearhead-unit-full
+      uiIcon: dp-spearhead-unit-ui
+      previewRegion: dp-spearhead-unit-full
       credit: Destro
       hideDetails: false
       description: "Fires missiles that chain to nearby enemy targets. Activates overdrive mode when firing while moving forward"

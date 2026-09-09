@@ -2,11 +2,11 @@ unit.dp-regent-unit: {
     region: "scepter"
     cellRegion: "scepter-cell"
 
-    uiIcon: "scepter"
-    fullIcon: "scepter"
-    shadowRegion: "scepter"
+    uiIcon: "dp-regent-unit-ui"
+    fullIcon: "dp-regent-unit-full"
+    shadowRegion: "dp-regent-unit-shadow"
 
-    previewRegion: "scepter"
+    previewRegion: "dp-regent-unit-full"
 
     legRegion: "scepter-leg"
     baseRegion: "scepter-base"

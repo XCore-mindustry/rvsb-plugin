@@ -5,4 +5,5 @@ unit.dp-omni-unit: {
   cellRegion: aegires-cell
   uiIcon: dp-omni-unit-ui
   fullIcon: dp-omni-unit-full
+  previewRegion: dp-omni-unit-full
 }
