@@ -213,9 +213,10 @@ public class RedVsBluePlugin extends Plugin {
         HashMap<Unit, Player> killCredit = new HashMap<>();
 
         //situations where kills should not be registered
-        StatusEffect noRegisterKills = new StatusEffect("noRegisterKills") {{
-            show = false;
-        }};
+        //anuke why does perfectly fine code make dp status effects break the game
+        //StatusEffect noRegisterKills = new StatusEffect("noRegisterKills") {{
+          //  show = false;
+        //}};
         
 
         Events.on(EventType.UnitDamageEvent.class, event -> {

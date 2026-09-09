@@ -926,7 +926,7 @@ unit.tecta.weapons.+: [ {
 
 
 //dont register crawlers that manually explode
-unit.crawler.weapons.0.shootStatus: noRegisterKills
+unit.crawler.weapons.0.shootStatus: dp-no-register-kills
 unit.crawler.weapons.0.shootStatusDuration: 1000
 
 //update unit and block stats
