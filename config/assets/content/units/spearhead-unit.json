@@ -50,7 +50,7 @@
     {
       type: Weapon
       name: status-fast-ui
-      shootStatus: spearhead-surge
+      shootStatus: dp-spearhead-surge
       shootStatusDuration: 480
       reload: 1200
       cooldownTime: 1200
