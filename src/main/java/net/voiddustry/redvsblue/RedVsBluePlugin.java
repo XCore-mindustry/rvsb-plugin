@@ -53,6 +53,8 @@ import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.logic.LInstructions;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Locale;
 import java.util.Objects;
 import java.lang.Math;
@@ -70,6 +72,8 @@ public class RedVsBluePlugin extends Plugin {
     }
 
     public static final HashMap<String, PlayerData> players = new HashMap<>();
+
+    private static final HashMap<Unit, WorldLabel> hitboxLabels = new HashMap<>();
 
     public float blueSpawnX;
     public float blueSpawnY;
@@ -449,6 +453,9 @@ public class RedVsBluePlugin extends Plugin {
             spawnedUnitOwnership.clear();
             killCredit.clear();
 
+            hitboxLabels.values().forEach(WorldLabel::hide);
+            hitboxLabels.clear();
+
 
             Call.setRules(Vars.state.rules);
 
@@ -486,6 +493,35 @@ public class RedVsBluePlugin extends Plugin {
                 CruxUnit.checkUnitCount();
 
                 if(tick%3==0){
+
+                    Groups.unit.each(u -> {
+                        WorldLabel label = hitboxLabels.get(u);
+
+                        if (label == null || !label.isAdded()) {
+                            label = WorldLabel.create();
+                            label.fontSize = 0.5F;
+                            label.text = "[orange]X";
+                            label.x = u.x;
+                            label.y = u.y;
+                            label.add();
+                            hitboxLabels.put(u, label);
+                        } else {
+                            label.x = u.x;
+                            label.y = u.y;
+                        }
+                    });
+
+                    // Remove labels for units that no longer exist
+                    Iterator<Entry<Unit, WorldLabel>> it = hitboxLabels.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Entry<Unit, WorldLabel> entry = it.next();
+                        Unit u = entry.getKey();
+                        if (u == null || u.dead || !u.isAdded()) {
+                            entry.getValue().hide();   // hide(), not remove()
+                            it.remove();
+                        }
+                    }
+
                     //register missiles
                     for (Unit unit : Groups.unit) {
                     if (unit.type instanceof MissileUnitType) {
