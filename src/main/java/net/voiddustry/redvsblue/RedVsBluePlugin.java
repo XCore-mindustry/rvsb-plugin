@@ -482,9 +482,6 @@ public class RedVsBluePlugin extends Plugin {
                 CruxUnit.checkUnitCount();
 
                 if(tick%3==0){
-
-                    // draw hitboxes 
-                    Groups.unit.each(u -> Call.label("[orange]X", 0.05F, u.x, u.y));
                     //register missiles
                     for (Unit unit : Groups.unit) {
                     if (unit.type instanceof MissileUnitType) {

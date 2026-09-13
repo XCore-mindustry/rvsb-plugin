@@ -206,13 +206,6 @@ public class Laboratory {
                             Color.purple
                     );
                 }
-
-                StationUtils.drawStationName(
-                        lab.tileOn(),
-                        lab.owner().name
-                                + "[gold]'s\n[purple]Lab",
-                        0.6f
-                );
             });
         }, 0, 0.5f);
     }
@@ -442,8 +435,10 @@ public class Laboratory {
             return;
         }
 
+        String text = player.name + "[gold]'s\n[purple]Lab";
+        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
         StationData laboratoryData =
-                new StationData(player, tile);
+                new StationData(player, tile, label);
 
         labsMap.put(
                 player.uuid(),
@@ -486,6 +481,7 @@ public class Laboratory {
                     != Team.blue) {
 
                 labsMap.remove(owner);
+                lab.destroy();
 
                 if (lab.tileOn().block()
                         == Vars.content.block(
@@ -498,6 +494,7 @@ public class Laboratory {
     }
 
     public static void clearLabs() {
+        labsMap.values().forEach(StationData::destroy);
         labsMap.clear();
     }
 }

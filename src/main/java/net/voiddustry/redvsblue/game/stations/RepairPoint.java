@@ -31,9 +31,6 @@ public class RepairPoint {
                 Call.effect(Fx.healWaveDynamic, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.red);
             }
 
-            String text = pointData.owner().name + "[gold]'s\n[cyan]Repair Point";
-            StationUtils.drawStationName(pointData.tileOn(), text, 1.1F);
-
             Groups.unit.each(u -> {
                 if (u.team == Team.blue) {
                     if (u.dst(centerX, centerY) <= 32) {
@@ -69,7 +66,9 @@ public class RepairPoint {
                     }
 
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
-                        StationData repairPointsData = new StationData(player, tile);
+                        String text = player.name + "[gold]'s\n[cyan]Repair Point";
+                        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
+                        StationData repairPointsData = new StationData(player, tile, label);
                         repairPointsMap.put(player.uuid(), repairPointsData);
                         Call.constructFinish(tile, Blocks.mender, null, (byte) 0, Team.blue, null);
                         Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
@@ -85,6 +84,7 @@ public class RepairPoint {
             if (repairPoint != null) {
                 if (repairPoint.tileOn().block() != Blocks.mender || repairPoint.owner().team() != Team.blue) {
                     repairPointsMap.remove(owner);
+                    repairPoint.destroy();
                     if (repairPoint.tileOn().block() == Blocks.mender) {
                         repairPoint.tileOn().build.kill();
                     }
@@ -94,6 +94,7 @@ public class RepairPoint {
     }
 
     public static void clearPoints() {
+        repairPointsMap.values().forEach(StationData::destroy);
         repairPointsMap.clear();
     }
 }

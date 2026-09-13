@@ -30,8 +30,6 @@ public class ArmorWorkbench {
             for (int i = 0; i < 38; i++) {
                 Call.effect(Fx.pointHit, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.blue);
             }
-            String text = pointData.owner().name + "[gold]'s\n[blue]Workbench";
-            StationUtils.drawStationName(pointData.tileOn(), text, 0.4F);
         }), 0, 0.25F);
         Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
             int centerX = pointData.tileOn().x * 8;
@@ -67,7 +65,9 @@ public class ArmorWorkbench {
                         tile = tileUnderPlayer;
                     }
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
-                        StationData workbenchData = new StationData(player, tile);
+                        String text = player.name + "[gold]'s\n[blue]Workbench";
+                        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
+                        StationData workbenchData = new StationData(player, tile, label);
                         workbenches.put(player.uuid(), workbenchData);
                         Call.constructFinish(tile, Vars.content.block("dp-workbench-station"), null, (byte) 0, Team.blue, null);
                         Call.effect(Fx.regenParticle, tile.x * 8, tile.y * 8, 0, Color.red);
@@ -83,6 +83,7 @@ public class ArmorWorkbench {
             if (workbench != null) {
                 if (workbench.tileOn().block() != Vars.content.block("dp-workbench-station") || workbench.owner().team() != Team.blue) {
                     workbenches.remove(owner);
+                    workbench.destroy();
                     if (workbench.tileOn().block() == Vars.content.block("dp-workbench-station")) {
                         workbench.tileOn().build.kill();
                     }
@@ -126,6 +127,7 @@ public class ArmorWorkbench {
     }
 
     public static void clearWorkbenches() {
+        workbenches.values().forEach(StationData::destroy);
         workbenches.clear();
     }
 }

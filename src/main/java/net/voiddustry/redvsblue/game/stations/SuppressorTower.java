@@ -36,10 +36,6 @@ public class SuppressorTower {
                 Call.effect(Fx.fire, (float) (centerX + Math.sin(i) * 128), (float) (centerY + Math.cos(i) * 128), 0, Color.red);
             }
 
-
-            String text = pointData.owner().name + "[gold]'s\n[accent]Suppressor Tower";
-            StationUtils.drawStationName(pointData.tileOn(), text, 0.8F);
-
             Groups.unit.each(u -> {
                if (u.team() == Team.crux) {
                     if (u.dst(centerX, centerY) <= 128) {
@@ -77,7 +73,9 @@ public class SuppressorTower {
                         StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Suppressor Tower" + " - deploying", 10.5F);
                         suppressorPlaced.add(player.uuid());
                         Timer.schedule(() -> {
-                            StationData towerData = new StationData(player, placeTile);
+                            String text = player.name + "[gold]'s\n[accent]Suppressor Tower";
+                            mindustry.gen.WorldLabel label = StationUtils.createStationLabel(placeTile, text);
+                            StationData towerData = new StationData(player, placeTile, label);
                             suppressorTowerMap.put(player.uuid(), towerData);
                             suppressorPlaced.remove(player.uuid());
                             Call.effect(Fx.regenParticle, placeTile.x*8, placeTile.y*8, 0, Color.red);
@@ -93,6 +91,7 @@ public class SuppressorTower {
             if (tower != null) {
                 if (tower.tileOn().block() != Blocks.phaseWall || tower.owner().team() != Team.blue) {
                     suppressorTowerMap.remove(owner);
+                    tower.destroy();
                     if (tower.tileOn().block() == Blocks.phaseWall) {
                         tower.tileOn().build.kill();
                     }
@@ -102,6 +101,7 @@ public class SuppressorTower {
     }
 
     public static void clearTowers() {
+        suppressorTowerMap.values().forEach(StationData::destroy);
         suppressorTowerMap.clear();
         suppressorPlaced.clear();
     }

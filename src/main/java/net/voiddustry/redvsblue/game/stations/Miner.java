@@ -39,6 +39,7 @@ public class Miner {
                 minerData.setMaxExp(expLimitToSet);
                 minerData.setExp(0);
             }
+            minerData.updateLabel();
         }), 0, 20);
         Timer.schedule(Miner::renderMiners, 0, 1);
     }
@@ -56,7 +57,9 @@ public class Miner {
                     }
 
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
-                        MinerData minerData = new MinerData(player, tile);
+                        String text = player.name + "[gold]'s Miner\n[gray][ [gold]1[] | [accent]0 / 15[gray] ]";
+                        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
+                        MinerData minerData = new MinerData(player, tile, label);
                         minersMap.put(player.uuid(), minerData);
                         Call.constructFinish(tile, Blocks.pulverizer, null, (byte) 0, Team.blue, null);
                         Call.effect(Fx.explosion, tile.x*8, tile.y*8, 5, Color.red);
@@ -72,19 +75,17 @@ public class Miner {
             if (miner != null) {
                 if (miner.getTileOn().block() != Blocks.pulverizer || miner.getOwner().team() != Team.blue) {
                     minersMap.remove(owner, miner);
+                    miner.destroy();
                     if (miner.getTileOn().block() == Blocks.pulverizer) {
                         miner.getTileOn().build.kill();
                     }
-                } else {
-
-                    String text = miner.getOwner().name + "[gold]'s Miner\n[gray][ [gold]" + miner.getLvl() + "[] | [accent]" + miner.getExp() + " / " + miner.getMaxExp() + "[gray] ]";
-                    StationUtils.drawStationName(miner.getTileOn(), text, 1.1F);
                 }
             }
         });
     }
 
     public static void clearMiners() {
+        minersMap.values().forEach(MinerData::destroy);
         minersMap.clear();
     }
 }

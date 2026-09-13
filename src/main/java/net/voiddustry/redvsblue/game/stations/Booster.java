@@ -31,9 +31,6 @@ public class Booster {
                 Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.orange);
             }
 
-            String text = pointData.owner().name + "[gold]'s\n[orange]Booster";
-            StationUtils.drawStationName(pointData.tileOn(), text, 1.1F);
-
             Groups.unit.each(u -> {
                 if (u.team == Team.blue) {
                     if (u.dst(centerX, centerY) <= 64) {
@@ -59,7 +56,9 @@ public class Booster {
                     }
 
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
-                        StationData boosterData = new StationData(player, tile);
+                        String text = player.name + "[gold]'s\n[orange]Booster";
+                        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
+                        StationData boosterData = new StationData(player, tile, label);
                         boostersMap.put(player.uuid(), boosterData);
                         Call.constructFinish(tile, Blocks.beamNode, null, (byte) 0, Team.blue, null);
                         Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
@@ -75,6 +74,7 @@ public class Booster {
             if (booster != null) {
                 if (booster.tileOn().block() != Blocks.beamNode || booster.owner().team() != Team.blue) {
                     boostersMap.remove(owner);
+                    booster.destroy();
                     if (booster.tileOn().block() == Blocks.beamNode) {
                         booster.tileOn().build.kill();
                     }
@@ -84,6 +84,7 @@ public class Booster {
     }
 
     public static void clearBoosters() {
+        boostersMap.values().forEach(StationData::destroy);
         boostersMap.clear();
     }
 }

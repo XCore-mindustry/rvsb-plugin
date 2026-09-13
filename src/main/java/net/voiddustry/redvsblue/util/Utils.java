@@ -215,9 +215,8 @@ public class Utils {
         label.y(y + 4);
         label.fontSize = fontsize;
         label.text = text;
+        label.duration = time;
         label.add();
-
-        Time.run(time, label::hide);
     }
 
     public static int getRandomInt(int min, int max) {

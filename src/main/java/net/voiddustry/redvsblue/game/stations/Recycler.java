@@ -32,9 +32,6 @@ public class Recycler {
                 Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.gray);
             }
 
-            String text = pointData.owner().name + "[gold]'s\n[#023919]Recycler";
-            StationUtils.drawStationName(pointData.tileOn(), text, 0.8F);
-
             Groups.player.each(p -> {
                 if (p.team() == Team.blue && p.unit() != null && (!(players.get(p.uuid()) == null))) {
                     if (p.dst(centerX, centerY) <= 32) {
@@ -68,7 +65,9 @@ public class Recycler {
                     }
 
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
-                        StationData recyclerData = new StationData(player, tile);
+                        String text = player.name + "[gold]'s\n[#023919]Recycler";
+                        mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
+                        StationData recyclerData = new StationData(player, tile, label);
                         recyclersmap.put(player.uuid(), recyclerData);
                         Call.constructFinish(tile, Blocks.slagIncinerator, null, (byte) 0, Team.blue, null);
                         Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
@@ -84,6 +83,7 @@ public class Recycler {
             if (recycler != null) {
                 if (recycler.tileOn().block() != Blocks.slagIncinerator || recycler.owner().team() != Team.blue) {
                     recyclersmap.remove(owner);
+                    recycler.destroy();
                     if (recycler.tileOn().block() == Blocks.slagIncinerator) {
                         recycler.tileOn().build.kill();
                     }
@@ -93,6 +93,7 @@ public class Recycler {
     }
 
     public static void clearRecyclers() {
+        recyclersmap.values().forEach(StationData::destroy);
         recyclersmap.clear();
     }
 }
