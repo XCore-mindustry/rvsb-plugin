@@ -242,8 +242,12 @@ public class RedVsBluePlugin extends Plugin {
         
         //blue kill registration
         Events.on(EventType.UnitDestroyEvent.class, event -> {
-            
-            if (!(event.unit.hasEffect(Vars.content.statusEffect("dp-no-register-kills"))) && !(event.unit.type instanceof MissileUnitType)) {
+            StatusEffect noRegister = Vars.content.statusEffect("dp-no-register-kills");
+            if (noRegister == null) {
+                noRegister = Vars.content.statusEffect("noRegisterKills");
+            }
+
+            if ((noRegister == null || !event.unit.hasEffect(noRegister)) && !(event.unit.type instanceof MissileUnitType)) {
                 Player killerPlayer = killCredit.get(event.unit);
                 killCredit.remove(event.unit);
                 
