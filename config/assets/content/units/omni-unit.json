@@ -15,7 +15,7 @@ speed: 1
 rotateSpeed: 0.85
 strafePenalty: 0.2
 // stats
-health: 16000
+health: 18000
 armor: 14
 hitSize: 55
 range: 290
@@ -737,7 +737,7 @@ weapons: [
       sprite: circle-bullet
       speed: 3.9
       lifetime: 67
-      damage: 55
+      damage: 35
       width: 14
       height: 14
       shrinkY: 0.2
