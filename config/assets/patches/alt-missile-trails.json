@@ -1,0 +1,1190 @@
+name: Alt Missile Trails
+// alternate, fancy trails for missile units
+// by bttodi
+//////////////////////////////////////////////////////////////////////////////// DISRUPT
+unit.disrupt-missile: {
+	trailLength: 0
+	engines: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 12
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				y: -4
+				color: A393FE3F
+				colorTo: A393FE00
+				progress: life
+				moves: [{
+					gx: -0.125
+					gy: -0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				color: FFD37F00
+				colorTo: FFD37F7F
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.25
+					gy: -0.5
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.35
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: RegionPart
+			outline: false
+			x: -2
+			moves: [{
+				x: 4
+				progress: {
+					type: time
+					ops: [{
+						op: loop
+						time: 15
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 9
+					particles: 1
+					length: 0
+					colorFrom: A393FE
+					colorTo: A393FE00
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}{
+			type: RegionPart
+			outline: false
+			x: -2
+			moves: [{
+				x: 4
+				progress: {
+					type: time
+					ops: [{
+						op: add
+						amount: 5
+					}{
+						op: loop
+						time: 15
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 12
+					particles: 1
+					length: 0
+					colorFrom: A393FE
+					colorTo: A393FE00
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}{
+			type: RegionPart
+			outline: false
+			x: -2
+			moves: [{
+				x: 4
+				progress: {
+					type: time
+					ops: [{
+						op: add
+						amount: 10
+					}{
+						op: loop
+						time: 15
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: 0
+					colorFrom: A393FE
+					colorTo: A393FE00
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}]
+	}
+}
+//////////////////////////////////////////////////////////////////////////////// QUELL
+unit.quell.weapons.0.bullet: {
+	trailLength: 0
+	bulletInterval: 1
+	intervalRandomSpread: 0
+	intervalBullet: {
+		type: BulletType
+		keepVelocity: false
+		collides: false
+		despawnEffect: none
+		hitEffect: none
+		shootEffect: none
+		smokeEffect: none
+		speed: 0
+		lifetime: 12
+		absorbable: false
+		reflectable: false
+		hittable: false
+		parts: [{
+			type: RegionPart
+			outline: false
+			name: circle-shadow
+			layer: 91
+			blending: additive
+			xScl: 0.25
+			yScl: 0.25
+			color: A393FE3F
+			colorTo: A393FE00
+			progress: life
+			moves: [{
+				gx: -0.125
+				gy: 0.25
+				progress: life
+			}]
+		}{
+			type: RegionPart
+			outline: false
+			name: circle-shadow
+			layer: 91
+			blending: additive
+			xScl: 0.25
+			yScl: 0.25
+			color: FFD37F00
+			colorTo: FFD37F7F
+			progress: {
+				type: life
+				op: compress
+				start: 0
+				end: 0.1
+			}
+			moves: [{
+				gx: -0.25
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.5
+				}
+			}]
+		}]
+	}
+}
+unit.quell-missile: {
+	trailLength: 0
+	engines: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 12
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.25
+				color: A393FE3F
+				colorTo: A393FE00
+				progress: life
+				moves: [{
+					gx: -0.125
+					gy: 0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.25
+				color: FFD37F00
+				colorTo: FFD37F7F
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.25
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.35
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: RegionPart
+			outline: false
+			x: -2
+			moves: [{
+				x: 4
+				progress: {
+					type: time
+					ops: [{
+						op: loop
+						time: 18
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 9
+					particles: 1
+					length: 0
+					colorFrom: A393FE
+					colorTo: A393FE00
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}{
+			type: RegionPart
+			outline: false
+			x: -1
+			moves: [{
+				x: 2
+				progress: {
+					type: time
+					ops: [{
+						op: add
+						amount: 9
+					}{
+						op: loop
+						time: 18
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 12
+					particles: 1
+					length: 0
+					colorFrom: A393FE
+					colorTo: A393FE00
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}]
+	}
+}
+//////////////////////////////////////////////////////////////////////////////// ANTHICUS
+unit.anthicus-missile: {
+	trailLength: 0
+	engines: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 12
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.125
+				yScl: 0.25
+				color: 8CA9E83F
+				colorTo: 8CA9E800
+				progress: life
+				moves: [{
+					gx: -0.0625
+					gy: 0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.125
+				yScl: 0.25
+				color: FFD37F00
+				colorTo: FFD37F7F
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.125
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.35
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: FlarePart
+			progress: {
+				type: life
+				ops: [{
+					op: curve
+					interp: slope
+				}{
+					op: curve
+					interp: pow2In
+				}]
+			}
+			radius: 0
+			radiusTo: 35
+			stroke: 3
+			rotation: 45
+			y: -5
+			followRotation: true
+		}{
+			type: RegionPart
+			outline: false
+			x: -1
+			moves: [{
+				x: 2
+				progress: {
+					type: time
+					ops: [{
+						op: loop
+						time: 18
+					}{
+						op: curve
+						interp: slope
+					}{
+						op: curve
+						interp: sine
+					}]
+				}
+			}]
+			children: [{
+				type: EffectSpawnerPart
+				effectInterval: 0.05
+				useProgress: false
+				effect: {
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: 0
+					colorFrom: 8CA9E8
+					colorTo: 8CA9E800
+					sizeFrom: 0.5
+					sizeTo: 0
+					layer: 89
+					clip: 64
+				}
+			}]
+		}]
+	}
+}
+//////////////////////////////////////////////////////////////////////////////// SCATHE CARBIDE
+unit.scathe-missile: {
+	trailLength: 0
+	engines: []
+	abilities: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 30
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				y: -12
+				color: FEB3803F
+				colorTo: FEB38000
+				progress: life
+				moves: [{
+					gx: -0.125
+					gy: -0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				color: FFD37F00
+				colorTo: FFD37F7F
+				y: -8
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.25
+					gy: -0.5
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.25
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: EffectSpawnerPart
+			effectInterval: 1
+			useProgress: false
+			y: -8
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: FEB3803F
+					colorTo: 5F5F5FBF
+					sizeFrom: 6
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: FEB3803F
+					colorTo: 5F5F5FBF
+					sizeFrom: 4
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}]
+			}
+		}{
+			type: EffectSpawnerPart
+			effectInterval: 2
+			useProgress: false
+			width: 8
+			y: -12
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 20
+					particles: 1
+					length: -24
+					cone: 60
+					colorFrom: FEB380
+					colorTo: FEB380
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 30
+					particles: 1
+					length: -24
+					cone: 0
+					colorFrom: FEB380
+					colorTo: FEB380
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: -24
+					cone: 0
+					widthFrom: 4
+					widthTo: 4
+					colorFrom: FEB380
+					colorTo: FEB380
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}]
+			}
+		}]
+	}
+}
+//////////////////////////////////////////////////////////////////////////////// SCATHE PHASE
+unit.scathe-missile-phase: {
+	trailLength: 0
+	engines: []
+	abilities: [{
+		type: ForceFieldAbility
+		radius: 120
+		regen: 0
+		max: 3000
+		cooldown: 999999999
+	}]
+	weapons.+: {
+		type: Weapon
+		reload: 2
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 30
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				y: -12
+				color: FFD37F3F
+				colorTo: FFD37F00
+				progress: life
+				moves: [{
+					gx: -0.125
+					gy: -0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				color: FFD37F00
+				colorTo: FFD37F7F
+				y: -8
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.25
+					gy: -0.5
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.25
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: EffectSpawnerPart
+			effectInterval: 2
+			useProgress: false
+			y: -8
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: FFD37F3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 6
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: FFD37F3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 4
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}]
+			}
+		}{
+			type: EffectSpawnerPart
+			effectInterval: 4
+			useProgress: false
+			width: 8
+			y: -12
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 20
+					particles: 1
+					length: -24
+					cone: 60
+					colorFrom: FFD37F
+					colorTo: FFD37F
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 30
+					particles: 1
+					length: -24
+					cone: 0
+					colorFrom: FFD37F
+					colorTo: FFD37F
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: -24
+					cone: 0
+					widthFrom: 4
+					widthTo: 4
+					colorFrom: FFD37F
+					colorTo: FFD37F
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}]
+			}
+		}]
+	}
+}
+//////////////////////////////////////////////////////////////////////////////// SCATHE SURGE
+unit.scathe-missile-surge: {
+	trailLength: 0
+	engines: []
+	abilities: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 30
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				y: -12
+				color: F7E97E3F
+				colorTo: F7E97E00
+				progress: life
+				moves: [{
+					gx: -0.125
+					gy: -0.25
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.25
+				yScl: 0.5
+				color: FFD37F00
+				colorTo: FFD37F7F
+				y: -8
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.25
+					gy: -0.5
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.25
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: EffectSpawnerPart
+			effectInterval: 2
+			useProgress: false
+			y: -8
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: F7E97E3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 6
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}{
+					type: ParticleEffect
+					lifetime: 120
+					particles: 1
+					length: 24
+					colorFrom: F7E97E3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 4
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}]
+			}
+		}{
+			type: EffectSpawnerPart
+			effectInterval: 1
+			useProgress: false
+			width: 8
+			y: -12
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 20
+					particles: 1
+					length: -24
+					cone: 60
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 30
+					particles: 1
+					length: -24
+					cone: 0
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: -24
+					cone: 0
+					widthFrom: 4
+					widthTo: 4
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}]
+			}
+		}]
+	}
+}
+unit.scathe-missile-surge-split: {
+	trailLength: 0
+	engines: []
+	abilities: []
+	weapons.+: {
+		type: Weapon
+		reload: 1
+		mirror: false
+		x: 0
+		shootY: 0
+		shootCone: 180
+		shootSound: none
+		predictTarget: false
+		alwaysShooting: true
+		recoil: 0
+		bullet: {
+			type: BulletType
+			keepVelocity: false
+			collides: false
+			despawnEffect: none
+			hitEffect: none
+			shootEffect: none
+			smokeEffect: none
+			speed: 0
+			lifetime: 30
+			absorbable: false
+			reflectable: false
+			hittable: false
+			parts: [{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.125
+				yScl: 0.25
+				y: -6
+				color: F7E97E7F
+				colorTo: F7E97E00
+				progress: life
+				moves: [{
+					gx: -0.0625
+					gy: -0.125
+					progress: life
+				}]
+			}{
+				type: RegionPart
+				outline: false
+				name: circle-shadow
+				layer: 91
+				blending: additive
+				xScl: 0.125
+				yScl: 0.25
+				color: FFD37F00
+				colorTo: FFD37F7F
+				y: -4
+				progress: {
+					type: life
+					op: compress
+					start: 0
+					end: 0.1
+				}
+				moves: [{
+					gx: -0.125
+					gy: -0.25
+					progress: {
+						type: life
+						op: compress
+						start: 0
+						end: 0.25
+					}
+				}]
+			}]
+		}
+		parts: [{
+			type: EffectSpawnerPart
+			effectInterval: 2
+			useProgress: false
+			y: -4
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 30
+					particles: 1
+					length: 12
+					colorFrom: F7E97E3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 3
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}{
+					type: ParticleEffect
+					lifetime: 30
+					particles: 1
+					length: 24
+					colorFrom: F7E97E3F
+					colorTo: 5F5F5FBF
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89
+					interp: pow5Out
+					sizeInterp: pow5In
+				}]
+			}
+		}{
+			type: EffectSpawnerPart
+			effectInterval: 5
+			useProgress: false
+			width: 4
+			y: -12
+			effect: {
+				type: MultiEffect
+				effects: [{
+					type: ParticleEffect
+					lifetime: 10
+					particles: 1
+					length: -24
+					cone: 60
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 15
+					particles: 1
+					length: -24
+					cone: 0
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}{
+					type: ParticleEffect
+					lifetime: 5
+					particles: 1
+					length: -24
+					cone: 0
+					widthFrom: 4
+					widthTo: 4
+					colorFrom: F7E97E
+					colorTo: F7E97E
+					sizeFrom: 2
+					sizeTo: 0
+					layer: 89.2
+					interp: pow2Out
+					sizeInterp: linear
+				}]
+			}
+		}]
+	}
+}

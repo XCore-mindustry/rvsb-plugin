@@ -1,0 +1,736 @@
+name: "crobus opus5.5 benchmark ai slop to be fixed because its too good"
+unit: {
+  evoke: {
+    localizedName: "orion"
+    description: "he the one who cometh"
+    hideDetails: false
+    type: "legs"
+    controller: "GroundAI"
+    aiController: "GroundAI"
+    flying: false
+    lowAltitude: false
+    canBoost: false
+    hovering: true
+    canDrown: false
+    allowLegStep: true
+    coreUnitDock: false
+    isEnemy: true
+    useUnitCap: true
+    allowedInPayloads: false
+    playerControllable: true
+    logicControllable: true
+    targetable: true
+    hittable: true
+    canAttack: true
+    canHeal: true
+    targetAir: true
+    targetGround: true
+    autoFindTarget: true
+    faceTarget: true
+    omniMovement: true
+    targetPriority: 1
+    health: 56000
+    armor: 22
+    hitSize: 46
+    speed: 0.36
+    accel: 0.35
+    drag: 0.3
+    rotateSpeed: 1.1
+    range: 300
+    maxRange: 560
+    fogRadius: 40
+    clipSize: 520
+    groundLayer: 75
+    shadowElevation: 0.25
+    drawShields: false
+    mineTier: -1
+    mineWalls: false
+    buildSpeed: 2.5
+    buildBeamOffset: 20
+    itemCapacity: 150
+    immunities: ["burning", "shocked", "electrified", "wet", "freezing"]
+    deathSound: "unitExplode3"
+    stepSound: "walkerStep"
+    stepSoundVolume: 0.9
+    stepSoundPitch: 0.7
+    stepShake: 1.6
+    legCount: 6
+    legLength: 20
+    legBaseOffset: 18
+    legMoveSpace: 1.3
+    legForwardScl: 0.6
+    legPairOffset: 1
+    legSpeed: 0.12
+    legLengthScl: 0.95
+    lockLegBase: true
+    legContinuousMove: true
+    legSplashDamage: 90
+    legSplashRange: 44
+    rippleScale: 3.2
+    flowfieldPathType: 1
+    region: "corvus"
+    outlineRegion: "corvus"
+    cellRegion: "quad-cell"
+    shadowRegion: "corvus"
+    legRegion: "corvus-leg"
+    legBaseRegion: "corvus-leg-base"
+    footRegion: "corvus-foot"
+    jointRegion: "corvus-joint"
+    uiIcon: "unit-corvus-ui"
+    fullIcon: "unit-corvus-full"
+    previewRegion: "unit-corvus-full"
+    engines: []
+    parts: [
+      {
+        type: "RegionPart"
+        name: "corvus"
+        outline: false
+        y: -7
+        xScl: 1.24
+        yScl: 1.3
+        layerOffset: -0.004
+      }
+      {
+        type: "RegionPart"
+        name: "vela"
+        outline: false
+        y: 5
+        layerOffset: -0.003
+      }
+      {
+        type: "RegionPart"
+        name: "quasar"
+        outline: false
+        mirror: true
+        x: 30
+        y: 2
+        rotation: -22
+        xScl: 1.2
+        yScl: 1.2
+        moveX: 2.5
+        moveRot: -12
+        layerOffset: -0.002
+      }
+    ]
+    weapons: [
+      {
+        name: "corvus-weapon"
+        x: 0
+        y: 0
+        mirror: false
+        flipSprite: false
+        alternate: false
+        top: false
+        rotate: false
+        layerOffset: 0.0001
+        shootY: 18
+        shootCone: 12
+        reload: 360
+        recoil: 0
+        recoilTime: 360
+        cooldownTime: 320
+        heatColor: "000000"
+        shake: 16
+        parentizeEffects: true
+        shootStatus: "unmoving"
+        shootStatusDuration: 150
+        chargeSound: "chargeCorvus"
+        shootSound: "shootCorvus"
+        soundPitchMin: 0.7
+        soundPitchMax: 0.8
+        ejectEffect: "none"
+        shoot: {
+          firstShotDelay: 80
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "corvus-weapon"
+            outline: false
+            heatColor: "98ffa9"
+            heatLayerOffset: 0.00005
+            layerOffset: 0
+          }
+          {
+            type: "RegionPart"
+            name: "emp-cannon-mount"
+            y: 10
+            xScl: 1.25
+            yScl: 1.5
+            layerOffset: 0.0001
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            mirror: true
+            x: 4.2
+            y: 13
+            rotation: -6
+            moveX: 1.2
+            moveY: 2
+            moveRot: -8
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            y: 6
+            xScl: 1.3
+            yScl: 1.1
+            layerOffset: 0.0003
+          }
+        ]
+        bullet: {
+          type: "LaserBulletType"
+          length: 560
+          width: 95
+          damage: 1350
+          lifetime: 70
+          largeHit: true
+          pierceArmor: true
+          buildingDamageMultiplier: 1.25
+          healPercent: 25
+          collidesTeam: true
+          chargeEffect: "greenLaserCharge"
+          hitColor: "98ffa9"
+          lightColor: "98ffa9"
+          lightningColor: "98ffa9"
+          lightningSpacing: 30
+          lightningLength: 7
+          lightningLengthRand: 18
+          lightningDelay: 1.1
+          lightningDamage: 75
+          lightningAngleRand: 40
+          sideAngle: 25
+          sideWidth: 1.2
+          sideLength: 120
+          status: "electrified"
+          statusDuration: 240
+          colors: ["98ffa966", "98ffa9", "ffffff"]
+        }
+      }
+      {
+        name: "beam-weapon"
+        x: 27
+        y: 3
+        mirror: false
+        flipSprite: false
+        alternate: false
+        top: false
+        rotate: true
+        rotateSpeed: 1.4
+        rotationLimit: 70
+        layerOffset: 0.002
+        continuous: true
+        shootY: 13
+        shootCone: 10
+        reload: 260
+        recoil: 0
+        recoilTime: 260
+        cooldownTime: 200
+        shake: 2.5
+        parentizeEffects: true
+        chargeSound: "chargeVela"
+        shootSound: "beamMeltdown"
+        ejectEffect: "none"
+        shoot: {
+          firstShotDelay: 39
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "beam-weapon"
+            y: -2
+            xScl: 1.55
+            yScl: 1.3
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            mirror: true
+            x: 3.6
+            y: -4.5
+            xScl: 1.15
+            yScl: 1.15
+            moveX: 1.2
+            moveRot: -10
+            layerOffset: 0.0003
+          }
+          {
+            type: "RegionPart"
+            name: "beam-weapon"
+            layerOffset: 0.0004
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            y: 6
+            xScl: 1.1
+            yScl: 1.35
+            moveY: 1.5
+            layerOffset: 0.0005
+          }
+        ]
+        bullet: {
+          type: "ContinuousLaserBulletType"
+          damage: 50
+          length: 250
+          lifetime: 170
+          drawSize: 560
+          healPercent: 1.2
+          collidesTeam: true
+          shake: 1
+          chargeEffect: "greenLaserChargeSmall"
+          hitEffect: "hitMeltHeal"
+          despawnEffect: "smokeCloud"
+          smokeEffect: "none"
+          incendChance: 0.05
+          incendSpread: 5
+          incendAmount: 1
+          status: "electrified"
+          statusDuration: 60
+          hitColor: "98ffa9"
+          lightColor: "98ffa9"
+          colors: ["98ffa933", "98ffa980", "b6ffcb", "ffffff"]
+        }
+      }
+      {
+        name: "beam-weapon"
+        x: -27
+        y: 3
+        mirror: false
+        flipSprite: true
+        alternate: false
+        top: false
+        rotate: true
+        rotateSpeed: 1.4
+        rotationLimit: 70
+        layerOffset: 0.002
+        continuous: true
+        shootY: 13
+        shootCone: 10
+        reload: 260
+        recoil: 0
+        recoilTime: 260
+        cooldownTime: 200
+        shake: 2.5
+        parentizeEffects: true
+        chargeSound: "chargeVela"
+        shootSound: "beamMeltdown"
+        ejectEffect: "none"
+        shoot: {
+          firstShotDelay: 39
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "beam-weapon"
+            y: -2
+            xScl: 1.55
+            yScl: 1.3
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            mirror: true
+            x: 3.6
+            y: -4.5
+            xScl: 1.15
+            yScl: 1.15
+            moveX: 1.2
+            moveRot: -10
+            layerOffset: 0.0003
+          }
+          {
+            type: "RegionPart"
+            name: "beam-weapon"
+            layerOffset: 0.0004
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            y: 6
+            xScl: 1.1
+            yScl: 1.35
+            moveY: 1.5
+            layerOffset: 0.0005
+          }
+        ]
+        bullet: {
+          type: "ContinuousLaserBulletType"
+          damage: 50
+          length: 250
+          lifetime: 170
+          drawSize: 560
+          healPercent: 1.2
+          collidesTeam: true
+          shake: 1
+          chargeEffect: "greenLaserChargeSmall"
+          hitEffect: "hitMeltHeal"
+          despawnEffect: "smokeCloud"
+          smokeEffect: "none"
+          incendChance: 0.05
+          incendSpread: 5
+          incendAmount: 1
+          status: "electrified"
+          statusDuration: 60
+          hitColor: "98ffa9"
+          lightColor: "98ffa9"
+          colors: ["98ffa933", "98ffa980", "b6ffcb", "ffffff"]
+        }
+      }
+      {
+        name: "heal-weapon"
+        x: 15
+        y: 14
+        mirror: false
+        flipSprite: false
+        alternate: false
+        top: false
+        rotate: true
+        rotateSpeed: 6
+        rotationLimit: 110
+        layerOffset: 0.002
+        shootY: 7
+        reload: 22
+        recoil: 2
+        recoilTime: 22
+        inaccuracy: 2
+        shootSound: "shootLaser"
+        ejectEffect: "none"
+        shoot: {
+          shots: 2
+          shotDelay: 5
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            y: -3
+            xScl: 0.85
+            yScl: 0.85
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            xScl: 1.3
+            yScl: 1.35
+            layerOffset: 0.0003
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            mirror: true
+            x: 2
+            y: 2.5
+            xScl: 0.75
+            yScl: 0.95
+            layerOffset: 0.0004
+          }
+        ]
+        bullet: {
+          type: "LaserBoltBulletType"
+          speed: 7
+          damage: 42
+          lifetime: 34
+          width: 3
+          height: 11
+          healPercent: 5
+          collidesTeam: true
+          backColor: "98ffa9"
+          frontColor: "ffffff"
+          shootEffect: "shootHeal"
+        }
+      }
+      {
+        name: "heal-weapon"
+        x: -15
+        y: 14
+        mirror: false
+        flipSprite: true
+        alternate: false
+        top: false
+        rotate: true
+        rotateSpeed: 6
+        rotationLimit: 110
+        layerOffset: 0.002
+        shootY: 7
+        reload: 22
+        recoil: 2
+        recoilTime: 22
+        inaccuracy: 2
+        shootSound: "shootLaser"
+        ejectEffect: "none"
+        shoot: {
+          shots: 2
+          shotDelay: 5
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            y: -3
+            xScl: 0.85
+            yScl: 0.85
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            xScl: 1.3
+            yScl: 1.35
+            layerOffset: 0.0003
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            mirror: true
+            x: 2
+            y: 2.5
+            xScl: 0.75
+            yScl: 0.95
+            layerOffset: 0.0004
+          }
+        ]
+        bullet: {
+          type: "LaserBoltBulletType"
+          speed: 7
+          damage: 42
+          lifetime: 34
+          width: 3
+          height: 11
+          healPercent: 5
+          collidesTeam: true
+          backColor: "98ffa9"
+          frontColor: "ffffff"
+          shootEffect: "shootHeal"
+        }
+      }
+      {
+        name: "heal-shotgun-weapon"
+        x: 12
+        y: -9
+        mirror: false
+        flipSprite: false
+        alternate: false
+        top: true
+        rotate: true
+        rotateSpeed: 4
+        layerOffset: 0.002
+        shootY: 7
+        reload: 42
+        recoil: 2.5
+        recoilTime: 42
+        shake: 2.2
+        inaccuracy: 28
+        shootSound: "shootArc"
+        ejectEffect: "none"
+        shoot: {
+          shots: 5
+          shotDelay: 2
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            y: -1
+            xScl: 1.3
+            yScl: 1.25
+            layerOffset: 0.0001
+          }
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            mirror: true
+            x: 2.3
+            y: 3.2
+            xScl: 0.85
+            yScl: 1.1
+            layerOffset: 0.0003
+          }
+        ]
+        bullet: {
+          type: "LightningBulletType"
+          damage: 26
+          lightningLength: 16
+          lightningLengthRand: 12
+          lightningColor: "98ffa9"
+          hitColor: "98ffa9"
+          shootEffect: "shootHeal"
+          healPercent: 2.5
+          lightningType: {
+            type: "BasicBulletType"
+            speed: 0.0001
+            damage: 0
+            width: 0
+            height: 0
+            lifetime: 10
+            hitEffect: "hitLancer"
+            despawnEffect: "none"
+            status: "shocked"
+            statusDuration: 10
+            hittable: false
+            collidesTeam: true
+            healPercent: 2
+            lightColor: "98ffa9"
+          }
+        }
+      }
+      {
+        name: "heal-shotgun-weapon"
+        x: -12
+        y: -9
+        mirror: false
+        flipSprite: true
+        alternate: false
+        top: true
+        rotate: true
+        rotateSpeed: 4
+        layerOffset: 0.002
+        shootY: 7
+        reload: 42
+        recoil: 2.5
+        recoilTime: 42
+        shake: 2.2
+        inaccuracy: 28
+        shootSound: "shootArc"
+        ejectEffect: "none"
+        shoot: {
+          shots: 5
+          shotDelay: 2
+        }
+        parts: [
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            y: -1
+            xScl: 1.3
+            yScl: 1.25
+            layerOffset: 0.0001
+          }
+          {
+            type: "RegionPart"
+            name: "heal-shotgun-weapon"
+            layerOffset: 0.0002
+          }
+          {
+            type: "RegionPart"
+            name: "heal-weapon"
+            mirror: true
+            x: 2.3
+            y: 3.2
+            xScl: 0.85
+            yScl: 1.1
+            layerOffset: 0.0003
+          }
+        ]
+        bullet: {
+          type: "LightningBulletType"
+          damage: 26
+          lightningLength: 16
+          lightningLengthRand: 12
+          lightningColor: "98ffa9"
+          hitColor: "98ffa9"
+          shootEffect: "shootHeal"
+          healPercent: 2.5
+          lightningType: {
+            type: "BasicBulletType"
+            speed: 0.0001
+            damage: 0
+            width: 0
+            height: 0
+            lifetime: 10
+            hitEffect: "hitLancer"
+            despawnEffect: "none"
+            status: "shocked"
+            statusDuration: 10
+            hittable: false
+            collidesTeam: true
+            healPercent: 2
+            lightColor: "98ffa9"
+          }
+        }
+      }
+      {
+        type: "RepairBeamWeapon"
+        name: "repair-beam-weapon-center-large"
+        x: 22
+        y: -14
+        mirror: false
+        flipSprite: false
+        top: true
+        layerOffset: 0.003
+        shootY: 6
+        beamWidth: 1.1
+        widthSinMag: 0.1
+        repairSpeed: 3.2
+        fractionRepairSpeed: 0.04
+        pulseRadius: 8
+        targetBuildings: true
+        targetUnits: true
+        laserColor: "98ffa9"
+        healColor: "98ffa9"
+        parts: [
+          {
+            type: "RegionPart"
+            name: "repair-beam-weapon-center-large"
+            outline: false
+            layerOffset: 0
+          }
+        ]
+        bullet: {
+          maxRange: 200
+        }
+      }
+      {
+        type: "RepairBeamWeapon"
+        name: "repair-beam-weapon-center-large"
+        x: -22
+        y: -14
+        mirror: false
+        flipSprite: true
+        top: true
+        layerOffset: 0.003
+        shootY: 6
+        beamWidth: 1.1
+        widthSinMag: 0.1
+        repairSpeed: 3.2
+        fractionRepairSpeed: 0.04
+        pulseRadius: 8
+        targetBuildings: true
+        targetUnits: true
+        laserColor: "98ffa9"
+        healColor: "98ffa9"
+        parts: [
+          {
+            type: "RegionPart"
+            name: "repair-beam-weapon-center-large"
+            outline: false
+            layerOffset: 0
+          }
+        ]
+        bullet: {
+          maxRange: 200
+        }
+      }
+    ]
+    abilities: [
+      {
+        type: "SuppressionFieldAbility"
+        y: -6
+        active: false
+        color: 98ffa9
+        particleColor: 98ffa9
+        layer: 99.999
+      }
+    ]
+  }
+}
