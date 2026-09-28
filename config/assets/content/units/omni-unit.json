@@ -1,5 +1,5 @@
 type: payload
-name: Omni
+name: "Omni"
 description: "Fires plasma bullets that split into piercing lasers and damage enemy targets and repair allied structures. Occasionally fires a devastating missile barrage. Capable of carrying large ground units and blocks."
 details: ""
 
@@ -67,37 +67,35 @@ engines: [
 
 parts: [
 
-
   // =================================================================
   // WING ROOTS — retusa hulls tucked where the cyerce fans meet the body.
-  // Layer -0.0034: just above the cyerce (-0.0038) and below EVERY deck
-  // layer (-0.0017 and up), so the shoulder shingles, mega-cell, heal-shotgun
-  // mounts and the Flux Shears turret bodies bury well over half of them.
-  // Only the trailing/outer sliver of each hull shows.
+  // Layer -0.0034: above the buried cyerce (-0.0038) and below every upper deck.
   // =================================================================
-  // inner root — on the wing axis, right where it dives under the mega body
-  { name: retusa, outline: false, x: 11.5,  y: -11,   rotation: -42, xScl: 0.9,  yScl: 1.2,  layerOffset: -0.0034, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -11.5, y: -11,   rotation: 42,  xScl: -0.9, yScl: 1.2,  layerOffset: -0.0034, heatLayerOffset: 0.011 }
-  // outer root — trailing edge, peeks out between the turret and the shoulder
-  { name: retusa, outline: false, x: 17.5,  y: -13.5, rotation: -42, xScl: 0.85,  yScl: 1.15, layerOffset: -0.0034, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -17.5, y: -13.5, rotation: 42,  xScl: -0.85, yScl: 1.15, layerOffset: -0.0034, heatLayerOffset: 0.011 }
-  // caps — sit just under the shoulder oxynoe and guarantee the 50% burial on the outer pair
-  { name: nova, outline: false, x: 15.5,  y: -9.5, rotation: -40, xScl: 0.95,  yScl: 0.9, layerOffset: -0.00139, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -15.5, y: -9.5, rotation: 40,  xScl: -0.95, yScl: 0.9, layerOffset: -0.00139, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 11.5, y: -11, rotation: -42, xScl: 0.9, yScl: 1.2, layerOffset: -0.0034, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -11.5, y: -11, rotation: 42, xScl: -0.9, yScl: 1.2, layerOffset: -0.0034, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 17.5, y: -13.5, rotation: -42, xScl: 0.85, yScl: 1.15, layerOffset: -0.0034, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -17.5, y: -13.5, rotation: 42, xScl: -0.85, yScl: 1.15, layerOffset: -0.0034, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 15.5, y: -9.5, rotation: -40, xScl: 0.95, yScl: 0.9, layerOffset: -0.00139, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -15.5, y: -9.5, rotation: 40, xScl: -0.95, yScl: 0.9, layerOffset: -0.00139, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // BURIED FRAME — unit bodies, fully shingled over by the decks above
+  // BURIED FRAME — rear is identical to original Omni (quad + vela + mega + angled megas).
+  // Forward keel uses vela + quasar instead of sei so all sprite colours match.
   // =================================================================
   { name: quad, outline: false, x: 0, y: -43, xScl: 0.72, yScl: 0.7, layerOffset: -0.006, heatLayerOffset: 0.011 }
   { name: vela, outline: false, x: 0, y: -23, xScl: 0.8, yScl: 0.82, layerOffset: -0.0052, heatLayerOffset: 0.011 }
+  { name: vela, outline: false, x: 0, y: 4, xScl: 0.76, yScl: 0.86, layerOffset: -0.005, heatLayerOffset: 0.011 }
+  { name: quasar, outline: false, x: 0, y: 23, xScl: 1.26, yScl: 1.22, layerOffset: -0.0048, heatLayerOffset: 0.011 }
   { name: mega, outline: false, x: 0, y: -13, xScl: 1.55, yScl: 1.5, layerOffset: -0.0046, heatLayerOffset: 0.011 }
-  { name: mega, outline: false, x: 13.0, y: -37, rotation: -48, xScl: 1.1, yScl: 1.05, layerOffset: -0.0042, heatLayerOffset: 0.011 }
-  { name: mega, outline: false, x: -13.0, y: -37, rotation: 48, xScl: -1.1, yScl: 1.05, layerOffset: -0.0042, heatLayerOffset: 0.011 }
+  { name: mega, outline: false, x: 13, y: -37, rotation: -48, xScl: 1.1, yScl: 1.05, layerOffset: -0.0042, heatLayerOffset: 0.011 }
+  { name: mega, outline: false, x: -13, y: -37, rotation: 48, xScl: -1.1, yScl: 1.05, layerOffset: -0.0042, heatLayerOffset: 0.011 }
   { name: cyerce, outline: false, x: 18.5, y: -0.5, rotation: -42, xScl: 1.05, yScl: 1.25, layerOffset: -0.0038, heatLayerOffset: 0.011 }
   { name: cyerce, outline: false, x: -18.5, y: -0.5, rotation: 42, xScl: -1.05, yScl: 1.25, layerOffset: -0.0038, heatLayerOffset: 0.011 }
+  { name: cyerce, outline: false, x: 25.5, y: -7.5, rotation: -128, xScl: 0.92, yScl: 1.1, layerOffset: -0.0039, heatLayerOffset: 0.011 }
+  { name: cyerce, outline: false, x: -25.5, y: -7.5, rotation: 128, xScl: -0.92, yScl: 1.1, layerOffset: -0.0039, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // ENGINE DECK — poly shingles over the quad block, matches engine anchors
+  // ENGINE DECK — poly shingles over the quad block, matches engine anchors (1:1 original Omni)
   // =================================================================
   { name: poly, outline: false, x: 0, y: -47.5, xScl: 1.25, yScl: 1.2, layerOffset: -0.0017, heatLayerOffset: 0.011 }
   { name: poly, outline: false, x: 9.4, y: -46.2, rotation: -12, xScl: 1.15, yScl: 1.12, layerOffset: -0.00172, heatLayerOffset: 0.011 }
@@ -115,196 +113,173 @@ parts: [
   { name: retusa, outline: false, x: 0, y: -41.5, xScl: 0.88, yScl: 1.12, layerOffset: -0.00175, heatLayerOffset: 0.011 }
   { name: pulsar, outline: false, x: 0, y: -34.5, xScl: 1.22, yScl: 1.16, layerOffset: -0.00165, heatLayerOffset: 0.011 }
   { name: oxynoe, outline: false, x: 0, y: -30.5, xScl: 0.86, yScl: 0.9, layerOffset: -0.00158, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 0, y: -27, xScl: 1.08, yScl: 1.0, layerOffset: -0.0015, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 0, y: -27, xScl: 1.08, yScl: 1, layerOffset: -0.0015, heatLayerOffset: 0.011 }
   { name: quasar, outline: false, x: 0, y: -23, xScl: 1.18, yScl: 1.08, layerOffset: -0.0012, heatLayerOffset: 0.011 }
   { name: pulsar, outline: false, x: 0, y: -19, xScl: 0.82, yScl: 0.8, layerOffset: -0.00148, heatLayerOffset: 0.011 }
   { name: nova, outline: false, x: 0, y: -14, xScl: 1.25, yScl: 1.14, layerOffset: -0.00145, heatLayerOffset: 0.011 }
   { name: retusa, outline: false, x: 0, y: -8, xScl: 0.95, yScl: 1.25, layerOffset: -0.0013, heatLayerOffset: 0.011 }
-  { name: quasar, outline: false, x: 0, y: -3.5, xScl: 0.95, yScl: 1.0, layerOffset: -0.00128, heatLayerOffset: 0.011 }
+  { name: quasar, outline: false, x: 0, y: -3.5, xScl: 0.95, yScl: 1, layerOffset: -0.00128, heatLayerOffset: 0.011 }
   { name: nova, outline: false, x: 0, y: 0.5, xScl: 0.9, yScl: 0.95, layerOffset: -0.00124, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // SHOULDER DECK — wide mega-style shoulders over the cyerce fans
+  // SWEPT SHOULDER WINGS — inner shoulder arch + swept outer wingtips (green-support hulls only)
   // =================================================================
-  { name: oxynoe, outline: false, x: 7.0, y: -9, rotation: -10, xScl: 1.0, yScl: 1.06, layerOffset: -0.00138, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: -7.0, y: -9, rotation: 10, xScl: -1.0, yScl: 1.06, layerOffset: -0.00138, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 11.0, y: -5, rotation: -18, xScl: 1.05, yScl: 1.0, layerOffset: -0.00136, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -11.0, y: -5, rotation: 18, xScl: -1.05, yScl: 1.0, layerOffset: -0.00136, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 7, y: -9, rotation: -10, xScl: 1, yScl: 1.06, layerOffset: -0.00138, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: -7, y: -9, rotation: 10, xScl: -1, yScl: 1.06, layerOffset: -0.00138, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 11, y: -5, rotation: -18, xScl: 1.05, yScl: 1, layerOffset: -0.00136, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -11, y: -5, rotation: 18, xScl: -1.05, yScl: 1, layerOffset: -0.00136, heatLayerOffset: 0.011 }
   { name: oxynoe, outline: false, x: 14.5, y: -2, rotation: -30, xScl: 0.95, yScl: 1.05, layerOffset: -0.00134, heatLayerOffset: 0.011 }
   { name: oxynoe, outline: false, x: -14.5, y: -2, rotation: 30, xScl: -0.95, yScl: 1.05, layerOffset: -0.00134, heatLayerOffset: 0.011 }
-  { name: pulsar, outline: false, x: 17.5, y: 0.5, rotation: -38, xScl: 0.82, yScl: 0.85, layerOffset: -0.00132, heatLayerOffset: 0.011 }
-  { name: pulsar, outline: false, x: -17.5, y: 0.5, rotation: 38, xScl: -0.82, yScl: 0.85, layerOffset: -0.00132, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 20.5, y: 2.5, rotation: -42, xScl: 0.78, yScl: 1.1, layerOffset: -0.0013, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -20.5, y: 2.5, rotation: 42, xScl: -0.78, yScl: 1.1, layerOffset: -0.0013, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 23.0, y: 4.5, rotation: -45, xScl: 0.8, yScl: 0.85, layerOffset: -0.00128, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -23.0, y: 4.5, rotation: 45, xScl: -0.8, yScl: 0.85, layerOffset: -0.00128, heatLayerOffset: 0.011 }
+  { name: quasar, outline: false, x: 20, y: -3.5, rotation: -125, xScl: 0.95, yScl: 1, layerOffset: -0.00133, heatLayerOffset: 0.011 }
+  { name: quasar, outline: false, x: -20, y: -3.5, rotation: 125, xScl: -0.95, yScl: 1, layerOffset: -0.00133, heatLayerOffset: 0.011 }
+  { name: pulsar, outline: false, x: 25, y: -7.5, rotation: -128, xScl: 0.9, yScl: 0.95, layerOffset: -0.00132, heatLayerOffset: 0.011 }
+  { name: pulsar, outline: false, x: -25, y: -7.5, rotation: 128, xScl: -0.9, yScl: 0.95, layerOffset: -0.00132, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 29.5, y: -11.5, rotation: -130, xScl: 0.86, yScl: 0.98, layerOffset: -0.00131, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: -29.5, y: -11.5, rotation: 130, xScl: -0.86, yScl: 0.98, layerOffset: -0.00131, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 33.5, y: -15, rotation: -132, xScl: 0.8, yScl: 1.12, layerOffset: -0.0013, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -33.5, y: -15, rotation: 132, xScl: -0.8, yScl: 1.12, layerOffset: -0.0013, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 37, y: -18.2, rotation: -134, xScl: 0.75, yScl: 0.85, layerOffset: -0.00128, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -37, y: -18.2, rotation: 134, xScl: -0.75, yScl: 0.85, layerOffset: -0.00128, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // TWIN PRONGS — mega's signature forward arms, scaled up.
-  // Shingled retusa/oxynoe/nova segments, converging ~8 degrees.
+  // FORWARD CANARDS & CHEEK BLADES — converging halberd cheeks + swept side fins
   // =================================================================
-  { name: retusa, outline: false, x: 15.6, y: 8, rotation: -8, xScl: 0.95, yScl: 1.2, layerOffset: -0.00126, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -15.6, y: 8, rotation: 8, xScl: -0.95, yScl: 1.2, layerOffset: -0.00126, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: 14.9, y: 12.5, rotation: -8, xScl: 0.92, yScl: 1.05, layerOffset: -0.00124, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: -14.9, y: 12.5, rotation: 8, xScl: -0.92, yScl: 1.05, layerOffset: -0.00124, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 14.2, y: 17, rotation: -8, xScl: 0.9, yScl: 0.95, layerOffset: -0.00122, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -14.2, y: 17, rotation: 8, xScl: -0.9, yScl: 0.95, layerOffset: -0.00122, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 13.5, y: 21.5, rotation: -8, xScl: 0.86, yScl: 1.16, layerOffset: -0.0012, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -13.5, y: 21.5, rotation: 8, xScl: -0.86, yScl: 1.16, layerOffset: -0.0012, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: 12.8, y: 26, rotation: -8, xScl: 0.84, yScl: 1.0, layerOffset: -0.00118, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: -12.8, y: 26, rotation: 8, xScl: -0.84, yScl: 1.0, layerOffset: -0.00118, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 12.1, y: 30.5, rotation: -8, xScl: 0.82, yScl: 0.9, layerOffset: -0.00116, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -12.1, y: 30.5, rotation: 8, xScl: -0.82, yScl: 0.9, layerOffset: -0.00116, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 11.5, y: 35, rotation: -8, xScl: 0.8, yScl: 1.12, layerOffset: -0.00114, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -11.5, y: 35, rotation: 8, xScl: -0.8, yScl: 1.12, layerOffset: -0.00114, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: 11.0, y: 39.5, rotation: -8, xScl: 0.77, yScl: 0.95, layerOffset: -0.00112, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: -11.0, y: 39.5, rotation: 8, xScl: -0.77, yScl: 0.95, layerOffset: -0.00112, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: 10.6, y: 43.5, rotation: -8, xScl: 0.75, yScl: 0.85, layerOffset: -0.0011, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -10.6, y: 43.5, rotation: 8, xScl: -0.75, yScl: 0.85, layerOffset: -0.0011, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 10.3, y: 47, rotation: -8, xScl: 0.72, yScl: 1.1, layerOffset: -0.00108, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: -10.3, y: 47, rotation: 8, xScl: -0.72, yScl: 1.1, layerOffset: -0.00108, heatLayerOffset: 0.011 }
-
-
-  // =================================================================
-  // FRONT DECK FILLER — bridges the prongs into one deck.
-  // Every weapon-mount sprite carries heatProgress: 0 so its atlas
-  // heat region never draws (body parts inherit the Needle's heat).
-  // =================================================================
-  // valley caps — outlined hulls, no heat region
-  { name: nova, outline: false, x: 5.6,  y: 49.5, rotation: -8, xScl: 0.85,  yScl: 0.85, layerOffset: -0.00108, heatLayerOffset: 0.011 }
-  { name: nova, outline: false, x: -5.6, y: 49.5, rotation: 8,  xScl: -0.85, yScl: 0.85, layerOffset: -0.00108, heatLayerOffset: 0.011 }
-
-  // centre seam slabs
-  { name: beam-weapon,         outline: false, x: 3.5,  y: 5.5,  rotation: 90,  xScl: 1.2,  yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -3.5, y: 5.5,  rotation: -90, xScl: -1.2, yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 3.5,  y: 10.5, rotation: 90,  xScl: 1.2,  yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -3.5, y: 10.5, rotation: -90, xScl: -1.2, yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: plasma-laser-mount,  outline: false, x: 0,    y: 17,   rotation: 90,  xScl: 1.2,  yScl: 1.2, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 3.5,  y: 24.5, rotation: 90,  xScl: 1.1,  yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -3.5, y: 24.5, rotation: -90, xScl: -1.1, yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 3.5,  y: 29.5, rotation: 90,  xScl: 1.1,  yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -3.5, y: 29.5, rotation: -90, xScl: -1.1, yScl: 1.0, layerOffset: -0.00107, heatProgress: 0 }
-  { name: plasma-laser-mount,  outline: false, x: 0,    y: 36,   rotation: 90,  xScl: 1.1,  yScl: 1.1, layerOffset: -0.00107, heatProgress: 0 }
-  { name: point-defense-mount, outline: false, x: 0,    y: 44,                  xScl: 1.1,  yScl: 1.1, layerOffset: -0.00107, heatProgress: 0 }
-
-  // side filler
-  { name: heal-weapon-mount,   outline: false, x: 8.6,  y: 6.5,  rotation: -8,  xScl: 1.2,   yScl: 1.15, layerOffset: -0.00106,  heatProgress: 0 }
-  { name: heal-weapon-mount,   outline: false, x: -8.6, y: 6.5,  rotation: 8,   xScl: -1.2,  yScl: 1.15, layerOffset: -0.00106,  heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 8.3,  y: 11.5, rotation: 82,  xScl: 1.2,   yScl: 1.0,  layerOffset: -0.00105,  heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -8.3, y: 11.5, rotation: -82, xScl: -1.2,  yScl: 1.0,  layerOffset: -0.00105,  heatProgress: 0 }
-  { name: plasma-laser-mount,  outline: false, x: 7.9,  y: 16.5, rotation: -8,  xScl: 1.1,   yScl: 1.0,  layerOffset: -0.00104,  heatProgress: 0 }
-  { name: plasma-laser-mount,  outline: false, x: -7.9, y: 16.5, rotation: 8,   xScl: -1.1,  yScl: 1.0,  layerOffset: -0.00104,  heatProgress: 0 }
-  { name: heal-shotgun-weapon, outline: false, x: 7.5,  y: 21.5, rotation: -8,  xScl: 1.1,   yScl: 1.1,  layerOffset: -0.00103,  heatProgress: 0 }
-  { name: heal-shotgun-weapon, outline: false, x: -7.5, y: 21.5, rotation: 8,   xScl: -1.1,  yScl: 1.1,  layerOffset: -0.00103,  heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 7.1,  y: 26,   rotation: 82,  xScl: 1.15,  yScl: 1.0,  layerOffset: -0.00102,  heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -7.1, y: 26,   rotation: -82, xScl: -1.15, yScl: 1.0,  layerOffset: -0.00102,  heatProgress: 0 }
-  { name: point-defense-mount, outline: false, x: 6.8,  y: 30.5, rotation: -8,  xScl: 1.0,   yScl: 1.0,  layerOffset: -0.00101,  heatProgress: 0 }
-  { name: point-defense-mount, outline: false, x: -6.8, y: 30.5, rotation: 8,   xScl: -1.0,  yScl: 1.0,  layerOffset: -0.00101,  heatProgress: 0 }
-  { name: heal-weapon-mount,   outline: false, x: 6.4,  y: 35.5, rotation: -8,  xScl: 1.0,   yScl: 1.0,  layerOffset: -0.001005, heatProgress: 0 }
-  { name: heal-weapon-mount,   outline: false, x: -6.4, y: 35.5, rotation: 8,   xScl: -1.0,  yScl: 1.0,  layerOffset: -0.001005, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: 6.0,  y: 40,   rotation: 82,  xScl: 1.0,   yScl: 1.0,  layerOffset: -0.001002, heatProgress: 0 }
-  { name: beam-weapon,         outline: false, x: -6.0, y: 40,   rotation: -82, xScl: -1.0,  yScl: 1.0,  layerOffset: -0.001002, heatProgress: 0 }
-  { name: heal-shotgun-weapon, outline: false, x: 5.6,  y: 44.5, rotation: -8,  xScl: 0.9,   yScl: 0.9,  layerOffset: -0.001,    heatProgress: 0 }
-  { name: heal-shotgun-weapon, outline: false, x: -5.6, y: 44.5, rotation: 8,   xScl: -0.9,  yScl: 0.9,  layerOffset: -0.001,    heatProgress: 0 }
+  { name: pulsar, outline: false, x: 15, y: 5.5, rotation: -22, xScl: 0.88, yScl: 0.92, layerOffset: -0.00126, heatLayerOffset: 0.011 }
+  { name: pulsar, outline: false, x: -15, y: 5.5, rotation: 22, xScl: -0.88, yScl: 0.92, layerOffset: -0.00126, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 18.2, y: 9, rotation: -32, xScl: 0.82, yScl: 1.12, layerOffset: -0.00125, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -18.2, y: 9, rotation: 32, xScl: -0.82, yScl: 1.12, layerOffset: -0.00125, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 20.8, y: 12, rotation: -38, xScl: 0.76, yScl: 0.85, layerOffset: -0.00124, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -20.8, y: 12, rotation: 38, xScl: -0.76, yScl: 0.85, layerOffset: -0.00124, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 13.4, y: 11, rotation: -12, xScl: 0.9, yScl: 1.18, layerOffset: -0.00122, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -13.4, y: 11, rotation: 12, xScl: -0.9, yScl: 1.18, layerOffset: -0.00122, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 12.2, y: 16.5, rotation: -12, xScl: 0.88, yScl: 1.02, layerOffset: -0.0012, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: -12.2, y: 16.5, rotation: 12, xScl: -0.88, yScl: 1.02, layerOffset: -0.0012, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 11, y: 22, rotation: -11, xScl: 0.85, yScl: 0.92, layerOffset: -0.00118, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -11, y: 22, rotation: 11, xScl: -0.85, yScl: 0.92, layerOffset: -0.00118, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 9.8, y: 27.5, rotation: -10, xScl: 0.82, yScl: 1.14, layerOffset: -0.00116, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -9.8, y: 27.5, rotation: 10, xScl: -0.82, yScl: 1.14, layerOffset: -0.00116, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 8.6, y: 33, rotation: -10, xScl: 0.78, yScl: 0.96, layerOffset: -0.00114, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: -8.6, y: 33, rotation: 10, xScl: -0.78, yScl: 0.96, layerOffset: -0.00114, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 7.5, y: 38.5, rotation: -9, xScl: 0.75, yScl: 0.86, layerOffset: -0.00112, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -7.5, y: 38.5, rotation: 9, xScl: -0.75, yScl: 0.86, layerOffset: -0.00112, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 6.5, y: 44, rotation: -8, xScl: 0.72, yScl: 1.08, layerOffset: -0.0011, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: -6.5, y: 44, rotation: 8, xScl: -0.72, yScl: 1.08, layerOffset: -0.0011, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 5.2, y: 49, rotation: -8, xScl: 0.76, yScl: 0.82, layerOffset: -0.00108, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: -5.2, y: 49, rotation: 8, xScl: -0.76, yScl: 0.82, layerOffset: -0.00108, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // CENTRAL LANCE — raised spine (hull sprites, no heat regions)
+  // PROW DECK CONDUITS — recessed mechanical detail under the central lance (heatProgress: 0)
   // =================================================================
-  { name: retusa, outline: false, x: 0, y: 5,    xScl: 0.8,  yScl: 1.2,  layerOffset: -0.00099, heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 9.5,  xScl: 0.85, yScl: 0.9,  layerOffset: -0.00098, heatLayerOffset: 0.011 }
-  { name: oxynoe, outline: false, x: 0, y: 13.5, xScl: 0.78, yScl: 0.9,  layerOffset: -0.00097, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 0, y: 18,   xScl: 0.76, yScl: 1.18, layerOffset: -0.00096, heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 22.5, xScl: 0.78, yScl: 0.84, layerOffset: -0.00095, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 0, y: 27,   xScl: 0.75, yScl: 1.16, layerOffset: -0.00094, heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 31.5, xScl: 0.76, yScl: 0.8,  layerOffset: -0.00093, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 0, y: 36,   xScl: 0.75, yScl: 1.14, layerOffset: -0.00092, heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 40.5, xScl: 0.74, yScl: 0.8,  layerOffset: -0.00091, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 0, y: 45,   xScl: 0.74, yScl: 1.12, layerOffset: -0.0009,  heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 49,   xScl: 0.72, yScl: 0.78, layerOffset: -0.00089, heatLayerOffset: 0.011 }
-  { name: retusa, outline: false, x: 0, y: 53,   xScl: 0.72, yScl: 1.1,  layerOffset: -0.00088, heatLayerOffset: 0.011 }
-  { name: nova,   outline: false, x: 0, y: 56.5, xScl: 0.7,  yScl: 0.75, layerOffset: -0.00087, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: 3.5, y: 6.5, rotation: 90, xScl: 1.15, yScl: 1, layerOffset: -0.00107, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -3.5, y: 6.5, rotation: -90, xScl: -1.15, yScl: 1, layerOffset: -0.00107, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 3.5, y: 12.5, rotation: 90, xScl: 1.1, yScl: 1, layerOffset: -0.00107, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -3.5, y: 12.5, rotation: -90, xScl: -1.1, yScl: 1, layerOffset: -0.00107, heatProgress: 0 }
+  { name: plasma-laser-mount, outline: false, x: 0, y: 18.5, rotation: 90, xScl: 1.15, yScl: 1.15, layerOffset: -0.00107, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 3.2, y: 25.5, rotation: 90, xScl: 1.05, yScl: 0.95, layerOffset: -0.00107, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -3.2, y: 25.5, rotation: -90, xScl: -1.05, yScl: 0.95, layerOffset: -0.00107, heatProgress: 0 }
+  { name: plasma-laser-mount, outline: false, x: 0, y: 34, rotation: 90, xScl: 1.05, yScl: 1.05, layerOffset: -0.00107, heatProgress: 0 }
+  { name: point-defense-mount, outline: false, x: 0, y: 43.5, xScl: 1.05, yScl: 1.05, layerOffset: -0.00107, heatProgress: 0 }
+  { name: heal-weapon-mount, outline: false, x: 8.2, y: 7.5, rotation: -12, xScl: 1.12, yScl: 1.08, layerOffset: -0.00105, heatProgress: 0 }
+  { name: heal-weapon-mount, outline: false, x: -8.2, y: 7.5, rotation: 12, xScl: -1.12, yScl: 1.08, layerOffset: -0.00105, heatProgress: 0 }
+  { name: plasma-laser-mount, outline: false, x: 7.4, y: 16.5, rotation: -11, xScl: 1.02, yScl: 0.96, layerOffset: -0.00104, heatProgress: 0 }
+  { name: plasma-laser-mount, outline: false, x: -7.4, y: 16.5, rotation: 11, xScl: -1.02, yScl: 0.96, layerOffset: -0.00104, heatProgress: 0 }
+  { name: heal-shotgun-weapon, outline: false, x: 6.4, y: 25.5, rotation: -10, xScl: 0.98, yScl: 1, layerOffset: -0.00103, heatProgress: 0 }
+  { name: heal-shotgun-weapon, outline: false, x: -6.4, y: 25.5, rotation: 10, xScl: -0.98, yScl: 1, layerOffset: -0.00103, heatProgress: 0 }
+  { name: point-defense-mount, outline: false, x: 5.5, y: 34.5, rotation: -9, xScl: 0.92, yScl: 0.92, layerOffset: -0.00101, heatProgress: 0 }
+  { name: point-defense-mount, outline: false, x: -5.5, y: 34.5, rotation: 9, xScl: -0.92, yScl: 0.92, layerOffset: -0.00101, heatProgress: 0 }
 
   // =================================================================
-  // BEAM RAILS — front deck
+  // CENTRAL LANCE — raised spine (green-support hull sprites, no off-colour parts)
   // =================================================================
-  // spine rails
-  { name: beam-weapon, outline: false, x: 0, y: 11, rotation: 90, xScl: 0.9,  yScl: 0.8,  layerOffset: -0.0008, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 0, y: 23, rotation: 90, xScl: 0.88, yScl: 0.78, layerOffset: -0.0008, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 0, y: 35, rotation: 90, xScl: 0.85, yScl: 0.77, layerOffset: -0.0008, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 0, y: 47, rotation: 90, xScl: 0.8,  yScl: 0.76, layerOffset: -0.0008, heatProgress: 0 }
+  { name: quasar, outline: false, x: 0, y: 5.5, xScl: 0.92, yScl: 0.96, layerOffset: -0.00099, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 0, y: 10, xScl: 0.88, yScl: 0.92, layerOffset: -0.00098, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 0, y: 14.5, xScl: 0.82, yScl: 0.92, layerOffset: -0.00097, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 0, y: 19, xScl: 0.8, yScl: 1.18, layerOffset: -0.00096, heatLayerOffset: 0.011 }
+  { name: pulsar, outline: false, x: 0, y: 23.5, xScl: 0.82, yScl: 0.86, layerOffset: -0.00095, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 0, y: 28, xScl: 0.78, yScl: 1.16, layerOffset: -0.00094, heatLayerOffset: 0.011 }
+  { name: oxynoe, outline: false, x: 0, y: 32.5, xScl: 0.76, yScl: 0.88, layerOffset: -0.00093, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 0, y: 37, xScl: 0.75, yScl: 1.14, layerOffset: -0.00092, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 0, y: 41.5, xScl: 0.74, yScl: 0.82, layerOffset: -0.00091, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 0, y: 45.5, xScl: 0.74, yScl: 1.12, layerOffset: -0.0009, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 0, y: 49.5, xScl: 0.72, yScl: 0.78, layerOffset: -0.00089, heatLayerOffset: 0.011 }
+  { name: retusa, outline: false, x: 0, y: 53.2, xScl: 0.72, yScl: 1.1, layerOffset: -0.00088, heatLayerOffset: 0.011 }
+  { name: nova, outline: false, x: 0, y: 56.5, xScl: 0.7, yScl: 0.75, layerOffset: -0.00087, heatLayerOffset: 0.011 }
+
+  // =================================================================
+  // BEAM RAILS — spine, cheek blades & swept wings
+  // =================================================================
+  { name: beam-weapon, outline: false, x: 0, y: 11, rotation: 90, xScl: 0.9, yScl: 0.8, layerOffset: -0.0008, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 0, y: 23.5, rotation: 90, xScl: 0.88, yScl: 0.78, layerOffset: -0.0008, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 0, y: 35.5, rotation: 90, xScl: 0.85, yScl: 0.77, layerOffset: -0.0008, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 0, y: 47, rotation: 90, xScl: 0.8, yScl: 0.76, layerOffset: -0.0008, heatProgress: 0 }
   { name: beam-weapon, outline: false, x: 0, y: 55, rotation: 90, xScl: 0.75, yScl: 0.75, layerOffset: -0.0008, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 12.6, y: 14, rotation: -12, xScl: 0.98, yScl: 1.28, layerOffset: -0.00095, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -12.6, y: 14, rotation: 12, xScl: -0.98, yScl: 1.28, layerOffset: -0.00095, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 10.4, y: 25, rotation: -10, xScl: 0.92, yScl: 1.24, layerOffset: -0.00093, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -10.4, y: 25, rotation: 10, xScl: -0.92, yScl: 1.24, layerOffset: -0.00093, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 8.2, y: 36, rotation: -9, xScl: 0.86, yScl: 1.2, layerOffset: -0.00091, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: -8.2, y: 36, rotation: 9, xScl: -0.86, yScl: 1.2, layerOffset: -0.00091, heatProgress: 0 }
+  { name: beam-weapon, outline: false, x: 22.5, y: -5.5, rotation: -128, xScl: 1, yScl: 1.25, layerOffset: -0.00096, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: -22.5, y: -5.5, rotation: 128, xScl: -1, yScl: 1.25, layerOffset: -0.00096, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: 31, y: -13, rotation: -132, xScl: 0.92, yScl: 1.18, layerOffset: -0.00094, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: -31, y: -13, rotation: 132, xScl: -0.92, yScl: 1.18, layerOffset: -0.00094, heatLayerOffset: 0.011 }
 
-  // prong rails
-  { name: beam-weapon, outline: false, x: 14.6,  y: 14, rotation: -8, xScl: 1.0,   yScl: 1.3,  layerOffset: -0.00095, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: -14.6, y: 14, rotation: 8,  xScl: -1.0,  yScl: 1.3,  layerOffset: -0.00095, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 13.2,  y: 23, rotation: -8, xScl: 0.95,  yScl: 1.28, layerOffset: -0.00093, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: -13.2, y: 23, rotation: 8,  xScl: -0.95, yScl: 1.28, layerOffset: -0.00093, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 12.0,  y: 32, rotation: -8, xScl: 0.9,   yScl: 1.25, layerOffset: -0.00091, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: -12.0, y: 32, rotation: 8,  xScl: -0.9,  yScl: 1.25, layerOffset: -0.00091, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: 11.0,  y: 41, rotation: -8, xScl: 0.85,  yScl: 1.2,  layerOffset: -0.00089, heatProgress: 0 }
-  { name: beam-weapon, outline: false, x: -11.0, y: 41, rotation: 8,  xScl: -0.85, yScl: 1.2,  layerOffset: -0.00089, heatProgress: 0 }
-
-  // shoulder rails
-  { name: beam-weapon, outline: false, x: 19.0, y: 1.5, rotation: -42, xScl: 1.05, yScl: 1.25, layerOffset: -0.00096, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: -19.0, y: 1.5, rotation: 42, xScl: -1.05, yScl: 1.25, layerOffset: -0.00096, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: 23.5, y: 4.8, rotation: -45, xScl: 0.95, yScl: 1.15, layerOffset: -0.00094, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: -23.5, y: 4.8, rotation: 45, xScl: -0.95, yScl: 1.15, layerOffset: -0.00094, heatLayerOffset: 0.011 }
-
-  // rear deck + winglet rails
+  // =================================================================
+  // REAR DECK + WINGLET RAILS — 1:1 from original Omni
+  // =================================================================
   { name: beam-weapon, outline: false, x: 0, y: -49.5, rotation: 180, xScl: 1.2, yScl: 1.15, layerOffset: -0.00088, heatLayerOffset: 0.011 }
   { name: beam-weapon, outline: false, x: 9.3, y: -48.2, rotation: 170, xScl: 1.1, yScl: 1.1, layerOffset: -0.0009, heatLayerOffset: 0.011 }
   { name: beam-weapon, outline: false, x: -9.3, y: -48.2, rotation: 190, xScl: -1.1, yScl: 1.1, layerOffset: -0.0009, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: 17.0, y: -44.2, rotation: 158, xScl: 1.05, yScl: 1.05, layerOffset: -0.00092, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: -17.0, y: -44.2, rotation: 202, xScl: -1.05, yScl: 1.05, layerOffset: -0.00092, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: 13.0, y: -37, rotation: -48, xScl: 1.15, yScl: 1.2, layerOffset: -0.00086, heatLayerOffset: 0.011 }
-  { name: beam-weapon, outline: false, x: -13.0, y: -37, rotation: 48, xScl: -1.15, yScl: 1.2, layerOffset: -0.00086, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: 17, y: -44.2, rotation: 158, xScl: 1.05, yScl: 1.05, layerOffset: -0.00092, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: -17, y: -44.2, rotation: 202, xScl: -1.05, yScl: 1.05, layerOffset: -0.00092, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: 13, y: -37, rotation: -48, xScl: 1.15, yScl: 1.2, layerOffset: -0.00086, heatLayerOffset: 0.011 }
+  { name: beam-weapon, outline: false, x: -13, y: -37, rotation: 48, xScl: -1.15, yScl: 1.2, layerOffset: -0.00086, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // SURFACE MOUNTS — mega's own heal mounts, scaled to position (2.3x)
+  // SURFACE MOUNTS — rear mounts 1:1 with original Omni + wing/prow mounts
   // =================================================================
   { name: heal-weapon-mount, outline: false, x: 18.4, y: -20.8, rotation: -40, xScl: 1.1, yScl: 1.1, layerOffset: -0.00058, heatLayerOffset: 0.011 }
   { name: heal-weapon-mount, outline: false, x: -18.4, y: -20.8, rotation: 40, xScl: -1.1, yScl: 1.1, layerOffset: -0.00058, heatLayerOffset: 0.011 }
-  { name: heal-weapon-mount, outline: false, x: 9.2, y: 4.5, rotation: -8, xScl: 1.0, yScl: 1.0, layerOffset: -0.00056, heatLayerOffset: 0.011 }
-  { name: heal-weapon-mount, outline: false, x: -9.2, y: 4.5, rotation: 8, xScl: -1.0, yScl: 1.0, layerOffset: -0.00056, heatLayerOffset: 0.011 }
-
+  { name: heal-weapon-mount, outline: false, x: 9.2, y: 4.5, rotation: -10, xScl: 1, yScl: 1, layerOffset: -0.00056, heatLayerOffset: 0.011 }
+  { name: heal-weapon-mount, outline: false, x: -9.2, y: 4.5, rotation: 10, xScl: -1, yScl: 1, layerOffset: -0.00056, heatLayerOffset: 0.011 }
   { name: repair-beam-weapon-center-large, outline: false, x: 0, y: -31, xScl: 0.9, yScl: 0.9, layerOffset: -0.0006, heatLayerOffset: 0.011 }
-
   { name: plasma-laser-mount, outline: false, x: 0, y: -21.6, xScl: 0.82, yScl: 0.78, layerOffset: -0.0005, heatLayerOffset: 0.011 }
   { name: plasma-laser-mount, outline: false, x: 11.4, y: -39.4, rotation: -18, xScl: 0.8, yScl: 0.8, layerOffset: -0.00068, heatLayerOffset: 0.011 }
   { name: plasma-laser-mount, outline: false, x: -11.4, y: -39.4, rotation: 18, xScl: -0.8, yScl: 0.8, layerOffset: -0.00068, heatLayerOffset: 0.011 }
-
   { name: heal-shotgun-weapon, outline: false, x: 7.4, y: -20.4, rotation: -8, xScl: 0.85, yScl: 0.9, layerOffset: -0.00062, heatLayerOffset: 0.011 }
   { name: heal-shotgun-weapon, outline: false, x: -7.4, y: -20.4, rotation: 8, xScl: -0.85, yScl: 0.9, layerOffset: -0.00062, heatLayerOffset: 0.011 }
-
-  { name: point-defense-mount, outline: false, x: 22.8, y: 3.2, rotation: -45, xScl: 0.9, yScl: 1.0, layerOffset: -0.00064, heatLayerOffset: 0.011 }
-  { name: point-defense-mount, outline: false, x: -22.8, y: 3.2, rotation: 45, xScl: -0.9, yScl: 1.0, layerOffset: -0.00064, heatLayerOffset: 0.011 }
-  { name: point-defense-mount, outline: false, x: 0, y: 13.4, xScl: 0.8, yScl: 0.8, layerOffset: -0.00066, heatLayerOffset: 0.011 }
-
-  { name: poly-weapon, outline: false, x: 6.2, y: -44.8, rotation: 180, xScl: 1.05, yScl: 1.0, layerOffset: -0.0007, heatLayerOffset: 0.011 }
-  { name: poly-weapon, outline: false, x: -6.2, y: -44.8, rotation: 180, xScl: -1.05, yScl: 1.0, layerOffset: -0.0007, heatLayerOffset: 0.011 }
-
-  { name: retusa-weapon, outline: false, x: 10.4, y: 45.6, rotation: -8, xScl: 0.75, yScl: 1.05, layerOffset: -0.00054, heatLayerOffset: 0.011 }
-  { name: retusa-weapon, outline: false, x: -10.4, y: 45.6, rotation: 8, xScl: -0.75, yScl: 1.05, layerOffset: -0.00054, heatLayerOffset: 0.011 }
+  { name: point-defense-mount, outline: false, x: 27.5, y: -9.8, rotation: -130, xScl: 0.9, yScl: 1, layerOffset: -0.00064, heatLayerOffset: 0.011 }
+  { name: point-defense-mount, outline: false, x: -27.5, y: -9.8, rotation: 130, xScl: -0.9, yScl: 1, layerOffset: -0.00064, heatLayerOffset: 0.011 }
+  { name: point-defense-mount, outline: false, x: 0, y: 14.5, xScl: 0.8, yScl: 0.8, layerOffset: -0.00066, heatLayerOffset: 0.011 }
+  { name: poly-weapon, outline: false, x: 6.2, y: -44.8, rotation: 180, xScl: 1.05, yScl: 1, layerOffset: -0.0007, heatLayerOffset: 0.011 }
+  { name: poly-weapon, outline: false, x: -6.2, y: -44.8, rotation: 180, xScl: -1.05, yScl: 1, layerOffset: -0.0007, heatLayerOffset: 0.011 }
+  { name: retusa-weapon, outline: false, x: 6.2, y: 45.6, rotation: -8, xScl: 0.75, yScl: 1.05, layerOffset: -0.00054, heatLayerOffset: 0.011 }
+  { name: retusa-weapon, outline: false, x: -6.2, y: 45.6, rotation: 8, xScl: -0.75, yScl: 1.05, layerOffset: -0.00054, heatLayerOffset: 0.011 }
   { name: retusa-weapon, outline: false, x: 1.4, y: 51.8, rotation: -3, xScl: 0.78, yScl: 1.05, layerOffset: -0.00052, heatLayerOffset: 0.011 }
   { name: retusa-weapon, outline: false, x: -1.4, y: 51.8, rotation: 3, xScl: -0.78, yScl: 1.05, layerOffset: -0.00052, heatLayerOffset: 0.011 }
 
   // =================================================================
-  // CELLS — big central mega cockpit cell is the identity piece
+  // CELLS — big central mega cockpit cell + original rear cells + wing/prow cells
   // =================================================================
   { name: mega-cell, outline: false, x: 0, y: -13, xScl: 1.5, yScl: 1.45, layerOffset: -0.00044, heatLayerOffset: 0.011 }
-  { name: mega-cell, outline: false, x: 13.0, y: -37, rotation: -48, xScl: 1.0, yScl: 0.95, layerOffset: -0.0013, heatLayerOffset: 0.011 }
-  { name: mega-cell, outline: false, x: -13.0, y: -37, rotation: 48, xScl: -1.0, yScl: 0.95, layerOffset: -0.0013, heatLayerOffset: 0.011 }
+  { name: mega-cell, outline: false, x: 13, y: -37, rotation: -48, xScl: 1, yScl: 0.95, layerOffset: -0.0013, heatLayerOffset: 0.011 }
+  { name: mega-cell, outline: false, x: -13, y: -37, rotation: 48, xScl: -1, yScl: 0.95, layerOffset: -0.0013, heatLayerOffset: 0.011 }
   { name: cyerce-cell, outline: false, x: 18.5, y: -0.5, rotation: -42, xScl: 0.9, yScl: 1.05, layerOffset: -0.0022, heatLayerOffset: 0.011 }
   { name: cyerce-cell, outline: false, x: -18.5, y: -0.5, rotation: 42, xScl: -0.9, yScl: 1.05, layerOffset: -0.0022, heatLayerOffset: 0.011 }
+  { name: cyerce-cell, outline: false, x: 25.5, y: -7.5, rotation: -128, xScl: 0.82, yScl: 0.95, layerOffset: -0.0021, heatLayerOffset: 0.011 }
+  { name: cyerce-cell, outline: false, x: -25.5, y: -7.5, rotation: 128, xScl: -0.82, yScl: 0.95, layerOffset: -0.0021, heatLayerOffset: 0.011 }
   { name: poly-cell, outline: false, x: 0, y: -47.5, xScl: 1.2, yScl: 1.15, layerOffset: -0.00045, heatLayerOffset: 0.011 }
   { name: power-cell, outline: false, x: 0, y: -22.8, xScl: 1.25, yScl: 1.2, layerOffset: -0.0003, heatLayerOffset: 0.011 }
   { name: power-cell, outline: false, x: 0, y: -34.2, xScl: 1.15, yScl: 1.1, layerOffset: -0.00035, heatLayerOffset: 0.011 }
-  { name: power-cell, outline: false, x: 0, y: -5.4, xScl: 1.05, yScl: 1.0, layerOffset: -0.00032, heatLayerOffset: 0.011 }
+  { name: power-cell, outline: false, x: 0, y: -5.4, xScl: 1.05, yScl: 1, layerOffset: -0.00032, heatLayerOffset: 0.011 }
   { name: power-cell, outline: false, x: 0, y: 53.2, xScl: 0.9, yScl: 0.85, layerOffset: -0.00028, heatLayerOffset: 0.011 }
-  { name: quasar-cell, outline: false, x: 0, y: -23, xScl: 1.1, yScl: 1.0, layerOffset: -0.00028, heatLayerOffset: 0.011 }
+  { name: quasar-cell, outline: false, x: 0, y: -23, xScl: 1.1, yScl: 1, layerOffset: -0.00028, heatLayerOffset: 0.011 }
   { name: quasar-cell, outline: false, x: 0, y: -3.5, xScl: 0.9, yScl: 0.86, layerOffset: -0.0003, heatLayerOffset: 0.011 }
+  { name: quasar-cell, outline: false, x: 0, y: 5.5, xScl: 0.88, yScl: 0.85, layerOffset: -0.00029, heatLayerOffset: 0.011 }
   { name: nova-cell, outline: false, x: 0, y: -14, xScl: 1.2, yScl: 1.1, layerOffset: -0.0004, heatLayerOffset: 0.011 }
-  { name: nova-cell, outline: false, x: 0, y: 22.5, xScl: 0.8, yScl: 0.8, layerOffset: -0.00026, heatLayerOffset: 0.011 }
+  { name: nova-cell, outline: false, x: 0, y: 23.5, xScl: 0.82, yScl: 0.82, layerOffset: -0.00026, heatLayerOffset: 0.011 }
+  { name: nova-cell, outline: false, x: 37, y: -18.2, rotation: -134, xScl: 0.7, yScl: 0.75, layerOffset: -0.00027, heatLayerOffset: 0.011 }
+  { name: nova-cell, outline: false, x: -37, y: -18.2, rotation: 134, xScl: -0.7, yScl: 0.75, layerOffset: -0.00027, heatLayerOffset: 0.011 }
 
   // =================================================================
   // GLOW ACCENTS — additive heal-green
@@ -348,7 +323,7 @@ parts: [
   {
     name: retusa-weapon
     outline: false
-    x: 10.4
+    x: 6.2
     y: 45.6
     rotation: -8
     xScl: 0.75
@@ -361,7 +336,7 @@ parts: [
   {
     name: retusa-weapon
     outline: false
-    x: -10.4
+    x: -6.2
     y: 45.6
     rotation: 8
     xScl: -0.75
@@ -1235,4 +1210,3 @@ weapons: [
     }
   }
 ]
-
