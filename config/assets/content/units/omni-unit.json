@@ -224,9 +224,9 @@ parts: [
   // SEAM COVERS — outlineless trim above the merged armor.
   // ================================================================
 
-  { name: heal-shotgun-weapon, mirror: true, outline: false, x: 8,   y: 15,   rotation: -12, xScl: 1.6,  yScl: 1.75, layerOffset: -0.004, heatProgress: 0 }
-  { name: heal-shotgun-weapon, mirror: true, outline: false, x: 5.2, y: 29.5, rotation: -8,  xScl: 1.25, yScl: 1.4,  layerOffset: -0.004, heatProgress: 0 }
-  { name: heal-shotgun-weapon, mirror: true, outline: false, x: 2.5, y: 44,                  xScl: 0.95, yScl: 1.1,  layerOffset: -0.004, heatProgress: 0 }
+  { name: heal-shotgun-weapon, mirror: true, outlineLayerOffset: -0.003, outline: true, x: 8,   y: 15,   rotation: -12, xScl: 1.6,  yScl: 1.75, layerOffset: -0.004, heatProgress: 0 }
+  { name: heal-shotgun-weapon, mirror: true, outlineLayerOffset: -0.003, outline: true, x: 5.2, y: 29.5, rotation: -8,  xScl: 1.25, yScl: 1.4,  layerOffset: -0.004, heatProgress: 0 }
+  { name: heal-shotgun-weapon, mirror: true, outlineLayerOffset: -0.003, outline: false, x: 2.5, y: 44,                  xScl: 0.95, yScl: 1.1,  layerOffset: -0.004, heatProgress: 0 }
 
   { name: beam-weapon, mirror: true, outline: false, x: 15, y: -3, rotation: -58, xScl: 1.35, yScl: 1.0,  layerOffset: -0.004, heatProgress: 0 }
   { name: beam-weapon, mirror: true, outline: false, x: 24, y: 4,  rotation: -58, xScl: 1.15, yScl: 0.95, layerOffset: -0.004, heatProgress: 0 }
@@ -518,7 +518,7 @@ weapons: [
     mirror: false
     top: true
     x: 0
-    y: -7
+    y: 11
     shootY: 15
     rotate: true
     rotateSpeed: 1.15
@@ -1314,3 +1314,4 @@ weapons: [
     }
   }
 ]
+
