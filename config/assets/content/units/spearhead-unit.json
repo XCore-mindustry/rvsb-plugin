@@ -3,7 +3,7 @@
   controller: FlyingAI
   drag: 0.09
   speed: 2.15
-  strafePenalty: 0.4
+  strafePenalty: 0.3
   health: 3200
   hitSize: 27
   armor: 6
@@ -54,7 +54,7 @@
       shootStatusDuration: 480
       reload: 1200
       cooldownTime: 1200
-      minShootVelocity: 1.881
+      minShootVelocity: 1.6
       shootCone: 360
       alwaysShooting: false
       autoTarget: false
