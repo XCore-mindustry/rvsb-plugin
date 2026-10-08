@@ -1,0 +1,13 @@
+unit.dp-orion-unit: {
+    region: "corvus"
+    outlineRegion: "corvus"
+    cellRegion: "quad-cell"
+    shadowRegion: "corvus"
+    legRegion: "corvus-leg"
+    legBaseRegion: "corvus-leg-base"
+    footRegion: "corvus-foot"
+    jointRegion: "corvus-joint"
+    uiIcon: "unit-corvus-ui"
+    fullIcon: "unit-corvus-full"
+    previewRegion: "unit-corvus-full"
+}

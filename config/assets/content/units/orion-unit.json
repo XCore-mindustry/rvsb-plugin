@@ -1,12 +1,10 @@
-name: "crobus opus5.5 benchmark ai slop to be fixed because its too good"
-unit: {
-  evoke: {
-    localizedName: "orion"
-    description: "he the one who cometh"
+name: "orion"
+    localizedName: "Orion"
+    description: "Fires lasers, lightning and bolts that repair allied buildings and damage enemy targets"
+    credit: "maded bie aelphy"
     hideDetails: false
     type: "legs"
     controller: "GroundAI"
-    aiController: "GroundAI"
     flying: false
     lowAltitude: false
     canBoost: false
@@ -29,7 +27,7 @@ unit: {
     faceTarget: true
     omniMovement: true
     targetPriority: 1
-    health: 56000
+    health: 33000
     armor: 22
     hitSize: 46
     speed: 0.36
@@ -45,7 +43,7 @@ unit: {
     drawShields: false
     mineTier: -1
     mineWalls: false
-    buildSpeed: 2.5
+    buildSpeed: 0.01
     buildBeamOffset: 20
     itemCapacity: 150
     immunities: ["burning", "shocked", "electrified", "wet", "freezing"]
@@ -64,21 +62,10 @@ unit: {
     legLengthScl: 0.95
     lockLegBase: true
     legContinuousMove: true
-    legSplashDamage: 90
+    legSplashDamage: 67.5
     legSplashRange: 44
     rippleScale: 3.2
     flowfieldPathType: 1
-    region: "corvus"
-    outlineRegion: "corvus"
-    cellRegion: "quad-cell"
-    shadowRegion: "corvus"
-    legRegion: "corvus-leg"
-    legBaseRegion: "corvus-leg-base"
-    footRegion: "corvus-foot"
-    jointRegion: "corvus-joint"
-    uiIcon: "unit-corvus-ui"
-    fullIcon: "unit-corvus-full"
-    previewRegion: "unit-corvus-full"
     engines: []
     parts: [
       {
@@ -113,102 +100,304 @@ unit: {
       }
     ]
     weapons: [
-      {
-        name: "corvus-weapon"
-        x: 0
-        y: 0
-        mirror: false
-        flipSprite: false
-        alternate: false
-        top: false
-        rotate: false
-        layerOffset: 0.0001
-        shootY: 22
-        shootCone: 12
-        reload: 360
-        recoil: 0
-        recoilTime: 360
-        cooldownTime: 320
-        heatColor: "000000"
-        shake: 16
-        parentizeEffects: true
-        shootStatus: "unmoving"
-        shootStatusDuration: 150
-        chargeSound: "chargeCorvus"
-        shootSound: "shootCorvus"
-        soundPitchMin: 0.7
-        soundPitchMax: 0.8
-        ejectEffect: "none"
-        shoot: {
-          firstShotDelay: 80
-        }
-        parts: [
-          {
-            type: "RegionPart"
-            name: "corvus-weapon"
-            outline: false
-            heatColor: "98ffa9"
-            heatLayerOffset: 0.00005
-            layerOffset: 0
-          }
-          {
-            type: "RegionPart"
-            name: "emp-cannon-mount"
-            y: 10
-            xScl: 1.25
-            yScl: 1.5
-            layerOffset: 0.0001
-          }
-          {
-            type: "RegionPart"
-            name: "heal-weapon"
-            mirror: true
-            x: 4.2
-            y: 13
-            rotation: -6
-            moveX: 1.2
-            moveY: 2
-            moveRot: -8
-            layerOffset: 0.0002
-          }
-          {
-            type: "RegionPart"
-            name: "heal-shotgun-weapon"
-            y: 6
-            xScl: 1.3
-            yScl: 1.1
-            layerOffset: 0.0003
-          }
-        ]
-        bullet: {
-          type: "LaserBulletType"
-          length: 560
-          width: 95
-          damage: 1350
-          lifetime: 70
-          largeHit: true
-          pierceArmor: true
-          buildingDamageMultiplier: 1.25
-          healPercent: 25
-          collidesTeam: true
-          chargeEffect: "greenLaserCharge"
-          hitColor: "98ffa9"
-          lightColor: "98ffa9"
-          lightningColor: "98ffa9"
-          lightningSpacing: 30
-          lightningLength: 7
-          lightningLengthRand: 18
-          lightningDelay: 1.1
-          lightningDamage: 75
-          lightningAngleRand: 40
-          sideAngle: 25
-          sideWidth: 1.2
-          sideLength: 120
-          status: "electrified"
-          statusDuration: 240
-          colors: ["98ffa966", "98ffa9", "ffffff"]
-        }
-      }
+{
+name: "corvus-weapon"
+x: 0
+y: 0
+mirror: false
+flipSprite: false
+alternate: false
+top: false
+rotate: false
+layerOffset: 0.0001
+shootY: 22
+shootCone: 12
+reload: 360
+recoil: 0
+recoilTime: 360
+cooldownTime: 320
+heatColor: "000000"
+shake: 16
+parentizeEffects: true
+shootStatus: "unmoving"
+shootStatusDuration: 150
+chargeSound: "chargeCorvus"
+shootSound: "acceleratorLaunch"
+soundPitchMin: 0.7
+soundPitchMax: 0.8
+ejectEffect: "none"
+shoot: {
+firstShotDelay: 80
+}
+parts: [
+{
+type: "RegionPart"
+name: "corvus-weapon"
+outline: false
+heatColor: "98ffa9"
+heatLayerOffset: 0.00005
+layerOffset: 0
+}
+{
+type: "RegionPart"
+name: "emp-cannon-mount"
+y: 10
+xScl: 1.25
+yScl: 1.5
+layerOffset: 0.0001
+}
+{
+type: "RegionPart"
+name: "heal-weapon"
+mirror: true
+x: 4.2
+y: 13
+rotation: -6
+moveX: 1.2
+moveY: 2
+moveRot: -8
+layerOffset: 0.0002
+}
+{
+type: "RegionPart"
+name: "heal-shotgun-weapon"
+y: 6
+xScl: 1.3
+yScl: 1.1
+layerOffset: 0.0003
+}
+]
+bullet: {
+type: "BasicBulletType"
+sprite: "circle-bullet"
+speed: 10
+lifetime: 30
+width: 22
+height: 22
+shrinkX: 0
+shrinkY: 0
+spin: 6
+damage: 400
+splashDamage: 2400
+splashDamageRadius: 50
+splashDamagePierce: true
+pierceArmor: true
+buildingDamageMultiplier: 1.25
+healPercent: 25
+collidesTeam: true
+despawnHit: true
+chargeEffect: "greenLaserCharge"
+shootEffect: "none"
+smokeEffect: "none"
+frontColor: "ffffff"
+backColor: "98ffa9"
+hitColor: "98ffa9"
+lightColor: "98ffa9"
+lightRadius: 40
+trailLength: 14
+trailWidth: 6
+trailColor: "98ffa9"
+status: "electrified"
+statusDuration: 240
+hitShake: 8
+hitSound: "acceleratorLaunch"
+hitSoundPitch: 0.75
+hitSoundVolume: 1.2
+hitShake: 14
+hitEffect: [
+// 1. Core flash
+{
+type: "ParticleEffect"
+lifetime: 18
+clip: 400
+particles: 1
+length: 0
+region: "circle"
+sizeFrom: 55
+sizeTo: 0
+sizeInterp: "pow3Out"
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+lightColor: "98ffa9"
+lightScl: 3
+lightOpacity: 0.8
+}
+// 2. Fireball
+{
+type: "ParticleEffect"
+lifetime: 45
+clip: 400
+particles: 12
+length: 30
+baseLength: 4
+interp: "pow5Out"
+sizeInterp: "pow2In"
+region: "circle"
+sizeFrom: 18
+sizeTo: 0
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+}
+// 3. Three shockwaves, one after another
+{
+type: "WaveEffect"
+lifetime: 22
+clip: 400
+sizeFrom: 0
+sizeTo: 70
+strokeFrom: 7
+strokeTo: 0
+interp: "pow4Out"
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+lightColor: "98ffa9"
+}
+{
+type: "WaveEffect"
+startDelay: 6
+lifetime: 28
+clip: 400
+sizeFrom: 10
+sizeTo: 95
+strokeFrom: 4
+strokeTo: 0
+interp: "pow3Out"
+colorFrom: "b6ffcb"
+colorTo: "98ffa900"
+}
+{
+type: "WaveEffect"
+startDelay: 12
+lifetime: 40
+clip: 400
+sizeFrom: 20
+sizeTo: 130
+strokeFrom: 2
+strokeTo: 0
+interp: "circleOut"
+colorFrom: "98ffa9"
+colorTo: "3d664400"
+}
+// 4. Spinning hexagon ring
+{
+type: "WaveEffect"
+lifetime: 50
+clip: 400
+sides: 6
+rotation: 30
+sizeFrom: 0
+sizeTo: 60
+strokeFrom: 5
+strokeTo: 0
+interp: "pow3Out"
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+}
+// 5. Five spikes of light (your 5 radial hits)
+{
+type: "RadialEffect"
+amount: 5
+rotationSpacing: 72
+lengthOffset: 0
+effect: {
+type: "ParticleEffect"
+lifetime: 30
+clip: 400
+particles: 1
+line: true
+cone: 0
+length: 70
+baseLength: 6
+interp: "pow5Out"
+strokeFrom: 6
+strokeTo: 0
+lenFrom: 40
+lenTo: 0
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+}
+}
+// 6. Five follow-up explosions around the edge
+{
+type: "RadialEffect"
+amount: 5
+rotationSpacing: 72
+rotationOffset: 36
+lengthOffset: 34
+effect: {
+type: "ExplosionEffect"
+startDelay: 8
+lifetime: 40
+clip: 400
+waveLife: 10
+waveStroke: 3
+waveRad: 22
+waveRadBase: 3
+waveColor: "98ffa9"
+sparkColor: "b6ffcb"
+smokeColor: "3d6644"
+sparks: 7
+sparkRad: 28
+sparkLen: 5
+sparkStroke: 1.5
+smokes: 6
+smokeSize: 6
+smokeRad: 22
+}
+}
+// 7. Sparks flying out
+{
+type: "ParticleEffect"
+lifetime: 40
+clip: 400
+particles: 26
+line: true
+length: 105
+baseLength: 10
+interp: "pow4Out"
+strokeFrom: 2.2
+strokeTo: 0
+lenFrom: 14
+lenTo: 2
+colorFrom: "ffffff"
+colorTo: "98ffa9"
+}
+// 8. Glowing embers
+{
+type: "ParticleEffect"
+startDelay: 4
+lifetime: 70
+clip: 400
+particles: 18
+length: 85
+interp: "pow3Out"
+region: "circle"
+sizeFrom: 3
+sizeTo: 0
+colorFrom: "b6ffcb"
+colorTo: "98ffa9"
+}
+// 9. Lingering smoke cloud
+{
+type: "ParticleEffect"
+startDelay: 10
+lifetime: 140
+clip: 400
+particles: 14
+length: 55
+baseLength: 8
+interp: "pow5Out"
+sizeInterp: "pow5In"
+region: "circle"
+sizeFrom: 16
+sizeTo: 0
+colorFrom: "3d6644"
+colorTo: "3d664400"
+}
+]
+despawnEffect: "none"
+}
+}
       {
         name: "beam-weapon"
         x: 27
@@ -274,7 +463,7 @@ unit: {
         ]
         bullet: {
           type: "ContinuousLaserBulletType"
-          damage: 50
+          damage: 37.5
           length: 250
           lifetime: 170
           drawSize: 560
@@ -360,7 +549,7 @@ unit: {
         ]
         bullet: {
           type: "ContinuousLaserBulletType"
-          damage: 50
+          damage: 37.5
           length: 250
           lifetime: 170
           drawSize: 560
@@ -393,17 +582,17 @@ unit: {
         rotateSpeed: 6
         rotationLimit: 110
         layerOffset: 0.002
-        shootY: 7
-        reload: 42
+        shootY: 4.2
+        reload: 120
         recoil: 2.5
-        recoilTime: 42
+        recoilTime: 120
         shake: 2.2
         inaccuracy: 28
-        shootSound: "shootArc"
+        shootSound: "shootLaser"
         ejectEffect: "none"
         shoot: {
-          shots: 5
-          shotDelay: 2
+          shots: 9
+          shotDelay: 8
         }
         parts: [
           {
@@ -433,30 +622,17 @@ unit: {
           }
         ]
         bullet: {
-          type: "LightningBulletType"
-          damage: 26
-          lightningLength: 16
-          lightningLengthRand: 12
-          lightningColor: "98ffa9"
-          hitColor: "98ffa9"
+          type: "LaserBoltBulletType"
+          speed: 7
+          damage: 31.5
+          lifetime: 34
+          width: 3
+          height: 11
+          healPercent: 5
+          collidesTeam: true
+          backColor: "98ffa9"
+          frontColor: "ffffff"
           shootEffect: "shootHeal"
-          healPercent: 2.5
-          lightningType: {
-            type: "BasicBulletType"
-            speed: 0.0001
-            damage: 0
-            width: 0
-            height: 0
-            lifetime: 10
-            hitEffect: "hitLancer"
-            despawnEffect: "none"
-            status: "shocked"
-            statusDuration: 10
-            hittable: false
-            collidesTeam: true
-            healPercent: 2
-            lightColor: "98ffa9"
-          }
         }
       }
       {
@@ -471,17 +647,17 @@ unit: {
         rotateSpeed: 6
         rotationLimit: 110
         layerOffset: 0.002
-        shootY: 7
-        reload: 42
+        shootY: 4.2
+        reload: 120
         recoil: 2.5
-        recoilTime: 42
+        recoilTime: 120
         shake: 2.2
         inaccuracy: 28
-        shootSound: "shootArc"
+        shootSound: "shootLaser"
         ejectEffect: "none"
         shoot: {
-          shots: 5
-          shotDelay: 2
+          shots: 9
+          shotDelay: 8
         }
         parts: [
           {
@@ -511,30 +687,17 @@ unit: {
           }
         ]
         bullet: {
-          type: "LightningBulletType"
-          damage: 26
-          lightningLength: 16
-          lightningLengthRand: 12
-          lightningColor: "98ffa9"
-          hitColor: "98ffa9"
+          type: "LaserBoltBulletType"
+          speed: 7
+          damage: 31.5
+          lifetime: 34
+          width: 3
+          height: 11
+          healPercent: 5
+          collidesTeam: true
+          backColor: "98ffa9"
+          frontColor: "ffffff"
           shootEffect: "shootHeal"
-          healPercent: 2.5
-          lightningType: {
-            type: "BasicBulletType"
-            speed: 0.0001
-            damage: 0
-            width: 0
-            height: 0
-            lifetime: 10
-            hitEffect: "hitLancer"
-            despawnEffect: "none"
-            status: "shocked"
-            statusDuration: 10
-            hittable: false
-            collidesTeam: true
-            healPercent: 2
-            lightColor: "98ffa9"
-          }
         }
       }
       {
@@ -544,6 +707,8 @@ unit: {
         mirror: false
         flipSprite: false
         alternate: false
+        controllable: false
+        autoTarget: true
         top: true
         rotate: true
         rotateSpeed: 4
@@ -587,7 +752,7 @@ unit: {
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 42
+          damage: 31.5
           lifetime: 34
           width: 3
           height: 11
@@ -605,6 +770,8 @@ unit: {
         mirror: false
         flipSprite: true
         alternate: false
+        controllable: false
+        autoTarget: true
         top: true
         rotate: true
         rotateSpeed: 4
@@ -648,7 +815,7 @@ unit: {
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 42
+          damage: 31.5
           lifetime: 34
           width: 3
           height: 11
@@ -732,5 +899,3 @@ unit: {
         layer: 99.999
       }
     ]
-  }
-}
