@@ -179,13 +179,13 @@ shrinkX: 0
 shrinkY: 0
 spin: 6
 damage: 400
-splashDamage: 2400
+splashDamage: 3200
 splashDamageRadius: 50
 splashDamagePierce: true
 pierceArmor: true
 buildingDamageMultiplier: 1.25
 healPercent: 25
-collidesTeam: true
+collidesTeam: false
 despawnHit: true
 chargeEffect: "greenLaserCharge"
 shootEffect: "none"

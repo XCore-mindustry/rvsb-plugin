@@ -49,10 +49,12 @@ public enum Evolution {
     LOCUS("locus", 5, 55 * multp,
             new String[]{"precept"}, 4),
     CORVUS("corvus", 5, 300 * multp,
-            new String[]{"aegires"}, 7),
+            new String[]{"aegires", "dp-orion-unit"}, 7),
     MEGA("mega", 5, 100 * multp,
             new String[]{"cyerce"}, 4),
 
+    ORION("dp-orion-unit", 6, 2000 * multp,
+            new String[]{"nova", "flare", "merui"}, 10),
     PRECEPT("precept", 6, 60 * multp,
             new String[]{"scepter", "dp-stryker-unit"}, 5),
     AEGIRES("aegires", 6, 450 * multp,

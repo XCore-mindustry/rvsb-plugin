@@ -34,7 +34,8 @@ public class Evolutions {
         "corvus", Evolution.CORVUS,
         "merui", Evolution.MERUI,
         "mega", Evolution.MEGA,
-
+        
+        "dp-orion-unit", Evolution.ORION,
         "precept", Evolution.PRECEPT,
         "aegires", Evolution.AEGIRES,
         "avert", Evolution.AVERT,
