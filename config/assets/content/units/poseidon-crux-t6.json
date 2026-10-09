@@ -1,11 +1,10 @@
-// poseidon by xexebe
+// poseidon
 type: flying
 name: Poseidon
 description: "T6 Flying Dreadnought. Heavy support ship with automated flak defenses."
 hidden: true
-credit: xexebe
+credit: original by xexebe, remake by alphy
 
-engineSize: 0
 hitSize: 62
 flying: true
 
@@ -15,404 +14,830 @@ armor: 14
 speed: 0.32
 rotateSpeed: 0.6
 
+// ---------------- visual only ----------------
+drawCell: false
+engineSize: 6.5
+engineOffset: 36
+trailLength: 20
+lightRadius: 160
+lightColor: "ffd37f"
+lightOpacity: 0.45
+
+deathExplosionEffect: {
+  type: "MultiEffect"
+  effects: [
+    "dynamicExplosion"
+    "scatheExplosion"
+    "scatheLight"
+    { "type": "WaveEffect", "lifetime": 50, "sizeFrom": 0, "sizeTo": 170, "strokeFrom": 9, "strokeTo": 0, "interp": "pow4Out", "colorFrom": "ffffff", "colorTo": "e09d3f" }
+    { "type": "WaveEffect", "lifetime": 70, "startDelay": 10, "sides": 6, "sizeFrom": 0, "sizeTo": 120, "strokeFrom": 4, "strokeTo": 0, "interp": "circleOut", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+    { "type": "ParticleEffect", "lifetime": 80, "line": true, "particles": 40, "cone": 180, "length": 170, "interp": "pow10Out", "lenFrom": 26, "lenTo": 0, "strokeFrom": 3.5, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+    { "type": "ParticleEffect", "lifetime": 160, "particles": 26, "cone": 180, "length": 95, "randLength": true, "interp": "pow5Out", "sizeInterp": "pow5In", "sizeFrom": 13, "sizeTo": 0, "colorFrom": "6e6e6ecc", "colorTo": "4a4b5300" }
+  ]
+}
+
+
+
 parts: [
-  {
-    type: "RegionPart"
-    name: "bryde"
-
-    outline: false
-
-    x: 0
-    y: -14
-
-    xScl: 1.0
-    yScl: 1.1
-
-    layerOffset: -0.010
-
-    progress: "recoil"
-    weaponIndex: 0
-
-    moveY: -6.0
-  }
-
+  // ===== HULL (old frame) =====
   {
     type: "RegionPart"
     name: "sei"
-
     outline: false
-
+    mirror: true
     x: 13
     y: -4
-
     xScl: 0.65
     yScl: 0.95
-
-    layerOffset: -0.012
-
+    layerOffset: -0.060
     progress: "warmup"
     weaponIndex: 0
-
     moveX: 3.5
     moveRot: -10.0
   }
-
   {
     type: "RegionPart"
     name: "sei"
-
     outline: false
-
-    x: -13
-    y: -4
-
-    xScl: -0.65
-    yScl: 0.95
-
-    layerOffset: -0.012
-
-    progress: "warmup"
-    weaponIndex: 0
-
-    moveX: -3.5
-    moveRot: 10.0
+    y: 24
+    xScl: 0.9
+    yScl: 1.0
+    layerOffset: -0.056
   }
-
+  {
+    type: "RegionPart"
+    name: "sei"
+    outline: false
+    y: -25
+    xScl: 0.9
+    yScl: 1.0
+    layerOffset: -0.055
+  }
+  // recoiling aft keel
   {
     type: "RegionPart"
     name: "bryde"
-
     outline: false
-
-    x: 0
+    y: -14
+    xScl: 1.0
+    yScl: 1.1
+    layerOffset: -0.050
+    progress: "recoil"
+    weaponIndex: 0
+    moveY: -6.0
+  }
+  // aft keel heat (self-region, follows recoil)
+  {
+    type: "RegionPart"
+    name: "bryde"
+    outline: false
+    y: -14
+    xScl: 1.0
+    yScl: 1.1
+    layerOffset: -0.0499
+    weaponIndex: 0
+    progress: "heat"
+    blending: "additive"
+    color: "ff7a3000"
+    colorTo: "ffb46e99"
+    moves: [
+      { "progress": "recoil", "y": -6.0 }
+    ]
+  }
+  // forward keel
+  {
+    type: "RegionPart"
+    name: "bryde"
+    outline: false
     y: 12
-
     xScl: 1.05
     yScl: 1.15
-
-    layerOffset: -0.009
+    layerOffset: -0.046
   }
 
+  // ===== SEAM COVERS =====
   {
     type: "RegionPart"
-    name: "sei"
-
+    name: "scepter-weapon"
+    outline: true
+    mirror: true
+    x: 10.5
+    y: 17
+    rotation: -6
+    xScl: 1.0
+    yScl: 1.25
+    layerOffset: -0.040
+    outlineLayerOffset: -0.024
+  }
+  {
+    type: "RegionPart"
+    name: "reign-weapon"
+    outline: true
+    mirror: true
+    x: 10
+    y: -4
+    xScl: 0.7
+    yScl: 0.8
+    layerOffset: -0.039
+    outlineLayerOffset: -0.025
+  }
+  {
+    type: "RegionPart"
+    name: "scepter-weapon"
+    outline: true
+    mirror: true
+    x: 16
+    y: 9
+    rotation: -8
+    xScl: 0.85
+    yScl: 1.15
+    layerOffset: -0.038
+    outlineLayerOffset: -0.026
+  }
+  {
+    type: "RegionPart"
+    name: "scepter-weapon"
+    outline: true
+    mirror: true
+    x: 16.5
+    y: -13
+    rotation: 172
+    xScl: 0.85
+    yScl: 1.05
+    layerOffset: -0.038
+    outlineLayerOffset: -0.026
+  }
+  // artillery sponson ring (baked outline)
+  {
+    type: "RegionPart"
+    name: "sei-launcher"
     outline: false
-
-    x: 0
-    y: 24
-
-    xScl: 0.9
+    mirror: true
+    x: 15
+    y: -2
+    xScl: 1.2
+    yScl: 1.2
+    layerOffset: -0.037
+  }
+  // flak sponson ring (baked outline)
+  {
+    type: "RegionPart"
+    name: "sei-launcher"
+    outline: false
+    mirror: true
+    x: 11
+    y: -18
+    xScl: 1.0
     yScl: 1.0
-
-    layerOffset: -0.011
+    layerOffset: -0.036
   }
-
+  // stern thruster ducts
   {
     type: "RegionPart"
-    name: "sei"
-
-    outline: false
-
-    x: 0
+    name: "reign-weapon"
+    outline: true
+    mirror: true
+    x: 6.5
     y: -25
+    rotation: 180
+    xScl: 0.7
+    yScl: 0.75
+    layerOffset: -0.035
+    outlineLayerOffset: -0.029
+  }
+  // thruster duct heat (self-region)
+  {
+    type: "RegionPart"
+    name: "reign-weapon"
+    outline: false
+    mirror: true
+    x: 6.5
+    y: -25
+    rotation: 180
+    xScl: 0.7
+    yScl: 0.75
+    layerOffset: -0.0349
+    weaponIndex: 0
+    progress: "heat"
+    blending: "additive"
+    color: "ff7a3000"
+    colorTo: "ffb46ecc"
+  }
+  // stern hub (baked outline)
+  {
+    type: "RegionPart"
+    name: "sei-launcher"
+    outline: false
+    y: -23
+    xScl: 0.85
+    yScl: 0.75
+    layerOffset: -0.034
+  }
 
-    xScl: 0.9
-    yScl: 1.0
-
-    layerOffset: -0.011
+  // ===== THRUSTER GLOWS =====
+  {
+    type: "ShapePart"
+    circle: true
+    mirror: true
+    x: 6.5
+    y: -33.5
+    radius: 2.6
+    radiusTo: 4.4
+    color: "e09d3fcc"
+    colorTo: "ffd37f"
+    progress: "heat"
+    layerOffset: -0.031
+  }
+  {
+    type: "ShapePart"
+    circle: true
+    mirror: true
+    x: 6.5
+    y: -33.5
+    radius: 1.3
+    radiusTo: 2.2
+    color: "ffffff"
+    progress: "heat"
+    layerOffset: -0.030
   }
 ]
 
 weapons: [
-  // Main cannon.
-  // The dummy name is intentionally not used as the visible sprite.
+  // ================= MAIN CANNON (trident) — drawn BELOW the turrets =================
   {
     name: "poseidon-main-cannon"
     showStatSprite: false
-
     x: 0
     y: 4
-
     mirror: false
     shootY: 42
-
     reload: 280
     recoil: 3
     recoilTime: 30
-
     shake: 8.0
-
     top: true
-    layerOffset: 0.020
-
+    layerOffset: 0.008
     shootSound: "shootReign"
     chargeSound: "loopMalign"
+
+    shadow: 18
+    cooldownTime: 120
+    shootWarmupSpeed: 0.04
+    ejectEffect: "casing4"
 
     shoot: {
       firstShotDelay: 90
     }
 
     parts: [
+      // aft coolant vents (baked outline)
       {
         type: "RegionPart"
-        name: "reign-weapon"
-
+        name: "large-bullet-mount"
         outline: false
-
-        xScl: 1.2
-        yScl: 0.95
-
-        progress: "recoil"
-        moveY: -3
-
-        layerOffset: -0.0001
+        mirror: true
+        x: 4.5
+        y: -7
+        rotation: 180
+        xScl: 0.9
+        yScl: 0.9
+        layerOffset: 0.0004
       }
-
+      // breech block (baked outline)
+      {
+        type: "RegionPart"
+        name: "sei-launcher"
+        outline: false
+        y: 2
+        xScl: 1.3
+        yScl: 1.2
+        progress: "recoil"
+        moveY: -1
+        layerOffset: 0.0005
+      }
+      // capacitor housings (baked outline)
+      {
+        type: "RegionPart"
+        name: "large-laser-mount"
+        outline: false
+        mirror: true
+        x: 7.5
+        y: 3
+        xScl: 0.85
+        yScl: 0.9
+        progress: "recoil"
+        moveY: -1.5
+        layerOffset: 0.0006
+      }
+      // trident side prongs
       {
         type: "RegionPart"
         name: "scepter-weapon"
-
-        outline: false
-
-        y: 14
-
-        xScl: 0.8
+        outline: true
+        mirror: true
+        x: 7
+        y: 21
+        rotation: -5
+        xScl: 0.9
         yScl: 1.1
-
-        progress: "recoil"
-        moveY: -2
-
-        layerOffset: 0.0001
+        progress: "warmup"
+        moveX: 1.5
+        moveRot: -7
+        moves: [
+          { "progress": "recoil", "y": -2.5 }
+        ]
+        layerOffset: 0.001
+        outlineLayerOffset: -0.005
       }
-
+      // prong heat (self-region)
       {
         type: "RegionPart"
-        name: "large-weapon"
-
+        name: "scepter-weapon"
         outline: false
-
-        y: -8
-
+        mirror: true
+        x: 7
+        y: 21
+        rotation: -5
+        xScl: 0.9
+        yScl: 1.1
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "warmup", "x": 1.5, "rot": -7 }
+          { "progress": "recoil", "y": -2.5 }
+        ]
+        layerOffset: 0.0011
+      }
+      // central prong / main barrel
+      {
+        type: "RegionPart"
+        name: "reign-weapon"
+        outline: true
+        y: 25
         xScl: 1.15
-        yScl: 1.0
-
+        yScl: 1.4
         progress: "recoil"
-        moveY: -1.5
+        moveY: -3
+        layerOffset: 0.002
+        outlineLayerOffset: -0.006
+      }
+      // main barrel heat (self-region)
+      {
+        type: "RegionPart"
+        name: "reign-weapon"
+        outline: false
+        y: 25
+        xScl: 1.15
+        yScl: 1.4
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -3 }
+        ]
+        layerOffset: 0.0021
+      }
+      // barrel collar (was "scepter-mount", which isn't a vanilla region)
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        y: 14
+        xScl: 1.6
+        yScl: 1.2
+        progress: "recoil"
+        moveY: -2
+        layerOffset: 0.0023
+      }
+      // muzzle brake (baked outline)
+      {
+        type: "RegionPart"
+        name: "large-bullet-mount"
+        outline: false
+        y: 39
+        xScl: 1.1
+        yScl: 0.9
+        progress: "recoil"
+        moveY: -3
+        layerOffset: 0.0025
+      }
+      // muzzle brake heat (self-region)
+      {
+        type: "RegionPart"
+        name: "large-bullet-mount"
+        outline: false
+        y: 39
+        xScl: 1.1
+        yScl: 0.9
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffc88aff"
+        moves: [
+          { "progress": "recoil", "y": -3 }
+        ]
+        layerOffset: 0.0026
+      }
 
-        layerOffset: 0.0002
+      // ---- charge VFX at the muzzle ----
+      {
+        type: "ShapePart"
+        circle: true
+        y: 42
+        radius: 0
+        radiusTo: 5
+        color: "e09d3f"
+        colorTo: "ffffff"
+        progress: "charge"
+        layerOffset: 0.010
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        hollow: true
+        y: 42
+        radius: 16
+        radiusTo: 4
+        stroke: 0
+        strokeTo: 2.2
+        color: "e09d3f"
+        colorTo: "ffd37f"
+        progress: "charge"
+        layerOffset: 0.010
+      }
+      {
+        type: "HaloPart"
+        tri: true
+        shapes: 3
+        y: 42
+        radius: 0
+        radiusTo: 2.6
+        triLength: 0
+        triLengthTo: 8
+        haloRadius: 13
+        haloRadiusTo: 5
+        haloRotateSpeed: 4
+        color: "ffd37f"
+        colorTo: "ffffff"
+        progress: "charge"
+        layerOffset: 0.011
+      }
+      {
+        type: "FlarePart"
+        y: 42
+        sides: 4
+        radius: 0
+        radiusTo: 34
+        stroke: 3
+        followRotation: true
+        color1: "e09d3f"
+        color2: "ffffff"
+        progress: "charge"
+        layer: 116
+      }
+      // ---- barrel heat glows ----
+      {
+        type: "ShapePart"
+        circle: true
+        y: 40
+        radius: 0
+        radiusTo: 4
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.009
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        mirror: true
+        x: 8.5
+        y: 30
+        radius: 0
+        radiusTo: 2.4
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.009
       }
     ]
 
     bullet: {
       type: "BasicBulletType"
-
       damage: 1400
       speed: 40
       lifetime: 15
-
       width: 8
       height: 220
-
       backColor: "e09d3f"
       frontColor: "ffffff"
-
+      hitColor: "ffd37f"
+      lightColor: "ffd37f"
+      lightRadius: 70
+      lightOpacity: 0.7
       trailLength: 35
       trailWidth: 3
       trailColor: "ffd37f"
-
-      hitEffect: "massiveExplosion"
-
+      trailRotation: true
+      trailInterval: 1
+      trailEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 24, "line": true, "particles": 3, "cone": 30, "length": -44, "randLength": true, "interp": "pow3Out", "lenFrom": 9, "lenTo": 0, "strokeFrom": 1.6, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 32, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 3, "sizeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f", "lightOpacity": 0.6 }
+        ]
+      }
       pierce: true
       pierceCap: 8
       pierceBuilding: true
-
       buildingDamageMultiplier: 30.0
       layer: 130.0
-
-      chargeEffect: "scatheLight"
-
+      hitShake: 3
+      despawnShake: 7
+      chargeEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 90, "layer": 116, "rotWithParent": true, "line": true, "particles": 24, "cone": 180, "baseLength": 64, "length": -64, "interp": "pow3In", "lenFrom": 3, "lenTo": 14, "strokeFrom": 0.6, "strokeTo": 2.2, "colorFrom": "e09d3f", "colorTo": "ffffff" }
+          { "type": "ParticleEffect", "lifetime": 70, "startDelay": 20, "layer": 116, "rotWithParent": true, "particles": 16, "cone": 180, "baseLength": 40, "length": -40, "interp": "pow2In", "sizeFrom": 0.5, "sizeTo": 2.4, "colorFrom": "e09d3f", "colorTo": "ffd37f" }
+          { "type": "WaveEffect", "lifetime": 90, "layer": 116, "rotWithParent": true, "sizeFrom": 60, "sizeTo": 0, "strokeFrom": 0, "strokeTo": 3.5, "interp": "pow2In", "colorFrom": "e09d3f", "colorTo": "ffd37f" }
+          { "type": "WaveEffect", "lifetime": 55, "startDelay": 35, "layer": 116, "rotWithParent": true, "sides": 4, "rotation": 45, "sizeFrom": 34, "sizeTo": 0, "strokeFrom": 0, "strokeTo": 2.5, "interp": "pow3In", "colorFrom": "ffd37f", "colorTo": "ffffff" }
+          { "type": "ParticleEffect", "lifetime": 90, "layer": 116.1, "rotWithParent": true, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 0, "sizeTo": 7, "interp": "pow2In", "sizeInterp": "pow3In", "colorFrom": "e09d3f", "colorTo": "ffffff", "lightScl": 4, "lightOpacity": 0.9 }
+        ]
+      }
+      shootEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 26, "layer": 116, "line": true, "particles": 18, "cone": 12, "length": 110, "baseLength": 4, "interp": "pow5Out", "lenFrom": 24, "lenTo": 0, "strokeFrom": 3, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 20, "layer": 116, "line": true, "particles": 12, "cone": 80, "length": 46, "interp": "pow4Out", "lenFrom": 11, "lenTo": 0, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 22, "layer": 116, "sizeFrom": 4, "sizeTo": 52, "strokeFrom": 5, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 30, "layer": 116, "sides": 4, "rotation": 45, "sizeFrom": 2, "sizeTo": 30, "strokeFrom": 3, "strokeTo": 0, "interp": "circleOut", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 14, "layer": 116.1, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 11, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f", "lightScl": 3, "lightOpacity": 1 }
+        ]
+      }
+      smokeEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 85, "particles": 14, "cone": 25, "length": 80, "interp": "pow5Out", "sizeInterp": "pow5In", "sizeFrom": 7, "sizeTo": 0, "colorFrom": "7a7a7acc", "colorTo": "4a4b5300" }
+          { "type": "ParticleEffect", "lifetime": 60, "particles": 8, "cone": 100, "length": 34, "interp": "pow4Out", "sizeInterp": "pow4In", "sizeFrom": 5, "sizeTo": 0, "colorFrom": "e09d3f99", "colorTo": "6e6e6e00" }
+        ]
+      }
+      hitEffect: {
+        type: "MultiEffect"
+        effects: [
+          "massiveExplosion"
+          { "type": "ParticleEffect", "lifetime": 30, "line": true, "particles": 14, "cone": 40, "length": 70, "interp": "pow5Out", "lenFrom": 14, "lenTo": 0, "strokeFrom": 2.5, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 24, "sizeFrom": 0, "sizeTo": 40, "strokeFrom": 4, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 16, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 9, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f", "lightScl": 3, "lightOpacity": 0.8 }
+        ]
+      }
+      despawnEffect: {
+        type: "MultiEffect"
+        effects: [
+          "scatheExplosion"
+          "scatheLight"
+          { "type": "ExplosionEffect", "lifetime": 45, "waveColor": "ffd37f", "sparkColor": "e09d3f", "smokeColor": "6e6e6e", "waveLife": 14, "waveStroke": 6, "waveRad": 56, "waveRadBase": 4, "sparks": 16, "sparkRad": 72, "sparkLen": 9, "sparkStroke": 2.6, "smokes": 12, "smokeSize": 7, "smokeSizeBase": 0, "smokeRad": 54 }
+          { "type": "WaveEffect", "lifetime": 40, "sizeFrom": 0, "sizeTo": 120, "strokeFrom": 7, "strokeTo": 0, "interp": "pow4Out", "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 55, "startDelay": 8, "sides": 6, "sizeFrom": 0, "sizeTo": 80, "strokeFrom": 3, "strokeTo": 0, "interp": "circleOut", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 70, "line": true, "particles": 28, "cone": 180, "length": 130, "interp": "pow10Out", "lenFrom": 22, "lenTo": 0, "strokeFrom": 3, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 120, "particles": 18, "cone": 180, "length": 70, "randLength": true, "interp": "pow5Out", "sizeInterp": "pow5In", "sizeFrom": 9, "sizeTo": 0, "colorFrom": "6e6e6ecc", "colorTo": "4a4b5300" }
+        ]
+      }
       lightning: 12
       lightningLength: 22
       lightningDamage: 90
       lightningColor: "ffd37f"
-
       fragBullets: 15
       fragVelocityMin: 0.8
       fragVelocityMax: 1.5
       fragRandomSpread: 25
       fragOnDespawn: true
-
       fragBullet: {
         type: "BasicBulletType"
-
         damage: 50
         speed: 12
         lifetime: 15
-
         sprite: "bullet"
-
         width: 6
         height: 22
-
         backColor: "e09d3f"
         frontColor: "ffd37f"
-
-        hitEffect: "blastExplosion"
+        hitColor: "ffd37f"
+        trailLength: 6
+        trailWidth: 1.6
+        trailColor: "e09d3f"
+        hitEffect: {
+          type: "MultiEffect"
+          effects: [
+            "blastExplosion"
+            { "type": "ParticleEffect", "lifetime": 22, "line": true, "particles": 7, "cone": 50, "length": 26, "interp": "pow4Out", "lenFrom": 6, "lenTo": 0, "strokeFrom": 1.5, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          ]
+        }
+        despawnEffect: {
+          type: "MultiEffect"
+          effects: [
+            { "type": "WaveEffect", "lifetime": 16, "sizeFrom": 0, "sizeTo": 12, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            { "type": "ParticleEffect", "lifetime": 18, "line": true, "particles": 5, "cone": 180, "length": 16, "interp": "pow3Out", "lenFrom": 4, "lenTo": 0, "strokeFrom": 1.2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          ]
+        }
         layer: 130.0
       }
     }
   }
 
-  // Right artillery.
+  // ================= RIGHT ARTILLERY =================
   {
     name: "poseidon-artillery-right"
     showStatSprite: false
-
     x: 15
     y: -2
-
     mirror: false
-
     rotate: true
     rotateSpeed: 4
-
     reload: 160
     recoil: 0
     inaccuracy: 6
-
     top: true
     layerOffset: 0.018
-
     shootSound: "shootArtillery"
 
+    shadow: 12
+    cooldownTime: 70
+    ejectEffect: "casing3"
+
     parts: [
+      // turret housing (baked outline)
+      {
+        type: "RegionPart"
+        name: "large-artillery"
+        outline: false
+        y: -1
+        xScl: 1.25
+        yScl: 1.2
+        layerOffset: 0.001
+      }
+      // ammo hoppers (baked outline)
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        mirror: true
+        x: 4.5
+        y: -2
+        xScl: 1.0
+        yScl: 1.0
+        layerOffset: 0.0012
+      }
+      // howitzer barrel (has a real -outline region)
       {
         type: "RegionPart"
         name: "artillery"
-
-        outline: false
-
-        xScl: 1.45
-        yScl: 1.45
-
+        outline: true
+        y: 2
+        xScl: 1.2
+        yScl: 1.35
         progress: "recoil"
         moveY: -3
+        layerOffset: 0.002
+        outlineLayerOffset: -0.006
+      }
+      // barrel heat (self-region)
+      {
+        type: "RegionPart"
+        name: "artillery"
+        outline: false
+        y: 2
+        xScl: 1.2
+        yScl: 1.35
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -3 }
+        ]
+        layerOffset: 0.0021
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        y: 8
+        radius: 0
+        radiusTo: 3
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.004
       }
     ]
 
     bullet: {
       type: "ArtilleryBulletType"
-
       damage: 380
       speed: 5
       lifetime: 50
-
       width: 14
       height: 14
-
       backColor: "e09d3f"
       frontColor: "ffd37f"
-
+      hitColor: "ffd37f"
       trailLength: 12
       trailWidth: 4
       trailColor: "e09d3f"
-
-      hitEffect: "blastExplosion"
-
+      hitShake: 2.5
+      shootEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 20, "layer": 116, "line": true, "particles": 10, "cone": 18, "length": 38, "interp": "pow5Out", "lenFrom": 10, "lenTo": 0, "strokeFrom": 2.2, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 16, "layer": 116, "sizeFrom": 2, "sizeTo": 18, "strokeFrom": 3, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 10, "layer": 116.1, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 6, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f" }
+        ]
+      }
+      smokeEffect: {
+        type: "ParticleEffect"
+        lifetime: 60
+        particles: 9
+        cone: 30
+        length: 34
+        interp: "pow5Out"
+        sizeInterp: "pow5In"
+        sizeFrom: 4.5
+        sizeTo: 0
+        colorFrom: "7a7a7acc"
+        colorTo: "4a4b5300"
+      }
+      hitEffect: {
+        type: "MultiEffect"
+        effects: [
+          "blastExplosion"
+          { "type": "ExplosionEffect", "lifetime": 30, "waveColor": "ffd37f", "sparkColor": "e09d3f", "smokeColor": "6e6e6e", "waveLife": 10, "waveStroke": 4, "waveRad": 26, "sparks": 10, "sparkRad": 36, "sparkLen": 6, "sparkStroke": 2, "smokes": 7, "smokeSize": 4.5, "smokeRad": 24 }
+        ]
+      }
       collidesAir: true
       collidesGround: true
-
       layer: 130.0
-
       fragBullets: 1
 
       fragBullet: {
         type: "BasicBulletType"
-
         damage: 0
         speed: 0
         lifetime: 120
-
         width: 0
         height: 0
-
-        trailInterval: 30
+        trailInterval: 20
         layer: 130.0
-
         despawnSound: "explosionMissile"
-
+        despawnShake: 4
         splashDamage: 450
         splashDamageRadius: 45
-
         trailEffect: {
           type: "MultiEffect"
-
           effects: [
             "hitLaserBlast"
-
-            {
-              type: "WaveEffect"
-
-              colorFrom: "ffd37f"
-              colorTo: "e09d3f"
-
-              sizeFrom: 0
-              sizeTo: 32
-
-              strokeFrom: 3
-              strokeTo: 0
-
-              lifetime: 20
-            }
+            { "type": "WaveEffect", "lifetime": 22, "sizeFrom": 0, "sizeTo": 45, "strokeFrom": 2.5, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            { "type": "WaveEffect", "lifetime": 26, "sides": 6, "sizeFrom": 45, "sizeTo": 6, "strokeFrom": 0, "strokeTo": 1.8, "interp": "pow2In", "colorFrom": "e09d3f", "colorTo": "ffd37f" }
+            { "type": "ParticleEffect", "lifetime": 24, "line": true, "particles": 10, "cone": 180, "baseLength": 40, "length": -36, "interp": "pow2In", "lenFrom": 2, "lenTo": 7, "strokeFrom": 0.8, "strokeTo": 1.6, "colorFrom": "e09d3f", "colorTo": "ffffff" }
+            { "type": "ParticleEffect", "lifetime": 20, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 4, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f", "lightScl": 3, "lightOpacity": 0.8 }
           ]
         }
-
         despawnEffect: {
           type: "MultiEffect"
-
           effects: [
             "blastExplosion"
-
-            {
-              type: "WaveEffect"
-
-              colorFrom: "ffd37f"
-              colorTo: "e09d3f"
-
-              sizeFrom: 0
-              sizeTo: 110
-
-              strokeFrom: 6
-              strokeTo: 0
-
-              lifetime: 35
-            }
+            "scatheLight"
+            { "type": "ExplosionEffect", "lifetime": 40, "waveColor": "ffd37f", "sparkColor": "e09d3f", "smokeColor": "6e6e6e", "waveLife": 12, "waveStroke": 5, "waveRad": 45, "sparks": 14, "sparkRad": 60, "sparkLen": 8, "sparkStroke": 2.4, "smokes": 10, "smokeSize": 6, "smokeRad": 44 }
+            { "type": "WaveEffect", "lifetime": 35, "sizeFrom": 0, "sizeTo": 110, "strokeFrom": 6, "strokeTo": 0, "interp": "pow4Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            { "type": "WaveEffect", "lifetime": 45, "startDelay": 6, "sides": 6, "sizeFrom": 0, "sizeTo": 70, "strokeFrom": 3, "strokeTo": 0, "interp": "circleOut", "colorFrom": "ffffff", "colorTo": "e09d3f" }
+            { "type": "ParticleEffect", "lifetime": 55, "line": true, "particles": 22, "cone": 180, "length": 90, "interp": "pow10Out", "lenFrom": 16, "lenTo": 0, "strokeFrom": 2.6, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+            { "type": "ParticleEffect", "lifetime": 100, "particles": 14, "cone": 180, "length": 50, "randLength": true, "interp": "pow5Out", "sizeInterp": "pow5In", "sizeFrom": 7, "sizeTo": 0, "colorFrom": "6e6e6ecc", "colorTo": "4a4b5300" }
           ]
         }
-
         fragBullets: 12
-
         fragBullet: {
           type: "BasicBulletType"
-
           damage: 110
           speed: 3.5
           lifetime: 35
-
           width: 10
           height: 12
-
           backColor: "e09d3f"
           frontColor: "ffd37f"
-
+          hitColor: "ffd37f"
           trailLength: 6
           trailWidth: 2
           trailColor: "ffd37f"
-
-          hitEffect: "blastExplosion"
+          hitEffect: {
+            type: "MultiEffect"
+            effects: [
+              "blastExplosion"
+              { "type": "ParticleEffect", "lifetime": 20, "line": true, "particles": 6, "cone": 180, "length": 20, "interp": "pow4Out", "lenFrom": 5, "lenTo": 0, "strokeFrom": 1.4, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            ]
+          }
+          despawnEffect: { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 10, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
           layer: 130.0
-
           lightning: 1
           lightningLength: 10
           lightningDamage: 30
@@ -422,159 +847,195 @@ weapons: [
     }
   }
 
-  // Left artillery.
+  // ================= LEFT ARTILLERY =================
   {
     name: "poseidon-artillery-left"
     showStatSprite: false
-
     x: -15
     y: -2
-
     mirror: false
-
     rotate: true
     rotateSpeed: 4
-
     reload: 160
     recoil: 0
     inaccuracy: 6
-
     top: true
     layerOffset: 0.018
-
     shootSound: "shootArtillery"
-
     shoot: {
       firstShotDelay: 80
     }
 
+    shadow: 12
+    cooldownTime: 70
+    ejectEffect: "casing3"
+
     parts: [
       {
         type: "RegionPart"
-        name: "artillery"
-
+        name: "large-artillery"
         outline: false
-
-        xScl: -1.45
-        yScl: 1.45
-
+        y: -1
+        xScl: 1.25
+        yScl: 1.2
+        layerOffset: 0.001
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        mirror: true
+        x: 4.5
+        y: -2
+        xScl: 1.0
+        yScl: 1.0
+        layerOffset: 0.0012
+      }
+      {
+        type: "RegionPart"
+        name: "artillery"
+        outline: true
+        y: 2
+        xScl: 1.2
+        yScl: 1.35
         progress: "recoil"
         moveY: -3
+        layerOffset: 0.002
+        outlineLayerOffset: -0.006
+      }
+      {
+        type: "RegionPart"
+        name: "artillery"
+        outline: false
+        y: 2
+        xScl: 1.2
+        yScl: 1.35
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -3 }
+        ]
+        layerOffset: 0.0021
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        y: 8
+        radius: 0
+        radiusTo: 3
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.004
       }
     ]
 
     bullet: {
       type: "ArtilleryBulletType"
-
       damage: 380
       speed: 5
       lifetime: 50
-
       width: 14
       height: 14
-
       backColor: "e09d3f"
       frontColor: "ffd37f"
-
+      hitColor: "ffd37f"
       trailLength: 12
       trailWidth: 4
       trailColor: "e09d3f"
-
-      hitEffect: "blastExplosion"
-
+      hitShake: 2.5
+      shootEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 20, "layer": 116, "line": true, "particles": 10, "cone": 18, "length": 38, "interp": "pow5Out", "lenFrom": 10, "lenTo": 0, "strokeFrom": 2.2, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 16, "layer": 116, "sizeFrom": 2, "sizeTo": 18, "strokeFrom": 3, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 10, "layer": 116.1, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 6, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f" }
+        ]
+      }
+      smokeEffect: {
+        type: "ParticleEffect"
+        lifetime: 60
+        particles: 9
+        cone: 30
+        length: 34
+        interp: "pow5Out"
+        sizeInterp: "pow5In"
+        sizeFrom: 4.5
+        sizeTo: 0
+        colorFrom: "7a7a7acc"
+        colorTo: "4a4b5300"
+      }
+      hitEffect: {
+        type: "MultiEffect"
+        effects: [
+          "blastExplosion"
+          { "type": "ExplosionEffect", "lifetime": 30, "waveColor": "ffd37f", "sparkColor": "e09d3f", "smokeColor": "6e6e6e", "waveLife": 10, "waveStroke": 4, "waveRad": 26, "sparks": 10, "sparkRad": 36, "sparkLen": 6, "sparkStroke": 2, "smokes": 7, "smokeSize": 4.5, "smokeRad": 24 }
+        ]
+      }
       collidesAir: true
       collidesGround: true
-
       layer: 130.0
-
       fragBullets: 1
-
       fragBullet: {
         type: "BasicBulletType"
-
         damage: 0
         speed: 0
         lifetime: 120
-
         width: 0
         height: 0
-
-        trailInterval: 30
+        trailInterval: 20
         layer: 130.0
-
         despawnSound: "explosionMissile"
-
+        despawnShake: 4
         splashDamage: 450
         splashDamageRadius: 45
-
         trailEffect: {
           type: "MultiEffect"
-
           effects: [
             "hitLaserBlast"
-
-            {
-              type: "WaveEffect"
-
-              colorFrom: "ffd37f"
-              colorTo: "e09d3f"
-
-              sizeFrom: 0
-              sizeTo: 32
-
-              strokeFrom: 3
-              strokeTo: 0
-
-              lifetime: 20
-            }
+            { "type": "WaveEffect", "lifetime": 22, "sizeFrom": 0, "sizeTo": 45, "strokeFrom": 2.5, "strokeTo": 0, "interp": "pow3Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            { "type": "WaveEffect", "lifetime": 26, "sides": 6, "sizeFrom": 45, "sizeTo": 6, "strokeFrom": 0, "strokeTo": 1.8, "interp": "pow2In", "colorFrom": "e09d3f", "colorTo": "ffd37f" }
+            { "type": "ParticleEffect", "lifetime": 24, "line": true, "particles": 10, "cone": 180, "baseLength": 40, "length": -36, "interp": "pow2In", "lenFrom": 2, "lenTo": 7, "strokeFrom": 0.8, "strokeTo": 1.6, "colorFrom": "e09d3f", "colorTo": "ffffff" }
+            { "type": "ParticleEffect", "lifetime": 20, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 4, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f", "lightScl": 3, "lightOpacity": 0.8 }
           ]
         }
-
         despawnEffect: {
           type: "MultiEffect"
-
           effects: [
             "blastExplosion"
-
-            {
-              type: "WaveEffect"
-
-              colorFrom: "ffd37f"
-              colorTo: "e09d3f"
-
-              sizeFrom: 0
-              sizeTo: 110
-
-              strokeFrom: 6
-              strokeTo: 0
-
-              lifetime: 35
-            }
+            "scatheLight"
+            { "type": "ExplosionEffect", "lifetime": 40, "waveColor": "ffd37f", "sparkColor": "e09d3f", "smokeColor": "6e6e6e", "waveLife": 12, "waveStroke": 5, "waveRad": 45, "sparks": 14, "sparkRad": 60, "sparkLen": 8, "sparkStroke": 2.4, "smokes": 10, "smokeSize": 6, "smokeRad": 44 }
+            { "type": "WaveEffect", "lifetime": 35, "sizeFrom": 0, "sizeTo": 110, "strokeFrom": 6, "strokeTo": 0, "interp": "pow4Out", "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            { "type": "WaveEffect", "lifetime": 45, "startDelay": 6, "sides": 6, "sizeFrom": 0, "sizeTo": 70, "strokeFrom": 3, "strokeTo": 0, "interp": "circleOut", "colorFrom": "ffffff", "colorTo": "e09d3f" }
+            { "type": "ParticleEffect", "lifetime": 55, "line": true, "particles": 22, "cone": 180, "length": 90, "interp": "pow10Out", "lenFrom": 16, "lenTo": 0, "strokeFrom": 2.6, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+            { "type": "ParticleEffect", "lifetime": 100, "particles": 14, "cone": 180, "length": 50, "randLength": true, "interp": "pow5Out", "sizeInterp": "pow5In", "sizeFrom": 7, "sizeTo": 0, "colorFrom": "6e6e6ecc", "colorTo": "4a4b5300" }
           ]
         }
-
         fragBullets: 12
-
         fragBullet: {
           type: "BasicBulletType"
-
           damage: 110
           speed: 3.5
           lifetime: 35
-
           width: 10
           height: 12
-
           backColor: "e09d3f"
           frontColor: "ffd37f"
-
+          hitColor: "ffd37f"
           trailLength: 6
           trailWidth: 2
           trailColor: "ffd37f"
-
-          hitEffect: "blastExplosion"
+          hitEffect: {
+            type: "MultiEffect"
+            effects: [
+              "blastExplosion"
+              { "type": "ParticleEffect", "lifetime": 20, "line": true, "particles": 6, "cone": 180, "length": 20, "interp": "pow4Out", "lenFrom": 5, "lenTo": 0, "strokeFrom": 1.4, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+            ]
+          }
+          despawnEffect: { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 10, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
           layer: 130.0
-
           lightning: 1
           lightningLength: 10
           lightningDamage: 30
@@ -584,84 +1045,208 @@ weapons: [
     }
   }
 
-  // Right automated flak launcher.
+  // ================= RIGHT FLAK (triple mount, auto) =================
   {
     name: "poseidon-flak-right"
     showStatSprite: false
-
     x: 11
     y: -18
-
     mirror: false
-
     rotate: true
     rotateSpeed: 5
-
     shootY: 4.5
-
     reload: 60
-    recoil: 0
+    recoil: 1
+    recoilTime: 18
+    recoils: 3
     shootCone: 15
-
     top: true
     layerOffset: 0.016
-
     shootSound: "shootPulsar"
-
     controllable: false
     autoTarget: true
 
+    shadow: 9
+    cooldownTime: 40
+    ejectEffect: "none"
+
     shoot: {
       type: "ShootAlternate"
-
       shots: 6
       shotDelay: 1.5
-
       spread: 4
       barrels: 3
     }
 
+    // barrel order from ShootAlternate: 0 = x-4, 1 = x0, 2 = x+4
     parts: [
       {
         type: "RegionPart"
-        name: "spiroct-weapon"
-
+        name: "sei-launcher"
         outline: false
-
+        y: -0.5
         xScl: 0.9
         yScl: 0.9
-
+        layerOffset: 0.001
+      }
+      // left barrel
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: -4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
         progress: "recoil"
-        moveY: -1.5
+        recoilIndex: 0
+        moveY: -2
+        layerOffset: 0.0015
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: -4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        recoilIndex: 0
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00151
+      }
+      // right barrel
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: 4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        progress: "recoil"
+        recoilIndex: 2
+        moveY: -2
+        layerOffset: 0.0015
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: 4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        recoilIndex: 2
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00151
+      }
+      // centre barrel
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        y: 3
+        xScl: 0.9
+        yScl: 1.2
+        progress: "recoil"
+        recoilIndex: 1
+        moveY: -2
+        layerOffset: 0.0016
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        y: 3
+        xScl: 0.9
+        yScl: 1.2
+        recoilIndex: 1
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00161
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        y: 4.5
+        radius: 0
+        radiusTo: 2
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.003
       }
     ]
 
     bullet: {
       type: "BasicBulletType"
-
       speed: 12
       lifetime: 20
-
       width: 8
       height: 16
-
       damage: 75
-
       backColor: "e09d3f"
       frontColor: "ffd37f"
-
+      hitColor: "ffd37f"
       trailLength: 10
       trailWidth: 2
       trailColor: "ffd37f"
-
-      hitEffect: "hitLaserBlast"
-      despawnEffect: "hitLaserBlast"
-
+      shootEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 14, "layer": 116, "line": true, "particles": 5, "cone": 20, "length": 18, "interp": "pow4Out", "lenFrom": 6, "lenTo": 0, "strokeFrom": 1.4, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 8, "layer": 116.1, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 3.5, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f" }
+        ]
+      }
+      smokeEffect: {
+        type: "ParticleEffect"
+        lifetime: 35
+        particles: 4
+        cone: 35
+        length: 14
+        interp: "pow4Out"
+        sizeInterp: "pow4In"
+        sizeFrom: 2.4
+        sizeTo: 0
+        colorFrom: "7a7a7aaa"
+        colorTo: "4a4b5300"
+      }
+      hitEffect: {
+        type: "MultiEffect"
+        effects: [
+          "hitLaserBlast"
+          { "type": "ParticleEffect", "lifetime": 18, "line": true, "particles": 6, "cone": 60, "length": 18, "interp": "pow4Out", "lenFrom": 5, "lenTo": 0, "strokeFrom": 1.3, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 11, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+        ]
+      }
+      despawnEffect: {
+        type: "MultiEffect"
+        effects: [
+          "hitLaserBlast"
+          { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 11, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+        ]
+      }
       layer: 130.0
-
       homingPower: 0.2
       homingRange: 150.0
-
       lightning: 2
       lightningLength: 8
       lightningDamage: 25
@@ -669,41 +1254,36 @@ weapons: [
     }
   }
 
-  // Left automated flak launcher.
+  // ================= LEFT FLAK (triple mount, auto) =================
   {
     name: "poseidon-flak-left"
     showStatSprite: false
-
     x: -11
     y: -18
-
     mirror: false
-
     rotate: true
     rotateSpeed: 5
-
     shootY: 4.5
-
     reload: 60
-    recoil: 0
+    recoil: 1
+    recoilTime: 18
+    recoils: 3
     shootCone: 15
-
     top: true
     layerOffset: 0.016
-
     shootSound: "shootPulsar"
-
     controllable: false
     autoTarget: true
 
+    shadow: 9
+    cooldownTime: 40
+    ejectEffect: "none"
+
     shoot: {
       type: "ShootAlternate"
-
       firstShotDelay: 30
-
       shots: 6
       shotDelay: 1.5
-
       spread: 4
       barrels: 3
     }
@@ -711,44 +1291,168 @@ weapons: [
     parts: [
       {
         type: "RegionPart"
-        name: "spiroct-weapon"
-
+        name: "sei-launcher"
         outline: false
-
-        xScl: -0.9
+        y: -0.5
+        xScl: 0.9
         yScl: 0.9
-
+        layerOffset: 0.001
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: -4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
         progress: "recoil"
-        moveY: -1.5
+        recoilIndex: 0
+        moveY: -2
+        layerOffset: 0.0015
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: -4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        recoilIndex: 0
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00151
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: 4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        progress: "recoil"
+        recoilIndex: 2
+        moveY: -2
+        layerOffset: 0.0015
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        x: 4
+        y: 2.5
+        xScl: 0.9
+        yScl: 1.1
+        recoilIndex: 2
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00151
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        y: 3
+        xScl: 0.9
+        yScl: 1.2
+        progress: "recoil"
+        recoilIndex: 1
+        moveY: -2
+        layerOffset: 0.0016
+      }
+      {
+        type: "RegionPart"
+        name: "mount-weapon"
+        outline: false
+        y: 3
+        xScl: 0.9
+        yScl: 1.2
+        recoilIndex: 1
+        progress: "heat"
+        blending: "additive"
+        color: "ff7a3000"
+        colorTo: "ffb46ee6"
+        moves: [
+          { "progress": "recoil", "y": -2 }
+        ]
+        layerOffset: 0.00161
+      }
+      {
+        type: "ShapePart"
+        circle: true
+        y: 4.5
+        radius: 0
+        radiusTo: 2
+        color: "e09d3f00"
+        colorTo: "ffd37f"
+        progress: "heat"
+        layerOffset: 0.003
       }
     ]
 
     bullet: {
       type: "BasicBulletType"
-
       speed: 12
       lifetime: 20
-
       width: 8
       height: 16
-
       damage: 75
-
       backColor: "e09d3f"
       frontColor: "ffd37f"
-
+      hitColor: "ffd37f"
       trailLength: 10
       trailWidth: 2
       trailColor: "ffd37f"
-
-      hitEffect: "hitLaserBlast"
-      despawnEffect: "hitLaserBlast"
-
+      shootEffect: {
+        type: "MultiEffect"
+        effects: [
+          { "type": "ParticleEffect", "lifetime": 14, "layer": 116, "line": true, "particles": 5, "cone": 20, "length": 18, "interp": "pow4Out", "lenFrom": 6, "lenTo": 0, "strokeFrom": 1.4, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "ParticleEffect", "lifetime": 8, "layer": 116.1, "particles": 1, "cone": 0, "length": 0, "sizeFrom": 3.5, "sizeTo": 0, "colorFrom": "ffffff", "colorTo": "ffd37f" }
+        ]
+      }
+      smokeEffect: {
+        type: "ParticleEffect"
+        lifetime: 35
+        particles: 4
+        cone: 35
+        length: 14
+        interp: "pow4Out"
+        sizeInterp: "pow4In"
+        sizeFrom: 2.4
+        sizeTo: 0
+        colorFrom: "7a7a7aaa"
+        colorTo: "4a4b5300"
+      }
+      hitEffect: {
+        type: "MultiEffect"
+        effects: [
+          "hitLaserBlast"
+          { "type": "ParticleEffect", "lifetime": 18, "line": true, "particles": 6, "cone": 60, "length": 18, "interp": "pow4Out", "lenFrom": 5, "lenTo": 0, "strokeFrom": 1.3, "strokeTo": 0, "colorFrom": "ffffff", "colorTo": "e09d3f" }
+          { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 11, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+        ]
+      }
+      despawnEffect: {
+        type: "MultiEffect"
+        effects: [
+          "hitLaserBlast"
+          { "type": "WaveEffect", "lifetime": 14, "sizeFrom": 0, "sizeTo": 11, "strokeFrom": 2, "strokeTo": 0, "colorFrom": "ffd37f", "colorTo": "e09d3f" }
+        ]
+      }
       layer: 130.0
-
       homingPower: 0.2
       homingRange: 150.0
-
       lightning: 2
       lightningLength: 8
       lightningDamage: 25
