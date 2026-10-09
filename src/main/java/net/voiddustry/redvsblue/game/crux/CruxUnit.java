@@ -16,6 +16,7 @@ import mindustry.type.UnitType;
 import mindustry.world.Tile;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.util.Utils;
+import net.voiddustry.redvsblue.game.crux.StageUnits;
 
 import java.util.Random;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class CruxUnit {
                 boolean s11BossDead = true;
                 
                 for (Unit u : Groups.unit) {
-                    if (u.type==UnitTypes.evoke) {
+                    if (u.type==StageUnits.bosses.get(11)) {
                         s11BossDead = false;
                     }
                 }
