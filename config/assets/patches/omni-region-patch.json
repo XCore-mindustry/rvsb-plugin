@@ -2,7 +2,7 @@ unit.dp-omni-unit: {
   localizedName: Omni
   region: cyerce
   shadowRegion: dp-omni-unit-shadow
-  cellRegion: aegires-cell
+  cellRegion: cyerce-cell
   uiIcon: dp-omni-unit-ui
   fullIcon: dp-omni-unit-full
   previewRegion: dp-omni-unit-full

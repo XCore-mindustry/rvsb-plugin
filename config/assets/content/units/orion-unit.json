@@ -839,11 +839,11 @@ despawnEffect: "none"
         shootY: 6
         beamWidth: 1.1
         widthSinMag: 0.1
-        repairSpeed: 3.2
+        repairSpeed: 1
         fractionRepairSpeed: 0.04
         pulseRadius: 8
         targetBuildings: true
-        targetUnits: true
+        targetUnits: false
         laserColor: "98ffa9"
         healColor: "98ffa9"
         parts: [

@@ -1,0 +1,5 @@
+unit.dp-zoltraak-crux-t6: {
+	uiIcon: dp-zoltraak-crux-t6-ui
+	fullIcon: dp-zoltraak-crux-t6-full
+	shadowRegion: dp-zoltraak-crux-t6-shadow
+}

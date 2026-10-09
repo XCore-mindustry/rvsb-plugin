@@ -1,0 +1,122 @@
+plugins{
+    id 'java'
+    id 'application'
+}
+
+def mindustryVersion = property('mindustryVersion')
+def arcHash = property('arcHash')
+
+repositories{
+    mavenCentral()
+    //Mindustry release dependencies jar (core + arc), same source the plugin uses
+    ivy{
+        url = 'https://github.com/'
+        patternLayout{ artifact '/[organisation]/[module]/releases/download/[revision]/dependencies.jar' }
+        metadataSources{ artifact() }
+    }
+    maven{ url = 'https://jitpack.io' }
+}
+
+dependencies{
+    implementation "Anuken:Mindustry:$mindustryVersion"
+    runtimeOnly("com.github.Anuken.Arc:natives-desktop:$arcHash"){ transitive = false }
+}
+
+java{
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach{
+    options.encoding = 'UTF-8'
+}
+
+application{
+    mainClass = 'rvsb.icongen.IconGen'
+}
+
+def vanillaDir = layout.buildDirectory.dir("vanilla/$mindustryVersion").get().asFile
+def rawSprites = new File(vanillaDir, 'core/assets-raw/sprites')
+def clientJar = new File(vanillaDir, 'Mindustry.jar')
+
+//raw (un-outlined, un-antialiased) vanilla sprites of the exact Mindustry tag - the generator's input
+tasks.register('fetchVanillaSprites'){
+    group = 'icongen'
+    description = "Sparse-clones core/assets-raw/sprites of Mindustry $mindustryVersion (needs git)."
+    onlyIf{ !new File(rawSprites, 'effects/scale_marker.png').exists() }
+    doLast{
+        def exec = project.services.get(ExecOperations)
+        project.delete(vanillaDir)
+        exec.exec{ commandLine 'git', 'clone', '--depth', '1', '--branch', mindustryVersion, '--filter=blob:none', '--sparse',
+            'https://github.com/Anuken/Mindustry.git', vanillaDir.absolutePath }
+        exec.exec{ commandLine 'git', '-C', vanillaDir.absolutePath, 'sparse-checkout', 'set', 'core/assets-raw/sprites' }
+    }
+}
+
+tasks.register('fetchClientJar'){
+    group = 'icongen'
+    description = "Downloads the Mindustry $mindustryVersion client jar (its atlas defines the in-game sprites; also used by selftest)."
+    dependsOn 'fetchVanillaSprites'
+    onlyIf{ !clientJar.exists() }
+    doLast{
+        def tmp = new File(clientJar.path + '.part')
+        new URL("https://github.com/Anuken/Mindustry/releases/download/$mindustryVersion/Mindustry.jar").withInputStream{ i -> tmp.withOutputStream{ it << i } }
+        tmp.renameTo(clientJar)
+    }
+}
+
+def repoAssets = file('../../config/assets')
+
+// ./gradlew -p tools/icongen run [--args="--units dp-aractid-unit --out /tmp/icons"]
+tasks.named('run', JavaExec){
+    group = 'icongen'
+    description = 'Generates full/ui/shadow icons for the units in config/assets.'
+    dependsOn 'fetchVanillaSprites', 'fetchClientJar'
+    workingDir = projectDir
+    maxHeapSize = '1g'
+    doFirst{
+        def user = args ?: []
+        def extra = []
+        if(!user.contains('--vanilla-sprites')) extra += ['--vanilla-sprites', rawSprites.absolutePath]
+        if(!user.contains('--assets') && !user.contains('--selftest')) extra += ['--assets', repoAssets.absolutePath]
+        if(!user.contains('--client-jar')) extra += ['--client-jar', clientJar.absolutePath]
+        args = extra + user
+    }
+}
+
+// ./gradlew -p tools/icongen selftest : regenerates every vanilla unit and compares with the shipped atlas
+tasks.register('selftest', JavaExec){
+    group = 'icongen'
+    description = 'Regenerates all vanilla unit icons and checks they are pixel-identical to the official atlas.'
+    dependsOn 'fetchVanillaSprites', 'fetchClientJar', 'classes'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'rvsb.icongen.IconGen'
+    workingDir = projectDir
+    maxHeapSize = '1g'
+    args '--vanilla-sprites', rawSprites.absolutePath, '--selftest', clientJar.absolutePath
+}
+
+// Verification helper (optional): a client mod that renders the config/assets units with the real game renderer.
+// ./gradlew -p tools/icongen probeJar, then see README.md "Verifying against the real client".
+sourceSets{
+    probe{
+        java.srcDirs = ['clientprobe/src']
+        resources.srcDirs = []
+    }
+}
+
+dependencies{
+    probeCompileOnly files(clientJar)
+}
+
+tasks.named('compileProbeJava'){
+    dependsOn 'fetchClientJar'
+}
+
+tasks.register('probeJar', Jar){
+    group = 'icongen'
+    description = 'Builds the client probe mod (build/libs/icongen-probe.jar).'
+    archiveFileName = 'icongen-probe.jar'
+    from sourceSets.probe.output
+    from('clientprobe/mod.hjson')
+}

@@ -1,0 +1,9 @@
+name: "rvsb-icongen-probe"
+displayName: "RvsB icongen client probe"
+author: "rvsb"
+main: "rvsbprobe.ClientProbe"
+description: "Verification helper for tools/icongen: renders data-patch units with the real client renderer, then exits."
+version: "1"
+minGameVersion: 160
+hidden: true
+java: true
