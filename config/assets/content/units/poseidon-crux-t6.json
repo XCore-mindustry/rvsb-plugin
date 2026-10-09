@@ -273,11 +273,11 @@ weapons: [
     shootY: 42
     reload: 280
     recoil: 3
-    recoilTime: 30
+    recoilTime: 240
     shake: 8.0
     top: true
     layerOffset: 0.008
-    shootSound: "shootReign"
+    shootSound: "acceleratorLaunch"
     chargeSound: "loopMalign"
 
     shadow: 18
@@ -661,7 +661,7 @@ weapons: [
     inaccuracy: 6
     top: true
     layerOffset: 0.018
-    shootSound: "shootArtillery"
+    shootSound: "shootMalign"
 
     shadow: 12
     cooldownTime: 70
@@ -861,7 +861,7 @@ weapons: [
     inaccuracy: 6
     top: true
     layerOffset: 0.018
-    shootSound: "shootArtillery"
+    shootSound: "shootMalign"
     shoot: {
       firstShotDelay: 80
     }
