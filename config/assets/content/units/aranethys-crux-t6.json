@@ -5,6 +5,8 @@ description: "The other giant enemy spider, because big spiders come in pairs."
 details: "Australia!"
 hideDetails: false
 flying: false
+hidden: true
+credit: alphy
 groundLayer: 75.5
 type: legs
 allowLegStep: true

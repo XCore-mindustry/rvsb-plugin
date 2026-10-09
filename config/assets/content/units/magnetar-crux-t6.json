@@ -3,6 +3,7 @@ type: legs
 name: Magnetar
 description: "Walking fortress armed with multiple types of powerful energy weapons."
 details: "I did not sign up for this."
+hidden: true
 speed: 0.15
 rotateSpeed: 0.7
 hitSize: 88

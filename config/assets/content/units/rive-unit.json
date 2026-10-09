@@ -4,6 +4,7 @@ localizedName: Rive
 description: Fast kamikaze drone
 flying: true
 controller: SuicideAI
+credit: xexebe
 speed: 3.8
 health: 500
 drag: 0.04

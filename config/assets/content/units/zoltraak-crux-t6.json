@@ -12,6 +12,7 @@
   rotateSpeed: 1.0
   hitSize: 60.0
   generateFullIcon: false
+  credit: Destro
 
   parts: [
     {

@@ -1,6 +1,7 @@
   name: "Daybreak"
   description: "Eclipse. Mark II."
-  details: ""
+
+  credit: alphy
 
   // Outlines
   outlines: true

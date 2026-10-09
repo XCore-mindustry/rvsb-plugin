@@ -2,6 +2,8 @@
 type: flying
 name: Poseidon
 description: "T6 Flying Dreadnought. Heavy support ship with automated flak defenses."
+hidden: true
+credit: xexebe
 
 engineSize: 0
 hitSize: 62

@@ -3,6 +3,7 @@ name: "orion"
     description: "Fires lasers, lightning and bolts that repair allied buildings and damage enemy targets"
     credit: "maded bie aelphy"
     hideDetails: false
+    credit: alphy
     type: "legs"
     controller: "GroundAI"
     flying: false

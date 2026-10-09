@@ -1,7 +1,7 @@
 type: payload
 name: Omni
 description: "Fires plasma bullets that split into piercing lasers and damage enemy targets and repair allied structures. Occasionally fires a devastating missile barrage. Capable of carrying large ground units and blocks."
-details: ""
+credit: alphy
 
 // flight
 flying: true

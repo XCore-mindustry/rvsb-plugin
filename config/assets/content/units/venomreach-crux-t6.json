@@ -1,7 +1,10 @@
-// venomreach boss, made by alphy using Claude Fable 5
+// venomreach boss
 type: legs
 name: Venomreach
 description: "THE giant enemy spider"
+credit: alphy
+hidden: true
+
 parts: [
 {
 name: "toxopid"

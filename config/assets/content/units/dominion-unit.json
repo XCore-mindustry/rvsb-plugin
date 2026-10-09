@@ -3,6 +3,8 @@ name: "Dominion"
 description: "Fires missiles, piercing bullets and flames at enemy targets."
 details: ""
 
+credit: xexebe, improved by alphy
+
 health: 21000
 armor: 21
 speed: 0.5

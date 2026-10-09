@@ -1,7 +1,7 @@
 type: payload
 name: Giga
 description: "Fires missiles and piercing lasers that damage enemy targets and repair allied structures. Capable of carrying medium-sized ground units and blocks."
-details: ""
+credit: alphy
 
 abilities: [
   {

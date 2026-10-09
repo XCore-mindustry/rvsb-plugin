@@ -1,6 +1,7 @@
 {
   type: tank
   name: devastator
+  credit: Bumm
   health: 18000
   armor: 16
   hitSize: 46

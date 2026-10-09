@@ -10,6 +10,7 @@
   buildSpeed: 0.01
   faceTarget: true
   accel: 1
+  credit: "Destro, major overhaul by alphy"
 
   abilities: [
     {

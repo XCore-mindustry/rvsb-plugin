@@ -9,6 +9,7 @@ armor: 6
 rotateSpeed: 3.5
 itemCapacity: 80
 buildSpeed: 0.01
+credit: alphy
 
 legCount: 6
 legMoveSpace: 0.6f
