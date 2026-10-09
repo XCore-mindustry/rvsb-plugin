@@ -36,8 +36,7 @@ import net.voiddustry.redvsblue.ai.AirAI;
 import net.voiddustry.redvsblue.ai.BluePlayerTarget;
 import net.voiddustry.redvsblue.ai.StalkerGroundAI;
 import net.voiddustry.redvsblue.ai.StalkerSuicideAI;
-import net.voiddustry.redvsblue.evolution.Evolution;
-import net.voiddustry.redvsblue.evolution.Evolutions;
+import net.voiddustry.redvsblue.evolution.EvolutionMenu;
 import net.voiddustry.redvsblue.game.crux.*;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
@@ -55,7 +54,6 @@ import net.voiddustry.redvsblue.logic.LInstructions;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Locale;
 import java.util.Objects;
 import java.lang.Math;
 import java.time.Instant;
@@ -155,6 +153,7 @@ public class RedVsBluePlugin extends Plugin {
         Premium.init();
         CruxUnit.addEvent();
         StationButtons.init();
+        EvolutionMenu.init();
         
 
         Events.on(EventType.WorldLoadEvent.class, event -> {
@@ -549,36 +548,8 @@ public class RedVsBluePlugin extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("m", "Open Evolve menu, you must stand near lab", (args, player) -> {
-            if (players.containsKey(player.uuid()) && players.get(player.uuid()).isCanEvolve()) {
-                Locale locale = Bundle.findLocale(player.locale());
-
-                Evolution evolution = Evolutions.evolutions.get(player.unit().type().name);
-
-                String[][] buttons = new String[evolution.evolutions.length][1];
-
-                for (int i = 0; i < evolution.evolutions.length; i++) {
-                    float multiplier = Laboratory.getMultiplier(evolution.evolutions[i], player);
-                    int cost = (int)(Evolutions.evolutions.get(evolution.evolutions[i]).cost*multiplier);
-
-                    String textColor = "";
-
-                    if (multiplier > 1 && multiplier <= 1.99) {
-                        textColor = "[orange]";
-                    } else if (cost>Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
-                        textColor = "[red]";
-                    } else if (cost<Evolutions.evolutions.get(evolution.evolutions[i]).cost) {
-                        textColor = "[green]";
-                    } else {
-                        textColor = "[yellow]";
-                    }
-                    String targetName = evolution.evolutions[i];
-                    UnitType targetType = Vars.content.unit(targetName);
-                    String displayName = targetType != null ? targetType.localizedName : targetName;
-
-                    buttons[i][0] = Bundle.format("menu.evolution.evolve", locale, displayName, (textColor + cost + " - " + (multiplier * 100) + "%"));
-                }
-
-                Call.menu(player.con, Laboratory.evolutionMenu, Bundle.get("menu.evolution.title", locale), Bundle.format("menu.evolution.message", locale, players.get(player.uuid()).getEvolutionStage(), Bundle.get("evolution.branch.initial", locale)), buttons);
+            if (players.containsKey(player.uuid())) {
+                EvolutionMenu.open(player);
             }
         });
 //        handler.<Player>register("sm", "Starting menu, you can open it only util 1 stage", (args, player) -> {

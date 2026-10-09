@@ -4,7 +4,7 @@ unit.dp-poseidon-crux-t6: {
 	uiIcon: dp-poseidon-crux-t6-ui
 	shadowRegion: dp-poseidon-crux-t6-shadow
 	fullIcon: dp-poseidon-crux-t6-full
-	cellRegion: omura-cell
+	cellRegion: oct-cell
 	region: omura
 	previewRegion: dp-poseidon-crux-t6-full
 }

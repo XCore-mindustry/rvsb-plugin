@@ -12,12 +12,12 @@ import mindustry.gen.Groups;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
-import mindustry.ui.Menus;
 import mindustry.world.Tile;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.evolution.Evolution;
+import net.voiddustry.redvsblue.evolution.EvolutionMenu;
 import net.voiddustry.redvsblue.evolution.Evolutions;
 import net.voiddustry.redvsblue.game.stations.stationData.StationData;
 import net.voiddustry.redvsblue.util.Utils;
@@ -25,7 +25,6 @@ import net.voiddustry.redvsblue.util.Utils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,26 +34,19 @@ public class Laboratory {
     private static final Map<String, StationData> labsMap =
             new ConcurrentHashMap<>();
 
-    public static final int evolutionMenu = Menus.registerMenu((player, option) -> {
-        if (option < 0) {
-            return;
-        }
-
+    /**
+     * Evolves the player's current unit into {@code targetUnitName}, charging the current price.
+     * The caller is responsible for checking that the target is a valid evolution of the current unit.
+     *
+     * @return whether the evolution happened
+     */
+    public static boolean evolve(mindustry.gen.Player player, String targetUnitName) {
         Unit oldUnit = player.unit();
 
         if (oldUnit == null || oldUnit.type() == null) {
-            return;
+            return false;
         }
 
-        Evolution currentEvolution =
-                Evolutions.evolutions.get(oldUnit.type().name);
-
-        if (currentEvolution == null
-                || option >= currentEvolution.evolutions.length) {
-            return;
-        }
-
-        String targetUnitName = currentEvolution.evolutions[option];
         Evolution evolutionOption =
                 Evolutions.evolutions.get(targetUnitName);
 
@@ -63,7 +55,7 @@ public class Laboratory {
                     "Evolution data for unit '@' was not found.",
                     targetUnitName
             );
-            return;
+            return false;
         }
 
         /*
@@ -79,13 +71,13 @@ public class Laboratory {
                     player.name(),
                     targetUnitName
             );
-            return;
+            return false;
         }
 
         PlayerData playerData = players.get(player.uuid());
 
         if (playerData == null) {
-            return;
+            return false;
         }
 
         float multiplier = getMultiplier(evolutionOption, player);
@@ -95,7 +87,7 @@ public class Laboratory {
             player.sendMessage(
                     Bundle.get("evolution.not-enough", player.locale)
             );
-            return;
+            return false;
         }
 
         Tile playerTile = player.tileOn();
@@ -108,7 +100,7 @@ public class Laboratory {
                         && playerTile.block() == Blocks.air);
 
         if (!canSpawnHere) {
-            return;
+            return false;
         }
 
         Unit newUnit = targetType.spawn(
@@ -118,7 +110,7 @@ public class Laboratory {
         );
 
         if (newUnit == null || newUnit.dead()) {
-            return;
+            return false;
         }
 
         newUnit.health = newUnit.type.health / 2f;
@@ -144,7 +136,8 @@ public class Laboratory {
                 player.name(),
                 targetUnitName
         );
-    });
+        return true;
+    }
 
     public static void initTimer() {
         Timer.schedule(() -> {
@@ -211,109 +204,12 @@ public class Laboratory {
     }
 
     /**
-     * Opens the evolution UI for a nearby laboratory station button press.
+     * Opens the evolution tree UI for a nearby laboratory station button press.
      */
     public static void openStationMenu(
             mindustry.gen.Player player
     ) {
-        if (player.unit() == null
-                || players.get(player.uuid()) == null) {
-            return;
-        }
-
-        Locale locale = Bundle.findLocale(player.locale());
-
-        Evolution currentEvolution =
-                Evolutions.evolutions.get(
-                        player.unit().type().name
-                );
-
-        if (currentEvolution == null) {
-            return;
-        }
-
-        String[][] buttons =
-                new String[currentEvolution.evolutions.length][1];
-
-        for (int i = 0;
-             i < currentEvolution.evolutions.length;
-             i++) {
-
-            String targetUnitName =
-                    currentEvolution.evolutions[i];
-
-            Evolution option =
-                    Evolutions.evolutions.get(targetUnitName);
-
-            if (option == null) {
-                buttons[i][0] =
-                        "[scarlet]Missing evolution: "
-                                + targetUnitName;
-                continue;
-            }
-
-            /*
-             * Resolve the display unit from Vars.content as well.
-             */
-            UnitType targetType =
-                    Vars.content.unit(targetUnitName);
-
-            String displayName =
-                    targetType != null
-                            ? targetType.localizedName
-                            : targetUnitName;
-
-            float multiplier =
-                    getMultiplier(option, player);
-
-            int cost =
-                    (int) (option.cost * multiplier);
-
-            String color;
-
-            if (multiplier > 1
-                    && multiplier <= 1.99f) {
-                color = "[orange]";
-            } else if (cost > option.cost) {
-                color = "[red]";
-            } else if (cost < option.cost) {
-                color = "[green]";
-            } else {
-                color = "[yellow]";
-            }
-
-            buttons[i][0] = Bundle.format(
-                    "menu.evolution.evolve",
-                    locale,
-                    displayName,
-                    color
-                            + cost
-                            + " - "
-                            + (multiplier * 100)
-                            + "%"
-            );
-        }
-
-        Call.menu(
-                player.con,
-                evolutionMenu,
-                Bundle.get(
-                        "menu.evolution.title",
-                        locale
-                ),
-                Bundle.format(
-                        "menu.evolution.message",
-                        locale,
-                        players.get(
-                                player.uuid()
-                        ).getEvolutionStage(),
-                        Bundle.get(
-                                "evolution.branch.initial",
-                                locale
-                        )
-                ),
-                buttons
-        );
+        EvolutionMenu.open(player);
     }
 
     public static float getMultiplier(
