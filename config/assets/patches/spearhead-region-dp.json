@@ -7,7 +7,6 @@
       fullIcon: dp-spearhead-unit-full
       uiIcon: dp-spearhead-unit-ui
       previewRegion: dp-spearhead-unit-full
-      credit: Destro
       hideDetails: false
       description: "Fires missiles that chain to nearby enemy targets. Activates overdrive mode when firing while moving forward"
       details: ""
