@@ -3,9 +3,9 @@ name: "Dominion"
 description: "Fires missiles, piercing bullets and flames at enemy targets."
 details: ""
 
-health: 28000
-armor: 19
-speed: 0.34
+health: 21000
+armor: 21
+speed: 0.5
 rotateSpeed: 1.45
 hitSize: 34
 itemCapacity: 120
@@ -42,7 +42,7 @@ abilities: [
     x: 0
     y: 0
     regen: 3.3333
-    max: 5000
+    max: 2000
     cooldown: 480
     width: 1.8
     whenShooting: false
@@ -188,7 +188,7 @@ weapons: [
     bullet: {
       type: BasicBulletType
       speed: 13
-      damage: 187.5
+      damage: 150
       lifetime: 27
       width: 13
       height: 29
@@ -331,7 +331,7 @@ weapons: [
       speed: 5.0
       lifetime: 68
       drag: 0.012
-      damage: 50
+      damage: 45
       width: 7
       height: 7
       shrinkX: 1
@@ -537,7 +537,7 @@ weapons: [
 
       despawnSound: explosion
       despawnHit: true
-      splashDamage: 500
+      splashDamage: 650
       splashDamageRadius: 40
       armorMultiplier: 1.2
       hitShake: 4
