@@ -1,0 +1,11 @@
+default: 1
+weights: {
+  corvus: 0.5
+  vela: 0.4
+  sei: 2.2
+  toxopid: 0.5
+  eclipse: 0.7
+  cyerce: 2
+  bryde: 2
+  scepter: 0.5
+}

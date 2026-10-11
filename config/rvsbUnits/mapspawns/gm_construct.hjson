@@ -1,0 +1,63 @@
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [{weight: 90, units: [{type: "stell"}]}, {weight: 10, units: [{type: "nova", effects: ["fast"]}]}]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "anthicus", effects: ["tarred"]}]}
+          {weight: 40, units: [{type: "cleroi", effects: ["tarred"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [
+          {weight: 70, units: [{type: "locus", effects: ["boss", "fast"]}]}
+          {weight: 30, units: [{type: "spiroct", effects: ["burning"]}]}
+        ]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "fortress", effects: ["fast", "shielded"]}]}
+          {weight: 10, units: [{type: "pulsar", effects: ["boss", "fast", "overclock", "overdrive"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "scepter", effects: ["melting"]}]}
+          {weight: 20, units: [{type: "precept", effects: ["melting"]}]}
+        ]
+      }
+      {
+        min: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "vanquish", effects: ["melting"]}]}
+          {weight: 10, units: [{type: "reign", effects: ["burning", "electrified", "melting"]}]}
+          {weight: 10, units: [{type: "vela", effects: ["boss"]}]}
+        ]
+      }
+    ]
+  }
+]

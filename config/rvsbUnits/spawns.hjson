@@ -1,0 +1,223 @@
+updateSeconds: 60
+global: {
+  exceptions: ["frozen_district", "swamp"]
+  spawners: [
+    {
+      name: xexebe-A
+      metric: sum
+      hp: max
+      weighted: true
+      playersOnly: true
+      maxUnitHp: 30000
+      buildingBonus: {dp-conquer-turret: 20000}
+      graceSeconds: 600
+      tiers: [
+        {
+          min: 5000
+          max: 10000
+          cooldown: 45
+          units: [{type: "atrax", effects: ["fast"], effectSeconds: 999}, {type: "horizon"}, {type: "pulsar"}]
+        }
+        {min: 10000, max: 20000, cooldown: 45, units: [{type: "locus"}, {type: "cleroi"}]}
+        {
+          min: 20000
+          max: 25000
+          cooldown: 45
+          units: [
+            {type: "cleroi", effects: ["wet"], effectSeconds: 999}
+            {type: "spiroct", effects: ["electrified"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 25000
+          max: 30000
+          cooldown: 60
+          units: [
+            {type: "quasar", effects: ["sapped", "fast"], effectSeconds: 999}
+            {type: "precept", effects: ["sapped"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 30000
+          max: 35000
+          cooldown: 45
+          units: [{type: "spiroct", effects: ["boss", "overdrive", "fast", "overclock"], effectSeconds: 999}]
+        }
+        {
+          min: 35000
+          max: 45000
+          cooldown: 30
+          units: [
+            {type: "locus", effects: ["overclock"], effectSeconds: 999}
+            {type: "cleroi", effects: ["overclock"], effectSeconds: 999}
+            {type: "quasar", effects: ["overclock"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 45000
+          max: 70000
+          cooldown: 70
+          units: [
+            {type: "dp-aractid-unit", effects: ["fast", "overclock"], effectSeconds: 999}
+            {type: "obviate", effects: ["overclock"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 70000
+          max: 75000
+          cooldown: 80
+          units: [
+            {type: "precept", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-aractid-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 75000
+          max: 85000
+          cooldown: 115
+          units: [
+            {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
+            {type: "anthicus", effects: ["boss"], effectSeconds: 999}
+            {type: "dp-aractid-unit", effects: ["boss", "fast"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 85000
+          max: 100000
+          cooldown: 90
+          units: [{type: "vela", effects: ["boss", "overdrive"], effectSeconds: 999}, {type: "anthicus"}]
+        }
+        {
+          min: 100000
+          max: 110000
+          cooldown: 85
+          units: [
+            {type: "arkyid", effects: ["sapped"], effectSeconds: 999}
+            {type: "antumbra", effects: ["boss"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 110000
+          max: 140000
+          cooldown: 95
+          units: [
+            {type: "reign"}
+            {type: "quell", effects: ["overdrive", "fast"], effectSeconds: 999}
+            {type: "scepter", effects: ["overdrive", "boss", "fast"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 140000
+          max: 160000
+          cooldown: 50
+          units: [
+            {type: "quell", effects: ["fast", "boss", "shielded"], effectSeconds: 999}
+            {type: "arkyid", effects: ["shielded", "overdrive", "boss"], effectSeconds: 999}
+            {type: "vanquish", effects: ["overdrive", "boss"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 160000
+          cooldown: 90
+          units: [
+            {type: "collaris", effects: ["overdrive", "boss"], effectSeconds: 999}
+            {type: "reign", effects: ["overdrive", "boss", "shielded"], effectSeconds: 999}
+            {type: "dp-aractid-unit", effects: ["fast", "shielded"], effectSeconds: 999, count: 3}
+          ]
+        }
+      ]
+    }
+    {
+      name: xexebe-B
+      metric: sum
+      hp: max
+      weighted: true
+      playersOnly: true
+      maxUnitHp: 30000
+      buildingBonus: {dp-conquer-turret: 20000}
+      graceSeconds: 600
+      tiers: [
+        {min: 20000, max: 25000, cooldown: 65, units: [{type: "quasar"}]}
+        {min: 25000, max: 30000, cooldown: 105, units: [{type: "obviate"}]}
+        {min: 30000, max: 35000, cooldown: 105, units: [{type: "anthicus"}, {type: "quasar"}]}
+        {
+          min: 35000
+          max: 45000
+          cooldown: 135
+          units: [{type: "scepter", effects: ["electrified"], effectSeconds: 999}]
+        }
+        {
+          min: 45000
+          max: 70000
+          cooldown: 145
+          units: [
+            {type: "vela", effects: ["boss"], effectSeconds: 999}
+            {type: "quasar", effects: ["boss", "overclock"], effectSeconds: 999}
+          ]
+        }
+        {min: 70000, max: 75000, cooldown: 175, units: [{type: "dp-regent-unit"}]}
+        {
+          min: 75000
+          max: 85000
+          cooldown: 145
+          units: [
+            {type: "dp-regent-unit"}
+            {type: "reign", effects: ["freezing"], effectSeconds: 999}
+            {type: "sei", effects: ["freezing"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 85000
+          max: 100000
+          cooldown: 145
+          units: [
+            {type: "scepter", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "arkyid", effects: ["wet"], effectSeconds: 999}
+            {type: "dp-regent-unit"}
+          ]
+        }
+        {
+          min: 100000
+          max: 110000
+          cooldown: 145
+          units: [
+            {type: "antumbra", effects: ["boss"], effectSeconds: 999}
+            {type: "vela", effects: ["boss"], effectSeconds: 999}
+            {type: "dp-regent-unit"}
+          ]
+        }
+        {
+          min: 110000
+          max: 140000
+          cooldown: 120
+          units: [
+            {type: "tecta", effects: ["shielded", "boss"], shield: 14000, effectSeconds: 999}
+            {type: "vanquish", effects: ["boss", "fast"], effectSeconds: 999}
+            {type: "toxopid", effects: ["boss", "fast"], effectSeconds: 999}
+            {type: "dp-regent-unit"}
+          ]
+        }
+        {
+          min: 140000
+          max: 160000
+          cooldown: 120
+          units: [
+            {type: "collaris", effects: ["overdrive", "boss"], effectSeconds: 999}
+            {type: "reign", effects: ["shielded", "overdrive"], effectSeconds: 999}
+            {type: "dp-regent-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 160000
+          cooldown: 120
+          units: [
+            {type: "quell", effects: ["overdrive", "boss"], effectSeconds: 999}
+            {type: "arkyid", effects: ["overclock", "fast", "shielded", "overdrive", "boss"], effectSeconds: 999}
+            {type: "conquer", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "dp-regent-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+          ]
+        }
+      ]
+    }
+  ]
+}

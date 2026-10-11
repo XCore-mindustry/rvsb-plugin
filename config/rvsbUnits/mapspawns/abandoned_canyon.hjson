@@ -1,0 +1,66 @@
+globalMultiplier: 1.1
+spawners: [
+  {
+    name: miniboss
+    metric: sum
+    hp: max
+    weighted: true
+    peak: true
+    tiers: [
+      {
+        min: 1500
+        max: 6500
+        cooldown: 95
+        options: [
+          {weight: 30, units: [{type: "merui"}]}
+          {weight: 30, units: [{type: "nova"}]}
+          {weight: 40, units: [{type: "stell"}]}
+        ]
+      }
+      {
+        min: 6500
+        max: 10000
+        cooldown: 95
+        options: [
+          {weight: 30, units: [{type: "cleroi", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 30, units: [{type: "pulsar", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 40, units: [{type: "quasar", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 10000
+        max: 17000
+        cooldown: 95
+        options: [
+          {weight: 30, units: [{type: "anthicus", effects: ["melting", "boss"], effectSeconds: 999}]}
+          {
+            weight: 30
+            units: [{type: "spiroct", effects: [{name: "boss", seconds: 10}, {name: "overdrive", seconds: 10}]}]
+          }
+          {weight: 40, units: [{type: "precept", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 17000
+        max: 30000
+        cooldown: 95
+        options: [
+          {weight: 30, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 30, units: [{type: "toxopid", effects: ["electrified", "shocked", "sapped"], effectSeconds: 999}]}
+          {weight: 40, units: [{type: "scepter", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 30000
+        cooldown: 95
+        options: [
+          {weight: 20, units: [{type: "reign", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 20, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 20, units: [{type: "arkyid", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 20, units: [{type: "conquer", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 20, units: [{type: "toxopid", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+    ]
+  }
+]

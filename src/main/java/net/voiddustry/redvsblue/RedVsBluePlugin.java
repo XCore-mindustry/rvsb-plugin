@@ -156,6 +156,8 @@ public class RedVsBluePlugin extends Plugin {
         EvolutionMenu.init();
         
 
+        StrengthSpawner.init();
+
         Events.on(EventType.WorldLoadEvent.class, event -> {
             for (UnitType unit : Vars.content.units()) {
                 if (unit == UnitTypes.crawler) {
@@ -360,6 +362,7 @@ public class RedVsBluePlugin extends Plugin {
             initRules();
 
             StageUnits.load();
+            StrengthSpawner.load();
 
             StartingMenu.canOpenMenu = true;
 
@@ -440,6 +443,7 @@ public class RedVsBluePlugin extends Plugin {
             hardcore = false;
             stage = 1;
             stageTimer = 300;
+            StrengthSpawner.reset();
             voting = false;
             StartingMenu.canOpenMenu = true;
 
@@ -665,6 +669,10 @@ public class RedVsBluePlugin extends Plugin {
     }
     @Override
     public void registerServerCommands(CommandHandler handler) {
+        handler.register("crux-spawns", "[reload]", "Show strength spawner state, or reload rvsbUnits/spawns.hjson + unitWeights.hjson", args -> {
+            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) StrengthSpawner.load();
+            Log.info(StrengthSpawner.status());
+        });
 //        handler.register("reload", "<config-name>", "Reload config", (args) -> {
 //            if (Objects.equals(args[0], "units")) {
 //                int multipler = UnitsConfig.getPrices_multipler();
@@ -804,6 +812,7 @@ public class RedVsBluePlugin extends Plugin {
 
     public static void gameOver(Team winner) {
         StageUnits.rollBosses();
+        StrengthSpawner.stop();
         Events.fire("rvsb_game_over:" + winner.name);
         
         Groups.player.each(p -> {
