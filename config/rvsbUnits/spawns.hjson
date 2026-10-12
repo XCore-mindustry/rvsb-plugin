@@ -8,7 +8,7 @@ global: {
       hp: max
       weighted: true
       playersOnly: true
-      maxUnitHp: 30000
+      maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 20000}
       graceSeconds: 600
       tiers: [
