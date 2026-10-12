@@ -47,6 +47,7 @@ import net.voiddustry.redvsblue.game.units.SpecialUnits;
 import net.voiddustry.redvsblue.player.Hud;
 import net.voiddustry.redvsblue.player.Premium;
 import net.voiddustry.redvsblue.util.MapVote;
+import net.voiddustry.redvsblue.util.MenuGuard;
 import net.voiddustry.redvsblue.util.UnitsConfig;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.logic.LInstructions;
@@ -202,7 +203,7 @@ public class RedVsBluePlugin extends Plugin {
 
             int menu = Menus.registerMenu(((player1, option) -> {}));
 
-            Call.menu(player.con, menu, Bundle.get("welcome", player.locale), Bundle.get("welcome.text", player.locale), new String[][]{{Bundle.get("stations.buttons.close", player.locale)}});
+            MenuGuard.menu(player.con, menu, Bundle.get("welcome", player.locale), Bundle.get("welcome.text", player.locale), new String[][]{{Bundle.get("stations.buttons.close", player.locale)}});
         });
 
         Events.on(EventType.PlayerChatEvent.class, event -> {

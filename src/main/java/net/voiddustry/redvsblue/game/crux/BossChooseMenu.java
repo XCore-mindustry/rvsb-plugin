@@ -2,12 +2,12 @@ package net.voiddustry.redvsblue.game.crux;
 
 import mindustry.content.UnitTypes;
 import mindustry.game.Team;
-import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.ui.Menus;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.MenuGuard;
 
 public class BossChooseMenu {
     public static void openMenu(Player player) {
@@ -33,6 +33,6 @@ public class BossChooseMenu {
                 { Bundle.get("boss.bosses.mace", player.locale) }
         };
 
-        Call.menu(player.con, menu, title, "", buttons);
+        MenuGuard.menu(player.con, menu, title, "", buttons);
     }
 }

@@ -1,12 +1,12 @@
 package net.voiddustry.redvsblue.game.crux;
 
 import arc.struct.ObjectMap;
-import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.type.UnitType;
 import mindustry.ui.Menus;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.MenuGuard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class ClassChooseMenu {
             CruxUnit.callSpawn(playerInMenu);
         });
 
-        Call.menu(player.con, menu, Bundle.get("units.crux.menu.title", player.locale), "", unitsBundleKeys);
+        MenuGuard.menu(player.con, menu, Bundle.get("units.crux.menu.title", player.locale), "", unitsBundleKeys);
     }
 
     public static void updateUnitsMap() {

@@ -13,6 +13,7 @@ import mindustry.ui.Menus;
 import mindustry.world.Tile;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+import net.voiddustry.redvsblue.util.MenuGuard;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -123,7 +124,7 @@ public class ArmorWorkbench {
     }
 
     private static void openMenu(Player p, int menu, String[][] buttons) {
-        Call.menu(p.con, menu, "[royal]" + Bundle.get("stations.buttons.workbench"), Bundle.format("stations.workbench.unit-armor", Bundle.findLocale(p.locale), p.unit().shield), buttons);
+        MenuGuard.menu(p.con, menu, "[royal]" + Bundle.get("stations.buttons.workbench"), Bundle.format("stations.workbench.unit-armor", Bundle.findLocale(p.locale), p.unit().shield), buttons);
     }
 
     public static void clearWorkbenches() {
