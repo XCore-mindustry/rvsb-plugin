@@ -1,1 +1,80 @@
 globalMultiplier: 0.2
+globalMultiplier: 0
+spawners: [
+  {
+    name: miniboss
+    metric: decaying
+    hp: max
+    weighted: true
+    tiers: [
+      {
+        min: 1000
+        max: 4000
+        cooldown: 35
+        options: [
+          {weight: 30, units: [{type: "mace"}]}
+          {weight: 30, units: [{type: "nova"}]}
+          {weight: 40, units: [{type: "stell"}]}
+        ]
+      }
+      {
+        min: 4000
+        max: 8000
+        cooldown: 40
+        options: [
+          {
+            weight: 30
+            units: [
+              {
+                type: cleroi
+                count: 2
+                effects: ["electrified", "sapped", "boss", {name: "slow", seconds: 5}]
+                effectSeconds: 999
+              }
+            ]
+          }
+          {weight: 30, units: [{type: "pulsar"}]}
+          {
+            weight: 40
+            units: [{type: "horizon", effects: ["electrified", "freezing", "boss", "sapped"], effectSeconds: 999}]
+          }
+        ]
+      }
+      {
+        min: 8000
+        max: 15000
+        cooldown: 80
+        options: [
+          {weight: 30, units: [{type: "locus", effects: ["boss", "overdrive"], effectSeconds: 999}]}
+          {weight: 30, units: [{type: "spiroct"}]}
+        ]
+      }
+      {
+        min: 15000
+        max: 44000
+        cooldown: 80
+        options: [
+          {weight: 50, units: [{type: "vanquish", effects: ["melting", "shielded", "electrified"], effectSeconds: 999}]}
+          {weight: 50, units: [{type: "scepter", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 44000
+        max: 70000
+        cooldown: 55
+        options: [
+          {weight: 33, units: [{type: "conquer", effects: ["melting", "overclock"], effectSeconds: 999}]}
+          {weight: 67, units: [{type: "reign", effects: ["overclock", "overdrive", "boss"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 70000
+        cooldown: 25
+        options: [
+          {weight: 33, units: [{type: "conquer", effects: ["melting", "overclock"], effectSeconds: 999}]}
+          {weight: 67, units: [{type: "reign", effects: ["overclock", "overdrive", "boss"], effectSeconds: 999}]}
+        ]
+      }
+    ]
+  }
+]
