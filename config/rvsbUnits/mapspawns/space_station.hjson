@@ -1,0 +1,58 @@
+globalMultiplier: 1.2
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [{weight: 90, units: [{type: "stell"}]}, {weight: 10, units: [{type: "nova", effects: ["fast"]}]}]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "mace", effects: ["fast"]}]}
+          {weight: 40, units: [{type: "merui", effects: ["boss"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [{weight: 70, units: [{type: "merui"}]}, {weight: 30, units: [{type: "quasar"}]}]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "fortress", effects: ["fast"]}]}
+          {weight: 10, units: [{type: "zenith", effects: ["boss"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 10000
+        cooldown: 55
+        options: [{weight: 80, units: [{type: "scepter"}]}, {weight: 20, units: [{type: "obviate"}]}]
+      }
+      {
+        min: 10000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "arkyid", effects: ["boss", "melting"]}]}
+          {weight: 10, units: [{type: "corvus", effects: ["electrified"]}]}
+          {weight: 10, units: [{type: "tecta", effects: ["boss"]}]}
+        ]
+      }
+    ]
+  }
+]

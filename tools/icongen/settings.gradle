@@ -1,3 +1,0 @@
-// Standalone build (not part of the plugin build). Run from the repo root with:
-//   ./gradlew -p tools/icongen run
-rootProject.name = 'icongen'

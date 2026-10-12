@@ -1,0 +1,64 @@
+globalMultiplier: 0.5
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [{weight: 90, units: [{type: "stell"}]}, {weight: 10, units: [{type: "pulsar", flag: 1}]}]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "quasar", effects: ["tarred"]}]}
+          {weight: 40, units: [{type: "zenith", effects: ["shielded", "tarred"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [
+          {weight: 70, units: [{type: "locus", effects: ["burning", "slow"]}]}
+          {weight: 30, units: [{type: "spiroct", effects: ["burning"]}]}
+        ]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "fortress", effects: ["burning"]}]}
+          {weight: 10, units: [{type: "pulsar", effects: ["overclock", "overdrive"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "scepter", effects: ["melting"]}]}
+          {weight: 20, units: [{type: "precept", effects: ["melting"]}]}
+        ]
+      }
+      {
+        min: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "vanquish", effects: ["melting"]}]}
+          {weight: 10, units: [{type: "toxopid", effects: ["burning", "melting"]}]}
+          {weight: 10, units: []}
+        ]
+      }
+    ]
+  }
+]

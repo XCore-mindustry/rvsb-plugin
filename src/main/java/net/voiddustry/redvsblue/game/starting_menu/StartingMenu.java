@@ -2,7 +2,6 @@ package net.voiddustry.redvsblue.game.starting_menu;
 
 import arc.struct.ObjectMap;
 import mindustry.game.Team;
-import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.net.NetConnection;
@@ -11,6 +10,7 @@ import mindustry.ui.Menus;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.util.MenuGuard;
 import net.voiddustry.redvsblue.util.Utils;
 
 public class StartingMenu {
@@ -65,7 +65,7 @@ public class StartingMenu {
     }
 
     private static void menu(NetConnection connection, int menu, String text, String[][] buttons) {
-        Call.menu(connection, menu, Bundle.get("menu.build.title", connection.player.locale), text, buttons);
+        MenuGuard.menu(connection, menu, Bundle.get("menu.build.title", connection.player.locale), text, buttons);
     }
 
     private static void giveUnit(Player player, UnitType unitType) {

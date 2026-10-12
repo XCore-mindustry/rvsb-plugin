@@ -1,0 +1,67 @@
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["elude"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "atrax", effects: ["slow", "tarred"], extraPerBlueUnit: 4}]}
+          {weight: 10, units: [{wave: 1}]}
+        ]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "atrax", effects: ["tarred"], extraPerBlueUnit: 4, health: 150}]}
+          {weight: 40, units: [{type: "cleroi", effects: ["boss"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [
+          {weight: 70, units: [{type: "anthicus", effects: ["boss", "burning"]}]}
+          {weight: 30, units: [{type: "spiroct", effects: ["boss", "burning"]}]}
+        ]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "quasar", effects: ["fast", "overdrive"]}]}
+          {weight: 10, units: [{type: "pulsar", effects: ["fast", "overclock", "overdrive"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "scepter", effects: ["boss", "melting"]}]}
+          {weight: 20, units: [{type: "spiroct", effects: ["tarred"], extraPerBlueUnit: 4}]}
+        ]
+      }
+      {
+        min: 11000
+        cooldown: 55
+        options: [
+          {weight: 45, units: []}
+          {weight: 25, units: [{type: "toxopid", effects: ["boss", "burning", "melting"]}]}
+          {weight: 15, units: [{type: "mega", extraPerBlueUnit: 4}]}
+          {weight: 15, units: [{wave: 100}]}
+        ]
+      }
+    ]
+  }
+]

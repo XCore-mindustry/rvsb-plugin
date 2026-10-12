@@ -1,0 +1,25 @@
+globalMultiplier: 1.5
+
+spawners: [
+  {
+    name: elite-check
+    metric: avgTopHalf
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {min: 5000, cooldown: 60, units: [{type: "quasar", effects: ["shielded"], health: 400, flag: 1}]}
+    ]
+  }
+  {
+    name: boss
+    metric: sum
+    playersOnly: true
+    maxUnitHp: 30000
+    buildingBonus: {dp-conquer-turret: 20000}
+    graceSeconds: 600
+    waitForDeath: true
+    tiers: [
+      {min: 80000, cooldown: 300, units: [{type: "quell", effects: ["boss"]}]}
+    ]
+  }
+]

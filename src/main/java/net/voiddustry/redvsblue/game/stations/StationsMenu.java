@@ -1,10 +1,10 @@
 package net.voiddustry.redvsblue.game.stations;
 
 import mindustry.game.Team;
-import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.ui.Menus;
 import net.voiddustry.redvsblue.Bundle;
+import net.voiddustry.redvsblue.util.MenuGuard;
 
 public class StationsMenu {
     public static void openMenu(Player player) {
@@ -40,7 +40,7 @@ public class StationsMenu {
                     { Bundle.get("stations.buttons.close", player.locale)}
             };
 
-            Call.menu(player.con, menu, title, text, buttons);
+            MenuGuard.menu(player.con, menu, title, text, buttons);
         }
     }
 }

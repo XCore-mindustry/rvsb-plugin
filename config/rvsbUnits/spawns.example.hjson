@@ -1,0 +1,39 @@
+updateSeconds: 60
+
+global: {
+  exceptions: ["frozen_district"]
+  spawners: [
+    {
+      name: top-heavy
+      metric: decaying
+      decay: 0.75
+      hp: currentPlus30
+      weighted: true
+      flex: true
+      playerScaling: 0.5
+      minStage: 3
+      maxStage: 12
+      tiers: [
+        {
+          min: 8000
+          max: 20000
+          cooldown: 90
+          options: [
+            {weight: 70, units: [{type: "mace", count: 2}]}
+            {weight: 30, units: [{type: "fortress", effects: ["boss", {name: "overclock", seconds: 30}]}]}
+          ]
+        }
+        {
+          min: 20000
+          cooldown: 120
+          minStage: 6
+          options: [
+            {weight: 50, units: [{type: "scepter", shield: 2000}, {type: "dagger", count: 3, extraPerBlueUnit: 1}]}
+            {weight: 25, units: [{wave: 30}]}
+            {weight: 25, units: []}
+          ]
+        }
+      ]
+    }
+  ]
+}

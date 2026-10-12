@@ -1,0 +1,72 @@
+globalMultiplier: 0.4
+spawners: [
+  {
+    name: miniboss
+    metric: sum
+    hp: max
+    weighted: true
+    tiers: [
+      {
+        min: 1000
+        max: 4000
+        cooldown: 35
+        options: [
+          {weight: 30, units: [{type: "dagger"}]}
+          {weight: 30, units: [{type: "nova"}]}
+          {weight: 40, units: [{type: "stell"}]}
+        ]
+      }
+      {
+        min: 4000
+        max: 8000
+        cooldown: 40
+        options: [
+          {weight: 30, units: [{type: "elude", effects: ["boss"], effectSeconds: 999}]}
+          {weight: 30, units: [{type: "pulsar", effects: ["sapped"], effectSeconds: 999}]}
+          {weight: 40, units: [{type: "mace", effects: ["shielded"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 8000
+        max: 15000
+        cooldown: 80
+        options: [
+          {weight: 30, units: [{type: "locus", effects: ["boss", "overdrive"], effectSeconds: 999}]}
+          {
+            weight: 30
+            units: [
+              {
+                type: spiroct
+                effects: ["melting", {name: "boss", seconds: 10}, {name: "overdrive", seconds: 10}]
+                effectSeconds: 999
+              }
+            ]
+          }
+          {weight: 40, units: [{type: "precept", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 15000
+        max: 25000
+        cooldown: 80
+        options: [
+          {weight: 60, units: [{type: "obviate", effects: ["shielded", "sapped"], effectSeconds: 999}]}
+          {
+            weight: 20
+            units: [{type: "reign", effects: ["electrified", "shocked", "sapped", "corroded"], effectSeconds: 999}]
+          }
+          {weight: 20, units: [{type: "scepter", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+      {
+        min: 25000
+        cooldown: 55
+        options: [
+          {weight: 33, units: [{type: "reign", effects: ["melting", "sapped"], effectSeconds: 999}]}
+          {weight: 33, units: [{type: "antumbra", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 34, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
+        ]
+      }
+    ]
+  }
+]

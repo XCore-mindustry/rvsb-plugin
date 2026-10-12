@@ -1,0 +1,66 @@
+globalMultiplier: 0.8
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [{weight: 90, units: [{type: "flare"}]}, {weight: 10, units: [{wave: 1}]}]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "quasar", effects: ["tarred"]}]}
+          {weight: 40, units: [{type: "cleroi", effects: ["tarred"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [
+          {weight: 70, units: [{type: "locus", effects: ["fast", "overdrive"]}]}
+          {weight: 30, units: [{type: "spiroct", effects: ["tarred"]}]}
+        ]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "anthicus"}]}
+          {weight: 10, units: [{type: "pulsar", effects: ["fast", "overclock", "overdrive"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "scepter", effects: ["melting"]}]}
+          {weight: 20, units: [{type: "precept", effects: ["melting"]}]}
+        ]
+      }
+      {
+        min: 11000
+        cooldown: 55
+        options: [
+          {weight: 40, units: [{type: "anthicus"}]}
+          {weight: 30, units: [{type: "vela"}]}
+          {weight: 10, units: [{wave: 100}]}
+          {weight: 10, units: [{type: "vanquish", effects: ["burning", "electrified"]}]}
+          {weight: 10, units: [{type: "reign", effects: ["burning", "electrified", "melting"]}]}
+        ]
+      }
+    ]
+  }
+]

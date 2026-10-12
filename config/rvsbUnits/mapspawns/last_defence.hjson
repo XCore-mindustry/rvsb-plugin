@@ -1,0 +1,64 @@
+globalMultiplier: 1.2
+spawners: [
+  {
+    name: q
+    metric: average
+    hp: max
+    weighted: true
+    minUnitHp: 600
+    exclude: ["merui"]
+    tiers: [
+      {
+        min: 800
+        max: 1100
+        cooldown: 55
+        options: [{weight: 90, units: [{type: "flare"}]}, {weight: 10, units: [{wave: 1}]}]
+      }
+      {
+        min: 1100
+        max: 3000
+        cooldown: 55
+        options: [
+          {weight: 60, units: [{type: "quasar", effects: ["burning"]}]}
+          {weight: 40, units: [{type: "cleroi", effects: ["electrified", "overclock"]}]}
+        ]
+      }
+      {
+        min: 3000
+        max: 5000
+        cooldown: 55
+        options: [
+          {weight: 70, units: [{type: "locus", effects: ["burning", "shielded"]}]}
+          {weight: 30, units: [{type: "spiroct", effects: ["burning"]}]}
+        ]
+      }
+      {
+        min: 5000
+        max: 8500
+        cooldown: 55
+        options: [
+          {weight: 90, units: [{type: "fortress", effects: ["fast", "shielded"]}]}
+          {weight: 10, units: [{type: "pulsar", effects: ["fast", "overclock", "overdrive"]}]}
+        ]
+      }
+      {
+        min: 8500
+        max: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "scepter", effects: ["burning"]}]}
+          {weight: 20, units: [{type: "precept", effects: ["burning"]}]}
+        ]
+      }
+      {
+        min: 11000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "vanquish", effects: ["burning"]}]}
+          {weight: 10, units: [{type: "toxopid", effects: ["burning", "electrified"]}]}
+          {weight: 10, units: [{wave: 100}]}
+        ]
+      }
+    ]
+  }
+]
