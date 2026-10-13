@@ -53,7 +53,7 @@ public enum Evolution {
     MEGA("mega", 5, 100 * multp,
             new String[]{"cyerce"}, 4),
 
-    ORION("dp-orion-unit", 6, 2000 * multp,
+    ORION("dp-orion-unit", 6, 1680 * multp,
             new String[]{"nova", "flare", "merui"}, 10),
     PRECEPT("precept", 6, 60 * multp,
             new String[]{"scepter", "dp-stryker-unit"}, 5),
