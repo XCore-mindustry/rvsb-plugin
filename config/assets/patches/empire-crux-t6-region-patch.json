@@ -2,9 +2,10 @@
 unit.dp-empire-crux-t6: {
 	localizedName: Empire
 	uiIcon: dp-empire-crux-t6-ui
-	cellRegion: scepter-cell
+	cellRegion: dp-empire-crux-t6-cell
 	legRegion: reign-leg
+	baseRegion: dp-empire-crux-t6-base
 	region: reign
 	fullIcon: dp-empire-crux-t6-full
-	shadowRegion: dp-empire-crux-t6-shadow
+	shadowRegion: dp-empire-crux-t6-full
 }

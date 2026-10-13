@@ -1,45 +1,37 @@
 // empire boss, author: alphy
-type: mech
-name: Empire
+type: "mech"
+name: "Empire"
 description: "Siege machine. Deals insane damage to buildings."
 hidden: true
-credit: alphy
+credit: "alphy"
 parts: [
-{
-name: "reign"
-xScl: 1.5
-yScl: 1.2
-layerOffset: -0.002
-}
-{
-name: "scepter"
-layerOffset: -0.001
-xScl: 1.1
-yScl: 1.1
-x: 10
-}
-{
-name: "scepter"
-layerOffset: -0.001
-xScl: 1.1
-yScl: 1.1
-x: -10
-}
-{
-name: "scepter"
-y: 8
-xScl: 1.5
-layerOffset: -0.003
-}
-{
-name: "scepter"
-xScl: 2.25
-y: -2
-layerOffset: -0.003
-}
+    // spine and hull (baked outlines)
+    { type: "RegionPart", name: "scepter", outline: false, y: -12, rotation: 180, layerOffset: -0.012 }
+    { type: "RegionPart", name: "reign", outline: false, y: -4, xScl: 1.25, yScl: 1.1, layerOffset: -0.009 }
+    // haunch plates - outline pushed under spine + hull, so the three read as one sprite
+    {
+        type: "RegionPart", name: "scepter-weapon", outline: true, mirror: true, x: 11, y: -15
+        rotation: 200, xScl: 0.9, yScl: 1, layerOffset: -0.006, outlineLayerOffset: -0.009
+    }
+    // shoulder struts tying the arms into the torso
+    {
+        type: "RegionPart", name: "reign-weapon", outline: true, mirror: true, x: 17, y: 1
+        rotation: -90, xScl: 0.7, yScl: 0.7, layerOffset: -0.004, outlineLayerOffset: -0.0125
+    }
+    // chest reactor glow (idle pulse + flare on every cannon shot)
+    {
+        type: "ShapePart", circle: true, y: 4.5, radius: 1.2, radiusTo: 2.8, color: "ffa66400"
+        colorTo: "fff4d699", weaponIndex: 0
+        progress: { type: "heat", ops: [{ op: "absin", scl: 14, mag: 0.45 }] }
+        layerOffset: 0.001
+    }
+    {
+        type: "ShapePart", circle: true, hollow: true, y: 4.5, radius: 3, radiusTo: 9, stroke: 1.6
+        strokeTo: 0, color: "ffa664ff", colorTo: "cf6a5300", weaponIndex: 0
+        progress: { type: "heat", ops: [{ op: "inv" }] }, layerOffset: 0.0011
+    }
 ]
 flying: false
-type: mech
 legLength: 35
 hittable: true
 fogRadius: 300
@@ -52,321 +44,831 @@ targetable: true
 autoFindTarget: true
 useUnitCap: true
 createScorch: true
-speed: 0.3f
+speed: 0.3
 range: 350
 maxRange: 450
 rotateSpeed: 0.6
 aimDst: 120
-hitSize: 40f
+hitSize: 40
 health: 62000
 mechStepParticles: true
-stepShake: 1.2f
+stepShake: 1.6
 drownTimeMultiplier: 4
-mechFrontSway: 1f
-mechSideSway: 0.6f
-stepSound: mechStepHeavy
-stepSoundPitch: 0.8
-stepSoundVolume: 0.7
+mechFrontSway: 1
+mechSideSway: 0.6
+stepSound: "mechStepHeavy"
+stepSoundPitch: 0.7
+stepSoundVolume: 0.8
+lightRadius: 150
+lightColor: "ffa664"
+lightOpacity: 0.45
+deathExplosionEffect: {
+    type: "MultiEffect"
+    effects: [
+        { type: "WrapEffect", effect: "dynamicExplosion", rotation: 3.2 }
+        { type: "WrapEffect", effect: "titanExplosionLarge", color: "ffa664" }
+        { type: "WrapEffect", effect: "titanSmokeLarge", color: "6e7080" }
+        {
+            type: "WaveEffect", lifetime: 50, sizeFrom: 0, sizeTo: 160, strokeFrom: 9, strokeTo: 0
+            colorFrom: "ffffff", colorTo: "ffa664", interp: "pow4Out", lightColor: "ffa664"
+        }
+        {
+            type: "WaveEffect", lifetime: 75, startDelay: 10, sides: 6, sizeFrom: 0, sizeTo: 115
+            strokeFrom: 4, strokeTo: 0, colorFrom: "ffd37f", colorTo: "cf6a53", interp: "circleOut"
+        }
+        {
+            type: "ParticleEffect", lifetime: 80, line: true, particles: 40, length: 170
+            interp: "pow10Out", lenFrom: 26, lenTo: 0, strokeFrom: 3.5, strokeTo: 0
+            colorFrom: "ffffff", colorTo: "ffa664"
+        }
+        {
+            type: "ParticleEffect", lifetime: 160, particles: 26, length: 95, interp: "pow5Out"
+            sizeInterp: "pow5In", sizeFrom: 13, sizeTo: 0, colorFrom: "565666cc"
+            colorTo: "6e708000"
+        }
+    ]
+}
+deathSound: "explosionTitan"
 weapons: [
-{
-  mirror: false
-name: "reign-weapon"
-layerOffset: -0.0005
-top: true
-x: 26
-y: 5
-parts: [
-{
-name: "reign-weapon"
-layerOffset: 0.0001
-xScl: 1.6
-yScl: 1.1
-}
-{
-name: "reign-weapon"
-layerOffset: 0.0002
-xScl: 0.8
-yScl: 0.8
-}
-{
-name: "scepter-weapon"
-layerOffset: 0.0001
-xScl: 0.8
-yScl: 0.8
-y: -16
-}
-{
-name: "scepter-weapon"
-layerOffset: 0.0001
-xScl: 0.8
-yScl: 0.8
-y: 16
-}
-]
-shootY: 16
-reload: 50
-recoil: 8f
-recoils: 1
-recoilTime: 50
-shake: 3.5
-ejectEffect: casing4
-shootSound: shootMalign
-bullet: {
-damage: 60
-splashDamage: 300
-splashDamageRadius: 30
-type: BasicBulletType
-speed: 14
-width: 20
-height: 80
-lifetime: 12.5
-shootEffect: shootBig
-hitEffect: blastExplosion
-fragBullets: 1
-fragRandomSpread: 1
-fragLifeMin: 5
-fragLifeMax: 6
-despawnSound: shockBullet
-lightning: 3
-lightningDamage: 30
-lightningLength: 14
-lightningColor: "fffd7a"
-fragBullet: {
-type: BasicBulletType
-damage: 100
-width: 20
-height: 40
-lifetime: 4
-speed: 14
-pierce: true
-pierceBuilding: true
-hitSound: shockBullet
-pierceCap: 99999
-lightning: 1
-lightningDamage: 20
-lightningLength: 14
-lightningColor: "fffd7a"
-despawnSound: explosion
-}
-}
-}
-{
-  mirror: false
-name: "reign-weapon"
-layerOffset: -0.0005
-top: true
-x: -26
-y: 5
-parts: [
-{
-name: "reign-weapon"
-layerOffset: 0.0001
-xScl: -1.6
-yScl: 1.1
-}
-{
-name: "reign-weapon"
-layerOffset: 0.0002
-xScl: -0.8
-yScl: 0.8
-}
-{
-name: "scepter-weapon"
-layerOffset: 0.0001
-xScl: -0.8
-yScl: 0.8
-y: -16
-}
-{
-name: "scepter-weapon"
-layerOffset: 0.0001
-xScl: -0.8
-yScl: 0.8
-y: 16
-}
-]
-shootY: 16
-reload: 50
-shoot : {
-firstShotDelay: 25
-}
-recoil: 8f
-recoils: 1
-recoilTime: 50
-shake: 3.5
-ejectEffect: casing4
-shootSound: shootMalign
-bullet: {
-damage: 60
-splashDamage: 300
-splashDamageRadius: 30
-type: BasicBulletType
-speed: 14
-width: 20
-height: 80
-lifetime: 12.5
-shootEffect: shootBig
-hitEffect: blastExplosion
-fragBullets: 1
-fragRandomSpread: 1
-fragLifeMin: 5
-fragLifeMax: 6
-despawnSound: shockBullet
-lightning: 3
-lightningDamage: 30
-lightningLength: 14
-lightningColor: "fffd7a"
-fragBullet: {
-type: BasicBulletType
-damage: 100
-width: 20
-height: 40
-lifetime: 4
-speed: 14
-pierce: true
-pierceBuilding: true
-hitSound: shockBullet
-pierceCap: 99999
-lightning: 1
-lightningDamage: 20
-lightningLength: 14
-lightningColor: "fffd7a"
-despawnSound: explosion
-}
-}
-}
-{
-  mirror: false
-layerOffset: 0.05
-parts: [
-{
-name: "scepter-weapon"
-layerOffset: 0.061
-}
-{
-name: "sei-launcher"
-layerOffset: 0.06
-xScl: 0.7
-}
-]
-x: 12
-y: -8
-shootY: 6
-rotate: true
-autoTarget: true
-alwaysShooting: true
-controllable: false
-reload: 900
-rotateSpeed: 99999
-targetInterval: 180
-shake: 4
-recoil: 6
-recoils: 1
-recoilTime: 60
-inaccuracy: 12f
-velocityRnd: 0.4
-extraVelocity: 0.4
-shootSound: shootArtillery
-shoot: {
-firstShotDelay: 30
-shots: 10
-}
-bullet: {
-collidesAir: true
-type: artilleryBulletType
-range: 99999999
-width: 15
-height: 15
-speed: 4
-lifetime: 9999
-fragBullets: 1
-fragLifeMin: 2.5
-fragBullet: {
-type: basicBulletType
-speed: 0
-lifetime: 60
-collides: false
-despawnEffect: unitCapKill
-despawnSound: uiUnlock
-width: 15
-height: 15
-fragBullets: 1
-fragBullet: {
-type: basicBulletType
-speed: 0
-lifetime: 60
-collides: false
-despawnEffect: unitCapKill
-despawnSound: uiUnlock
-width: 15
-height: 15
-fragBullets: 1
-fragBullet: {
-type: basicBulletType
-speed: 0
-lifetime: 60
-collides: false
-despawnEffect: unitCapKill
-despawnSound: uiUnlock
-width: 15
-height: 15
-fragBullets: 1
-fragBullet: {
-type: basicBulletType
-speed: 0
-lifetime: 60
-collides: false
-despawnEffect: unitCapKill
-despawnSound: uiUnlock
-width: 15
-height: 15
-fragBullets: 1
-fragBullet: {
-type: basicBulletType
-width: 10
-height: 10
-speed: 0
-lifetime: 90
-collides: false
-despawnEffect: none
-fragBullets: 1
-fragBullet: {
-type: explosionBulletType
-collidesAir: true
-despawnEffect: {
-type: ExplosionEffect
-lifetime: 50f
-waveStroke: 5f
-waveLife: 24f
-waveColor: "ffff6b"
-sparkColor: "ffff6b"
-smokeColor: "ffffff"
-waveRad: 64f
-smokeSize: 4f
-smokes: 21
-smokeSizeBase: 0f
-sparks: 30
-sparkRad: 64f
-sparkLen: 5f
-sparkStroke: 2f
-}
-despawnHit: true
-lightning: 3
-lightningLength: 24
-lightningDamage: 24
-lightningColor: "ffff6b"
-hitSound: explosionMissile
-killShooter: false
-splashDamage: 420
-scaledSplashDamage: true
-splashDamageRadius: 45
-buildingDamageMultiplier: 999
-}
-}
-}
-}
-}
-}
-}
-}
+    {
+        name: "empire-siege-cannon", showStatSprite: false
+        // mirrored + alternating: the game doubles reload for mirrored weapons, so each barrel fires every 100 ticks, one shot every 50 overall (as before)
+        mirror: true, alternate: true, top: true, x: 26, y: -1, layerOffset: 0.01, shootY: 18
+        reload: 50, shoot: { firstShotDelay: 36 }, recoil: 5, recoilTime: 45, recoilPow: 1.4
+        shake: 5, cooldownTime: 110, shootWarmupSpeed: 0.035, ejectEffect: "casing4"
+        // custom CC0 cannon sound (sounds/empire-cannon.ogg -> dp-empire-cannon)
+        shootSound: "dp-empire-cannon", shootSoundVolume: 1, soundPitchMin: 0.93
+        soundPitchMax: 1.05
+        parts: [
+            // frame: housing and barrel outlines merged into one gun; the twin barrels overlap into one wide barrel
+            {
+                type: "RegionPart", name: "reign-weapon", outline: true, y: -2, xScl: 1.3
+                yScl: 0.85, layerOffset: 0.0001, outlineLayerOffset: -0.0006
+            }
+            {
+                type: "RegionPart", name: "scepter-weapon", outline: true, mirror: true, x: 2.2
+                y: 8, xScl: 0.8, yScl: 0.9, layerOffset: 0.0002, outlineLayerOffset: -0.0007
+            }
+            // heat: custom tip-heat sprites (barrel ends only), stacked vanilla heat on the barrel ends
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, heatLight: true, mirror: true, x: 2.2, y: 8, xScl: 0.8
+                yScl: 0.9, layerOffset: 0.0002
+            }
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, mirror: true, x: 2.2, y: 8, xScl: 0.8, yScl: 0.9
+                layerOffset: 0.0002
+            }
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, mirror: true, x: 2.2, y: 8, xScl: 0.8, yScl: 0.9
+                layerOffset: 0.0002
+            }
+            // charge: gathering ring, converging blades, star flare
+            {
+                type: "ShapePart", circle: true, y: 18, radius: 0, radiusTo: 4.5, color: "ffa664"
+                colorTo: "ffffff", progress: "charge", layerOffset: 0.01
+            }
+            {
+                type: "ShapePart", circle: true, hollow: true, y: 18, radius: 15, radiusTo: 3
+                stroke: 0, strokeTo: 2, color: "cf6a53", colorTo: "ffd37f", progress: "charge"
+                layerOffset: 0.01
+            }
+            {
+                type: "HaloPart", tri: true, shapes: 3, y: 18, radius: 0, radiusTo: 2.4
+                triLength: 0, triLengthTo: 7, haloRadius: 12, haloRadiusTo: 4, haloRotateSpeed: 5
+                color: "ffa664", colorTo: "fff4d6", progress: "charge", layerOffset: 0.011
+            }
+            {
+                type: "FlarePart", y: 18, sides: 4, radius: 0, radiusTo: 30, stroke: 3
+                followRotation: true, color1: "ffa664", color2: "ffffff"
+                progress: { type: "charge", ops: [{ op: "curve", interp: "pow3In" }] }
+            }
+        ]
+        bullet: {
+            type: "BasicBulletType"
+            // charge sound: lancer charge, quieter and pitched up to fit the 36-tick charge
+            chargeEffect: {
+                type: "SoundEffect", sound: "chargeLancer", minPitch: 1.12, maxPitch: 1.2
+                minVolume: 0.35, maxVolume: 0.4, effect: "none"
+            }
+            // twice the damage per shot of the old cannons at half the fire rate per barrel (same DPS)
+            damage: 120, splashDamage: 600, splashDamageRadius: 34, lightning: 3
+            lightningDamage: 60, lightningLength: 14, lightningColor: "fffd7a", speed: 10
+            lifetime: 17.5, width: 24, height: 58, shrinkY: 0, frontColor: "fff4d6"
+            backColor: "ffa664", hitColor: "ffa664", trailLength: 10, trailWidth: 4.5
+            trailColor: "ffa664"
+            trailEffect: {
+                type: "ParticleEffect", lifetime: 40, particles: 1, length: 5, sizeFrom: 3.6
+                sizeTo: 0, colorFrom: "ffa66488", colorTo: "6e708000"
+            }
+            trailInterval: 1.5, lightRadius: 44, lightColor: "ffa664", lightOpacity: 0.7
+            shootEffect: {
+                type: "MultiEffect"
+                effects: [
+                    { type: "WrapEffect", effect: "shootTitan", color: "ffa664" }
+                    {
+                        type: "WaveEffect", lifetime: 14, sizeFrom: 2, sizeTo: 22, strokeFrom: 4
+                        strokeTo: 0, colorFrom: "fff4d6", colorTo: "ffa664", interp: "pow3Out"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 18, line: true, particles: 10, cone: 16
+                        length: 56, baseLength: 4, interp: "pow3Out", lenFrom: 11, lenTo: 0
+                        strokeFrom: 2.4, strokeTo: 0, colorFrom: "ffffff", colorTo: "ffa664"
+                    }
+                    // muzzle-brake side jets
+                    {
+                        type: "RadialEffect", amount: 2, rotationSpacing: 180
+                        effectRotationOffset: 90, lengthOffset: 0
+                        effect: {
+                            type: "ParticleEffect", lifetime: 28, particles: 7, cone: 14, length: 26
+                            interp: "pow5Out", sizeInterp: "pow3In", sizeFrom: 4.5, sizeTo: 0
+                            colorFrom: "ffd37fff", colorTo: "6e708000"
+                        }
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 75, particles: 14, cone: 34, length: 48
+                        interp: "pow5Out", sizeInterp: "pow5In", sizeFrom: 7, sizeTo: 0
+                        colorFrom: "ffa664aa", colorTo: "6e708000"
+                    }
+                ]
+            }
+            smokeEffect: "shootSmokeTitan"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    { type: "WrapEffect", effect: "titanExplosion", color: "ffa664" }
+                    {
+                        type: "WaveEffect", lifetime: 22, sizeFrom: 0, sizeTo: 34, strokeFrom: 6
+                        strokeTo: 0, colorFrom: "fff4d6", colorTo: "ffa664", interp: "pow3Out"
+                        lightColor: "ffa664"
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 40, startDelay: 4, sides: 6, rotation: 30
+                        sizeFrom: 10, sizeTo: 42, strokeFrom: 2.5, strokeTo: 0, colorFrom: "ffa664"
+                        colorTo: "cf6a53", interp: "circleOut"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 26, line: true, particles: 18, length: 60
+                        interp: "pow4Out", lenFrom: 13, lenTo: 0, strokeFrom: 2.2, strokeTo: 0
+                        colorFrom: "ffffff", colorTo: "ffa664"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 55, particles: 12, length: 42
+                        interp: "pow3Out", sizeFrom: 2.4, sizeTo: 0, colorFrom: "ffd37f"
+                        colorTo: "cf6a53"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 130, particles: 10, length: 38
+                        interp: "pow5Out", sizeInterp: "pow5In", sizeFrom: 9, sizeTo: 0
+                        colorFrom: "565666cc", colorTo: "6e708000"
+                    }
+                ]
+            }
+            despawnEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 16, sizeFrom: 1, sizeTo: 12, strokeFrom: 2.5
+                        strokeTo: 0, colorFrom: "fff4d6", colorTo: "ffa664"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 45, particles: 5, length: 14
+                        interp: "pow5Out", sizeFrom: 4, sizeTo: 0, colorFrom: "ffa66499"
+                        colorTo: "6e708000"
+                    }
+                ]
+            }
+            hitShake: 4, despawnShake: 1, hitSound: "explosionArtilleryShock", hitSoundVolume: 0.8
+            despawnSound: "shockBullet", fragBullets: 1, fragRandomSpread: 1, fragLifeMin: 5
+            fragLifeMax: 6
+            fragBullet: {
+                type: "BasicBulletType", damage: 200, width: 20, height: 40, lifetime: 4, speed: 14
+                pierce: true, pierceBuilding: true, pierceCap: 99999, lightning: 1
+                lightningDamage: 40, lightningLength: 14, lightningColor: "fffd7a"
+                frontColor: "ffffff", backColor: "ffa664", hitColor: "ffa664", trailLength: 5
+                trailWidth: 3, trailColor: "ffa664"
+                hitEffect: {
+                    type: "MultiEffect"
+                    effects: [
+                        "hitSquaresColor"
+                        {
+                            type: "ParticleEffect", lifetime: 14, line: true, particles: 4, cone: 25
+                            length: 16, lenFrom: 5, lenTo: 0, strokeFrom: 1.5, colorFrom: "ffffff"
+                            colorTo: "ffa664"
+                        }
+                    ]
+                }
+                despawnEffect: { type: "WrapEffect", effect: "colorSparkBig", color: "ffa664" }
+                hitSound: "shockBullet", despawnSound: "explosion"
+            }
+        }
+    }
+    {
+        name: "empire-mortar", showStatSprite: false, mirror: false, x: 12, y: -8, layerOffset: 0.05
+        shootY: 7.34, rotate: true, autoTarget: true, alwaysShooting: true, controllable: false
+        reload: 900, rotateSpeed: 99999, targetInterval: 180, shake: 4
+        // long recoil + heat = visible cooldown: the launcher slides back into place and its heat fades over ~12 s of the 15 s reload
+        recoil: 6, recoilTime: 720, recoilPow: 1, cooldownTime: 780, inaccuracy: 12
+        velocityRnd: 0.4, extraVelocity: 0.4, shootSound: "shootArtillerySapBig"
+        shootSoundVolume: 0.8, soundPitchMin: 0.88, soundPitchMax: 1
+        shoot: { firstShotDelay: 60, shots: 10, shotDelay: 5 }
+        parts: [
+            // sei-launcher base with the scepter-weapon tube merged into it (tube outline under the base)
+            {
+                type: "RegionPart", name: "sei-launcher", outline: false, y: -0.9, xScl: 0.945
+                yScl: 1.215, layerOffset: 0.0001
+            }
+            {
+                type: "RegionPart", name: "scepter-weapon", outline: true, y: 2.7, xScl: 0.99
+                yScl: 0.99, layerOffset: 0.0003, outlineLayerOffset: -0.0004
+            }
+            // tip heat: stacked vanilla heat on the tube end, fades over the long cooldown
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, heatLight: true, y: 2.7, xScl: 0.99, yScl: 0.99
+                layerOffset: 0.0003
+            }
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, y: 2.7, xScl: 0.99, yScl: 0.99, layerOffset: 0.0003
+            }
+            {
+                type: "RegionPart", name: "dp-empire-tip", outline: false, drawRegion: false
+                heatLayerOffset: 0.0001, y: 2.7, xScl: 0.99, yScl: 0.99, layerOffset: 0.0003
+            }
+            // small muzzle glow while the volley charges
+            {
+                type: "ShapePart", circle: true, y: 13.34, radius: 0, radiusTo: 2.7
+                color: "ffa66400", colorTo: "fff4d6dd", progress: "charge", layerOffset: 0.01
+            }
+        ]
+        bullet: {
+            type: "artilleryBulletType", collidesAir: true, range: 99999999, width: 15, height: 15
+            speed: 4, lifetime: 9999, frontColor: "fff4d6", backColor: "ffa664", hitColor: "ffa664"
+            trailMult: 1.4, trailSize: 5, trailLength: 12, trailWidth: 2.6, trailColor: "ffa664bb"
+            lightRadius: 24, lightColor: "ffa664"
+            // charge sound: corvus charge pitched up over a low vela rumble (SoundEffects have their own pitch, Weapon.chargeSound shares the shoot pitch)
+            chargeEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "SoundEffect", sound: "chargeCorvus", minPitch: 1.8, maxPitch: 1.9
+                        minVolume: 0.9, maxVolume: 1, effect: "none"
+                    }
+                    {
+                        type: "SoundEffect", sound: "chargeVela", minPitch: 0.88, maxPitch: 0.92
+                        minVolume: 0.55, maxVolume: 0.6, effect: "none"
+                    }
+                ]
+            }
+            shootEffect: "shootBigColor", smokeEffect: "shootBigSmoke"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 18, sizeFrom: 2, sizeTo: 16, strokeFrom: 3
+                        strokeTo: 0, colorFrom: "fff4d6", colorTo: "ffa664"
+                    }
+                    {
+                        type: "ParticleEffect", lifetime: 60, particles: 6, length: 14
+                        interp: "pow5Out", sizeFrom: 4.5, sizeTo: 0, colorFrom: "565666cc"
+                        colorTo: "6e708000"
+                    }
+                ]
+            }
+            // bomb beeps for the first countdown stage, from the moment the shell lands
+            despawnEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 0, minPitch: 0.9
+                        maxPitch: 0.9, minVolume: 0.7, maxVolume: 0.75
+                        effect: {
+                            type: "WaveEffect", lifetime: 10, startDelay: 0, sizeFrom: 0, sizeTo: 6
+                            strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff", colorTo: "ff4a3a"
+                            lightColor: "ff4a3a"
+                        }
+                    }
+                    {
+                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 55
+                        minPitch: 0.926, maxPitch: 0.926, minVolume: 0.7, maxVolume: 0.75
+                        effect: {
+                            type: "WaveEffect", lifetime: 10, startDelay: 55, sizeFrom: 0, sizeTo: 6
+                            strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff", colorTo: "ff4a3a"
+                            lightColor: "ff4a3a"
+                        }
+                    }
+                    {
+                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 99
+                        minPitch: 0.947, maxPitch: 0.947, minVolume: 0.7, maxVolume: 0.75
+                        effect: {
+                            type: "WaveEffect", lifetime: 10, startDelay: 99, sizeFrom: 0, sizeTo: 6
+                            strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff", colorTo: "ff4a3a"
+                            lightColor: "ff4a3a"
+                        }
+                    }
+                    {
+                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 135
+                        minPitch: 0.965, maxPitch: 0.965, minVolume: 0.7, maxVolume: 0.75
+                        effect: {
+                            type: "WaveEffect", lifetime: 10, startDelay: 135, sizeFrom: 0
+                            sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                            colorTo: "ff4a3a", lightColor: "ff4a3a"
+                        }
+                    }
+                ]
+            }
+            // fixed first countdown stage (fragLifeMax defaults to 1, which made it random 60-150 ticks and scrambled the 10-tick volley order)
+            fragBullets: 1, fragLifeMin: 2.5, fragLifeMax: 2.5
+            fragBullet: {
+                type: "basicBulletType", sprite: "mine-bullet", spin: 3, frontColor: "fff4d6"
+                backColor: "ffd37f", speed: 0, lifetime: 60, collides: false, width: 15, height: 15
+                lightRadius: 22, lightColor: "ffd37f", lightOpacity: 0.6
+                parts: [
+                    {
+                        type: "ShapePart", circle: true, hollow: true, radius: 12, radiusTo: 3
+                        stroke: 1.4, strokeTo: 2.2, color: "ffd37f66", colorTo: "ffd37f"
+                        progress: "life"
+                    }
+                    {
+                        type: "ShapePart", circle: true, radius: 1.2, radiusTo: 2.6, color: "ffd37f"
+                        colorTo: "ffffff"
+                        progress: { type: "life", ops: [{ op: "absin", scl: 3, mag: 0.5 }] }
+                    }
+                ]
+                despawnEffect: {
+                    type: "MultiEffect"
+                    effects: [
+                        "unitCapKill"
+                        {
+                            type: "WaveEffect", lifetime: 24, sizeFrom: 3, sizeTo: 18
+                            strokeFrom: 2.4, strokeTo: 0, colorFrom: "ffffff", colorTo: "ffd37f"
+                            interp: "pow2Out"
+                        }
+                        {
+                            type: "ParticleEffect", lifetime: 20, line: true, particles: 6
+                            length: 14.4, lenFrom: 4, lenTo: 0, strokeFrom: 1.4, colorFrom: "ffffff"
+                            colorTo: "ffd37f", interp: "pow3Out"
+                        }
+                        {
+                            type: "SoundEffect", sound: "dp-empire-beep", startDelay: 15
+                            minPitch: 0.979, maxPitch: 0.979, minVolume: 0.7, maxVolume: 0.75
+                            effect: {
+                                type: "WaveEffect", lifetime: 10, startDelay: 15, sizeFrom: 0
+                                sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                colorTo: "ff4a3a", lightColor: "ff4a3a"
+                            }
+                        }
+                        {
+                            type: "SoundEffect", sound: "dp-empire-beep", startDelay: 39
+                            minPitch: 0.99, maxPitch: 0.99, minVolume: 0.7, maxVolume: 0.75
+                            effect: {
+                                type: "WaveEffect", lifetime: 10, startDelay: 39, sizeFrom: 0
+                                sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                colorTo: "ff4a3a", lightColor: "ff4a3a"
+                            }
+                        }
+                    ]
+                }
+                fragBullets: 1
+                fragBullet: {
+                    type: "basicBulletType", sprite: "mine-bullet", spin: 3, frontColor: "fff4d6"
+                    backColor: "ffd37f", speed: 0, lifetime: 60, collides: false, width: 15
+                    height: 15, lightRadius: 22, lightColor: "ffd37f", lightOpacity: 0.6
+                    parts: [
+                        {
+                            type: "ShapePart", circle: true, hollow: true, radius: 12, radiusTo: 3
+                            stroke: 1.4, strokeTo: 2.2, color: "ffd37f66", colorTo: "ffd37f"
+                            progress: "life"
+                        }
+                        {
+                            type: "ShapePart", circle: true, radius: 1.2, radiusTo: 2.6
+                            color: "ffd37f", colorTo: "ffffff"
+                            progress: { type: "life", ops: [{ op: "absin", scl: 3, mag: 0.5 }] }
+                        }
+                    ]
+                    despawnEffect: {
+                        type: "MultiEffect"
+                        effects: [
+                            "unitCapKill"
+                            {
+                                type: "WaveEffect", lifetime: 24, sizeFrom: 3, sizeTo: 18
+                                strokeFrom: 2.4, strokeTo: 0, colorFrom: "ffffff", colorTo: "ffd37f"
+                                interp: "pow2Out"
+                            }
+                            {
+                                type: "ParticleEffect", lifetime: 20, line: true, particles: 6
+                                length: 14.4, lenFrom: 4, lenTo: 0, strokeFrom: 1.4
+                                colorFrom: "ffffff", colorTo: "ffd37f", interp: "pow3Out"
+                            }
+                            {
+                                type: "SoundEffect", sound: "dp-empire-beep", startDelay: 0
+                                minPitch: 1.001, maxPitch: 1.001, minVolume: 0.7, maxVolume: 0.75
+                                effect: {
+                                    type: "WaveEffect", lifetime: 10, startDelay: 0, sizeFrom: 0
+                                    sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                }
+                            }
+                            {
+                                type: "SoundEffect", sound: "dp-empire-beep", startDelay: 18
+                                minPitch: 1.009, maxPitch: 1.009, minVolume: 0.7, maxVolume: 0.75
+                                effect: {
+                                    type: "WaveEffect", lifetime: 10, startDelay: 18, sizeFrom: 0
+                                    sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                }
+                            }
+                            {
+                                type: "SoundEffect", sound: "dp-empire-beep", startDelay: 34
+                                minPitch: 1.017, maxPitch: 1.017, minVolume: 0.7, maxVolume: 0.75
+                                effect: {
+                                    type: "WaveEffect", lifetime: 10, startDelay: 34, sizeFrom: 0
+                                    sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                }
+                            }
+                            {
+                                type: "SoundEffect", sound: "dp-empire-beep", startDelay: 47
+                                minPitch: 1.023, maxPitch: 1.023, minVolume: 0.7, maxVolume: 0.75
+                                effect: {
+                                    type: "WaveEffect", lifetime: 10, startDelay: 47, sizeFrom: 0
+                                    sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                }
+                            }
+                            {
+                                type: "SoundEffect", sound: "dp-empire-beep", startDelay: 59
+                                minPitch: 1.029, maxPitch: 1.029, minVolume: 0.7, maxVolume: 0.75
+                                effect: {
+                                    type: "WaveEffect", lifetime: 10, startDelay: 59, sizeFrom: 0
+                                    sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                }
+                            }
+                        ]
+                    }
+                    fragBullets: 1
+                    fragBullet: {
+                        type: "basicBulletType", sprite: "mine-bullet", spin: 3
+                        frontColor: "fff4d6", backColor: "ffa664", speed: 0, lifetime: 60
+                        collides: false, width: 15, height: 15, lightRadius: 22
+                        lightColor: "ffa664", lightOpacity: 0.6
+                        parts: [
+                            {
+                                type: "ShapePart", circle: true, hollow: true, radius: 12
+                                radiusTo: 3, stroke: 1.4, strokeTo: 2.2, color: "ffa66466"
+                                colorTo: "ffa664", progress: "life"
+                            }
+                            {
+                                type: "ShapePart", circle: true, radius: 1.2, radiusTo: 2.6
+                                color: "ffa664", colorTo: "ffffff"
+                                progress: { type: "life", ops: [{ op: "absin", scl: 3, mag: 0.5 }] }
+                            }
+                        ]
+                        despawnEffect: {
+                            type: "MultiEffect"
+                            effects: [
+                                "unitCapKill"
+                                {
+                                    type: "WaveEffect", lifetime: 24, sizeFrom: 3, sizeTo: 18
+                                    strokeFrom: 2.4, strokeTo: 0, colorFrom: "ffffff"
+                                    colorTo: "ffa664", interp: "pow2Out"
+                                }
+                                {
+                                    type: "ParticleEffect", lifetime: 20, line: true, particles: 6
+                                    length: 14.4, lenFrom: 4, lenTo: 0, strokeFrom: 1.4
+                                    colorFrom: "ffffff", colorTo: "ffa664", interp: "pow3Out"
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 9
+                                    minPitch: 1.034, maxPitch: 1.034, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 9, sizeFrom: 0
+                                        sizeTo: 6, strokeFrom: 2, strokeTo: 0, colorFrom: "ffffff"
+                                        colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 18
+                                    minPitch: 1.038, maxPitch: 1.038, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 18
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 27
+                                    minPitch: 1.042, maxPitch: 1.042, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 27
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 34
+                                    minPitch: 1.046, maxPitch: 1.046, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 34
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 40
+                                    minPitch: 1.048, maxPitch: 1.048, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 40
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 46
+                                    minPitch: 1.051, maxPitch: 1.051, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 46
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 51
+                                    minPitch: 1.054, maxPitch: 1.054, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 51
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                                {
+                                    type: "SoundEffect", sound: "dp-empire-beep", startDelay: 56
+                                    minPitch: 1.056, maxPitch: 1.056, minVolume: 0.7
+                                    maxVolume: 0.75
+                                    effect: {
+                                        type: "WaveEffect", lifetime: 10, startDelay: 56
+                                        sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                        colorFrom: "ffffff", colorTo: "ff4a3a", lightColor: "ff4a3a"
+                                    }
+                                }
+                            ]
+                        }
+                        fragBullets: 1
+                        fragBullet: {
+                            type: "basicBulletType", sprite: "mine-bullet", spin: 3
+                            frontColor: "fff4d6", backColor: "ff7a4a", speed: 0, lifetime: 60
+                            collides: false, width: 15, height: 15, lightRadius: 22
+                            lightColor: "ff7a4a", lightOpacity: 0.6
+                            parts: [
+                                {
+                                    type: "ShapePart", circle: true, hollow: true, radius: 12
+                                    radiusTo: 3, stroke: 1.4, strokeTo: 2.2, color: "ff7a4a66"
+                                    colorTo: "ff7a4a", progress: "life"
+                                }
+                                {
+                                    type: "ShapePart", circle: true, radius: 1.2, radiusTo: 2.6
+                                    color: "ff7a4a", colorTo: "ffffff"
+                                    progress: { type: "life", ops: [{ op: "absin", scl: 3, mag: 0.5 }] }
+                                }
+                            ]
+                            despawnEffect: {
+                                type: "MultiEffect"
+                                effects: [
+                                    "unitCapKill"
+                                    {
+                                        type: "WaveEffect", lifetime: 24, sizeFrom: 3, sizeTo: 18
+                                        strokeFrom: 2.4, strokeTo: 0, colorFrom: "ffffff"
+                                        colorTo: "ff7a4a", interp: "pow2Out"
+                                    }
+                                    {
+                                        type: "ParticleEffect", lifetime: 20, line: true
+                                        particles: 6, length: 14.4, lenFrom: 4, lenTo: 0
+                                        strokeFrom: 1.4, colorFrom: "ffffff", colorTo: "ff7a4a"
+                                        interp: "pow3Out"
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 1
+                                        minPitch: 1.058, maxPitch: 1.058, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 1
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 6
+                                        minPitch: 1.061, maxPitch: 1.061, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 6
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 11
+                                        minPitch: 1.063, maxPitch: 1.063, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 11
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 16
+                                        minPitch: 1.066, maxPitch: 1.066, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 16
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 21
+                                        minPitch: 1.068, maxPitch: 1.068, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 21
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 26
+                                        minPitch: 1.07, maxPitch: 1.07, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 26
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 31
+                                        minPitch: 1.073, maxPitch: 1.073, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 31
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 36
+                                        minPitch: 1.075, maxPitch: 1.075, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 36
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 41
+                                        minPitch: 1.078, maxPitch: 1.078, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 41
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-beep", startDelay: 46
+                                        minPitch: 1.08, maxPitch: 1.08, minVolume: 0.7
+                                        maxVolume: 0.75
+                                        effect: {
+                                            type: "WaveEffect", lifetime: 10, startDelay: 46
+                                            sizeFrom: 0, sizeTo: 6, strokeFrom: 2, strokeTo: 0
+                                            colorFrom: "ffffff", colorTo: "ff4a3a"
+                                            lightColor: "ff4a3a"
+                                        }
+                                    }
+                                    {
+                                        type: "SoundEffect", sound: "dp-empire-armed"
+                                        startDelay: 30, minPitch: 1, maxPitch: 1, minVolume: 0.75
+                                        maxVolume: 0.75, effect: "none"
+                                    }
+                                ]
+                            }
+                            fragBullets: 1
+                            fragBullet: {
+                                type: "basicBulletType", sprite: "mine-bullet", spin: 6
+                                frontColor: "ffffff", backColor: "cf6a53", width: 10, height: 10
+                                speed: 0, lifetime: 90, collides: false, lightRadius: 40
+                                lightColor: "cf6a53", lightOpacity: 0.8
+                                parts: [
+                                    {
+                                        type: "ShapePart", circle: true, hollow: true, radius: 16
+                                        radiusTo: 3, stroke: 1.4, strokeTo: 2.2, color: "cf6a5366"
+                                        colorTo: "cf6a53", progress: "life"
+                                    }
+                                    {
+                                        type: "ShapePart", circle: true, radius: 1.2, radiusTo: 2.6
+                                        color: "cf6a53", colorTo: "ffffff"
+                                        progress: { type: "life", ops: [{ op: "absin", scl: 1.6, mag: 0.5 }] }
+                                    }
+                                    {
+                                        type: "HaloPart", tri: true, shapes: 3, radius: 1.4
+                                        radiusTo: 3, triLength: 2, triLengthTo: 9, haloRadius: 20
+                                        haloRadiusTo: 4, haloRotateSpeed: 4, shapeRotation: 180
+                                        color: "ffa664", colorTo: "ffffff", progress: "life"
+                                    }
+                                    // blast radius: only on the last stage, fading in over its fuse
+                                    {
+                                        type: "ShapePart", circle: true, hollow: true, radius: 45
+                                        radiusTo: 45, stroke: 0, strokeTo: 1.4, color: "cf6a5300"
+                                        colorTo: "cf6a53aa", progress: "life"
+                                    }
+                                    {
+                                        type: "FlarePart", sides: 4, radius: 0, radiusTo: 28
+                                        stroke: 2.5, spinSpeed: 3, color1: "ffa664"
+                                        color2: "ffffff"
+                                        progress: {
+                                            type: "life"
+                                            ops: [
+                                                { op: "compress", start: 0.6, end: 1 }
+                                                { op: "curve", interp: "pow2In" }
+                                            ]
+                                        }
+                                    }
+                                ]
+                                despawnEffect: "none", fragBullets: 1
+                                fragBullet: {
+                                    type: "explosionBulletType", collidesAir: true
+                                    despawnEffect: {
+                                        type: "MultiEffect"
+                                        effects: [
+                                            {
+                                                type: "ExplosionEffect", lifetime: 50, waveStroke: 5
+                                                waveLife: 24, waveColor: "ffff6b"
+                                                sparkColor: "ffff6b", smokeColor: "ffffff"
+                                                waveRad: 64, smokeSize: 4, smokes: 21
+                                                smokeSizeBase: 0, sparks: 30, sparkRad: 64
+                                                sparkLen: 5, sparkStroke: 2
+                                            }
+                                            { type: "WrapEffect", effect: "titanExplosion", color: "ffa664" }
+                                            {
+                                                type: "WaveEffect", lifetime: 26, sizeFrom: 0
+                                                sizeTo: 45, strokeFrom: 7, strokeTo: 0
+                                                colorFrom: "ffffff", colorTo: "ffa664"
+                                                interp: "pow3Out", lightColor: "ffa664"
+                                            }
+                                            {
+                                                type: "WaveEffect", lifetime: 55, startDelay: 6
+                                                sides: 4, rotation: 45, sizeFrom: 12, sizeTo: 58
+                                                strokeFrom: 3, strokeTo: 0, colorFrom: "ffd37f"
+                                                colorTo: "cf6a53", interp: "circleOut"
+                                            }
+                                            {
+                                                type: "ParticleEffect", lifetime: 30, line: true
+                                                particles: 16, length: 72, interp: "pow5Out"
+                                                lenFrom: 16, lenTo: 0, strokeFrom: 2.6, strokeTo: 0
+                                                colorFrom: "ffffff", colorTo: "ffd37f"
+                                            }
+                                            {
+                                                type: "ParticleEffect", lifetime: 170, particles: 12
+                                                length: 50, interp: "pow5Out", sizeInterp: "pow5In"
+                                                sizeFrom: 12, sizeTo: 0, colorFrom: "565666dd"
+                                                colorTo: "6e708000"
+                                            }
+                                        ]
+                                    }
+                                    hitEffect: "none", despawnHit: true, lightning: 3
+                                    lightningLength: 24, lightningDamage: 24
+                                    lightningColor: "ffff6b", hitSound: "explosionMissile"
+                                    hitShake: 2.5, killShooter: false, splashDamage: 420
+                                    scaledSplashDamage: true, splashDamageRadius: 45
+                                    buildingDamageMultiplier: 999
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 ]
