@@ -107,3 +107,6 @@ tasks.register('deploy', Jar){
         }
     }
 }
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

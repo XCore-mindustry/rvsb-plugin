@@ -10,6 +10,7 @@ import arc.util.serialization.Jval.*;
 
 
 import arc.graphics.Color;
+import arc.struct.ObjectIntMap;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.math.*;
@@ -22,6 +23,7 @@ import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
 import mindustry.type.*;
+import mindustry.game.EventType.Trigger;
 import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.gen.*;
@@ -31,6 +33,7 @@ import mindustry.type.UnitType;
 import mindustry.ui.Menus;
 import mindustry.world.Tile;
 import mindustry.net.*;
+import mindustry.entities.EntityGroup;
 import net.voiddustry.redvsblue.admin.Admin;
 import net.voiddustry.redvsblue.ai.AirAI;
 import net.voiddustry.redvsblue.ai.BluePlayerTarget;
@@ -641,9 +644,8 @@ public class RedVsBluePlugin extends Plugin {
 
         handler.<Player>register("blue", "Makes you blue, works only before stage 3", (args, player) -> {
             if (stage <= 3 && playing && player.team() != Team.blue && players.get(player.uuid()).getLastRedeemTime()+45<Instant.now().getEpochSecond()) {
-                Unit oldUnit = player.unit();
-
-                if (player.unit() != null) oldUnit.kill();
+                Unit old = player.unit();
+                if (old != null && old.spawnedByCore) Call.unitDespawn(old);
 
                 player.team(Team.blue);
                 players.put(player.uuid(), new PlayerData(player));
@@ -667,7 +669,248 @@ public class RedVsBluePlugin extends Plugin {
 //                players.put(player.uuid(), new PlayerData(player));
 //            }
 //        });
+
+		handler.<Player>register("smite", "[y/n]",
+		"Abandon hope, all ye who enter here", (String[] args, Player player) -> {
+			if (!playing) return;
+			if (player.team() == Team.blue) {
+				int length = args.length;
+				if (length == 0) {
+					if (smite == null) {
+						int index = 0;
+						EntityGroup<Player> arr = Groups.player;
+						int size = arr.size();
+						for (int i = 0; i < size; i++) if (arr.index(i).team() == Team.blue) index++;
+						String[][] options = new String[index][];
+						String[] uuids = new String[index];
+						index = 0;
+						for (int i = 0; i < size; i++) {
+							Player other = arr.index(i);
+							if (other.team() != Team.blue) continue;
+							options[index] = new String[]{other.name};
+							uuids[index++] = other.con.uuid;
+						}
+						boolean[] use = new boolean[1];
+						MenuCallPacket packet = new MenuCallPacket();
+						packet.title = Bundle.get("f.vote.smite", player.locale);
+						packet.message = Bundle.get("f.vote.hope", player.locale);
+						packet.options = options;
+						packet.menuId = Menus.registerMenu((Player sender, int option) -> {
+							if (use[0] || option < 0 || option >= uuids.length || player != sender || player.team() != Team.blue) return;
+							use[0] = true;
+							if ((smite = players.get(uuids[option])) == null) return;
+							smiteTime = System.currentTimeMillis() + 30_000l;
+							ipSet.clear();
+							ipSet.get(player.con.address);
+							votes = 1;
+							Utils.sendBundled("f.vote.start", smite.getName());
+						});
+						player.con.send(packet, true);
+					} else {
+						player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
+					}
+				} else if (length == 1) {
+					if (smite != null) {
+						String arg = args[0];
+						if (yes.get(arg)) {
+							if (true || !ipSet.get(player.con.address)) {
+								Utils.sendBundled("f.vote.yes", player.name);
+								if (++votes != 5) return;
+								Unit unit = smite.getUnit();
+								float x = unit.x;
+								float y = unit.y;
+								Call.logicExplosion(Team.crux, x, y, 5f * 8f, 65536f, true, true, true, false);
+								EffectCallPacket packet = new EffectCallPacket();
+								packet.effect = Fx.impactReactorExplosion;
+								packet.x = x;
+								packet.y = y;
+								packet.rotation = 256f;
+								packet.color = Color.white;
+								Vars.net.send(packet, true);
+								smite = null;
+								sendBundled("f.vote.passed");
+							} else {
+								player.con.send(new SMCP(Bundle.get("f.vote.already", player.locale)), true);
+							}
+						} else if (no.get(arg)) {
+							if (true || !ipSet.get(player.con.address)) {
+								--votes;
+								Utils.sendBundled("f.vote.no", player.name);
+							} else {
+								player.con.send(new SMCP(Bundle.get("f.vote.already", player.locale)), true);
+							}
+						} else {
+							player.con.send(new SMCP(Bundle.get("f.vote.syntax", player.locale)), true);
+						}
+					} else {
+						player.con.send(new SMCP("404"), true);
+					}
+				} else {
+					throw new Error();
+				}
+			} else {
+				player.con.send(new SMCP(Bundle.get("f.vote.forBlue", player.locale)), true);
+			}
+		});
+		Events.run(Trigger.update, () -> {
+			if (smite == null || System.currentTimeMillis() < smiteTime) return;
+			smite = null;
+			sendBundled("f.vote.finish");
+		});
     }
+
+	private static final CharTreeSet yes = new CharTreeSet("y", "yes", "Y", "YES", "н", "нуы", "Н", "НУЫ", "нуі", "НУІ");
+	private static final CharTreeSet no = new CharTreeSet("n", "no", "N", "NO", "т", "тщ", "Т", "ТЩ");
+	private static final IpSet ipSet = new IpSet();
+	private static PlayerData smite = null;
+	private static long smiteTime = 0;
+	private static int votes = 0;
+
+	public static class CharTreeSet {
+		private CharTree[] branches;
+
+		public CharTreeSet(String... args) {
+			super();
+			int size = 0;
+			int length = args.length;
+			for (int i = 0; i < length; i++) {
+				String arg = args[i];
+				int len = arg.length();
+				for (int j = 0; j < len; j++) {
+					char character = arg.charAt(j);
+					if (size < character) size = character;
+				}
+			}
+			this.branches = new CharTree[++size];
+			for (int i = 0; i < length; i++) {
+				String arg = args[i];
+				int len = arg.length();
+				CharTree branch = null;
+				CharTree[] branches = this.branches;
+				for (int j = 0; j < len; j++) {
+					char character = arg.charAt(j);
+					branch = branches[character];
+					branches = (branch == null ? branches[character] = branch = new CharTree(size) : branch).branches;
+				}
+				branch.end = true;
+			}
+			int zip = -1;
+			for (int i = 0; i < size; i++) {
+				CharTree branch = this.branches[i];
+				if (branch == null) continue;
+				branch.zip();
+				zip = i;
+			}
+			if (++zip == size) return;
+			CharTree[] tmp = new CharTree[zip];
+			for (int i = 0; i < zip; i++) tmp[i] = this.branches[i];
+			this.branches = tmp;
+			string(this.branches, "");
+		}
+
+		public boolean get(String arg) {
+			int length = arg.length();
+			if (length == 0) return false;
+			char character = arg.charAt(0);
+			if (character >= this.branches.length) return false;
+			CharTree branch = this.branches[character];
+			if (branch == null) return false;
+			for (int i = 1; i < length; i++) {
+				CharTree[] branches = branch.branches;
+				if ((character = arg.charAt(i)) >= branches.length
+				|| (branch = branches[character]) == null) return false;
+			}
+			return branch.end;
+		}
+
+		private static void string(CharTree[] branches, String indent) {
+			indent += '-';
+			for (int i = 0; i < branches.length; i++) {
+				CharTree branch = branches[i];
+				if (branch == null) continue;
+				Log.info(indent + (char)i + " " + i);
+				string(branch.branches, indent);
+			}
+		}
+	}
+
+	public static class CharTree {
+		private static final CharTree[] cork = new CharTree[0];
+
+		public CharTree[] branches;
+		public boolean end = false;
+
+		public CharTree(int length) {
+			this.branches = new CharTree[length];
+		}
+
+		public void zip() {
+			int zip = -1;
+			int length = this.branches.length;
+			for (int i = 0; i < length; i++) {
+				CharTree branch = this.branches[i];
+				if (branch == null) continue;
+				branch.zip();
+				zip = i;
+			}
+			if (++zip == length) return;
+			if (zip == 0) {
+				this.branches = cork;
+			} else {
+				CharTree[] tmp = new CharTree[zip];
+				for (int i = 0; i < zip; i++) tmp[i] = this.branches[i];
+				this.branches = tmp;
+			}
+		}
+	}
+
+	public static class IpSet {
+		private static final int[] cork = new int[0];
+
+		private final int[][] map = new int[256][];
+		private final int[] sizes = new int[256];
+
+		public IpSet() {
+			for (int i = 0; i < 256; i++) this.map[i] = cork;
+		}
+
+		public boolean get(String ip) {
+			String[] raw = ip.split("\\.");
+			int hash = Integer.parseInt(raw[0]) | (Integer.parseInt(raw[1]) >> 8)
+				| (Integer.parseInt(raw[2]) >> 16) | (Integer.parseInt(raw[3]) >> 24);
+			int index = hash & 255;
+			int[] arr = this.map[index];
+			int size = this.sizes[index];
+			for (int i = 0; i < size; i++) if (arr[i] == hash) return true;
+			this.sizes[index]++;
+			if (size < arr.length) {
+				arr[size] = hash;
+			} else {
+				int[] tmp = new int[size == 0 ? 4 : size * 2];
+				for (int i = 0; i < size; i++) tmp[i] = arr[i];
+				(this.map[index] = tmp)[size] = hash;
+			}
+			return false;
+		}
+
+		public void clear() {
+			for (int i = 0; i < 256; i++) sizes[i] = 0;
+		}
+	}
+
+	public static class SMCP extends SendMessageCallPacket {
+
+		public SMCP(String message) {
+			super();
+			this.message = message;
+		}
+
+		static {
+			ObjectIntMap<Class<?>> map = Reflect.get(Net.class, "packetToId");
+			map.put(SMCP.class, map.get(SendMessageCallPacket.class, -1));
+		}
+	}
+
     @Override
     public void registerServerCommands(CommandHandler handler) {
         handler.register("crux-spawns", "[reload]", "Show strength spawner state, or reload rvsbUnits/spawns.hjson + unitWeights.hjson", args -> {
