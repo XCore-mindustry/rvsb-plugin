@@ -3660,7 +3660,7 @@ weapons: [
             }
         ]
         x: 0, y: -29, shootY: 13, controllable: true, autoTarget: false, parentizeEffects: true
-        aiControllable: true, mirror: false, alternate: true, flipSprite: false, otherSide: 27
+        aiControllable: false, mirror: false, alternate: true, flipSprite: false, otherSide: 27
         rotate: true, rotateSpeed: 360, shootCone: 360, layerOffset: 0.003, reload: 60, shake: 6
         recoil: 2.5, recoilTime: 110, cooldownTime: 140, shoot: { firstShotDelay: 150 }
         linearWarmup: true, shootWarmupSpeed: 0.08333, minWarmup: 0.99
