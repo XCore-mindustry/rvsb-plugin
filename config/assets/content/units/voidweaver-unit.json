@@ -18,7 +18,7 @@ strafePenalty: 0.05
 health: 94000
 buildSpeed: 0.01
 buildBeamOffset: 85
-armor: 20
+armor: 35
 hitSize: 80
 range: 320
 maxRange: 325
