@@ -1,0 +1,9 @@
+unit.dp-voidweaver-unit: {
+	localizedName: Voidweaver
+	region: cyerce
+	cellRegion: dp-voidweaver-unit-cell
+	uiIcon: dp-voidweaver-unit-ui
+	fullIcon: dp-voidweaver-unit-full
+	previewRegion: dp-voidweaver-unit-full
+	shadowRegion: dp-voidweaver-unit-full
+}
