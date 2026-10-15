@@ -1,0 +1,2297 @@
+type: "payload", name: "Omega"
+description: "Fires a barrage of bolts and slow-moving homing energy balls that damage enemy targets and repair allied structures. Rapidly repairs nearby allies. Suppresses enemy structure repair blocks. Capable of carrying most ground units."
+credit: "alphy", flying: true, lowAltitude: true, omniMovement: true, faceTarget: true
+circleTarget: false, speed: 0.945, accel: 0.07, drag: 0.035, rotateSpeed: 1.6
+strafePenalty: 0.25, health: 36000, armor: 22, hitSize: 56, itemCapacity: 300
+payloadCapacity: 1600, pickupUnits: true, buildSpeed: 0.01, buildBeamOffset: 57.25
+canAttack: true, targetAir: true, targetGround: true, playerControllable: true
+logicControllable: true, useUnitCap: true, coreUnitDock: false, drawBody: false, engineSize: 0
+engines: [
+    { x: 8, y: -64, radius: 4.2, rotation: 270 }
+    { x: -8, y: -64, radius: 4.2, rotation: 270 }
+    { x: 21, y: -58, radius: 3.5, rotation: 270 }
+    { x: -21, y: -58, radius: 3.5, rotation: 270 }
+]
+trailLength: 18, trailScl: 3.4, loopSound: "loopHover", loopSoundVolume: 0.6
+moveSound: "loopThruster", moveSoundVolume: 0.7, moveSoundPitchMin: 0.35
+moveSoundPitchMax: 0.65, clipSize: 260, lightRadius: 130, lightColor: "98ffa9"
+lightOpacity: 0.4
+abilities: [
+    {
+        type: "SuppressionFieldAbility", x: 0, y: -27, orbRadius: 7, particleSize: 4.2
+        particleLen: 9.8, particles: 14, color: "98ffa9", particleColor: "98ffa9"
+        effectColor: "98ffa9"
+    }
+]
+deathExplosionEffect: {
+    type: "MultiEffect"
+    effects: [
+        { type: "WrapEffect", effect: "titanExplosionLarge", color: "98ffa9" }
+        { type: "WrapEffect", effect: "titanSmokeLarge", color: "6e7080" }
+        {
+            type: "WaveEffect", lifetime: 16, sizeFrom: 0, sizeTo: 34, strokeFrom: 10
+            strokeTo: 0, sides: 4, colorFrom: "ffffff", colorTo: "ffffff", interp: "pow2Out"
+            rotation: 45
+        }
+        {
+            type: "WaveEffect", lifetime: 50, sizeFrom: 0, sizeTo: 140, strokeFrom: 8
+            strokeTo: 0, sides: 8, colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow4Out"
+            rotation: 22.5
+        }
+        {
+            type: "WaveEffect", lifetime: 46, sizeFrom: 0, sizeTo: 100, strokeFrom: 5
+            strokeTo: 0, sides: 6, colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow3Out"
+            startDelay: 8
+        }
+        {
+            type: "WaveEffect", lifetime: 40, sizeFrom: 0, sizeTo: 70, strokeFrom: 4
+            strokeTo: 0, sides: 6, colorFrom: "98ffa9", colorTo: "62ae7f", interp: "pow3Out"
+            rotation: 30, startDelay: 16
+        }
+        {
+            type: "ParticleEffect", line: true, lifetime: 60, particles: 40, length: 130
+            baseLength: 0, cone: 180, strokeFrom: 3, strokeTo: 0, lenFrom: 18, lenTo: 2
+            colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow3Out", randLength: true
+            lightOpacity: 0.5
+        }
+        {
+            type: "ParticleEffect", line: true, lifetime: 44, particles: 22, length: 70
+            baseLength: 0, cone: 180, strokeFrom: 2, strokeTo: 0, lenFrom: 10, lenTo: 0
+            colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow3Out", randLength: true
+            lightOpacity: 0.5, startDelay: 10
+        }
+        {
+            type: "ParticleEffect", region: "particle", lifetime: 80, particles: 24, length: 90
+            baseLength: 0, cone: 180, sizeFrom: 8, sizeTo: 0, colorFrom: "98ffa9"
+            colorTo: "62ae7f", interp: "pow2Out", randLength: true, lightOpacity: 0.4
+        }
+        {
+            type: "ParticleEffect", region: "particle", lifetime: 60, particles: 12, length: 50
+            baseLength: 0, cone: 180, sizeFrom: 5, sizeTo: 0, colorFrom: "ffffff"
+            colorTo: "98ffa9", interp: "pow3Out", randLength: true, lightOpacity: 0.4
+        }
+    ]
+}
+deathSound: "explosionQuad"
+parts: [
+    {
+        type: "RegionPart", name: "mega", outline: false, y: 30, xScl: 1.05, yScl: 1.1
+        layerOffset: -0.001452, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "mega-cell", outline: false, y: 30, xScl: 1.05, yScl: 1.1
+        layerOffset: -0.00144, color: "98ffa9", heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly", outline: false, y: 48, xScl: 1.1, yScl: 1.2
+        layerOffset: -0.001428, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "poly-cell", outline: false, y: 48, xScl: 1.1, yScl: 1.2
+        layerOffset: -0.001416, color: "98ffa9", heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "oxynoe", outline: false, mirror: true, x: 27, y: -11
+        rotation: -112, yScl: 1.05, layerOffset: -0.001404, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "oxynoe-cell", outline: false, mirror: true, x: 27, y: -11
+        rotation: -112, yScl: 1.05, layerOffset: -0.001392, color: "98ffa9", heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "oxynoe", outline: false, mirror: true, x: 35, y: -15
+        rotation: -112, xScl: 0.8, yScl: 0.85, layerOffset: -0.00138, heatProgress: 0
+        color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "oxynoe-cell", outline: false, mirror: true, x: 35, y: -15
+        rotation: -112, xScl: 0.8, yScl: 0.85, layerOffset: -0.001368, color: "98ffa9"
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "retusa", outline: false, mirror: true, x: 22, y: 29
+        rotation: -100, xScl: 1.1, yScl: 1.1, layerOffset: -0.001404, heatProgress: 0
+        color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "retusa-cell", outline: false, mirror: true, x: 22, y: 29
+        rotation: -100, xScl: 1.1, yScl: 1.1, layerOffset: -0.001392, color: "98ffa9"
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly", outline: false, mirror: true, x: 10, y: -48
+        rotation: 180, xScl: 1.2, yScl: 1.2, layerOffset: -0.001404, heatProgress: 0
+        color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "poly-cell", outline: false, mirror: true, x: 10, y: -48
+        rotation: 180, xScl: 1.2, yScl: 1.2, layerOffset: -0.001392, color: "98ffa9"
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly", outline: false, mirror: true, x: 22, y: -43
+        rotation: 180, yScl: 1.05, layerOffset: -0.00138, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "poly-cell", outline: false, mirror: true, x: 22, y: -43
+        rotation: 180, yScl: 1.05, layerOffset: -0.001368, color: "98ffa9", heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 17.39, y: -1.9, rotation: -112
+        xScl: 1.25, yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.00132, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 29.88, y: -6.95
+        rotation: -112, xScl: 1.25, yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.00132, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 16.12, y: -5.05
+        rotation: -112, xScl: -1.25, yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.00132, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 28.61, y: -10.1
+        rotation: -112, xScl: -1.25, yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.00132, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 21.15, y: -5.25
+        rotation: -112, xScl: 0.8, yScl: 1.2, outline: false, layerOffset: -0.001308
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 25.23, y: -6.52
+        rotation: -112, xScl: 1.06, yScl: 0.89, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001308, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 35.85, y: -10.8
+        rotation: -112, xScl: 1.06, yScl: 0.89, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001308, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 24.15, y: -9.2, rotation: -112
+        xScl: -1.06, yScl: 0.89, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001308, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 34.77, y: -13.48
+        rotation: -112, xScl: -1.06, yScl: 0.89, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001308, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 28.42, y: -9.36
+        rotation: -112, xScl: 0.7, yScl: 1.02, outline: false, layerOffset: -0.001296
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 32.08, y: -10.13
+        rotation: -112, xScl: 0.88, yScl: 0.73, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001296, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 40.82, y: -13.66
+        rotation: -112, xScl: 0.88, yScl: 0.73, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001296, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 31.18, y: -12.34
+        rotation: -112, xScl: -0.88, yScl: 0.73, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001296, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 39.92, y: -15.87
+        rotation: -112, xScl: -0.88, yScl: 0.73, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001296, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 34.7, y: -12.48
+        rotation: -112, xScl: 0.7, yScl: 0.84, outline: false, layerOffset: -0.001284
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 17.95, y: -15.31
+        rotation: -112, xScl: 1.12, yScl: 0.95, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001284, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 29.19, y: -19.85
+        rotation: -112, xScl: 1.12, yScl: 0.95, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001284, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 16.81, y: -18.15
+        rotation: -112, xScl: -1.12, yScl: 0.95, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001284, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 28.05, y: -22.69
+        rotation: -112, xScl: -1.12, yScl: 0.95, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001284, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 21.33, y: -18.33
+        rotation: -112, xScl: 0.72, yScl: 1.08, outline: false, layerOffset: -0.001272
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 24.8, y: -18.93
+        rotation: -112, xScl: 0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001272, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 34.16, y: -22.71
+        rotation: -112, xScl: 0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001272, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 23.84, y: -21.29
+        rotation: -112, xScl: -0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001272, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 33.2, y: -25.07
+        rotation: -112, xScl: -0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001272, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 27.61, y: -21.44
+        rotation: -112, xScl: 0.7, yScl: 0.9, outline: false, layerOffset: -0.00126
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 39.64, y: -31.39, xScl: 1
+        yScl: 0.84, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.00126
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 39.64, y: -20.61, xScl: 1
+        yScl: 0.84, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.00126
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 42.36, y: -31.39, xScl: -1
+        yScl: 0.84, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.00126
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 42.36, y: -20.61, xScl: -1
+        yScl: 0.84, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.00126
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 41, y: -27.6, xScl: 0.7
+        yScl: 0.96, outline: false, layerOffset: -0.001248, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 15.25, y: 32.13
+        rotation: -100, xScl: 0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001248, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 25.19, y: 30.38
+        rotation: -100, xScl: 0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001248, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 14.81, y: 29.62
+        rotation: -100, xScl: -0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001248, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 24.75, y: 27.87
+        rotation: -100, xScl: -0.94, yScl: 0.79, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001248, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 18.52, y: 30.26
+        rotation: -100, xScl: 0.7, yScl: 0.9, outline: false, layerOffset: -0.001236
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 11.3, y: -0.73, xScl: 1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001236
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 11.3, y: 12.73, xScl: 1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001236
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 14.7, y: -0.73, xScl: -1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001236
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 14.7, y: 12.73, xScl: -1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001236
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 13, y: 4, xScl: 0.8, yScl: 1.2
+        outline: false, layerOffset: -0.001224, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 12.3, y: -26.73, xScl: 1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001224
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 12.3, y: -13.27, xScl: 1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001224
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 15.7, y: -26.73, xScl: -1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001224
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 15.7, y: -13.27, xScl: -1.25
+        yScl: 1.05, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001224
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 14, y: -22, xScl: 0.8
+        yScl: 1.2, outline: false, layerOffset: -0.001212, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 20.72, y: -32.4, xScl: 1.12
+        yScl: 1.28, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001212
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 15.28, y: -32.4, xScl: -1.12
+        yScl: 1.28, outline: true, outlineLayerOffset: -3.6e-05, layerOffset: -0.001212
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 19.84, y: -36
+        rotation: 180, xScl: 1.3, yScl: 0.8, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001212, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 19.84, y: -43.2
+        rotation: 180, xScl: 1.3, yScl: 0.8, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001212, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 16.16, y: -36
+        rotation: 180, xScl: -1.3, yScl: 0.8, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001212, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 16.16, y: -43.2
+        rotation: 180, xScl: -1.3, yScl: 0.8, outline: true, outlineLayerOffset: -3.6e-05
+        layerOffset: -0.001212, heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 18, y: -35.6
+        rotation: 180, xScl: 0.88, yScl: 0.8, outline: false, layerOffset: -0.0012
+        heatProgress: 0, color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 18, y: -41.2, rotation: 180
+        xScl: 0.8, yScl: 0.72, outline: false, layerOffset: -0.0012, heatProgress: 0
+        color: "c6ccd4"
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -1.2e-05
+        mirror: true, x: 17, y: 13, xScl: 1.3, yScl: 1.45, layerOffset: -0.001176
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: true, x: 19, y: -27.5, xScl: 1.25, yScl: 1.3, layerOffset: -0.001164
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 19, y: -0.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.001152
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 19, y: -6.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.00114
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -6e-05, mirror: true, x: 10, y: -38, xScl: 1.3, yScl: 1.3
+        layerOffset: -0.001128, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -7.2e-05
+        mirror: true, x: 2, y: 50.5, xScl: 1.15, yScl: 1, layerOffset: -0.001116
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -8.4e-05
+        mirror: true, x: 5, y: 43, xScl: 1.25, yScl: 1.3, layerOffset: -0.001104
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -9.6e-05
+        mirror: true, x: 19, y: -21.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.001092
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -0.000108, mirror: true, x: 19, y: 11.5, xScl: 1.3, yScl: 1.3
+        layerOffset: -0.00108, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -0.00012, mirror: false, x: 0, y: -45.5, xScl: 1.3, yScl: 1.3
+        layerOffset: -0.001068, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000132
+        mirror: true, x: 6, y: -9.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.001056
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -0.000144, mirror: true, x: 7, y: -45.5, xScl: 1.3, yScl: 1.3
+        layerOffset: -0.001044, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000156
+        mirror: true, x: 6, y: 7, xScl: 1.25, yScl: 1.3, layerOffset: -0.001032, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000168
+        mirror: true, x: 15, y: 16, xScl: 1.3, yScl: 1.45, layerOffset: -0.00102
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00018
+        mirror: true, x: 19, y: 2.5, xScl: 1.25, yScl: 1.3, layerOffset: -0.001008
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000192
+        mirror: true, x: 9, y: -44, xScl: 1.15, yScl: 1, layerOffset: -0.000996, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000204
+        mirror: true, x: 10, y: 28, xScl: 1.3, yScl: 1.45, layerOffset: -0.000984
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000216
+        mirror: true, x: 2, y: 47.5, xScl: 1.25, yScl: 1.3, layerOffset: -0.000972
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000228
+        mirror: true, x: 13, y: -17, xScl: 1.3, yScl: 1.45, layerOffset: -0.00096
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00024
+        mirror: true, x: 20, y: -17, xScl: 1.15, yScl: 1, layerOffset: -0.000948
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000252
+        mirror: true, x: 18, y: 8.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000936
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000264
+        mirror: true, x: 15, y: -35, xScl: 1.3, yScl: 1.45, layerOffset: -0.000924
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000276
+        mirror: true, x: 2, y: 29.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000912
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000288
+        mirror: true, x: 2, y: -6.5, xScl: 1.25, yScl: 1.3, layerOffset: -0.0009
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.0003
+        mirror: true, x: 19, y: -24.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000888
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000312
+        mirror: true, x: 6, y: 40, xScl: 1.3, yScl: 1.45, layerOffset: -0.000876
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000324
+        mirror: true, x: 2, y: 10, xScl: 1.3, yScl: 1.45, layerOffset: -0.000864
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000336
+        mirror: true, x: 15, y: -0.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000852
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -0.000348, mirror: true, x: 13, y: 28, xScl: 1.4, yScl: 1.45
+        layerOffset: -0.00084, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00036
+        mirror: true, x: 9, y: -42.5, xScl: 1.15, yScl: 1, layerOffset: -0.000828
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000372
+        mirror: true, x: 8, y: 14.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000816
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000384
+        mirror: true, x: 2, y: -45.5, xScl: 1.15, yScl: 1, layerOffset: -0.000804
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000396
+        mirror: true, x: 18, y: -30.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000792
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000408
+        mirror: true, x: 9, y: -8, xScl: 1.3, yScl: 1.45, layerOffset: -0.00078, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00042
+        mirror: true, x: 3, y: 46, xScl: 1.3, yScl: 1.45, layerOffset: -0.000768
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000432
+        mirror: true, x: 6, y: -44, xScl: 1.15, yScl: 1, layerOffset: -0.000756, heatProgress: 0
+        rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000444
+        mirror: true, x: 13, y: -39.5, xScl: 1.25, yScl: 1.3, layerOffset: -0.000744
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000456
+        mirror: true, x: 17, y: 16, xScl: 1.3, yScl: 1.45, layerOffset: -0.000732
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000468
+        mirror: true, x: 9, y: 34, xScl: 1.3, yScl: 1.45, layerOffset: -0.00072, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00048
+        mirror: true, x: 19, y: -18.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000708
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000492
+        mirror: true, x: 19, y: -2, xScl: 1.3, yScl: 1.45, layerOffset: -0.000696
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000504
+        mirror: true, x: 14, y: -24.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000684
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000516
+        mirror: true, x: 12, y: 16, xScl: 1.3, yScl: 1.45, layerOffset: -0.000672
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000528
+        mirror: true, x: 12, y: -3.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.00066
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.00054
+        mirror: true, x: 4, y: 34, xScl: 1.3, yScl: 1.45, layerOffset: -0.000648
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000552
+        mirror: true, x: 4, y: 14.5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000636
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -0.000564
+        mirror: true, x: 4, y: -5, xScl: 1.3, yScl: 1.45, layerOffset: -0.000624
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 9.8, y: -53.26
+        rotation: 180, xScl: 1.3, yScl: 0.72, outline: true, outlineLayerOffset: -4.8e-05
+        layerOffset: -0.000564, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 9.8, y: -59.74
+        rotation: 180, xScl: 1.3, yScl: 0.72, outline: true, outlineLayerOffset: -4.8e-05
+        layerOffset: -0.000564, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 6.2, y: -53.26
+        rotation: 180, xScl: -1.3, yScl: 0.72, outline: true, outlineLayerOffset: -4.8e-05
+        layerOffset: -0.000564, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 6.2, y: -59.74
+        rotation: 180, xScl: -1.3, yScl: 0.72, outline: true, outlineLayerOffset: -4.8e-05
+        layerOffset: -0.000564, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 9.62, y: -46.6, xScl: 1.08
+        yScl: 1.3, outline: true, outlineLayerOffset: -4.8e-05, layerOffset: -0.000564
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 6.38, y: -46.6, xScl: -1.08
+        yScl: 1.3, outline: true, outlineLayerOffset: -4.8e-05, layerOffset: -0.000564
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 8, y: -52
+        rotation: 180, xScl: 0.9, yScl: 0.9, outline: false, layerOffset: -0.00054
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "plasma-mount-weapon", mirror: true, x: 8, y: -55.6
+        rotation: 180, xScl: 0.77, yScl: 0.77, outline: false, layerOffset: -0.000504
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 22.32, y: -50.1
+        rotation: 176, xScl: 1.2, yScl: 1.28, outline: true, outlineLayerOffset: -7.2e-05
+        layerOffset: -0.000528, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 19.12, y: -49.88
+        rotation: 176, xScl: -1.2, yScl: 1.28, outline: true, outlineLayerOffset: -7.2e-05
+        layerOffset: -0.000528, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 22.77, y: -41.31
+        rotation: 356, xScl: 0.96, yScl: 1.2, outline: true, outlineLayerOffset: -7.2e-05
+        layerOffset: -0.000528, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 19.9, y: -41.11, rotation: -4
+        xScl: -0.96, yScl: 1.2, outline: true, outlineLayerOffset: -7.2e-05
+        layerOffset: -0.000528, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 21, y: -46
+        rotation: 176, xScl: 0.8, yScl: 0.8, outline: false, layerOffset: -0.000492
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "plasma-mount-weapon", mirror: true, x: 20.78, y: -49.19
+        rotation: 176, xScl: 0.7, yScl: 0.7, outline: false, layerOffset: -0.000468
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 4.44, y: 40.51
+        rotation: 4, xScl: 0.96, yScl: 1.08, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 7.31, y: 40.71
+        rotation: 4, xScl: -0.96, yScl: 1.08, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 4.22, y: 47.11, rotation: 4
+        xScl: 0.9, yScl: 1.26, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 6.61, y: 47.28, rotation: 4
+        xScl: -0.9, yScl: 1.26, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 4.11, y: 55.53, rotation: 4
+        xScl: 0.7, yScl: 0.96, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 5.55, y: 55.63, rotation: 4
+        xScl: -0.7, yScl: 0.96, outline: true, outlineLayerOffset: -0.000108
+        layerOffset: -0.00048, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", mirror: true, x: 5.17, y: 50.79, rotation: 4
+        xScl: 0.7, yScl: 0.7, outline: false, layerOffset: -0.00042, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", mirror: true, x: 5.67, y: 43.61
+        rotation: 4, xScl: 0.7, yScl: 0.7, outline: false, layerOffset: -0.00042
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -1.2e-05
+        mirror: true, x: 42.6, y: -24, xScl: 0.75, yScl: 1.4375, layerOffset: -0.000408
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: true, x: 39.4, y: -24, xScl: -0.75, yScl: 1.4375, layerOffset: -0.000396
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 44.4, y: -26.5, xScl: 0.8, yScl: 1.25, layerOffset: -0.000384
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 37.6, y: -26.5, xScl: -0.8, yScl: 1.25, layerOffset: -0.000372
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -6e-05, mirror: true, x: 41, y: -15.88, xScl: 0.9, yScl: 0.8
+        layerOffset: -0.00036, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -7.2e-05, mirror: true, x: 41, y: -32.75, xScl: 0.9, yScl: 0.75
+        layerOffset: -0.000348, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "power-cell", outline: false, mirror: true, x: 41, y: -23
+        xScl: 0.65, yScl: 0.8, layerOffset: -0.000336, color: "98ffa9", heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 42.5, y: -6, xScl: 0.675, yScl: 0.99
+        layerOffset: -0.000312, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 39.5, y: -6, xScl: -0.675, yScl: 0.99
+        layerOffset: -0.0003, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 42.5, y: -13.5, xScl: 0.675, yScl: 0.99
+        layerOffset: -0.000276, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 39.5, y: -13.5, xScl: -0.675, yScl: 0.99
+        layerOffset: -0.000264, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 42.5, y: -39, xScl: 0.675, yScl: 0.99
+        layerOffset: -0.00024, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 39.5, y: -39, xScl: -0.675, yScl: 0.99
+        layerOffset: -0.000228, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 42.5, y: -46.5, xScl: 0.675, yScl: 0.99
+        layerOffset: -0.000156, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 39.5, y: -46.5, xScl: -0.675, yScl: 0.99
+        layerOffset: -0.000144, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -1.2e-05
+        mirror: true, x: 45.6, y: -20, xScl: 0.8, yScl: 1.3, layerOffset: -0.00012
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: true, x: 36.4, y: -20, xScl: -0.8, yScl: 1.3, layerOffset: -0.000108
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 45.6, y: -36, xScl: 0.8, yScl: 1.3, layerOffset: -9.6e-05
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 36.4, y: -36, xScl: -0.8, yScl: 1.3, layerOffset: -8.4e-05
+        heatProgress: 0, rotation: -180
+    }
+    {
+        type: "RegionPart", name: "plasma-laser-mount", outline: false, mirror: true, x: 0
+        y: -47.5, rotation: 180, xScl: 1.1, layerOffset: -0.0006, color: "14141c58"
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "plasma-laser-mount", outline: false, y: -46, rotation: 180
+        xScl: 1.1, layerOffset: -0.000576, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -1.2e-05
+        mirror: false, x: 5.5, y: -40.5, xScl: 0.75, yScl: 0.9, layerOffset: -0.000456
+        heatProgress: 0, rotation: 90
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: false, x: -5.5, y: -40.5, xScl: -0.75, yScl: 0.9, layerOffset: -0.000444
+        heatProgress: 0, rotation: -90
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -3.6e-05, mirror: false, x: 0, y: -41, xScl: 0.9, yScl: 0.7
+        layerOffset: -0.000432, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -1.2e-05
+        mirror: false, x: 4.6, y: -5, xScl: 1.15, yScl: 1.25, layerOffset: -0.00024
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "beam-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: false, x: -4.6, y: -5, xScl: -1.15, yScl: 1.25, layerOffset: -0.000228
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -3.6e-05, mirror: false, x: 9.2, y: -4, xScl: 0.9, yScl: 1.1
+        layerOffset: -0.000216, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -4.8e-05, mirror: false, x: -9.2, y: -4, xScl: -0.9, yScl: 1.1
+        layerOffset: -0.000204, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -6e-05, mirror: false, x: 0, y: -13.8, xScl: 1, yScl: 0.75
+        layerOffset: -0.000192, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -7.2e-05
+        mirror: false, x: 0, y: 4.2, xScl: 1.15, yScl: 0.8, layerOffset: -0.00018
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: false, x: 0, y: -4.5, xScl: 0.95, yScl: 1.15
+        layerOffset: -6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -2.4e-05
+        mirror: false, x: 6.6, y: -11.5, xScl: 0.8, yScl: 0.9, layerOffset: -4.8e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: false, x: -6.6, y: -11.5, xScl: -0.8, yScl: 0.9, layerOffset: -3.6e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: false, x: 6.6, y: 2.5, xScl: 0.8, yScl: 0.8, layerOffset: -2.4e-05
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: false, x: -6.6, y: 2.5, xScl: -0.8, yScl: 0.8, layerOffset: -1.2e-05
+        heatProgress: 0, rotation: -180
+    }
+    {
+        type: "ShapePart", y: -27, sides: 6, hollow: true, radius: 9, radiusTo: 12, stroke: 0
+        strokeTo: 1.1, rotateSpeed: 0.8, color: "98ffa9aa", progress: "warmup", layer: 110
+    }
+    {
+        type: "ShapePart", y: -27, sides: 6, hollow: true, radius: 12, radiusTo: 15, stroke: 0
+        strokeTo: 0.6, rotation: 30, rotateSpeed: -0.5, color: "98ffa966", progress: "warmup"
+        layer: 110
+    }
+    {
+        type: "HaloPart", y: -27, tri: true, shapes: 3, radius: 0, radiusTo: 1.6, triLength: 0
+        triLengthTo: 4.5, haloRadius: 10, haloRadiusTo: 16.5, haloRotateSpeed: 1.6
+        shapeRotation: 180, color: "98ffa9", progress: "warmup", layer: 110
+    }
+    {
+        type: "HaloPart", y: -27, shapes: 6, sides: 8, radius: 0, radiusTo: 0.9
+        haloRadius: 13.5, haloRadiusTo: 13.5, haloRotateSpeed: -2.4, color: "e8ffec"
+        progress: "warmup", layer: 110
+    }
+    {
+        type: "RegionPart", name: "plasma-laser-mount", outline: false, y: 15, xScl: 1.15
+        yScl: 1.2, layerOffset: 1.2e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: false, x: 5.6, y: 18, xScl: 0.95, yScl: 1.05
+        layerOffset: 3.6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: false, x: -5.6, y: 18, xScl: -0.95, yScl: 1.05
+        layerOffset: 4.8e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -3.6e-05, mirror: false, x: 5, y: 9.5, xScl: 0.9, yScl: 0.85
+        layerOffset: 6e-05, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -4.8e-05, mirror: false, x: -5, y: 9.5, xScl: -0.9, yScl: 0.85
+        layerOffset: 7.2e-05, heatProgress: 0, rotation: -180
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: false, x: 6.4, y: 24.5, xScl: 0.9, yScl: 0.9, layerOffset: 8.4e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -7.2e-05
+        mirror: false, x: -6.4, y: 24.5, xScl: -0.9, yScl: 0.9, layerOffset: 9.6e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -8.4e-05
+        mirror: false, x: 0, y: 6, xScl: 1.1, yScl: 0.8, layerOffset: 0.000108, heatProgress: 0
+        rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: false, x: 2.8, y: 17.5, xScl: 1, yScl: 1
+        layerOffset: 0.000132, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: false, x: -2.8, y: 17.5, xScl: -1, yScl: 1
+        layerOffset: 0.000144, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -3.6e-05, mirror: false, x: 2.8, y: 12.5, xScl: 1, yScl: 0.9
+        layerOffset: 0.000156, heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -4.8e-05, mirror: false, x: -2.8, y: 12.5, xScl: -1, yScl: 0.9
+        layerOffset: 0.000168, heatProgress: 0, rotation: -180
+    }
+    {
+        type: "RegionPart", name: "heal-weapon-mount", outline: false, mirror: true, x: 12
+        y: 33.5, xScl: 1.05, yScl: 1.1, layerOffset: 1.2e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 15.4, y: 34, xScl: 0.8, yScl: 0.9
+        layerOffset: 3.6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 8.6, y: 34, xScl: -0.8, yScl: 0.9
+        layerOffset: 4.8e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 15.8, y: 39, xScl: 0.8, yScl: 0.8, layerOffset: 6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 8.2, y: 39, xScl: -0.8, yScl: 0.8, layerOffset: 7.2e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: true, x: 12, y: 28.5, xScl: 0.9, yScl: 0.7, layerOffset: 8.4e-05
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 12, y: 34.5, xScl: 0.85, yScl: 0.85
+        layerOffset: 0.000132, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon-mount", outline: false, mirror: true, x: 19
+        y: -9.5, xScl: 1.05, yScl: 1.1, layerOffset: 1.2e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 22.4, y: -9, xScl: 0.8, yScl: 0.9
+        layerOffset: 3.6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 15.6, y: -9, xScl: -0.8, yScl: 0.9
+        layerOffset: 4.8e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 22.8, y: -4, xScl: 0.8, yScl: 0.8, layerOffset: 6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 15.2, y: -4, xScl: -0.8, yScl: 0.8, layerOffset: 7.2e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: true, x: 19, y: -14.5, xScl: 0.9, yScl: 0.7, layerOffset: 8.4e-05
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 19, y: -8.5, xScl: 0.85, yScl: 0.85
+        layerOffset: 0.000132, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon-mount", outline: false, mirror: true, x: 14
+        y: -34.5, xScl: 1.05, yScl: 1.1, layerOffset: 1.2e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 17.4, y: -34, xScl: 0.8, yScl: 0.9
+        layerOffset: 3.6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 10.6, y: -34, xScl: -0.8, yScl: 0.9
+        layerOffset: 4.8e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 17.8, y: -29, xScl: 0.8, yScl: 0.8, layerOffset: 6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 10.2, y: -29, xScl: -0.8, yScl: 0.8, layerOffset: 7.2e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: true, x: 14, y: -39.5, xScl: 0.9, yScl: 0.7, layerOffset: 8.4e-05
+        heatProgress: 0, rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 14, y: -33.5, xScl: 0.85, yScl: 0.85
+        layerOffset: 0.000132, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon-mount", outline: false, mirror: true, x: 16
+        y: 13.5, xScl: 1.05, yScl: 1.1, layerOffset: 1.2e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 19.4, y: 14, xScl: 0.8, yScl: 0.9
+        layerOffset: 3.6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -2.4e-05, mirror: true, x: 12.6, y: 14, xScl: -0.8, yScl: 0.9
+        layerOffset: 4.8e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -3.6e-05
+        mirror: true, x: 19.8, y: 19, xScl: 0.8, yScl: 0.8, layerOffset: 6e-05, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "poly-weapon", outline: true, outlineLayerOffset: -4.8e-05
+        mirror: true, x: 12.2, y: 19, xScl: -0.8, yScl: 0.8, layerOffset: 7.2e-05
+        heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "heal-weapon", outline: true, outlineLayerOffset: -6e-05
+        mirror: true, x: 16, y: 8.5, xScl: 0.9, yScl: 0.7, layerOffset: 8.4e-05, heatProgress: 0
+        rotation: 180
+    }
+    {
+        type: "RegionPart", name: "heal-shotgun-weapon", outline: true
+        outlineLayerOffset: -1.2e-05, mirror: true, x: 16, y: 14.5, xScl: 0.85, yScl: 0.85
+        layerOffset: 0.000132, heatProgress: 0
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        heatLight: true, outline: false, drawRegion: false, heatLayerOffset: 1.2e-05
+        layerOffset: -0.000564, x: 9.8, y: -59.74, rotation: 180, xScl: 1.3, yScl: 0.72
+        mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 9.8, y: -59.74, rotation: 180, xScl: 1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 9.8, y: -59.74, rotation: 180, xScl: 1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 9.8, y: -59.74, rotation: 180, xScl: 1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 6.2, y: -59.74, rotation: 180, xScl: -1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 6.2, y: -59.74, rotation: 180, xScl: -1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 6.2, y: -59.74, rotation: 180, xScl: -1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000564
+        x: 6.2, y: -59.74, rotation: 180, xScl: -1.3, yScl: 0.72, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        heatLight: true, outline: false, drawRegion: false, heatLayerOffset: 1.2e-05
+        layerOffset: -0.000528, x: 22.32, y: -50.1, rotation: 176, xScl: 1.2, yScl: 1.28
+        mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 22.32, y: -50.1, rotation: 176, xScl: 1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 22.32, y: -50.1, rotation: 176, xScl: 1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 22.32, y: -50.1, rotation: 176, xScl: 1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 19.12, y: -49.88, rotation: 176, xScl: -1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-w"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 19.12, y: -49.88, rotation: 176, xScl: -1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 19.12, y: -49.88, rotation: 176, xScl: -1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+    {
+        type: "RegionPart", name: "dp-omega-tip-hs-n"
+        heatProgress: {
+            type: "warmup"
+            ops: [
+                { op: "mul", amount: 0.62 }
+                { op: "absin", scl: 2.2, mag: 0.16 }
+                { op: "mul", other: "warmup" }
+                { op: "clamp" }
+                { op: "compress", start: 0.4, end: 1 }
+            ]
+        }
+        outline: false, drawRegion: false, heatLayerOffset: 1.2e-05, layerOffset: -0.000528
+        x: 19.12, y: -49.88, rotation: 176, xScl: -1.2, yScl: 1.28, mirror: true, weaponIndex: 1
+    }
+]
+weapons: [
+    {
+        name: "omega-tempest", x: 0, y: 16, shootY: 16, mirror: false, top: true
+        layerOffset: 0.000576, shadow: 18, rotate: true, rotateSpeed: 2, shootCone: 8
+        reload: 135, recoil: 3, recoilTime: 70, shake: 3, cooldownTime: 120
+        parentizeEffects: true
+        shoot: { type: "ShootSpread", shots: 3, spread: 24, firstShotDelay: 52.25 }
+        chargeSound: "chargeVela", shootSound: "dp-omega-ball-launch", shootSoundVolume: 1
+        soundPitchMin: 0.94, soundPitchMax: 1.04
+        parts: [
+            {
+                type: "RegionPart", name: "beam-weapon", outline: true, x: 3.4, y: -6.5
+                rotation: 180, yScl: 0.9, layerOffset: 1.2e-05, outlineLayerOffset: -2.4e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 4.2, y: -2.6
+                xScl: 1.3, yScl: 1.3, layerOffset: 2.4e-05, outlineLayerOffset: -3.6e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 7.4, y: -4.6
+                rotation: 8, xScl: 0.9, layerOffset: 3.6e-05, outlineLayerOffset: -4.8e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "beam-weapon", outline: true, x: 4.4, y: 8.5
+                rotation: -4, xScl: 1.1, yScl: 1.3, layerOffset: 4.8e-05
+                outlineLayerOffset: -6e-05, heatProgress: 0
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 4.6, y: 14
+                rotation: -6, xScl: 1.2, layerOffset: 6e-05, outlineLayerOffset: -7.2e-05
+                heatProgress: 0
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "heal-weapon", outline: true, x: 2.4, y: 1.6
+                xScl: 1.3, yScl: 1.25, layerOffset: 7.2e-05, outlineLayerOffset: -8.4e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 1.6, y: -0.5
+                yScl: 1.2, layerOffset: 8.4e-05, outlineLayerOffset: -9.6e-05, heatProgress: 0
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-bw-w"
+                heatProgress: {
+                    type: "charge"
+                    ops: [{ op: "mul", amount: 0.6 }, { op: "add", other: "heat" }, { op: "clamp" }]
+                }
+                heatLight: true, outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 4.8e-05, x: 4.4, y: 8.5, rotation: -4, xScl: 1.1, yScl: 1.3
+                mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-bw-w"
+                heatProgress: {
+                    type: "charge"
+                    ops: [{ op: "mul", amount: 0.6 }, { op: "add", other: "heat" }, { op: "clamp" }]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 4.8e-05, x: 4.4, y: 8.5, rotation: -4, xScl: 1.1, yScl: 1.3
+                mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-bw-n"
+                heatProgress: {
+                    type: "charge"
+                    ops: [
+                        { op: "mul", amount: 0.6 }
+                        { op: "add", other: "heat" }
+                        { op: "clamp" }
+                        { op: "compress", start: 0.4, end: 1 }
+                    ]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 4.8e-05, x: 4.4, y: 8.5, rotation: -4, xScl: 1.1, yScl: 1.3
+                mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-bw-n"
+                heatProgress: {
+                    type: "charge"
+                    ops: [
+                        { op: "mul", amount: 0.6 }
+                        { op: "add", other: "heat" }
+                        { op: "clamp" }
+                        { op: "compress", start: 0.4, end: 1 }
+                    ]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 4.8e-05, x: 4.4, y: 8.5, rotation: -4, xScl: 1.1, yScl: 1.3
+                mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-poly-w"
+                heatProgress: {
+                    type: "charge"
+                    ops: [{ op: "mul", amount: 0.6 }, { op: "add", other: "heat" }, { op: "clamp" }]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 6e-05
+                x: 4.6, y: 14, rotation: -6, xScl: 1.2, mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-poly-w"
+                heatProgress: {
+                    type: "charge"
+                    ops: [{ op: "mul", amount: 0.6 }, { op: "add", other: "heat" }, { op: "clamp" }]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 6e-05
+                x: 4.6, y: 14, rotation: -6, xScl: 1.2, mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-poly-n"
+                heatProgress: {
+                    type: "charge"
+                    ops: [
+                        { op: "mul", amount: 0.6 }
+                        { op: "add", other: "heat" }
+                        { op: "clamp" }
+                        { op: "compress", start: 0.4, end: 1 }
+                    ]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 6e-05
+                x: 4.6, y: 14, rotation: -6, xScl: 1.2, mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-jaw-poly-n"
+                heatProgress: {
+                    type: "charge"
+                    ops: [
+                        { op: "mul", amount: 0.6 }
+                        { op: "add", other: "heat" }
+                        { op: "clamp" }
+                        { op: "compress", start: 0.4, end: 1 }
+                    ]
+                }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 6e-05
+                x: 4.6, y: 14, rotation: -6, xScl: 1.2, mirror: true
+                moves: [{ progress: "charge", x: 1.8, rot: -6 }, { progress: "heat", x: 1.8, rot: -6 }]
+            }
+            {
+                type: "RegionPart", name: "power-cell", outline: false, y: -1, xScl: 0.75
+                yScl: 0.75, layerOffset: 9.6e-05, color: "98ffa9"
+            }
+            {
+                type: "ShapePart", circle: true, mirror: true, x: 6.6, y: 18.6, radius: 0
+                radiusTo: 1.3, color: "98ffa9", colorTo: "e8ffec", progress: "heat", layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, mirror: true, x: 6.4, y: 12.4, radius: 0
+                radiusTo: 0.9, color: "98ffa9", progress: "heat", layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, y: 16, radius: 0, radiusTo: 11
+                color: "98ffa900", colorTo: "98ffa966", progress: "charge", layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, y: 16, radius: 0, radiusTo: 8.5
+                color: "98ffa9", progress: "charge", layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, y: 16, radius: 0, radiusTo: 6.6
+                color: "e8ffec", progress: "charge", layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, y: 16, radius: 0, radiusTo: 4.2
+                color: "ffffff", progress: "charge", layer: 110
+            }
+        ]
+        bullet: {
+            type: "BasicBulletType", sprite: "large-orb", width: 22, height: 22, shrinkX: 0
+            shrinkY: 0, frontColor: "e8ffec", backColor: "98ffa9", hitColor: "98ffa9"
+            lightColor: "98ffa9", lightRadius: 70, lightOpacity: 0.8, speed: 4.692, drag: 0.0095
+            lifetime: 360, scaleLife: false, rangeOverride: 210, homingPower: 0.054
+            homingRange: 220, homingDelay: 8, weaveScale: 7, weaveMag: 3, weaveRandom: true
+            collides: false, collidesTiles: false, collidesGround: true, collidesAir: true
+            pierce: true, hittable: false, reflectable: false, absorbable: false
+            keepVelocity: false, despawnHit: true
+            intervalBullet: {
+                type: "BulletType", speed: 0, lifetime: 1, collides: false, collidesTiles: false
+                hittable: false, absorbable: false, reflectable: false, keepVelocity: false
+                despawnHit: true, damage: 0, splashDamage: 39.78, splashDamageRadius: 36
+                status: "electrified", statusDuration: 150, fragBullets: 1, fragSpread: 0
+                fragRandomSpread: 360, fragVelocityMin: 1, fragLifeMin: 1
+                fragBullet: {
+                    type: "BulletType", speed: 4, lifetime: 6, collides: false
+                    collidesTiles: false, hittable: false, absorbable: false, reflectable: false
+                    keepVelocity: false, despawnHit: true, damage: 0, lightning: 1
+                    lightningLength: 4, lightningLengthRand: 8, lightningDamage: 24.48
+                    lightningColor: "98ffa9"
+                    lightningType: {
+                        type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0
+                        hittable: false, absorbable: false, reflectable: false
+                        hitEffect: "hitLancer", despawnEffect: "none", smokeEffect: "none"
+                        shootEffect: "none", buildingDamageMultiplier: 0.25
+                        status: "electrified", statusDuration: 150
+                    }
+                    fragBullets: 1, fragSpread: 0, fragRandomSpread: 360, fragVelocityMin: 1
+                    fragLifeMin: 1
+                    fragBullet: {
+                        type: "BulletType", speed: 0, lifetime: 1, collides: false
+                        collidesTiles: false, hittable: false, absorbable: false
+                        reflectable: false, keepVelocity: false, despawnHit: true, damage: 0
+                        lightning: 1, lightningLength: 3, lightningLengthRand: 7
+                        lightningDamage: 24.48, lightningColor: "e8ffec"
+                        lightningType: {
+                            type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0
+                            hittable: false, absorbable: false, reflectable: false
+                            hitEffect: "hitLancer", despawnEffect: "none", smokeEffect: "none"
+                            shootEffect: "none", buildingDamageMultiplier: 0.25
+                            status: "electrified", statusDuration: 150
+                        }
+                        hitEffect: "none", despawnEffect: "none", shootEffect: "none"
+                        smokeEffect: "none", hitSound: "none"
+                    }
+                    hitEffect: "none", despawnEffect: "none", shootEffect: "none"
+                    smokeEffect: "none", hitSound: "none"
+                }
+                hitEffect: {
+                    type: "MultiEffect"
+                    effects: [
+                        {
+                            type: "ParticleEffect", line: true, lifetime: 14, particles: 3
+                            length: 18, baseLength: 0, cone: 180, strokeFrom: 1.1, strokeTo: 0
+                            lenFrom: 4.5, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                            interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                        }
+                        {
+                            type: "WaveEffect", lifetime: 12, sizeFrom: 6, sizeTo: 16
+                            strokeFrom: 0.9, strokeTo: 0, sides: 30, colorFrom: "98ffa9aa"
+                            colorTo: "98ffa900", interp: "pow2Out"
+                        }
+                    ]
+                }
+                despawnEffect: "none", shootEffect: "none", smokeEffect: "none"
+                hitSound: "dp-omega-ball-fly", hitSoundVolume: 0.11, hitSoundPitch: 1
+                hitSoundPitchRange: 0.04
+            }
+            bulletInterval: 10, intervalBullets: 1, intervalRandomSpread: 360, intervalDelay: 8
+            splashDamage: 75, splashDamageRadius: 40, lightning: 3, lightningLength: 7
+            lightningLengthRand: 6, lightningDamage: 48.96, lightningColor: "98ffa9"
+            lightningType: {
+                type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0, hittable: false
+                absorbable: false, reflectable: false, hitEffect: "hitLancer"
+                despawnEffect: "none", smokeEffect: "none", shootEffect: "none"
+                buildingDamageMultiplier: 0.25, status: "electrified", statusDuration: 150
+            }
+            status: "electrified", statusDuration: 150
+            parts: [
+                {
+                    type: "ShapePart", circle: true, radius: 15, radiusTo: 15, color: "98ffa926"
+                    progress: "life", layerOffset: -0.0002
+                }
+                {
+                    type: "ShapePart", circle: true, radius: 11, radiusTo: 11, color: "98ffa966"
+                    progress: "life", layerOffset: -0.0001
+                }
+                {
+                    type: "ShapePart", circle: true, radius: 8.5, radiusTo: 8.5, color: "98ffa9"
+                    progress: "life", layerOffset: 0.001
+                }
+                {
+                    type: "ShapePart", circle: true, radius: 6.6, radiusTo: 6.6, color: "e8ffec"
+                    progress: "life", layerOffset: 0.0011
+                }
+                {
+                    type: "ShapePart", circle: true, radius: 4.2, radiusTo: 4.2, color: "ffffff"
+                    progress: "life", layerOffset: 0.0012
+                }
+                {
+                    type: "ShapePart", circle: true, hollow: true, radius: 10, radiusTo: 13
+                    stroke: 1.4, strokeTo: 0.4, color: "98ffa9", colorTo: "98ffa900"
+                    progress: { type: "life", ops: [{ op: "mul", amount: 0 }, { op: "absin", scl: 5, mag: 1 }] }
+                    layerOffset: 0.0013
+                }
+                {
+                    type: "HaloPart", shapes: 3, sides: 10, radius: 1.3, radiusTo: 1.3
+                    haloRadius: 12.5, haloRadiusTo: 12.5, haloRotateSpeed: 5, color: "e8ffec"
+                    progress: "life", layerOffset: 0.0014
+                }
+                {
+                    type: "HaloPart", shapes: 4, sides: 10, radius: 0.9, radiusTo: 0.9
+                    haloRadius: 16, haloRadiusTo: 16, haloRotateSpeed: -3.5, haloRotation: 20
+                    color: "98ffa9", progress: "life", layerOffset: 0.0014
+                }
+                {
+                    type: "ShapePart", circle: true, hollow: true, radius: 16.5, radiusTo: 16.5
+                    stroke: 0.7, strokeTo: 0.7, color: "98ffa955", progress: "life"
+                }
+            ]
+            chargeEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 52.25, particles: 24
+                        length: -52, baseLength: 52, cone: 180, strokeFrom: 0.3, strokeTo: 1.8
+                        lenFrom: 8, lenTo: 1.5, colorFrom: "98ffa9", colorTo: "ffffff"
+                        interp: "pow2In", randLength: false, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 52.25, particles: 12
+                        length: -30, baseLength: 30, cone: 180, strokeFrom: 0.3, strokeTo: 1.2
+                        lenFrom: 5, lenTo: 1.5, colorFrom: "98ffa9", colorTo: "ffffff"
+                        interp: "pow2In", randLength: false, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 25, sizeFrom: 36, sizeTo: 4, strokeFrom: 0
+                        strokeTo: 2.4, sides: 30, colorFrom: "98ffa9", colorTo: "ffffff"
+                        interp: "pow2In", followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 25, sizeFrom: 36, sizeTo: 4, strokeFrom: 0
+                        strokeTo: 2.4, sides: 30, colorFrom: "98ffa9", colorTo: "ffffff"
+                        interp: "pow2In", startDelay: 12, followParent: true
+                        rotWithParent: true
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 25, sizeFrom: 36, sizeTo: 4, strokeFrom: 0
+                        strokeTo: 2.4, sides: 30, colorFrom: "98ffa9", colorTo: "ffffff"
+                        interp: "pow2In", startDelay: 25, followParent: true
+                        rotWithParent: true
+                    }
+                ]
+                followParent: true, rotWithParent: true
+            }
+            shootEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 14, particles: 7
+                        length: 6, baseLength: 0, cone: 5, strokeFrom: 3.4, strokeTo: 0
+                        lenFrom: 16, lenTo: 4, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow2Out", randLength: true, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 16, sizeFrom: 2, sizeTo: 26, strokeFrom: 4
+                        strokeTo: 0, sides: 30, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 22, particles: 18
+                        length: 48, baseLength: 0, cone: 34, strokeFrom: 2, strokeTo: 0
+                        lenFrom: 11, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "ParticleEffect", region: "particle", lifetime: 50, particles: 8
+                        length: 22, baseLength: 0, cone: 30, sizeFrom: 4.5, sizeTo: 0
+                        colorFrom: "98ffa9", colorTo: "62ae7f", interp: "pow5Out"
+                        randLength: true, lightOpacity: 0.4, followParent: true
+                        rotWithParent: true
+                    }
+                ]
+                followParent: true, rotWithParent: true
+            }
+            smokeEffect: "none"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 12, sizeFrom: 0, sizeTo: 18, strokeFrom: 8
+                        strokeTo: 0, sides: 30, colorFrom: "ffffff", colorTo: "ffffff"
+                        interp: "pow2Out"
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 22, sizeFrom: 0, sizeTo: 40, strokeFrom: 5
+                        strokeTo: 0, sides: 30, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow4Out"
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 30, sizeFrom: 4, sizeTo: 30
+                        strokeFrom: 2.5, strokeTo: 0, sides: 30, colorFrom: "98ffa9"
+                        colorTo: "62ae7f", interp: "pow3Out", startDelay: 4
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 30, particles: 22
+                        length: 54, baseLength: 0, cone: 180, strokeFrom: 2.2, strokeTo: 0
+                        lenFrom: 11, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow4Out", randLength: true, lightOpacity: 0.5
+                    }
+                    {
+                        type: "ParticleEffect", region: "particle", lifetime: 50, particles: 12
+                        length: 32, baseLength: 0, cone: 180, sizeFrom: 5, sizeTo: 0
+                        colorFrom: "98ffa9", colorTo: "62ae7f", interp: "pow3Out"
+                        randLength: true, lightOpacity: 0.4
+                    }
+                    {
+                        type: "ParticleEffect", region: "particle", lifetime: 34, particles: 8
+                        length: 20, baseLength: 0, cone: 180, sizeFrom: 3, sizeTo: 0
+                        colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow2Out"
+                        randLength: true, lightOpacity: 0.4
+                    }
+                ]
+            }
+            despawnEffect: "none", hitShake: 2, hitSound: "dp-omega-ball-pop"
+            hitSoundVolume: 0.9, hitSoundPitch: 1, hitSoundPitchRange: 0.08
+        }
+    }
+    {
+        name: "omega-pew-a", x: 12, y: 34, shootY: 11, mirror: true, alternate: true
+        controllable: false, autoTarget: true, top: true, layerOffset: 0.000264, shadow: 8
+        rotate: true, rotateSpeed: 7, shootCone: 12, reload: 9, recoil: 0.6, recoils: 2
+        recoilTime: 14, cooldownTime: 40, shake: 0.3, inaccuracy: 2, velocityRnd: 0.05
+        shoot: { type: "ShootAlternate", barrels: 2, spread: 4.4 }
+        shootSound: "shootLaser", shootSoundVolume: 0.28, soundPitchMin: 0.85, soundPitchMax: 1
+        parts: [
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 3, y: -2.6
+                yScl: 1.05, layerOffset: 3.6e-05, outlineLayerOffset: -0.000108, heatProgress: 0
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "beam-weapon", outline: true, x: 2.2, y: -5.4
+                rotation: 180, xScl: 0.8, yScl: 0.75, layerOffset: 4.8e-05
+                outlineLayerOffset: -0.00012, heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: -2.2, y: 5.2
+                xScl: -0.95, yScl: 0.85, layerOffset: 6e-05, outlineLayerOffset: -0.000132
+                heatProgress: 0, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: -2.2, y: 8.8
+                xScl: -0.95, yScl: 0.85, layerOffset: 7.2e-05, outlineLayerOffset: -0.000144
+                heatProgress: 0, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 2.2, y: 5.2
+                xScl: 0.95, yScl: 0.85, layerOffset: 8.4e-05, outlineLayerOffset: -0.000156
+                heatProgress: 0, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 2.2, y: 8.8
+                xScl: 0.95, yScl: 0.85, layerOffset: 9.6e-05, outlineLayerOffset: -0.000168
+                heatProgress: 0, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "heal-weapon", outline: true, x: 1.6, y: 1.2
+                layerOffset: 0.000108, outlineLayerOffset: -0.00018, heatProgress: 0
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, heatLight: true, outline: false
+                drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 7.2e-05, x: -2.2
+                y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 7.2e-05, x: -2.2, y: 8.8, xScl: -0.95
+                yScl: 0.85, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 7.2e-05, x: -2.2, y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 7.2e-05, x: -2.2, y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 9.6e-05, x: 2.2, y: 8.8, xScl: 0.95
+                yScl: 0.85, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 9.6e-05, x: 2.2, y: 8.8, xScl: 0.95
+                yScl: 0.85, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 9.6e-05, x: 2.2, y: 8.8, xScl: 0.95, yScl: 0.85, recoilIndex: 1
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 9.6e-05, x: 2.2, y: 8.8, xScl: 0.95, yScl: 0.85, recoilIndex: 1
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "ShapePart", circle: true, x: -2.2, y: 11.2, radius: 0, radiusTo: 2
+                color: "ffffff", colorTo: "98ffa900", recoilIndex: 0
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow3In" }] }
+                layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, x: 2.2, y: 11.2, radius: 0, radiusTo: 2
+                color: "ffffff", colorTo: "98ffa900", recoilIndex: 1
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow3In" }] }
+                layer: 110
+            }
+        ]
+        bullet: {
+            type: "LaserBoltBulletType", damage: 35.0625, healAmount: 31, collidesTeam: true
+            speed: 7.5, lifetime: 32, width: 2.6, height: 10, frontColor: "ffffff"
+            backColor: "98ffa9", lightColor: "98ffa9", hitColor: "98ffa9", trailColor: "98ffa9"
+            trailLength: 5, trailWidth: 1.4
+            shootEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 9
+                        strokeFrom: 1.8, strokeTo: 0, sides: 4, colorFrom: "ffffff"
+                        colorTo: "98ffa9", interp: "pow3Out", rotation: 45, followParent: true
+                        rotWithParent: true
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 12, particles: 5
+                        length: 16, baseLength: 0, cone: 14, strokeFrom: 1.2, strokeTo: 0
+                        lenFrom: 5, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                ]
+                followParent: true, rotWithParent: true
+            }
+            smokeEffect: "none"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 12, sizeFrom: 1, sizeTo: 10
+                        strokeFrom: 1.8, strokeTo: 0, sides: 4, colorFrom: "ffffff"
+                        colorTo: "98ffa9", interp: "pow3Out", rotation: 45
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 14, particles: 6
+                        length: 16, baseLength: 0, cone: 180, strokeFrom: 1.2, strokeTo: 0
+                        lenFrom: 5, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                    }
+                ]
+            }
+            despawnEffect: {
+                type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 7, strokeFrom: 1.4
+                strokeTo: 0, sides: 4, colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow3Out"
+                rotation: 45
+            }
+        }
+    }
+    {
+        name: "omega-pew-b", x: 19, y: -9, shootY: 11, mirror: true, alternate: true
+        controllable: false, autoTarget: true, top: true, layerOffset: 0.000288, shadow: 8
+        rotate: true, rotateSpeed: 7, shootCone: 12, reload: 9, recoil: 0.6, recoils: 2
+        recoilTime: 14, cooldownTime: 40, shake: 0.3, inaccuracy: 2, velocityRnd: 0.05
+        shoot: { type: "ShootAlternate", barrels: 2, spread: 4.4, firstShotDelay: 4.5 }
+        shootSound: "shootLaser", shootSoundVolume: 0.28, soundPitchMin: 1.15
+        soundPitchMax: 1.3
+        parts: [
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 3, y: -2.6
+                yScl: 1.05, layerOffset: 0.00012, outlineLayerOffset: -0.000204, heatProgress: 0
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "beam-weapon", outline: true, x: 2.2, y: -5.4
+                rotation: 180, xScl: 0.8, yScl: 0.75, layerOffset: 0.000132
+                outlineLayerOffset: -0.000216, heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: -2.2, y: 5.2
+                xScl: -0.95, yScl: 0.85, layerOffset: 0.000144, outlineLayerOffset: -0.000228
+                heatProgress: 0, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: -2.2, y: 8.8
+                xScl: -0.95, yScl: 0.85, layerOffset: 0.000156, outlineLayerOffset: -0.00024
+                heatProgress: 0, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 2.2, y: 5.2
+                xScl: 0.95, yScl: 0.85, layerOffset: 0.000168, outlineLayerOffset: -0.000252
+                heatProgress: 0, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, x: 2.2, y: 8.8
+                xScl: 0.95, yScl: 0.85, layerOffset: 0.00018, outlineLayerOffset: -0.000264
+                heatProgress: 0, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "heal-weapon", outline: true, x: 1.6, y: 1.2
+                layerOffset: 0.000192, outlineLayerOffset: -0.000276, heatProgress: 0
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, heatLight: true, outline: false
+                drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 0.000156, x: -2.2
+                y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 0.000156, x: -2.2, y: 8.8, xScl: -0.95
+                yScl: 0.85, recoilIndex: 0, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.000156, x: -2.2, y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.000156, x: -2.2, y: 8.8, xScl: -0.95, yScl: 0.85, recoilIndex: 0
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 0.00018, x: 2.2, y: 8.8, xScl: 0.95
+                yScl: 0.85, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 0.00018, x: 2.2, y: 8.8, xScl: 0.95
+                yScl: 0.85, recoilIndex: 1, moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.00018, x: 2.2, y: 8.8, xScl: 0.95, yScl: 0.85, recoilIndex: 1
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-poly-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.00018, x: 2.2, y: 8.8, xScl: 0.95, yScl: 0.85, recoilIndex: 1
+                moveY: -2
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+            }
+            {
+                type: "ShapePart", circle: true, x: -2.2, y: 11.2, radius: 0, radiusTo: 2
+                color: "ffffff", colorTo: "98ffa900", recoilIndex: 0
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow3In" }] }
+                layer: 110
+            }
+            {
+                type: "ShapePart", circle: true, x: 2.2, y: 11.2, radius: 0, radiusTo: 2
+                color: "ffffff", colorTo: "98ffa900", recoilIndex: 1
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow3In" }] }
+                layer: 110
+            }
+        ]
+        bullet: {
+            type: "LaserBoltBulletType", damage: 35.0625, healAmount: 31, collidesTeam: true
+            speed: 7.5, lifetime: 32, width: 2.6, height: 10, frontColor: "ffffff"
+            backColor: "98ffa9", lightColor: "98ffa9", hitColor: "98ffa9", trailColor: "98ffa9"
+            trailLength: 5, trailWidth: 1.4
+            shootEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 9
+                        strokeFrom: 1.8, strokeTo: 0, sides: 4, colorFrom: "ffffff"
+                        colorTo: "98ffa9", interp: "pow3Out", rotation: 45, followParent: true
+                        rotWithParent: true
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 12, particles: 5
+                        length: 16, baseLength: 0, cone: 14, strokeFrom: 1.2, strokeTo: 0
+                        lenFrom: 5, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                ]
+                followParent: true, rotWithParent: true
+            }
+            smokeEffect: "none"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 12, sizeFrom: 1, sizeTo: 10
+                        strokeFrom: 1.8, strokeTo: 0, sides: 4, colorFrom: "ffffff"
+                        colorTo: "98ffa9", interp: "pow3Out", rotation: 45
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 14, particles: 6
+                        length: 16, baseLength: 0, cone: 180, strokeFrom: 1.2, strokeTo: 0
+                        lenFrom: 5, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                    }
+                ]
+            }
+            despawnEffect: {
+                type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 7, strokeFrom: 1.4
+                strokeTo: 0, sides: 4, colorFrom: "ffffff", colorTo: "98ffa9", interp: "pow3Out"
+                rotation: 45
+            }
+        }
+    }
+    {
+        name: "omega-arc", x: 14, y: -34, shootY: 9, mirror: true, alternate: true
+        controllable: false, autoTarget: true, top: true, layerOffset: 0.000396, shadow: 8
+        rotate: true, rotateSpeed: 6, shootCone: 15, reload: 27, recoil: 1, recoilTime: 22
+        cooldownTime: 45, shake: 0.6, shoot: { firstShotDelay: 2.25 }, shootSound: "shootArc"
+        shootSoundVolume: 0.48, soundPitchMin: 0.8, soundPitchMax: 0.95
+        parts: [
+            {
+                type: "RegionPart", name: "heal-weapon", outline: true, x: 2.4, y: -1.6
+                xScl: 1.2, yScl: 1.1, layerOffset: 0.000108, outlineLayerOffset: -0.000288
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 2.6, y: -4.4
+                rotation: 180, xScl: 0.9, yScl: 0.8, layerOffset: 0.00012
+                outlineLayerOffset: -0.0003, heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "beam-weapon", outline: true, x: 2.6, y: 6
+                rotation: -10, xScl: 0.85, layerOffset: 0.000132, outlineLayerOffset: -0.000312
+                heatProgress: 0
+                moves: [
+                    {
+                        progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+                        x: 0.6, y: -1.2, rot: -4
+                    }
+                ]
+                mirror: true
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-bw-w"
+                heatProgress: { type: "heat", ops: [] }, heatLight: true, outline: false
+                drawRegion: false, heatLayerOffset: 2.4e-05, layerOffset: 0.000132, x: 2.6, y: 6
+                rotation: -10, xScl: 0.85, mirror: true
+                moves: [
+                    {
+                        progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+                        x: 0.6, y: -1.2, rot: -4
+                    }
+                ]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-bw-w"
+                heatProgress: { type: "heat", ops: [] }, outline: false, drawRegion: false
+                heatLayerOffset: 2.4e-05, layerOffset: 0.000132, x: 2.6, y: 6, rotation: -10
+                xScl: 0.85, mirror: true
+                moves: [
+                    {
+                        progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+                        x: 0.6, y: -1.2, rot: -4
+                    }
+                ]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-bw-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.000132, x: 2.6, y: 6, rotation: -10, xScl: 0.85, mirror: true
+                moves: [
+                    {
+                        progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+                        x: 0.6, y: -1.2, rot: -4
+                    }
+                ]
+            }
+            {
+                type: "RegionPart", name: "dp-omega-tip-bw-n"
+                heatProgress: { type: "heat", ops: [{ op: "compress", start: 0.4, end: 1 }] }
+                outline: false, drawRegion: false, heatLayerOffset: 2.4e-05
+                layerOffset: 0.000132, x: 2.6, y: 6, rotation: -10, xScl: 0.85, mirror: true
+                moves: [
+                    {
+                        progress: { type: "recoil", ops: [{ op: "curve", interp: "pow2In" }] }
+                        x: 0.6, y: -1.2, rot: -4
+                    }
+                ]
+            }
+            {
+                type: "RegionPart", name: "poly-weapon", outline: true, y: 3, yScl: 1.1
+                layerOffset: 0.000144, outlineLayerOffset: -0.000324, heatProgress: 0
+            }
+            {
+                type: "RegionPart", name: "power-cell", outline: false, xScl: 0.5, yScl: 0.5
+                layerOffset: 0.000168, color: "98ffa9"
+            }
+            {
+                type: "HaloPart", progress: "warmup", y: 9, tri: true, shapes: 2, radius: 0
+                radiusTo: 1.4, triLength: 0, triLengthTo: 3.5, haloRadius: 3, haloRadiusTo: 4.5
+                haloRotateSpeed: 8, color: "98ffa9", colorTo: "ffffff", layer: 110
+            }
+            {
+                type: "ShapePart"
+                progress: { type: "recoil", ops: [{ op: "curve", interp: "pow3In" }] }
+                y: 9, sides: 4, radius: 0, radiusTo: 4, rotateSpeed: 6, color: "ffffff"
+                colorTo: "98ffa900", layer: 110
+            }
+        ]
+        bullet: {
+            type: "BasicBulletType", sprite: "circle-bullet", width: 6, height: 6, shrinkY: 0
+            speed: 7, lifetime: 27, damage: 46.21875, frontColor: "ffffff", backColor: "98ffa9"
+            hitColor: "98ffa9", lightColor: "98ffa9", trailColor: "98ffa9", trailLength: 7
+            trailWidth: 1.8, lightning: 2, lightningLength: 6, lightningLengthRand: 5
+            lightningDamage: 19.125, lightningColor: "98ffa9"
+            lightningType: {
+                type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0, hittable: false
+                absorbable: false, reflectable: false, hitEffect: "hitLancer"
+                despawnEffect: "none", smokeEffect: "none", shootEffect: "none"
+                status: "shocked", statusDuration: 10, buildingDamageMultiplier: 0.25
+            }
+            despawnHit: true, status: "shocked", statusDuration: 30
+            shootEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 14, particles: 7
+                        length: 20, baseLength: 0, cone: 25, strokeFrom: 1.4, strokeTo: 0
+                        lenFrom: 6, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                        followParent: true, rotWithParent: true
+                    }
+                    {
+                        type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 10, strokeFrom: 2
+                        strokeTo: 0, sides: 4, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", rotation: 45, followParent: true, rotWithParent: true
+                    }
+                ]
+                followParent: true, rotWithParent: true
+            }
+            smokeEffect: "none"
+            hitEffect: {
+                type: "MultiEffect"
+                effects: [
+                    {
+                        type: "WaveEffect", lifetime: 16, sizeFrom: 1, sizeTo: 20
+                        strokeFrom: 2.6, strokeTo: 0, sides: 6, colorFrom: "ffffff"
+                        colorTo: "98ffa9", interp: "pow3Out"
+                    }
+                    {
+                        type: "ParticleEffect", line: true, lifetime: 18, particles: 9
+                        length: 26, baseLength: 0, cone: 180, strokeFrom: 1.6, strokeTo: 0
+                        lenFrom: 7, lenTo: 0, colorFrom: "ffffff", colorTo: "98ffa9"
+                        interp: "pow3Out", randLength: true, lightOpacity: 0.5
+                    }
+                    "hitLancer"
+                ]
+            }
+            despawnEffect: "none", hitSound: "shockBullet", hitSoundVolume: 0.35
+        }
+    }
+    {
+        type: "RepairBeamWeapon", name: "omega-tether", x: 16, y: 14, shootY: 6, mirror: true
+        top: true, layerOffset: 0.000228, recoil: 0, beamWidth: 1, repairSpeed: 3.5
+        pulseRadius: 7, pulseStroke: 1.8, widthSinMag: 0.15, laserColor: "98ffa9"
+        healColor: "98ffa9", bullet: { maxRange: 165 }
+        parts: [
+            {
+                type: "RegionPart", name: "heal-shotgun-weapon", outline: true, x: 2.6, y: -2.2
+                xScl: 0.95, yScl: 0.95, layerOffset: 1.2e-05, outlineLayerOffset: -6e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "heal-weapon", outline: true, x: 1.8, y: 1.4
+                xScl: 0.95, yScl: 0.9, layerOffset: 2.4e-05, outlineLayerOffset: -7.2e-05
+                heatProgress: 0, mirror: true
+            }
+            {
+                type: "RegionPart", name: "repair-beam-weapon-center-large", outline: false
+                y: 1.5, layerOffset: 3.6e-05
+            }
+            {
+                type: "RegionPart", name: "power-cell", outline: false, y: 0.5, xScl: 0.5
+                yScl: 0.5, layerOffset: 4.8e-05, color: "98ffa9"
+            }
+            {
+                type: "HaloPart", progress: "warmup", y: 6, tri: true, shapes: 3, radius: 0
+                radiusTo: 1.4, triLength: 0, triLengthTo: 3.2, haloRadius: 4, haloRadiusTo: 6.5
+                haloRotateSpeed: -3, color: "98ffa9", layer: 110
+            }
+            {
+                type: "ShapePart", progress: "warmup", y: 6, sides: 6, hollow: true, radius: 2
+                radiusTo: 4.5, stroke: 0, strokeTo: 1, rotateSpeed: 2, color: "98ffa9"
+                layer: 110
+            }
+        ]
+    }
+]
+flyingLayer: 91.4, engineLayer: 91.39815
