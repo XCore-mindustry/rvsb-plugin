@@ -11,6 +11,8 @@ import arc.util.serialization.Jval.*;
 
 import arc.graphics.Color;
 import arc.struct.ObjectIntMap;
+import arc.struct.ObjectSet;
+import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.math.*;
@@ -51,6 +53,7 @@ import net.voiddustry.redvsblue.player.Hud;
 import net.voiddustry.redvsblue.player.Premium;
 import net.voiddustry.redvsblue.util.MapVote;
 import net.voiddustry.redvsblue.util.MenuGuard;
+import net.voiddustry.redvsblue.util.OrbitalStrike;
 import net.voiddustry.redvsblue.util.UnitsConfig;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.logic.LInstructions;
@@ -673,98 +676,146 @@ public class RedVsBluePlugin extends Plugin {
 		handler.<Player>register("smite", "[y/n]",
 		"Abandon hope, all ye who enter here", (String[] args, Player player) -> {
 			if (!playing) return;
-			if (player.team() == Team.blue) {
-				int length = args.length;
-				if (length == 0) {
-					if (smite == null) {
-						int index = 0;
-						EntityGroup<Player> arr = Groups.player;
-						int size = arr.size();
-						for (int i = 0; i < size; i++) if (arr.index(i).team() == Team.blue) index++;
-						String[][] options = new String[index][];
-						String[] uuids = new String[index];
-						index = 0;
-						for (int i = 0; i < size; i++) {
-							Player other = arr.index(i);
-							if (other.team() != Team.blue) continue;
-							options[index] = new String[]{other.name};
-							uuids[index++] = other.con.uuid;
-						}
-						boolean[] use = new boolean[1];
-						MenuCallPacket packet = new MenuCallPacket();
-						packet.title = Bundle.get("f.vote.smite", player.locale);
-						packet.message = Bundle.get("f.vote.hope", player.locale);
-						packet.options = options;
-						packet.menuId = Menus.registerMenu((Player sender, int option) -> {
-							if (use[0] || option < 0 || option >= uuids.length || player != sender || player.team() != Team.blue) return;
-							use[0] = true;
-							if ((smite = players.get(uuids[option])) == null) return;
-							smiteTime = System.currentTimeMillis() + 30_000l;
-							ipSet.clear();
-							ipSet.get(player.con.address);
-							votes = 1;
-							Utils.sendBundled("f.vote.start", smite.getName());
-						});
-						player.con.send(packet, true);
-					} else {
-						player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
-					}
-				} else if (length == 1) {
-					if (smite != null) {
-						String arg = args[0];
-						if (yes.get(arg)) {
-							if (true || !ipSet.get(player.con.address)) {
-								Utils.sendBundled("f.vote.yes", player.name);
-								if (++votes != 5) return;
-								Unit unit = smite.getUnit();
-								float x = unit.x;
-								float y = unit.y;
-								Call.logicExplosion(Team.crux, x, y, 5f * 8f, 65536f, true, true, true, false);
-								EffectCallPacket packet = new EffectCallPacket();
-								packet.effect = Fx.impactReactorExplosion;
-								packet.x = x;
-								packet.y = y;
-								packet.rotation = 256f;
-								packet.color = Color.white;
-								Vars.net.send(packet, true);
-								smite = null;
-								sendBundled("f.vote.passed");
-							} else {
-								player.con.send(new SMCP(Bundle.get("f.vote.already", player.locale)), true);
-							}
-						} else if (no.get(arg)) {
-							if (true || !ipSet.get(player.con.address)) {
-								--votes;
-								Utils.sendBundled("f.vote.no", player.name);
-							} else {
-								player.con.send(new SMCP(Bundle.get("f.vote.already", player.locale)), true);
-							}
-						} else {
-							player.con.send(new SMCP(Bundle.get("f.vote.syntax", player.locale)), true);
-						}
-					} else {
-						player.con.send(new SMCP("404"), true);
-					}
-				} else {
-					throw new Error();
-				}
-			} else {
+			if (player.team() != Team.blue) {
 				player.con.send(new SMCP(Bundle.get("f.vote.forBlue", player.locale)), true);
+				return;
+			}
+			if (args.length == 0) {
+				openSmiteMenu(player);
+				return;
+			}
+			if (smiteTarget == null) {
+				player.con.send(new SMCP(Bundle.get("f.vote.none", player.locale)), true);
+				return;
+			}
+			String arg = args[0];
+			boolean voteYes = yes.get(arg);
+			if (!voteYes && !no.get(arg)) {
+				player.con.send(new SMCP(Bundle.get("f.vote.syntax", player.locale)), true);
+				return;
+			}
+			if (!smiteAllowDupes && (smiteUuids.contains(player.uuid()) || smiteIps.contains(player.con.address))) {
+				player.con.send(new SMCP(Bundle.get("f.vote.already", player.locale)), true);
+				return;
+			}
+			smiteUuids.add(player.uuid());
+			smiteIps.add(player.con.address);
+			if (voteYes) {
+				votes++;
+				Utils.sendBundled("f.vote.yes", player.name);
+			} else {
+				votes--;
+				Utils.sendBundled("f.vote.no", player.name);
+			}
+			if (votes >= SMITE_VOTES_NEEDED) {
+				Player target = Groups.player.find(p -> p.uuid().equals(smiteTarget));
+				endSmiteVote();
+				if (target == null || target.team() != Team.blue) {
+					sendBundled("f.vote.escaped");
+					return;
+				}
+				sendBundled("f.vote.passed");
+				smiteUsed = true;
+				OrbitalStrike.start(target);
 			}
 		});
+		Events.on(EventType.WorldLoadEvent.class, e -> {
+			OrbitalStrike.cancel();
+			// new game: smite is available again, a vote from the previous map is dropped
+			smiteUsed = false;
+			smiteTarget = null;
+			smiteUuids.clear();
+			smiteIps.clear();
+		});
+		Events.on(EventType.GameOverEvent.class, e -> OrbitalStrike.cancel());
 		Events.run(Trigger.update, () -> {
-			if (smite == null || System.currentTimeMillis() < smiteTime) return;
-			smite = null;
+			OrbitalStrike.update();
+			if (smiteTarget == null || System.currentTimeMillis() < smiteTime) return;
+			endSmiteVote();
 			sendBundled("f.vote.finish");
 		});
     }
 
 	private static final CharTreeSet yes = new CharTreeSet("y", "yes", "Y", "YES", "н", "нуы", "Н", "НУЫ", "нуі", "НУІ");
 	private static final CharTreeSet no = new CharTreeSet("n", "no", "N", "NO", "т", "тщ", "Т", "ТЩ");
-	private static final IpSet ipSet = new IpSet();
-	private static PlayerData smite = null;
+
+	private static final long SMITE_VOTE_MS = 30_000L;
+	private static final long SMITE_COOLDOWN_MS = 5 * 60_000L;
+	private static final int SMITE_VOTES_NEEDED = 5;
+
+	/** uuid of the player being voted on, null = no vote running */
+	private static String smiteTarget = null;
 	private static long smiteTime = 0;
+	/** no new vote before this time (global, set when a vote ends) */
+	private static long smiteCooldownUntil = 0;
 	private static int votes = 0;
+	/** a smite vote already passed this game; reset on world load */
+	private static boolean smiteUsed = false;
+	/** testing only: when true the same uuid/ip can vote any number of times (server command smite-dupes) */
+	private static boolean smiteAllowDupes = false;
+	/** everyone who voted in the current vote: each uuid and each ip only once */
+	private static final ObjectSet<String> smiteUuids = new ObjectSet<>();
+	private static final ObjectSet<String> smiteIps = new ObjectSet<>();
+	/** player uuid -> uuids listed in the selection menu shown to them */
+	private static final ObjectMap<String, String[]> smiteChoices = new ObjectMap<>();
+	private static final int smiteMenu = Menus.registerMenu(RedVsBluePlugin::chooseSmiteTarget);
+
+	private static void openSmiteMenu(Player player) {
+		if (smiteUsed) {
+			player.con.send(new SMCP(Bundle.get("f.vote.used", player.locale)), true);
+			return;
+		}
+		if (smiteTarget != null) {
+			player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
+			return;
+		}
+		long wait = smiteCooldownUntil - System.currentTimeMillis();
+		if (wait > 0) {
+			long s = (wait + 999) / 1000;
+			player.con.send(new SMCP(Bundle.format("f.vote.cooldown", Bundle.findLocale(player.locale()), s / 60, String.format("%02d", s % 60))), true);
+			return;
+		}
+		Seq<Player> blue = Groups.player.copy(new Seq<>()).select(p -> p.team() == Team.blue);
+		String[][] options = new String[blue.size][];
+		String[] uuids = new String[blue.size];
+		for (int i = 0; i < blue.size; i++) {
+			options[i] = new String[]{blue.get(i).name};
+			uuids[i] = blue.get(i).uuid();
+		}
+		smiteChoices.put(player.uuid(), uuids);
+		MenuGuard.menu(player.con, smiteMenu, Bundle.get("f.vote.smite", player.locale),
+			Bundle.get("f.vote.hope", player.locale) + "\n" + Bundle.get("f.vote.select", player.locale), options);
+	}
+
+	private static void chooseSmiteTarget(Player player, int option) {
+		String[] uuids = smiteChoices.remove(player.uuid());
+		if (uuids == null || option < 0 || option >= uuids.length || !playing || player.team() != Team.blue) return;
+		if (smiteTarget != null) {
+			player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
+			return;
+		}
+		if (smiteUsed || System.currentTimeMillis() < smiteCooldownUntil) return;
+		Player target = Groups.player.find(p -> p.uuid().equals(uuids[option]));
+		if (target == null || target.team() != Team.blue) {
+			player.con.send(new SMCP(Bundle.get("f.vote.gone", player.locale)), true);
+			return;
+		}
+		smiteTarget = target.uuid();
+		smiteTime = System.currentTimeMillis() + SMITE_VOTE_MS;
+		smiteUuids.clear();
+		smiteIps.clear();
+		smiteUuids.add(player.uuid());
+		smiteIps.add(player.con.address);
+		votes = 1;
+		Utils.sendBundled("f.vote.start", target.name);
+	}
+
+	private static void endSmiteVote() {
+		smiteTarget = null;
+		smiteUuids.clear();
+		smiteIps.clear();
+		smiteCooldownUntil = System.currentTimeMillis() + SMITE_COOLDOWN_MS;
+	}
 
 	public static class CharTreeSet {
 		private CharTree[] branches;
@@ -805,7 +856,6 @@ public class RedVsBluePlugin extends Plugin {
 			CharTree[] tmp = new CharTree[zip];
 			for (int i = 0; i < zip; i++) tmp[i] = this.branches[i];
 			this.branches = tmp;
-			string(this.branches, "");
 		}
 
 		public boolean get(String arg) {
@@ -821,16 +871,6 @@ public class RedVsBluePlugin extends Plugin {
 				|| (branch = branches[character]) == null) return false;
 			}
 			return branch.end;
-		}
-
-		private static void string(CharTree[] branches, String indent) {
-			indent += '-';
-			for (int i = 0; i < branches.length; i++) {
-				CharTree branch = branches[i];
-				if (branch == null) continue;
-				Log.info(indent + (char)i + " " + i);
-				string(branch.branches, indent);
-			}
 		}
 	}
 
@@ -864,40 +904,6 @@ public class RedVsBluePlugin extends Plugin {
 		}
 	}
 
-	public static class IpSet {
-		private static final int[] cork = new int[0];
-
-		private final int[][] map = new int[256][];
-		private final int[] sizes = new int[256];
-
-		public IpSet() {
-			for (int i = 0; i < 256; i++) this.map[i] = cork;
-		}
-
-		public boolean get(String ip) {
-			String[] raw = ip.split("\\.");
-			int hash = Integer.parseInt(raw[0]) | (Integer.parseInt(raw[1]) >> 8)
-				| (Integer.parseInt(raw[2]) >> 16) | (Integer.parseInt(raw[3]) >> 24);
-			int index = hash & 255;
-			int[] arr = this.map[index];
-			int size = this.sizes[index];
-			for (int i = 0; i < size; i++) if (arr[i] == hash) return true;
-			this.sizes[index]++;
-			if (size < arr.length) {
-				arr[size] = hash;
-			} else {
-				int[] tmp = new int[size == 0 ? 4 : size * 2];
-				for (int i = 0; i < size; i++) tmp[i] = arr[i];
-				(this.map[index] = tmp)[size] = hash;
-			}
-			return false;
-		}
-
-		public void clear() {
-			for (int i = 0; i < 256; i++) sizes[i] = 0;
-		}
-	}
-
 	public static class SMCP extends SendMessageCallPacket {
 
 		public SMCP(String message) {
@@ -913,6 +919,17 @@ public class RedVsBluePlugin extends Plugin {
 
     @Override
     public void registerServerCommands(CommandHandler handler) {
+        handler.register("smite-dupes", "[on/off]", "Testing: allow the same player/IP to vote in /smite more than once", args -> {
+            if (args.length > 0) {
+                if (args[0].equalsIgnoreCase("on")) smiteAllowDupes = true;
+                else if (args[0].equalsIgnoreCase("off")) smiteAllowDupes = false;
+                else {
+                    Log.err("Usage: smite-dupes [on/off]");
+                    return;
+                }
+            }
+            Log.info("Duplicate smite votes: @", smiteAllowDupes ? "&gallowed (testing)&fr" : "&rblocked&fr");
+        });
         handler.register("crux-spawns", "[reload]", "Show strength spawner state, or reload rvsbUnits/spawns.hjson + unitWeights.hjson", args -> {
             if (args.length > 0 && args[0].equalsIgnoreCase("reload")) StrengthSpawner.load();
             Log.info(StrengthSpawner.status());
