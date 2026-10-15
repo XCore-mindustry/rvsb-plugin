@@ -50,13 +50,14 @@ maxRange: 450
 rotateSpeed: 0.6
 aimDst: 120
 hitSize: 40
-health: 62000
+health: 54000
 mechStepParticles: true
 stepShake: 1.6
 drownTimeMultiplier: 4
 mechFrontSway: 1
 mechSideSway: 0.6
 stepSound: "mechStepHeavy"
+armor: 25
 stepSoundPitch: 0.7
 stepSoundVolume: 0.8
 lightRadius: 150
