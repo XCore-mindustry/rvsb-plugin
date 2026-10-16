@@ -3687,7 +3687,7 @@ weapons: [
             collides: false, collidesTiles: false, collidesGround: true, collidesAir: true
             hittable: false, absorbable: false, reflectable: false, keepVelocity: false
             despawnHit: true, splashDamage: 5000, splashDamageRadius: 88
-            buildingDamageMultiplier: 0.6, lightning: 10, lightningDamage: 68.75
+            buildingDamageMultiplier: 0.6, lightning: 10, lightningDamage: 69
             lightningLength: 18, lightningColor: "98ffa9", status: "disarmed", statusDuration: 120
             fragBullets: 1, fragSpread: 0, fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
             fragBullet: {
@@ -3746,7 +3746,7 @@ weapons: [
                         hitSound: "none", hitShake: 0, fragBullets: 12, fragSpread: 30
                         fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
                         fragBullet: {
-                            type: "LaserBulletType", damage: 187.5, length: 135, width: 17
+                            type: "LaserBulletType", damage: 188, length: 135, width: 17
                             sideAngle: 25, sideLength: 16, sideWidth: 0.8
                             colors: ["98ffa955", "98ffa9", "ffffff"], hitColor: "98ffa9"
                             lightColor: "98ffa9"
@@ -3774,7 +3774,7 @@ weapons: [
                         fragBullet: {
                             type: "BasicBulletType", sprite: "shell", width: 6, height: 9
                             shrinkY: 0, spin: 14, speed: 7.5, drag: 0.045, lifetime: 36, damage: 50
-                            splashDamage: 112.5, splashDamageRadius: 24
+                            splashDamage: 113, splashDamageRadius: 24
                             buildingDamageMultiplier: 0.6, collides: false, collidesTiles: false
                             despawnHit: true, hittable: false, absorbable: false, reflectable: false
                             keepVelocity: false, frontColor: "ffffff", backColor: "98ffa9"
@@ -4499,11 +4499,11 @@ weapons: [
         shootSoundVolume: 0.7, soundPitchMin: 0.95, soundPitchMax: 1.08
         bullet: {
             type: "BasicBulletType", sprite: "circle-bullet", width: 16, height: 21, shrinkY: 0
-            damage: 138.45, splashDamage: 89.7, splashDamageRadius: 28, fragBullets: 6
+            damage: 138, splashDamage: 90, splashDamageRadius: 28, fragBullets: 6
             fragSpread: 60, fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
             fragBullet: {
                 type: "BasicBulletType", sprite: "circle-bullet", width: 7, height: 7, shrinkY: 0
-                damage: 14.95, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
+                damage: 15, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
                 hitColor: "98ffa9", trailColor: "98ffa9", trailLength: 4, trailWidth: 1.6
                 hitEffect: {
                     type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 7, strokeFrom: 1.6
@@ -4718,11 +4718,11 @@ weapons: [
         shootSoundVolume: 0.7, soundPitchMin: 0.95, soundPitchMax: 1.08
         bullet: {
             type: "BasicBulletType", sprite: "circle-bullet", width: 16, height: 21, shrinkY: 0
-            damage: 138.45, splashDamage: 89.7, splashDamageRadius: 28, fragBullets: 6
+            damage: 138, splashDamage: 90, splashDamageRadius: 28, fragBullets: 6
             fragSpread: 60, fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
             fragBullet: {
                 type: "BasicBulletType", sprite: "circle-bullet", width: 7, height: 7, shrinkY: 0
-                damage: 14.95, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
+                damage: 15, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
                 hitColor: "98ffa9", trailColor: "98ffa9", trailLength: 4, trailWidth: 1.6
                 hitEffect: {
                     type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 7, strokeFrom: 1.6
@@ -4937,11 +4937,11 @@ weapons: [
         shootSoundVolume: 0.7, soundPitchMin: 0.95, soundPitchMax: 1.08
         bullet: {
             type: "BasicBulletType", sprite: "circle-bullet", width: 16, height: 21, shrinkY: 0
-            damage: 138.45, splashDamage: 89.7, splashDamageRadius: 28, fragBullets: 6
+            damage: 138, splashDamage: 90, splashDamageRadius: 28, fragBullets: 6
             fragSpread: 60, fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
             fragBullet: {
                 type: "BasicBulletType", sprite: "circle-bullet", width: 7, height: 7, shrinkY: 0
-                damage: 14.95, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
+                damage: 15, speed: 4.2, lifetime: 11, frontColor: "ffffff", backColor: "98ffa9"
                 hitColor: "98ffa9", trailColor: "98ffa9", trailLength: 4, trailWidth: 1.6
                 hitEffect: {
                     type: "WaveEffect", lifetime: 10, sizeFrom: 1, sizeTo: 7, strokeFrom: 1.6
@@ -5196,7 +5196,7 @@ weapons: [
         shootSound: "shootMissileLong", shootSoundVolume: 0.4, soundPitchMin: 0.9
         soundPitchMax: 1.1
         bullet: {
-            type: "MissileBulletType", speed: 4.6, lifetime: 72, damage: 19.5, splashDamage: 16.25
+            type: "MissileBulletType", speed: 4.6, lifetime: 72, damage: 20, splashDamage: 16
             splashDamageRadius: 18, homingPower: 0.3, homingDelay: 6, homingRange: 260
             despawnHit: true, weaveMag: 1.4, weaveScale: 6, width: 8, height: 12, shrinkY: 0
             frontColor: "ffffff", backColor: "98ffa9", hitColor: "98ffa9", trailColor: "98ffa9"
@@ -5398,7 +5398,7 @@ weapons: [
         shootSound: "shootMissileLong", shootSoundVolume: 0.4, soundPitchMin: 0.9
         soundPitchMax: 1.1
         bullet: {
-            type: "MissileBulletType", speed: 4.6, lifetime: 72, damage: 19.5, splashDamage: 16.25
+            type: "MissileBulletType", speed: 4.6, lifetime: 72, damage: 20, splashDamage: 16
             splashDamageRadius: 18, homingPower: 0.3, homingDelay: 6, homingRange: 260
             despawnHit: true, weaveMag: 1.4, weaveScale: 6, width: 8, height: 12, shrinkY: 0
             frontColor: "ffffff", backColor: "98ffa9", hitColor: "98ffa9", trailColor: "98ffa9"
@@ -5628,7 +5628,7 @@ weapons: [
         shootSoundVolume: 0.25, soundPitchMin: 0.85, soundPitchMax: 1
         bullet: {
             type: "LaserBoltBulletType", width: 3, height: 11, speed: 5.6, lifetime: 58
-            damage: 18.2, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
+            damage: 18, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
             lightColor: "98ffa9", lightRadius: 16, trailColor: "98ffa9", trailLength: 7
             trailWidth: 1.5
             shootEffect: {
@@ -5783,7 +5783,7 @@ weapons: [
         shootSoundVolume: 0.25, soundPitchMin: 0.85, soundPitchMax: 1
         bullet: {
             type: "LaserBoltBulletType", width: 3, height: 11, speed: 5.6, lifetime: 58
-            damage: 18.2, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
+            damage: 18, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
             lightColor: "98ffa9", lightRadius: 16, trailColor: "98ffa9", trailLength: 7
             trailWidth: 1.5
             shootEffect: {
@@ -5857,7 +5857,7 @@ weapons: [
         soundPitchMax: 1.3
         bullet: {
             type: "LaserBoltBulletType", width: 2.2, height: 8, speed: 5.2, lifetime: 48
-            damage: 12.35, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
+            damage: 12, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
             lightColor: "98ffa9"
             shootEffect: { type: "WrapEffect", effect: "shootSmallColor", color: "98ffa9" }
             smokeEffect: "none", hitEffect: "hitLaser", despawnEffect: "hitLaser"
@@ -5907,7 +5907,7 @@ weapons: [
         soundPitchMax: 1.3
         bullet: {
             type: "LaserBoltBulletType", width: 2.2, height: 8, speed: 5.2, lifetime: 48
-            damage: 12.35, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
+            damage: 12, backColor: "98ffa9", frontColor: "ffffff", hitColor: "98ffa9"
             lightColor: "98ffa9"
             shootEffect: { type: "WrapEffect", effect: "shootSmallColor", color: "98ffa9" }
             smokeEffect: "none", hitEffect: "hitLaser", despawnEffect: "hitLaser"
@@ -5969,7 +5969,7 @@ weapons: [
         inaccuracy: 10, velocityRnd: 0.15, shootSound: "shootMissilePlasmaShort"
         shootSoundVolume: 0.25, soundPitchMin: 1.2, soundPitchMax: 1.35
         bullet: {
-            type: "MissileBulletType", speed: 4.2, lifetime: 62, damage: 11.7, splashDamage: 9.75
+            type: "MissileBulletType", speed: 4.2, lifetime: 62, damage: 12, splashDamage: 10
             splashDamageRadius: 14, homingPower: 0.22, homingRange: 140, width: 5, height: 8
             shrinkY: 0, frontColor: "ffffff", backColor: "98ffa9", hitColor: "98ffa9"
             trailColor: "98ffa9", trailLength: 5, trailWidth: 1.2, weaveMag: 2, weaveScale: 4
@@ -6043,7 +6043,7 @@ weapons: [
         inaccuracy: 10, velocityRnd: 0.15, shootSound: "shootMissilePlasmaShort"
         shootSoundVolume: 0.25, soundPitchMin: 1.2, soundPitchMax: 1.35
         bullet: {
-            type: "MissileBulletType", speed: 4.2, lifetime: 62, damage: 11.7, splashDamage: 9.75
+            type: "MissileBulletType", speed: 4.2, lifetime: 62, damage: 12, splashDamage: 10
             splashDamageRadius: 14, homingPower: 0.22, homingRange: 140, width: 5, height: 8
             shrinkY: 0, frontColor: "ffffff", backColor: "98ffa9", hitColor: "98ffa9"
             trailColor: "98ffa9", trailLength: 5, trailWidth: 1.2, weaveMag: 2, weaveScale: 4
