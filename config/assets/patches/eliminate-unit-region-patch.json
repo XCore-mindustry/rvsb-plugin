@@ -1,0 +1,8 @@
+unit.dp-eliminate-unit: {
+	localizedName: Eliminate
+	cellRegion: dp-eliminate-unit-cell
+	uiIcon: dp-eliminate-unit-ui
+	fullIcon: dp-eliminate-unit-full
+	previewRegion: dp-eliminate-unit-full
+	shadowRegion: dp-eliminate-unit-full
+}

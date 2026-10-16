@@ -1,0 +1,73 @@
+type: "flying", name: "Eliminate"
+description: "Fires an energy beam and missiles at enemy targets."
+credit: "alphy", flying: true, lowAltitude: true, omniMovement: true, faceTarget: true
+circleTarget: false, speed: 1.9, accel: 0.07, drag: 0.04, rotateSpeed: 6
+health: 7200, armor: 17, hitSize: 30, range: 124, itemCapacity: 60, buildSpeed: 0.01
+canAttack: true, targetAir: true, targetGround: true, playerControllable: true
+logicControllable: true, useUnitCap: true, coreUnitDock: false
+outlines: false, outlineColor: "565666", drawCell: true, clipSize: 240
+engineSize: 0
+engines: [
+    { x: 0, y: -14.5, radius: 3.4, rotation: 270 }
+    { x: 10, y: -15.5, radius: 2.3, rotation: 270 }
+    { x: -10, y: -15.5, radius: 2.3, rotation: 270 }
+]
+parts: [
+    {
+        type: "RegionPart", suffix: "", drawRegion: false, outline: false, heatColor: "ffd37f", heatLayerOffset: 0.0005
+        heatProgress: { type: "charge", op: "add", other: "heat" }
+    }
+    { type: "ShapePart", circle: true, x: 0, y: 10, radius: 0, radiusTo: 4.6, color: "ffd37f55", layer: 110, progress: { type: "charge", op: "add", other: "heat" } }
+    { type: "ShapePart", circle: true, x: 0, y: 10, radius: 0, radiusTo: 3.4, color: "ffd37f", layer: 110.01, progress: { type: "charge", op: "add", other: "heat" } }
+    { type: "ShapePart", circle: true, x: 0, y: 10, radius: 0, radiusTo: 1.9, color: "ffffff", layer: 110.02, progress: { type: "charge", op: "add", other: "heat" } }
+    {
+        type: "ShapePart", circle: true, hollow: true, x: 0, y: 10, radius: 5, radiusTo: 1.8, stroke: 0, strokeTo: 1.2
+        color: "ffd37f", layer: 110, progress: "charge"
+    }
+    {
+        type: "HaloPart", tri: true, shapes: 3, x: 0, y: 10, radius: 0, radiusTo: 1, triLength: 0, triLengthTo: 1.2
+        haloRadius: 0, haloRadiusTo: 3.3, haloRotateSpeed: 3, color: "ffd37f", layer: 110, progress: { type: "charge", op: "add", other: "heat" }
+    }
+]
+trailLength: 10, trailScl: 2.2
+moveSound: "loopThruster", moveSoundVolume: 0.5, moveSoundPitchMin: 0.7, moveSoundPitchMax: 1.1
+lightRadius: 90, lightColor: "ffd37f", lightOpacity: 0.35
+weapons: [
+    {
+        name: "eliminate-beam", x: 0, y: 10, shootY: 0, mirror: false, top: false, rotate: false
+        shootCone: 6, reload: 180, recoil: 0, shake: 2, cooldownTime: 40
+        continuous: true, parentizeEffects: true
+        shoot: { firstShotDelay: 40 }
+        chargeSound: "chargeVela", shootSound: "beamPlasma", initialShootSound: "shootBeamPlasma"
+        shootStatus: "slow", shootStatusDuration: 168
+        bullet: {
+            type: "ContinuousLaserBulletType", damage: 25.8, pierceArmor: true, length: 120, width: 6, backLength: 1.5, lifetime: 120
+            drawSize: 400, shake: 0.6, hitEffect: "hitMeltdown", despawnEffect: "smokeCloud", smokeEffect: "none"
+            incendChance: 0.04, incendSpread: 5, incendAmount: 1
+            colors: ["ffd37f33", "ffd37f88", "ffe39a", "ffffff"]
+            lightColor: "ffd37f"
+            chargeEffect: {
+                type: "ParticleEffect", lifetime: 40, particles: 10, length: -14, baseLength: 14
+                sizeFrom: 0, sizeTo: 2.4, interp: "pow2Out", colorFrom: "d4816b", colorTo: "ffd37f"
+            }
+        }
+    }
+    {
+        name: "eliminate-launcher", x: 9, y: -7.5, shootY: 6, mirror: true, alternate: true
+        top: true, layerOffset: 0.001, shadow: 6
+        rotate: true, rotateSpeed: 7, useAttackRange: false
+        shootCone: 20, reload: 30, recoil: 1.5, recoilTime: 20, shake: 0.6, inaccuracy: 3
+        shoot: { type: "ShootAlternate", shots: 2, shotDelay: 5, barrels: 2, spread: 4.5 }
+        shootSound: "shootMissileLong", shootSoundVolume: 0.6, heatColor: "ffd37f", cooldownTime: 30
+        bullet: {
+            type: "MissileBulletType", speed: 3, damage: 48, lifetime: 72, drag: -0.003
+            width: 8, height: 8, shrinkY: 0, homingPower: 0.08, homingRange: 60, weaveScale: 6, weaveMag: 1
+            splashDamage: 10, splashDamageRadius: 25, despawnHit: true
+            pierceArmor: true, armorMultiplier: 0
+            backColor: "ffd37f", frontColor: "ffffff", trailColor: "ffd37f", hitColor: "ffd37f"
+            shootEffect: "shootSmallColor", smokeEffect: "shootSmallSmoke"
+            hitEffect: { type: "ExplosionEffect", lifetime: 22, waveColor: "ffe39a", sparkColor: "ffd37f", smokeColor: "6e7080", sparks: 5 }
+            despawnEffect: { type: "ExplosionEffect", lifetime: 22, waveColor: "ffe39a", sparkColor: "ffd37f", smokeColor: "6e7080", sparks: 5 }
+        }
+    }
+]
