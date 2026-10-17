@@ -1,0 +1,7 @@
+unit.dp-vulcan-unit: {
+	localizedName: Vulcan
+	uiIcon: dp-vulcan-unit-ui
+	fullIcon: dp-vulcan-unit-full
+	previewRegion: dp-vulcan-unit-full
+	shadowRegion: dp-vulcan-unit-full
+}

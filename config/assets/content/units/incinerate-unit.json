@@ -1,0 +1,58 @@
+type: "tank", name: "Incinerate"
+description: "Fires burning chunks in a cone at enemy targets."
+credit: "alphy"
+squareShape: true, omniMovement: false, rotateMoveFirst: true
+speed: 0.63, rotateSpeed: 1.3, hitSize: 28, health: 11000, armor: 20
+crushDamage: 2.6, crushFragile: true, floorMultiplier: 0.5, drownTimeMultiplier: 1.25
+immunities: ["burning", "melting"]
+range: 144, itemCapacity: 0, buildSpeed: 0.01
+canAttack: true, targetAir: true, targetGround: true, playerControllable: true
+logicControllable: true, useUnitCap: true, coreUnitDock: false
+outlines: false, outlineColor: "2d2f39", drawCell: true, clipSize: 240
+treadRects: [[-62, -64, 28, 128]], treadFrames: 16, treadPullOffset: 0
+tankMoveSound: "tankMoveHeavy", tankMoveVolume: 1.25
+parts: [
+    { type: "RegionPart", suffix: "", drawRegion: false, outline: false, heatColor: "ff7a3a", heatProgress: "warmup", heatLayerOffset: 0.0005 }
+]
+lightRadius: 70, lightColor: "ff9a55", lightOpacity: 0.3
+weapons: [
+    {
+        name: "incinerate-flamethrower", x: 0, y: -2, shootY: 15.5, mirror: false
+        rotate: true, rotateSpeed: 1.6, layerOffset: 0.1, shadow: 28
+        shoot: { type: "ShootBarrel", shots: 6, barrels: [-3.5, 0, 25, -3.5, 0, 15, -3.5, 0, 5, 3.5, 0, -5, 3.5, 0, -15, 3.5, 0, -25] }
+        reload: 12, recoil: 0.6, recoilTime: 10, shake: 0.2, inaccuracy: 4, velocityRnd: 0.3, shootCone: 25
+        heatColor: "ff7a3a", cooldownTime: 30, shootWarmupSpeed: 0.05
+        shootSound: "shootFlame", shootSoundVolume: 0.7
+        bullet: {
+            type: "BasicBulletType", sprite: "circle-bullet"
+            speed: 9, drag: 0.04, lifetime: 25, rangeOverride: 144
+            damage: 36, splashDamage: 6, splashDamageRadius: 16, collidesTeam: false
+            width: 8, height: 8, shrinkX: 1, shrinkY: 1
+            pierce: true, pierceCap: 2, hittable: false, absorbable: false, reflectable: false, keepVelocity: false
+            backColor: "ff7a3a", frontColor: "ffe6a3"
+            trailEffect: "hitFlameSmall", trailInterval: 3, trailRotation: true
+            status: "burning", statusDuration: 180
+            incendChance: 0.3, incendSpread: 14, incendAmount: 2
+            shootEffect: { type: "MultiEffect", effects: [
+                "shootSmallFlame"
+                { type: "ParticleEffect", lifetime: 40, particles: 5, length: 135, cone: 10, randLength: true, interp: "pow3Out", sizeInterp: "linear", colorInterp: "linear", sizeFrom: 2.15, sizeTo: 0.65, colorFrom: "ffdd55", colorTo: "db401c", lightOpacity: 0, followParent: false }
+            ] }
+            hitEffect: "hitFlameSmall", despawnEffect: "none", smokeEffect: "none"
+        }
+    }
+    {
+        name: "incinerate-mg", x: 11.5, y: 0, shootY: 6.5, mirror: true, alternate: true
+        rotate: true, rotateSpeed: 4, layerOffset: 0.05, shadow: 10
+        shoot: { shots: 4, shotDelay: 4 }
+        reload: 36, recoil: 1, recoilTime: 8, inaccuracy: 3, shootCone: 15
+        heatColor: "ff7a3a", cooldownTime: 25
+        shootSound: "shootDuo", shootSoundVolume: 0.8
+        bullet: {
+            type: "BasicBulletType"
+            speed: 9, lifetime: 16, damage: 26
+            width: 5, height: 9, shrinkY: 0
+            backColor: "ff7a3a", frontColor: "ffe6a3", hitColor: "ff7a3a"
+            shootEffect: "shootSmall", smokeEffect: "shootSmallSmoke", hitEffect: "hitBulletColor", despawnEffect: "hitBulletColor"
+        }
+    }
+]

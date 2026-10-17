@@ -1,0 +1,7 @@
+unit.dp-incinerate-unit: {
+	localizedName: Incinerate
+	uiIcon: dp-incinerate-unit-ui
+	fullIcon: dp-incinerate-unit-full
+	previewRegion: dp-incinerate-unit-full
+	shadowRegion: dp-incinerate-unit-full
+}
