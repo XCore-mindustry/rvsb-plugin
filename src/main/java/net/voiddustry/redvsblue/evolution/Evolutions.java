@@ -52,6 +52,7 @@ public class Evolutions {
 
         "vanquish", Evolution.VANQUISH,
         "dp-stryker-unit", Evolution.STRYKER,
+        "dp-incinerate-unit", Evolution.INCINERATE,
         "collaris", Evolution.COLLARIS,
         "antumbra", Evolution.ANTUMBRA,
         "obviate", Evolution.OBVIATE,
@@ -60,6 +61,7 @@ public class Evolutions {
 
         "reign", Evolution.REIGN,
         "dp-devastator-unit", Evolution.DEVASTATOR,
+        "dp-vulcan-unit", Evolution.VULCAN,
         "sei", Evolution.SEI,
         "quell", Evolution.QUELL,
         "dp-spearhead-unit", Evolution.SPEARHEAD,
