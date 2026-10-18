@@ -7,6 +7,7 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.gen.Call;
+import mindustry.gen.Iconc;
 import mindustry.gen.Player;
 import mindustry.type.UnitType;
 import mindustry.ui.Menus;
@@ -19,6 +20,7 @@ import mindustry.ui.builder.UiBuilder.StackBuilder;
 import mindustry.ui.builder.UiBuilder.TableBuilder;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
+import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.evolution.EvolutionTree.Edge;
 import net.voiddustry.redvsblue.evolution.EvolutionTree.Node;
 import net.voiddustry.redvsblue.evolution.EvolutionTree.Tree;
@@ -220,7 +222,8 @@ public final class EvolutionMenu {
             if (evolution == null) return null;
             float multiplier = Laboratory.getMultiplier(evolution, player);
             int cost = (int) (evolution.cost * multiplier);
-            return new Price(cost, priceColor(multiplier, cost, evolution.cost));
+            boolean hidden = evolution.stage >= Laboratory.STEEP_PRICE_STAGE && RedVsBluePlugin.stage < PRICE_REVEAL_STAGE;
+            return new Price(cost, priceColor(multiplier, cost, evolution.cost), hidden);
         };
         return v;
     }
@@ -235,8 +238,15 @@ public final class EvolutionMenu {
 
     // ------------------------------------------------------------------ UI building (no game state)
 
-    /** Current price of a unit and its colour markup. */
-    public record Price(int cost, String color) {}
+    /** Prices of stage 11+ units show as an error symbol until this stage. */
+    public static final int PRICE_REVEAL_STAGE = 9;
+
+    /** Current price of a unit and its colour markup; {@code hidden} shows an error symbol instead of the number. */
+    public record Price(int cost, String color, boolean hidden) {
+        public Price(int cost, String color) {
+            this(cost, color, false);
+        }
+    }
 
     /** Everything the builder needs to know about one player's view. */
     public static final class View {
@@ -363,7 +373,9 @@ public final class EvolutionMenu {
     }
 
     private static String priceText(Price price) {
-        return price == null ? "[gray]?" : price.color() + price.cost();
+        if (price == null) return "[gray]?";
+        if (price.hidden()) return "[scarlet]" + Iconc.warning;
+        return price.color() + price.cost();
     }
 
     private static final String[] LINK_COLORS = {C_LINK, C_EXPENSIVE, C_ACCENT, C_SELECTED};
