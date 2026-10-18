@@ -1,0 +1,10 @@
+// Midnight boss, author: destro (player copy of the crux-t6 boss)
+unit.dp-midnight-unit: {
+	localizedName: Midnight
+	shadowRegion: dp-midnight-crux-t6-shadow
+	previewRegion: dp-midnight-crux-t6-full
+	uiIcon: dp-midnight-crux-t6-ui
+	fullIcon: dp-midnight-crux-t6-full
+	region: eclipse
+	cellRegion: quad-cell
+}

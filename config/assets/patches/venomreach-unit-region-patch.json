@@ -1,0 +1,12 @@
+// venomreach boss, made by alphy using Claude Fable 5 (player copy of the crux-t6 boss)
+unit.dp-venomreach-unit: {
+	localizedName: Venomreach
+	footRegion: arkyid-foot
+	uiIcon: dp-venomreach-crux-t6-ui
+	cellRegion: toxopid-cell
+	legRegion: arkyid-leg
+	region: toxopid
+	legBaseRegion: toxopid-leg-base
+	fullIcon: dp-venomreach-crux-t6-full
+	shadowRegion: dp-venomreach-crux-t6-shadow
+}

@@ -1,0 +1,12 @@
+// aranethys boss, author: alphy (player copy of the crux-t6 boss)
+unit.dp-aranethys-unit: {
+	localizedName: Aranethys
+	footRegion: arkyid-foot
+	uiIcon: dp-aranethys-crux-t6-ui
+	cellRegion: quad-cell
+	legRegion: arkyid-leg
+	region: toxopid
+	legBaseRegion: toxopid-leg-base
+	fullIcon: dp-aranethys-crux-t6-full
+	shadowRegion: dp-aranethys-crux-t6-shadow
+}
