@@ -18,6 +18,9 @@ import java.util.Random;
 import java.util.ArrayList;
 public class MapVote {
 
+    /** Each tick replaces the vote popup in place instead of stacking a new one. */
+    private static final String VOTE_POPUP_ID = "rvsb-map-vote";
+
     private static final Map<String, Integer> playersVotesMap = new HashMap<>();
     private static Seq<Integer> avaibleMapnumbers = new Seq<Integer>();
     public static Seq<String> pinnedMaps = new Seq<String>();
@@ -54,12 +57,13 @@ public class MapVote {
                     }
                     
 
-                    Groups.player.each(p -> Call.infoPopup(p.con, "[gray][ [royal]Vote []]\n" + mapsList + "\n\n[gold]Time left: " + Arrays.toString(i), 1, 0, 0, (p.con.mobile)? 300 : 600, 0, 0));
+                    Groups.player.each(p -> Call.infoPopup(p.con, "[gray][ [royal]Vote []]\n" + mapsList + "\n\n[gold]Time left: " + Arrays.toString(i), VOTE_POPUP_ID, 2f, 0, 0, (p.con.mobile)? 300 : 600, 0, 0));
 
                     i[0]--;
 
                     if (i[0] == 0) {
                         this.cancel();
+                        Groups.player.each(p -> Call.infoPopupReliable(p.con, null, VOTE_POPUP_ID, 0f, 0, 0, 0, 0, 0));
                         reloadWorld(() -> {
                             mindustry.maps.Map target = getMostVotedMap();
                             Vars.world.loadMap(target, target.applyRules(Vars.state.rules.mode()));
