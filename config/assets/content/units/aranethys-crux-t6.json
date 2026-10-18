@@ -548,9 +548,9 @@ layerOffset: 0.0003
 bullet: {
 type: artilleryBulletType
 collidesAir: true
-range: 99999999
+// 45 tiles: speed 4 x lifetime 90 = 360 world units
 speed: 4
-lifetime: 9999
+lifetime: 90
 width: 34
 height: 34
 layer: 115

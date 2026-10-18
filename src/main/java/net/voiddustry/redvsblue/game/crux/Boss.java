@@ -33,8 +33,8 @@ public class Boss {
 
     /** radius of the aura in world units (8 tiles, same as the quad field) */
     public static final float AURA_RADIUS = 64f;
-    /** fraction of max health every blue unit inside loses each damage tick (0.5 s), same as the quad field: 1% a second */
-    public static final float AURA_DAMAGE = 1f / 200f;
+    /** fraction of max health every blue unit inside loses each damage tick (0.5 s): 2% a second, twice the quad field */
+    public static final float AURA_DAMAGE = 1f / 100f;
 
     private static final class Aura {
         final long until;
@@ -151,7 +151,7 @@ public class Boss {
 
             Player victim = u.getPlayer();
             if (victim != null && victim.con != null) {
-                Call.label(victim.con, "[#d1263a]-" + Math.round(damage), 0.5f, u.x, u.y + u.hitSize / 2f);
+                Call.label(victim.con, "[#d1263a]-" + Math.round(damage), 0.5f, u.x, u.y);
             }
 
             if (u.health > damage) {

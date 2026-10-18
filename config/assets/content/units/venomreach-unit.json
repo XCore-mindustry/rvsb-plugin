@@ -3,7 +3,7 @@ type: legs
 name: Venomreach
 description: "THE giant enemy spider"
 credit: alphy
-hidden: true
+hidden: false
 
 parts: [
 {
@@ -460,18 +460,30 @@ hitShake: 4
 status: slow
 statusDuration: 240
 fragBullets: 3
-fragVelocityMin: 0
-fragVelocityMax: 0
+fragVelocityMin: 0.8
+fragVelocityMax: 1
+fragRandomSpread: 360
 fragBullet: {
-type: basicBulletType
-spawnUnit: atrax
-speed: 0
-lifetime: 1
-width: 1
-height: 1
-collides: false
-hittable: false
-despawnEffect: none
+type: missileBulletType
+speed: 4
+lifetime: 60
+width: 9
+height: 12
+damage: 40
+splashDamage: 30
+splashDamageRadius: 20
+collidesAir: true
+homingPower: 0.2
+homingRange: 240
+homingDelay: 0
+backColor: "ff5fa8"
+frontColor: "ffd6ea"
+trailColor: "ff5fa8"
+hitColor: "ff5fa8"
+trailLength: 8
+trailWidth: 2
+hitEffect: blastExplosion
+despawnEffect: blastExplosion
 }
 }
 }
@@ -613,9 +625,9 @@ shotDelay: 6
 bullet: {
 type: artilleryBulletType
 collidesAir: true
-range: 99999999
+// 51 tiles: speed 4.5 x lifetime 90.7 = 408 world units
 speed: 4.5
-lifetime: 9999
+lifetime: 90.7
 width: 26
 height: 26
 backColor: "665c81"

@@ -15,7 +15,7 @@ maxRange: 220.0
 targetable: "true"
 canAttack: "true"
 hittable: "true"
-hidden: true
+hidden: false
 credit: Destro
 parts: [
   {
