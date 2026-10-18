@@ -54,7 +54,7 @@ abilities: [
   {
     type: ShieldRegenFieldAbility
     amount: 100
-    max: 1100
+    max: 850
     reload: 90
     range: 60
   }
@@ -630,14 +630,14 @@ weapons: [
       sprite: missile-large
       speed: 5.6
       lifetime: 45
-      damage: 90
+      damage: 77
       width: 7
       height: 18
       shrinkY: 0
       pierce: true
       pierceCap: 3
       pierceBuilding: true
-      healAmount: 350
+      healAmount: 298
       collidesTeam: true
       collidesAir: true
       collidesGround: true
@@ -667,12 +667,12 @@ weapons: [
 
       intervalBullet: {
         type: LaserBulletType
-        damage: 30
+        damage: 26
         length: 7.5
         width: 6
         lifetime: 9
         largeHit: false
-        healAmount: 150
+        healAmount: 128
         collidesTeam: true
         collidesAir: true
         collidesGround: true
@@ -697,12 +697,12 @@ weapons: [
 
       fragBullet: {
         type: LaserBulletType
-        damage: 80
+        damage: 68
         length: 180
         width: 11
         lifetime: 14
         largeHit: false
-        healAmount: 150
+        healAmount: 128
         collidesTeam: true
         collidesAir: true
         collidesGround: true
@@ -806,15 +806,15 @@ weapons: [
       sprite: circle-bullet
       speed: 3.9
       lifetime: 67
-      damage: 35
+      damage: 30
       width: 14
       height: 14
       shrinkY: 0.2
       shrinkX: 0.2
       spin: 4
-      splashDamage: 90
+      splashDamage: 77
       splashDamageRadius: 28
-      healAmount: 350
+      healAmount: 298
       collidesTeam: true
       collidesAir: true
       collidesGround: true
@@ -844,12 +844,12 @@ weapons: [
 
       intervalBullet: {
         type: LaserBulletType
-        damage: 30
+        damage: 26
         length: 7.5
         width: 6
         lifetime: 9
         largeHit: false
-        healAmount: 150
+        healAmount: 128
         collidesTeam: true
         collidesAir: true
         collidesGround: true
@@ -874,12 +874,12 @@ weapons: [
 
       fragBullet: {
         type: LaserBulletType
-        damage: 85
+        damage: 72
         length: 166
         width: 13
         lifetime: 16
         largeHit: false
-        healAmount: 150
+        healAmount: 128
         collidesTeam: true
         collidesAir: true
         collidesGround: true
@@ -891,7 +891,7 @@ weapons: [
         lightColor: 98ffa9
         lightning: 1
         lightningLength: 6
-        lightningDamage: 20
+        lightningDamage: 17
         lightningColor: 98ffa9
         shootEffect: none
         smokeEffect: none
@@ -1186,14 +1186,14 @@ weapons: [
       backSprite: missile-back
       speed: 4.5
       lifetime: 98
-      damage: 165
+      damage: 140
       width: 12
       height: 14
       hitSize: 7
       shrinkY: 0
-      splashDamage: 210
+      splashDamage: 179
       splashDamageRadius: 18
-      healAmount: 350
+      healAmount: 298
       // No direct ally collision; splash healAmount still heals buildings on detonation.
       collidesTeam: false
       collidesAir: true
@@ -1314,4 +1314,3 @@ weapons: [
     }
   }
 ]
-

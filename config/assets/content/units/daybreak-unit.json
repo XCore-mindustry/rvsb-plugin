@@ -1,4 +1,4 @@
-  name: "Daybreak"
+name: "Daybreak"
   description: "Eclipse. Mark II."
 
   credit: alphy
@@ -104,7 +104,7 @@
       bullet: {
         type: LaserBulletType
         layer: 100
-        damage: 185
+        damage: 167
         length: 224
         width: 33
         lifetime: 21
@@ -152,7 +152,7 @@
       bullet: {
         type: LaserBulletType
         layer: 100
-        damage: 185
+        damage: 167
         length: 224
         width: 33
         lifetime: 21
@@ -274,8 +274,8 @@ bullet: {
       lightRadius: 0
       lightOpacity: 0
 
-      damage: 350
-      splashDamage: 300
+      damage: 315
+      splashDamage: 270
       splashDamageRadius: 55
       
       hittable: false
@@ -388,7 +388,7 @@ bullet: {
         backSprite: "missile-back"
         speed: 4.1
         lifetime: 63
-        damage: 28
+        damage: 25
         width: 10.5
         height: 13.5
         hitSize: 7.5
@@ -398,7 +398,7 @@ bullet: {
         homingPower: 0
         weaveScale: 7.8
         weaveMag: 1.7
-        splashDamage: 102
+        splashDamage: 92
         splashDamageRadius: 31
         buildingDamageMultiplier: 1.12
         backColor: "f99f7a"
@@ -452,7 +452,7 @@ bullet: {
         backSprite: "missile-back"
         speed: 4.1
         lifetime: 63
-        damage: 28
+        damage: 25
         width: 10.5
         height: 13.5
         hitSize: 7.5
@@ -462,7 +462,7 @@ bullet: {
         homingPower: 0
         weaveScale: 7.8
         weaveMag: 1.7
-        splashDamage: 102
+        splashDamage: 92
         splashDamageRadius: 31
         buildingDamageMultiplier: 1.12
         backColor: "f99f7a"

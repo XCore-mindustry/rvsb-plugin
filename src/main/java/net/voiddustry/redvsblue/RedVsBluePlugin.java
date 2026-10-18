@@ -136,6 +136,11 @@ public class RedVsBluePlugin extends Plugin {
 
         Events.on(EventType.WorldLoadEvent.class, event -> {
             for (UnitType unit : Vars.content.units()) {
+                // data-asset missiles ("controller": "MissileAI", e.g. the Voidweaver singularity) keep their AI,
+                // MissileAI is what makes them fly at the shooter's cursor
+                if (unit.aiController.get() instanceof MissileAI) {
+                    continue;
+                }
                 if (unit == UnitTypes.crawler) {
                     unit.aiController = StalkerSuicideAI::new;
                 }
@@ -231,7 +236,7 @@ public class RedVsBluePlugin extends Plugin {
                 noRegister = Vars.content.statusEffect("noRegisterKills");
             }
 
-            if ((noRegister == null || !event.unit.hasEffect(noRegister)) && !(event.unit.type instanceof MissileUnitType)) {
+            if ((noRegister == null || !event.unit.hasEffect(noRegister)) && !(event.unit.type instanceof MissileUnitType) && !(event.unit instanceof TimedKillc)) {
                 Player killerPlayer = killCredit.get(event.unit);
                 killCredit.remove(event.unit);
                 
@@ -262,7 +267,10 @@ public class RedVsBluePlugin extends Plugin {
 
         //crux kill registration
         Events.on(EventType.UnitBulletDestroyEvent.class, event -> {
-            if (event.unit != null && event.bullet.owner() instanceof Unit killer) {
+            // bullet.shooter is the unit that fired the first stage, so kills by missile units
+            // (e.g. the Voidweaver black hole) count for the player who fired them
+            Entityc source = event.bullet.shooter != null ? event.bullet.shooter : event.bullet.owner();
+            if (event.unit != null && source instanceof Unit killer) {
                 if (killer.isPlayer() && killer.team == Team.crux) {
                     PlayerData data = players.get(killer.getPlayer().uuid());
                     if (!(data == null)) {
@@ -1018,6 +1026,33 @@ public class RedVsBluePlugin extends Plugin {
             System.exit(0);
         });
         
+        handler.register("randomboss", "[playername...]", "Same as Spawn Random Boss in /ap: gives a random crux player (or the named one) a killing streak", args -> {
+            Player target;
+            if (args.length > 0) {
+                target = Groups.player.find(p -> Strings.stripColors(p.name).equalsIgnoreCase(args[0]) || p.name.equalsIgnoreCase(args[0]));
+                if (target == null) {
+                    Log.info("No player named @.", args[0]);
+                    return;
+                }
+                if (target.team() != Team.crux) {
+                    Log.info("@ is not on crux.", Strings.stripColors(target.name));
+                    return;
+                }
+            } else {
+                target = Utils.getRandomPlayer(Team.crux);
+                if (target == null) {
+                    Log.info("No crux players.");
+                    return;
+                }
+            }
+            if (Boss.hasAura(target)) {
+                Log.info("@ is already on a killing streak.", Strings.stripColors(target.name));
+                return;
+            }
+            Boss.killStreak(target);
+            Log.info("@ goes on a killing streak.", Strings.stripColors(target.name));
+        });
+
         handler.register("setstage","<number>" ,"Sets rvsb stage", (args) -> {
             try {
                 stage = Integer.parseInt(args[0])-1;

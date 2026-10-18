@@ -75,13 +75,13 @@ public class Boss {
             multiplier = 1f;
         } else if (stage <= 7) {
             type = UnitTypes.locus;
-            multiplier = 2f;
+            multiplier = 4f;
         } else if (stage <= 10) {
             type = UnitTypes.precept;
-            multiplier = 3f;
+            multiplier = 9f;
         } else {
             type = UnitTypes.precept;
-            multiplier = 4.5f;
+            multiplier = 13.5f;
         }
 
         if (!RedVsBluePlugin.redSpawns.isEmpty()) {

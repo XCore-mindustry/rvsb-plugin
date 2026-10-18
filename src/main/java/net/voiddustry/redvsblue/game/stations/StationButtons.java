@@ -49,7 +49,7 @@ public final class StationButtons {
             if (event.tile.block == Vars.content.block("dp-laboratory-station")) {
                 Laboratory.openStationMenu(player);
             } else if (event.tile.block == Vars.content.block("dp-workbench-station")) {
-                ArmorWorkbench.openStationMenu(player);
+                ArmorWorkbench.openStationMenu(player, event.tile);
             }
         });
     }

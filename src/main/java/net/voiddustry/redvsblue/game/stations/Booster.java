@@ -28,7 +28,7 @@ public class Booster {
     private static final float BUFF_TICKS = 3f * 60f;
 
     public static void initTimer() {
-        // one pulse every 3 s; every blue unit inside gets overclock for 3 s and a beam + sparks from the booster
+        // one pulse every 3 s; every blue unit inside gets overclock for 3 s and sparks
         Timer.schedule(() -> boostersMap.forEach((owner, pointData) -> {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
@@ -38,7 +38,6 @@ public class Booster {
             Groups.unit.each(u -> {
                 if (u.team == Team.blue && !u.dead && u.within(centerX, centerY, BOOST_RADIUS)) {
                     u.apply(StatusEffects.overclock, BUFF_TICKS);
-                    StationFx.beam(centerX, centerY, u, StationFx.boost);
                     StationFx.sparks(u.x, u.y, StationFx.boost);
                 }
             });

@@ -14,6 +14,8 @@ import mindustry.content.StatusEffects;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
+import mindustry.gen.Sounds;
+import arc.math.Mathf;
 import mindustry.gen.Player;
 import mindustry.world.Tile;
 import net.voiddustry.redvsblue.Bundle;
@@ -60,6 +62,10 @@ public class SuppressorTower {
             for (int k = 0; k < Math.min(3, inRange.size); k++) {
                 StationFx.zap(centerX, centerY, inRange.get(k).x, inRange.get(k).y, StationFx.suppress);
             }
+            if (!inRange.isEmpty()) {
+                // low, very quiet arc crackle on every shot
+                Call.soundAt(Sounds.shootArc, centerX, centerY, 0.12f, Mathf.random(0.5f, 0.58f));
+            }
         }), 0, 0.5F);
         Timer.schedule(SuppressorTower::renderSuppressorTowers, 0, 0.5F);
     }
@@ -80,10 +86,10 @@ public class SuppressorTower {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         Call.constructFinish(tile, Blocks.phaseWall, null, (byte) 0, Team.blue, null);
                         players.get(player.uuid()).subtractScore(20);
-                        StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Suppressor Tower" + " - deploying", 10.5F);
+                        StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Tesla Tower" + " - deploying", 10.5F);
                         suppressorPlaced.add(player.uuid());
                         Timer.schedule(() -> {
-                            String text = player.name + "[gold]'s\n[accent]Suppressor Tower";
+                            String text = player.name + "[gold]'s\n[accent]Tesla Tower";
                             mindustry.gen.WorldLabel label = StationUtils.createStationLabel(placeTile, text);
                             StationData towerData = new StationData(player, placeTile, label, AuraCircle.fixed(placeTile.x * 8, placeTile.y * 8, 128, StationFx.suppress));
                             suppressorTowerMap.put(player.uuid(), towerData);

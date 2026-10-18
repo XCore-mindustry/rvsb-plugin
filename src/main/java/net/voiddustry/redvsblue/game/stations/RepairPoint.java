@@ -44,7 +44,6 @@ public class RepairPoint {
                             }
 
                             u.health += add;
-                            StationFx.beam(centerX, centerY, u, StationFx.repair);
                             StationFx.label("[lime]+" + add, 1, u.x, u.y);
                         }
                     }

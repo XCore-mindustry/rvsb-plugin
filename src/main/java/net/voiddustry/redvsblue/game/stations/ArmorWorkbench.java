@@ -1,6 +1,5 @@
 package net.voiddustry.redvsblue.game.stations;
 
-import net.voiddustry.redvsblue.util.AuraCircle;
 import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.*;
@@ -42,7 +41,6 @@ public class ArmorWorkbench {
                         if (p.dst(centerX, centerY) <= 64) {
                             if (p.unit().shield >= 0 && p.unit().shield < 30) {
                                 p.unit().shield += 10;
-                                StationFx.beam(centerX, centerY, p.unit(), StationFx.armor);
                                 StationFx.label("[blue]+10", 1, p.x, p.y);
                             }
     
@@ -69,7 +67,7 @@ public class ArmorWorkbench {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         String text = player.name + "[gold]'s\n[blue]Workbench";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
-                        StationData workbenchData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 64, StationFx.armor));
+                        StationData workbenchData = new StationData(player, tile, label);
                         workbenches.put(player.uuid(), workbenchData);
                         Call.constructFinish(tile, Vars.content.block("dp-workbench-station"), null, (byte) 0, Team.blue, null);
                         StationFx.at(Fx.teleportActivate, tile.x * 8, tile.y * 8, 0, StationFx.armor, null, 48);
@@ -96,6 +94,11 @@ public class ArmorWorkbench {
 
     /** Opens the workbench UI for a nearby station button press. */
     public static void openStationMenu(Player player) {
+        openStationMenu(player, null);
+    }
+
+    /** @param station the workbench that was tapped; bought shield gets a beam from it */
+    public static void openStationMenu(Player player, mindustry.gen.Building station) {
         if (player.unit() == null) return;
 
         float maxShield = player.unit().type.health;
@@ -115,6 +118,9 @@ public class ArmorWorkbench {
                 p.unit().shield += shieldPerPoint;
                 players.get(p.uuid()).subtractScore(1);
                 Call.label("[royal]+" + shieldPerPoint, 3, p.x, p.y);
+                if (station != null) {
+                    StationFx.beam(station.x, station.y, p.unit(), StationFx.armor);
+                }
             }
         });
 
