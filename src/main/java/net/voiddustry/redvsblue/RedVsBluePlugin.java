@@ -113,6 +113,16 @@ public class RedVsBluePlugin extends Plugin {
         }
     };
 
+    /** the one clock that drives {@link #task}; never create another */
+    static final Timer stageClock = new Timer();
+
+    /** (re)starts the stage clock so the next stage comes a full 300 s from now */
+    public static void restartStageClock() {
+        task.cancel();
+        stageTimer = 300;
+        stageClock.scheduleTask(task, 300, 300);
+    }
+
     @Override
     public void init() {
 
@@ -403,8 +413,7 @@ public class RedVsBluePlugin extends Plugin {
                 }
             }
 
-            Timer timer = new Timer();
-            timer.scheduleTask(task, 300, 300);
+            restartStageClock();
 
 
             Groups.player.each(player -> {
@@ -1054,12 +1063,27 @@ public class RedVsBluePlugin extends Plugin {
         });
 
         handler.register("setstage","<number>" ,"Sets rvsb stage", (args) -> {
+            int target;
             try {
-                stage = Integer.parseInt(args[0])-1;
-                task.run();
-            } catch (Exception e) {
-                Log.info("Failed to set stage");
+                target = Integer.parseInt(args[0].trim());
+            } catch (NumberFormatException e) {
+                Log.info("Not a number: @", args[0]);
+                return;
             }
+            if (target < 1 || target > finalStage) {
+                Log.info("Stage must be between 1 and @", finalStage);
+                return;
+            }
+            if (!playing || gameover) {
+                Log.info("No game is running");
+                return;
+            }
+            // start the stage the same way the clock does, then restart the clock so the next stage is
+            // a full 300 s away (the old command left the clock alone, so the next stage came early)
+            stage = target - 1;
+            task.run();
+            restartStageClock();
+            Log.info("Stage set to @", stage);
         });
 
         
