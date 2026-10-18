@@ -31,7 +31,7 @@ logicControllable: true
 useUnitCap: true
 
 outlines: true
-outlineColor: "2d2f39"
+outlineColor: "2e191d"
 
 abilities: [
   {
@@ -71,13 +71,13 @@ abilities: [
 parts: [
   {
     type: RegionPart
-    name: "scepter"
+    name: "dp-neo-scepter"
     outline: false
     layerOffset: -0.001
   }
   {
     type: RegionPart
-    name: "reign"
+    name: "dp-neo-reign"
     x: 0
     y: -4
     xScl: 0.68
@@ -110,7 +110,7 @@ weapons: [
     parts: [
       {
         type: RegionPart
-        name: "reign-weapon"
+        name: "dp-neo-reign-weapon"
         xScl: 0.82
         yScl: 0.82
         outline: true
@@ -200,7 +200,7 @@ weapons: [
     parts: [
       {
         type: RegionPart
-        name: "reign-weapon"
+        name: "dp-neo-reign-weapon"
         xScl: 0.82
         yScl: 0.66
         x: 0
@@ -210,7 +210,7 @@ weapons: [
       }
       {
         type: RegionPart
-        name: "scepter-weapon"
+        name: "dp-neo-scepter-weapon"
         xScl: 0.62
         yScl: 0.62
         x: 0
@@ -220,7 +220,7 @@ weapons: [
       }
       {
         type: RegionPart
-        name: "flamethrower"
+        name: "dp-neo-flamethrower"
         xScl: 0.78
         yScl: 1.0
         x: 0

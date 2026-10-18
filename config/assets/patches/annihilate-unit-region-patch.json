@@ -1,0 +1,8 @@
+unit.dp-annihilate-unit: {
+	localizedName: Annihilate
+	cellRegion: dp-annihilate-unit-cell
+	uiIcon: dp-annihilate-unit-ui
+	fullIcon: dp-annihilate-unit-full
+	previewRegion: dp-annihilate-unit-full
+	shadowRegion: dp-annihilate-unit-full
+}

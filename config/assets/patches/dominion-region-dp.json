@@ -1,5 +1,5 @@
 unit.dp-dominion-unit: {
-    region: "reign"
+    region: "dp-neo-reign"
     cellRegion: "corvus-cell"
 
     uiIcon: "dp-dominion-unit-ui"
@@ -7,5 +7,5 @@ unit.dp-dominion-unit: {
     shadowRegion: "dp-dominion-unit-shadow"
     previewRegion: "dp-dominion-unit-full"
 
-    legRegion: "reign-leg"
+    legRegion: "dp-neo-reign-leg"
 }

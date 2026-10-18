@@ -1,5 +1,5 @@
 unit.dp-regent-unit: {
-    region: "scepter"
+    region: "dp-neo-scepter"
     cellRegion: "scepter-cell"
 
     uiIcon: "dp-regent-unit-ui"
@@ -8,6 +8,6 @@ unit.dp-regent-unit: {
 
     previewRegion: "dp-regent-unit-full"
 
-    legRegion: "scepter-leg"
-    baseRegion: "scepter-base"
+    legRegion: "dp-neo-scepter-leg"
+    baseRegion: "dp-neo-scepter-base"
 }

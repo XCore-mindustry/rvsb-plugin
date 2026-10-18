@@ -33,7 +33,7 @@ logicControllable: true
 useUnitCap: true
 
 outlines: true
-outlineColor: "2d2f39"
+outlineColor: "2e191d"
 
 abilities: [
   {
@@ -57,7 +57,7 @@ abilities: [
 parts: [
   {
     type: RegionPart
-    name: "reign"
+    name: "dp-neo-reign"
     x: 0
     y: -4
     xScl: 1.0
@@ -68,7 +68,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "scepter"
+    name: "dp-neo-scepter"
     x: 0
     y: -9
     xScl: 0.9
@@ -79,7 +79,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "reign-weapon"
+    name: "dp-neo-reign-weapon"
     x: -11
     y: -2
     xScl: -0.45
@@ -91,7 +91,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "reign-weapon"
+    name: "dp-neo-reign-weapon"
     x: 11
     y: -2
     xScl: 0.45
@@ -103,7 +103,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "scepter"
+    name: "dp-neo-scepter"
     x: 0
     y: 6
     xScl: 0.85
@@ -115,7 +115,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "scepter-weapon"
+    name: "dp-neo-scepter-weapon"
     x: -12
     y: 7
     xScl: -0.65
@@ -127,7 +127,7 @@ parts: [
 
   {
     type: RegionPart
-    name: "scepter-weapon"
+    name: "dp-neo-scepter-weapon"
     x: 12
     y: 7
     xScl: 0.65
@@ -166,7 +166,7 @@ weapons: [
     parts: [
       {
         type: RegionPart
-        name: "reign-weapon"
+        name: "dp-neo-reign-weapon"
         xScl: 1.10
         yScl: 1.06
         x: 0
@@ -177,7 +177,7 @@ weapons: [
 
       {
         type: RegionPart
-        name: "scepter-weapon"
+        name: "dp-neo-scepter-weapon"
         xScl: 0.76
         yScl: 0.76
         x: 0
@@ -295,7 +295,7 @@ weapons: [
     parts: [
       {
         type: RegionPart
-        name: "reign-weapon"
+        name: "dp-neo-reign-weapon"
         xScl: 1.20
         yScl: 0.96
         x: 2
@@ -306,7 +306,7 @@ weapons: [
 
       {
         type: RegionPart
-        name: "artillery"
+        name: "dp-neo-artillery"
         xScl: 0.88
         yScl: 0.82
         x: 1
@@ -317,7 +317,7 @@ weapons: [
 
       {
         type: RegionPart
-        name: "flamethrower"
+        name: "dp-neo-flamethrower"
         xScl: 1.30
         yScl: 1.50
         x: 2
@@ -406,7 +406,7 @@ weapons: [
     parts: [
       {
         type: RegionPart
-        name: "reign-weapon"
+        name: "dp-neo-reign-weapon"
         xScl: 0.48
         yScl: 0.54
         x: 0
@@ -417,7 +417,7 @@ weapons: [
 
       {
         type: RegionPart
-        name: "artillery"
+        name: "dp-neo-artillery"
         xScl: 0.54
         yScl: 0.48
         x: 0
@@ -428,7 +428,7 @@ weapons: [
 
       {
         type: RegionPart
-        name: "scepter-weapon"
+        name: "dp-neo-scepter-weapon"
         xScl: 0.38
         yScl: 0.38
         x: 0
