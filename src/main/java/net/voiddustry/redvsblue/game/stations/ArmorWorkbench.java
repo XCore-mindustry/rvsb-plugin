@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.*;
 import mindustry.Vars;
@@ -28,10 +30,8 @@ public class ArmorWorkbench {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
-            for (int i = 0; i < 38; i++) {
-                Call.effect(Fx.pointHit, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.blue);
-            }
-        }), 0, 0.25F);
+            StationFx.hexagon(centerX, centerY, 64, StationFx.armor);
+        }), 0, 1F);
         Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
@@ -42,7 +42,8 @@ public class ArmorWorkbench {
                         if (p.dst(centerX, centerY) <= 64) {
                             if (p.unit().shield >= 0 && p.unit().shield < 30) {
                                 p.unit().shield += 10;
-                                Call.label("[blue]+10", 1, p.x, p.y);
+                                StationFx.beam(centerX, centerY, p.unit(), StationFx.armor);
+                                StationFx.label("[blue]+10", 1, p.x, p.y);
                             }
     
 
@@ -68,10 +69,10 @@ public class ArmorWorkbench {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         String text = player.name + "[gold]'s\n[blue]Workbench";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
-                        StationData workbenchData = new StationData(player, tile, label);
+                        StationData workbenchData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 64, StationFx.armor));
                         workbenches.put(player.uuid(), workbenchData);
                         Call.constructFinish(tile, Vars.content.block("dp-workbench-station"), null, (byte) 0, Team.blue, null);
-                        Call.effect(Fx.regenParticle, tile.x * 8, tile.y * 8, 0, Color.red);
+                        StationFx.at(Fx.teleportActivate, tile.x * 8, tile.y * 8, 0, StationFx.armor, null, 48);
                         players.get(player.uuid()).subtractScore(8);
                     }
                 }

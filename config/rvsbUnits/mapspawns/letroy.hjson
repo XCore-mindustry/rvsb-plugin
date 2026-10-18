@@ -52,11 +52,21 @@ spawners: [
       }
       {
         min: 11000
+        max: 16000
         cooldown: 55
         options: [
           {weight: 80, units: [{type: "vela"}]}
           {weight: 10, units: [{type: "reign", effects: ["burning", "electrified", "melting"]}]}
           {weight: 10, units: [{type: "arkyid", effects: ["boss", "melting"]}]}
+        ]
+      }
+      {
+        min: 16000
+        cooldown: 55
+        options: [
+          {weight: 80, units: [{type: "dp-annihilate-unit"}]}
+          {weight: 10, units: [{type: "reign"}]}
+          {weight: 10, units: [{type: "dp-incinerate-unit", effects: ["boss", "melting"]}]}
         ]
       }
     ]

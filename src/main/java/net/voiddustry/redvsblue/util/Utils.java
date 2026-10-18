@@ -33,6 +33,55 @@ public class Utils {
     public static boolean hardcore;
     public static int money_per_min = 3;
 
+    /** uuid -> time (Time.millis) until which client unit control requests of that player are rejected */
+    private static final java.util.HashMap<String, Long> controlLock = new java.util.HashMap<>();
+    private static final long CONTROL_LOCK_MS = 3000;
+
+    /**
+     * Gives a unit to a player from the server side. Use this instead of player.unit(...) / Call.unitControl(...).
+     * The client only learns about a freshly spawned unit with the next entity snapshot. Until then it thinks it is dead
+     * and asks to control the closest AI unit of its previous type (InputHandler.update, controlledType), which put
+     * players straight back into their old unit. Those requests are rejected for a few seconds after every assignment.
+     */
+    public static void assignUnit(Player player, Unit unit) {
+        if (player == null || unit == null || player.unit() == unit) return;
+        lockControl(player);
+        unit.controller(player);
+        player.unit(unit);
+    }
+
+    public static void lockControl(Player player) {
+        controlLock.put(player.uuid(), Time.millis() + CONTROL_LOCK_MS);
+    }
+
+    /** Registers the unit control filter. Call once from plugin init. */
+    public static void initControlFilter() {
+        netServer.admins.addActionFilter(action -> {
+            if (action.type != mindustry.net.Administration.ActionType.control || action.player == null) return true;
+            Player player = action.player;
+            // dead players get their unit from the plugin (CruxUnit.callSpawn), never by grabbing a random AI unit
+            if (player.dead()) return false;
+            Long until = controlLock.get(player.uuid());
+            return until == null || Time.millis() > until;
+        });
+    }
+
+    /** Keeps the player's camera on their unit for the given time (a short cutscene), e.g. right after joining. */
+    public static void focusCamera(Player player, float seconds) {
+        final float interval = 0.05f;
+        Timer.schedule(() -> {
+            if (player.con == null || !player.con.isConnected()) return;
+            Unit unit = player.unit();
+            if (unit == null || !unit.isValid()) {
+                PlayerData data = players.get(player.uuid());
+                unit = data == null ? null : data.getUnit();
+            }
+            if (unit != null && unit.isValid()) {
+                Call.setCameraPosition(player.con, unit.x, unit.y);
+            }
+        }, 0f, interval, Math.max(0, Math.round(seconds / interval) - 1));
+    }
+
     public static void initRules() {
         state.rules.bannedBlocks.clear();
         state.rules.revealedBlocks.clear();
@@ -256,18 +305,22 @@ public class Utils {
             return;
         }
 
-        Unit boss = bossType.spawn(
-                Team.crux,
-                redSpawns.random()
-        );
+        // every boss gets its own crux player, as long as there are enough
+        arc.struct.Seq<Player> controllers = Groups.player.copy(new arc.struct.Seq<>()).select(p -> p.team() == Team.crux);
+        controllers.shuffle();
 
-        boss.health = boss.type.health + boss.type.health / 3;
+        int count = StageUnits.bossCountForStage(stage);
+        for (int i = 0; i < count; i++) {
+            Unit boss = bossType.spawn(
+                    Team.crux,
+                    redSpawns.random()
+            );
 
-        if (!boss.dead()) {
-            Player player = getRandomPlayer(Team.crux);
+            boss.health = boss.type.health + boss.type.health / 3;
 
-            if (player != null) {
-                Call.unitControl(player, boss);
+            if (!boss.dead() && i < controllers.size) {
+                Player player = controllers.get(i);
+                assignUnit(player, boss);
                 sendBundled(
                         "game.boss.spawn",
                         player.name()

@@ -36,6 +36,7 @@ public final class StageUnits {
                 StageDefinition definition = new StageDefinition();
                 addSelectableUnits(stageValue.get("units"), definition.units);
                 addUnits(stageValue.get("bosses"), definition.bossCandidates);
+                definition.bossCount = Math.max(1, stageValue.getInt("bossCount", 1));
                 stages.put(number, definition);
             }
             rollBosses();
@@ -65,6 +66,12 @@ public final class StageUnits {
         return bosses.get(stage);
     }
 
+    /** How many copies of the stage boss spawn ("bossCount", default 1). */
+    public static int bossCountForStage(int stage) {
+        StageDefinition definition = stages.get(stage);
+        return definition == null ? 1 : definition.bossCount;
+    }
+
     private static void addSelectableUnits(Jval values, ObjectMap<UnitType, String> target) {
         if (values == null || !values.isArray()) return;
         for (Jval value : values.asArray()) {
@@ -92,5 +99,6 @@ public final class StageUnits {
     private static class StageDefinition {
         final ObjectMap<UnitType, String> units = new ObjectMap<>();
         final Seq<UnitType> bossCandidates = new Seq<>();
+        int bossCount = 1;
     }
 }

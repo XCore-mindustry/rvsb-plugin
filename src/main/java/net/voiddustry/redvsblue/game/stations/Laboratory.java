@@ -1,6 +1,10 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
+import arc.math.Angles;
+import arc.math.Mathf;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -31,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
 
 public class Laboratory {
+    private static int labTick;
     private static final Map<String, StationData> labsMap =
             new ConcurrentHashMap<>();
 
@@ -120,10 +125,16 @@ public class Laboratory {
          * setunit server command.
          */
         newUnit.controller(player);
-        player.unit(newUnit);
+        net.voiddustry.redvsblue.util.Utils.assignUnit(player, newUnit);
         playerData.setUnit(newUnit);
 
         oldUnit.kill();
+
+        StationFx.star(newUnit.x, newUnit.y, Math.max(24f, newUnit.hitSize), StationFx.lab);
+        labsMap.values().stream()
+                .filter(l -> l.tileOn().dst(newUnit) <= 64)
+                .findFirst()
+                .ifPresent(l -> StationFx.zap(l.tileOn().worldx(), l.tileOn().worldy(), newUnit.x, newUnit.y, StationFx.lab));
 
         playerData.subtractScore(evolutionCost);
         playerData.setEvolutionStage(evolutionOption.tier);
@@ -180,25 +191,15 @@ public class Laboratory {
                 });
             });
 
+            labTick++;
             labsMap.forEach((uuid, lab) -> {
                 int centerX = lab.tileOn().x * 8;
                 int centerY = lab.tileOn().y * 8;
 
-                for (int i = 0; i < 19; i++) {
-                    Call.effect(
-                            Fx.vaporSmall,
-                            (float) (
-                                    centerX
-                                            + Math.sin(i) * 48
-                            ),
-                            (float) (
-                                    centerY
-                                            + Math.cos(i) * 48
-                            ),
-                            1,
-                            Color.purple
-                    );
-                }
+                // particles get pulled in from the edge, sparks every 2 s
+                float angle = Mathf.random(360f);
+                StationFx.seek(centerX + Angles.trnsx(angle, 48), centerY + Angles.trnsy(angle, 48), centerX, centerY, StationFx.lab);
+                if (labTick % 4 == 0) StationFx.sparks(centerX, centerY, StationFx.lab);
             });
         }, 0, 0.5f);
     }
@@ -250,13 +251,13 @@ public class Laboratory {
         } else if (RedVsBluePlugin.stage > requiredStage) {
             multiplier += 0.75f;
         } else {
-            multiplier +=
-                    1
-                            + (float) Math.pow(
-                            2,
-                            requiredStage
-                                    - RedVsBluePlugin.stage
-                    ) / 4;
+            // before its stage: 800% one stage early, 1600% two stages early, doubling per stage
+            multiplier += (float) Math.pow(
+                    2,
+                    requiredStage
+                            - RedVsBluePlugin.stage
+                            + 2
+            );
         }
 
         BigDecimal roundedMultiplier =
@@ -334,7 +335,7 @@ public class Laboratory {
         String text = player.name + "[gold]'s\n[purple]Lab";
         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
         StationData laboratoryData =
-                new StationData(player, tile, label);
+                new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 48, StationFx.lab));
 
         labsMap.put(
                 player.uuid(),
@@ -352,13 +353,7 @@ public class Laboratory {
                 null
         );
 
-        Call.effect(
-                Fx.regenParticle,
-                tile.x * 8,
-                tile.y * 8,
-                0,
-                Color.red
-        );
+        StationFx.at(Fx.teleportActivate, tile.x * 8, tile.y * 8, 0, StationFx.lab, null, 48);
 
         playerData.subtractScore(7);
     }

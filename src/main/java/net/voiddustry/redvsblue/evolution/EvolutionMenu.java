@@ -431,6 +431,11 @@ public final class EvolutionMenu {
         }
     }
 
+    /** Drops cached connector geometry of the old trees after the evolution tree is reloaded. */
+    static synchronized void resetLayout() {
+        geometry.clear();
+    }
+
     static synchronized Geometry geometry(Tree tree) {
         return geometry.computeIfAbsent(tree, EvolutionMenu::computeGeometry);
     }

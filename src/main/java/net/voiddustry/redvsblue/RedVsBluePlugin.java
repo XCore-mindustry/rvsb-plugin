@@ -42,6 +42,7 @@ import net.voiddustry.redvsblue.ai.BluePlayerTarget;
 import net.voiddustry.redvsblue.ai.StalkerGroundAI;
 import net.voiddustry.redvsblue.ai.StalkerSuicideAI;
 import net.voiddustry.redvsblue.evolution.EvolutionMenu;
+import net.voiddustry.redvsblue.evolution.Evolutions;
 import net.voiddustry.redvsblue.game.crux.*;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
@@ -94,54 +95,21 @@ public class RedVsBluePlugin extends Plugin {
     public int restartCounter = 0;
     public int gamesUntilRestart = 2000000;
 
+    /** last stage; when its timer runs out blue wins */
+    public static final int finalStage = 13;
+
     static Timer.Task task = new Timer.Task() {
         @Override
         public void run() {
-            if (stage != 10) {
-                stage++;
-                stageTimer = 300;
-                spawnBoss();
-                announceBundled("game.new-stage", 15, stage);
-                ClassChooseMenu.updateUnitsMap();
-            } else {
-                 //calculate blue unit value for stage 11
-                int blueUnitValue = 0;
-                float typeModifier = 1;
-                for (Unit u : Groups.unit) {
-                    if (u.team==Team.blue) {
-                        typeModifier = 1;
-                        if (u.type == UnitTypes.quad) {
-                            typeModifier = 2;
-                        } else if (u.type == UnitTypes.sei) {
-                            typeModifier = 2;
-                        } else if (u.type == UnitTypes.aegires) {
-                            typeModifier = 3;
-                        } else if (u.type == UnitTypes.omura) {
-                            typeModifier = 2;
-                        } else if (u.type == UnitTypes.navanax) {
-                            typeModifier = 1.5f;
-                        }
-                        blueUnitValue = blueUnitValue + ((int)(u.type.health*typeModifier));
-                    }
-                }
-                Log.info("Blue unit value for stage 11: " + blueUnitValue);
-                if (blueUnitValue < 100000) {
+            if (stage >= finalStage) {
                 gameOver(Team.blue);
-                } else {
-                    announceBundled("game.stage11", 5);
-                    Timer timer = new Timer();
-                    timer.schedule(() -> {
-                        stage++;
-                        stageTimer = 300;
-                        spawnBoss();
-                        announceBundled("game.new-stage", 15, 11);
-                        ClassChooseMenu.updateUnitsMap();
-                    }, 6);
-                }
+                return;
             }
-            if (stage >= 12) {
-                gameOver(Team.blue);
-            }
+            stage++;
+            stageTimer = 300;
+            spawnBoss();
+            announceBundled("game.new-stage", 15, stage);
+            ClassChooseMenu.updateUnitsMap();
         }
     };
 
@@ -157,6 +125,7 @@ public class RedVsBluePlugin extends Plugin {
         SpecialUnits.init();
         SpawnEffect.initEffect();
         Boss.forEachBoss();
+        Utils.initControlFilter();
         Premium.init();
         CruxUnit.addEvent();
         StationButtons.init();
@@ -190,7 +159,7 @@ public class RedVsBluePlugin extends Plugin {
                     PlayerData data = players.get(player.uuid());
                     player.team(data.getTeam());
                     if (player.team() == Team.blue) {
-                        player.unit(data.getUnit());
+                        Utils.assignUnit(player, data.getUnit());
                     }
 
                 } else {
@@ -200,12 +169,15 @@ public class RedVsBluePlugin extends Plugin {
                     Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
 
                     data.setUnit(unit);
-                    player.unit(unit);
+                    Utils.assignUnit(player, unit);
                 }
                 if (playing && player.team() == Team.crux) {
                     CruxUnit.callSpawn(player);
                 }
             }
+
+            // the client camera starts at a random spot on join; keep it on the player's unit for a second
+            Utils.focusCamera(player, 1f);
 
             int menu = Menus.registerMenu(((player1, option) -> {}));
 
@@ -297,7 +269,7 @@ public class RedVsBluePlugin extends Plugin {
                         data.addKill();
                         Call.label(killer.getPlayer().con, "[scarlet]+1", 2, event.unit.x, event.unit.y);
                         if (data.getKills() >= 2) {
-                            Boss.spawnBoss(killer.getPlayer());
+                            Boss.killStreak(killer.getPlayer());
                         }
                     }
 
@@ -333,12 +305,6 @@ public class RedVsBluePlugin extends Plugin {
                     CruxUnit.callSpawn(event.unit.getPlayer());
                 } else if (event.unit.getPlayer().team() == Team.crux) {
                   CruxUnit.callSpawn(event.unit.getPlayer());
-                  Player player = event.unit.getPlayer();
-                  Boss.bosses.forEach(boss -> {
-                      if (player == boss.player) {
-                          Boss.bosses.remove(boss);
-                      }
-                  });
                 }
             }
             gameOverCheck();
@@ -364,12 +330,13 @@ public class RedVsBluePlugin extends Plugin {
             ArmorWorkbench.clearWorkbenches();
             Recycler.clearRecyclers();
             SuppressorTower.clearTowers();
-            Boss.bosses.clear();
+            Boss.clear();
 
             initRules();
 
             StageUnits.load();
             StrengthSpawner.load();
+            Evolutions.load();
 
             StartingMenu.canOpenMenu = true;
 
@@ -656,7 +623,7 @@ public class RedVsBluePlugin extends Plugin {
                 Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
 
                 data.setUnit(unit);
-                player.unit(unit);
+                Utils.assignUnit(player, unit);
                 data.setLastRedeemTime(Instant.now().getEpochSecond());
                 sendBundled("game.redeemed", player.name);
             } else {
@@ -1006,7 +973,7 @@ public class RedVsBluePlugin extends Plugin {
                         Unit old = p.unit();
                         Unit unit = type.spawn(p.team(), old.x, old.y);
                         unit.controller(p);
-                        p.unit(unit);
+                        Utils.assignUnit(p, unit);
                         old.health = -1000;
                         PlayerData data = players.get(p.uuid());
                         if (data != null) {
@@ -1034,7 +1001,7 @@ public class RedVsBluePlugin extends Plugin {
                 Unit old = player.unit();
                 Unit unit = type.spawn(player.team(), old.x, old.y);
                 unit.controller(player);
-                player.unit(unit);
+                Utils.assignUnit(player, unit);
                 old.health=-1000;
                 players.get(player.uuid()).setUnit(unit);
         

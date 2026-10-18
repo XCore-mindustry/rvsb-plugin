@@ -69,7 +69,7 @@ spawners: [
       }
       {
         min: 70000
-        cooldown: 25
+        cooldown: 40
         options: [
           {weight: 33, units: [{type: "conquer", effects: ["melting", "overclock"], effectSeconds: 999}]}
           {weight: 67, units: [{type: "reign", effects: ["overclock", "overdrive", "boss"], effectSeconds: 999}]}

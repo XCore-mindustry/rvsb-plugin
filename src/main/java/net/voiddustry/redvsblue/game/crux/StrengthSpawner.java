@@ -4,6 +4,7 @@ import arc.Events;
 import arc.files.Fi;
 import arc.math.Mathf;
 import arc.struct.FloatSeq;
+import arc.struct.IntFloatMap;
 import arc.struct.ObjectFloatMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
@@ -37,6 +38,8 @@ public final class StrengthSpawner {
     private static final ObjectFloatMap<UnitType> weights = new ObjectFloatMap<>();
     private static float defaultWeight = 1f;
     private static float updateSeconds = 60f;
+    /** stage -> fraction of spawns removed in that stage (cooldowns are divided by 1 - fraction). */
+    private static final IntFloatMap stageSuppression = new IntFloatMap();
 
     // ---- runtime state ----
     private static final Seq<Spawner> active = new Seq<>();
@@ -86,11 +89,17 @@ public final class StrengthSpawner {
         }
 
         config = null;
+        stageSuppression.clear();
         try {
             Fi cf = configFile(CONFIG_FILE);
             if (cf.exists()) {
                 config = Jval.read(cf.readString());
                 updateSeconds = Math.max(1f, config.getFloat("updateSeconds", 60f));
+                if (config.has("stageSuppression")) {
+                    for (var e : config.get("stageSuppression").asObject()) {
+                        stageSuppression.put(Integer.parseInt(e.key.trim()), Mathf.clamp(e.value.asFloat(), 0f, 0.95f));
+                    }
+                }
             } else {
                 Log.warn("[StrengthSpawner] @ not found, spawner disabled", cf.absolutePath());
             }
@@ -227,6 +236,11 @@ public final class StrengthSpawner {
         if (warned.add(what + ":" + name)) Log.warn("[StrengthSpawner] unknown @ '@' (first seen in @), skipped", what, name, owner);
     }
 
+    /** Cooldown multiplier for the current stage, from stageSuppression (1 = no suppression). */
+    static float stageCooldownScale() {
+        return 1f / (1f - stageSuppression.get(RedVsBluePlugin.stage, 0f));
+    }
+
     static float weight(UnitType type) {
         return weights.get(type, defaultWeight);
     }
@@ -234,7 +248,8 @@ public final class StrengthSpawner {
     /** Server command helper. */
     public static String status() {
         StringBuilder b = new StringBuilder("map '" + mapKey + "', t=" + (int) clock + "s, blue units=" + blueUnits
-                + ", blue players=" + bluePlayers + ", stage=" + RedVsBluePlugin.stage + (running ? "" : " (stopped)"));
+                + ", blue players=" + bluePlayers + ", stage=" + RedVsBluePlugin.stage
+                + ", suppression=" + (int) (stageSuppression.get(RedVsBluePlugin.stage, 0f) * 100) + "%" + (running ? "" : " (stopped)"));
         for (Spawner s : active) {
             b.append("\n  ").append(s.name).append(" [").append(s.metric.name().toLowerCase()).append("] value=")
                     .append((int) s.value).append(" target=").append((int) s.target)
@@ -400,7 +415,7 @@ public final class StrengthSpawner {
                 for (UnitEntry e : option.units) e.spawn(tile, this);
             }
             int n = Math.max(1, bluePlayers);
-            lastCooldown = tier.cooldown * (float) Math.pow(1f - playerScaling, (n - 1) / 9f);
+            lastCooldown = tier.cooldown * (float) Math.pow(1f - playerScaling, (n - 1) / 9f) * stageCooldownScale();
             nextTime = clock + lastCooldown;
         }
     }

@@ -70,7 +70,7 @@ public class Hud {
                 
                 if (RedVsBluePlugin.playing && data.getUnit() != null && player.team() == Team.blue) {
                     if (!data.getUnit().dead) {
-                        player.unit(data.getUnit());
+                        net.voiddustry.redvsblue.util.Utils.assignUnit(player, data.getUnit());
                     }
                 }
             }

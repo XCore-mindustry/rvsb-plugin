@@ -1,0 +1,67 @@
+{
+  "dagger": { "tier": 1, "stage": 1, "cost": 2, "evolves": ["atrax", "mace", "merui", "flare", "nova", "mono"] }
+  "nova": { "tier": 1, "stage": 1, "cost": 3, "evolves": ["pulsar", "merui", "flare", "dagger", "mono"] }
+  "merui": { "tier": 1, "stage": 1, "cost": 8, "evolves": ["atrax", "nova", "flare", "dagger", "mono"] }
+  "flare": { "tier": 1, "stage": 1, "cost": 6, "evolves": ["risso", "nova", "merui", "dagger", "mono"] }
+  "mono": { "tier": 1, "stage": 1, "cost": 5, "evolves": ["poly", "nova", "merui", "dagger"] }
+
+  "pulsar": { "tier": 2, "stage": 2, "cost": 25, "evolves": ["quasar"] }
+  "atrax": { "tier": 2, "stage": 2, "cost": 18, "evolves": ["cleroi"] }
+  "risso": { "tier": 2, "stage": 3, "cost": 45, "evolves": ["zenith"] }
+  "poly": { "tier": 2, "stage": 2, "cost": 21, "evolves": ["retusa"] }
+
+  "mace": { "tier": 3, "stage": 2, "cost": 20, "evolves": ["fortress"] }
+  "quasar": { "tier": 3, "stage": 3, "cost": 60, "evolves": ["dp-vela-blue-unit"] }
+  "cleroi": { "tier": 3, "stage": 3, "cost": 65, "evolves": ["spiroct"] }
+  "zenith": { "tier": 3, "stage": 3, "cost": 70, "evolves": ["minke"] }
+  "retusa": { "tier": 3, "stage": 3, "cost": 15, "evolves": ["oxynoe"] }
+
+  "fortress": { "tier": 4, "stage": 2, "cost": 48, "evolves": ["locus"] }
+  "dp-vela-blue-unit": { "tier": 4, "stage": 6, "cost": 170, "evolves": ["corvus"] }
+  "spiroct": { "tier": 4, "stage": 4, "cost": 95, "evolves": ["dp-aractid-unit", "tecta"] }
+  "minke": { "tier": 4, "stage": 3, "cost": 90, "evolves": ["avert"] }
+  "oxynoe": { "tier": 4, "stage": 3, "cost": 35, "evolves": ["mega"] }
+
+  "locus": { "tier": 5, "stage": 4, "cost": 55, "evolves": ["precept"] }
+  "corvus": { "tier": 5, "stage": 7, "cost": 300, "evolves": ["aegires", "dp-orion-unit"] }
+  "mega": { "tier": 5, "stage": 4, "cost": 100, "evolves": ["cyerce"] }
+
+  "dp-orion-unit": { "tier": 6, "stage": 10, "cost": 1680, "evolves": ["nova", "flare", "merui"] }
+  "precept": { "tier": 6, "stage": 5, "cost": 60, "evolves": ["scepter", "dp-stryker-unit", "dp-incinerate-unit"] }
+  "aegires": { "tier": 6, "stage": 8, "cost": 450, "evolves": ["navanax"] }
+  "avert": { "tier": 6, "stage": 4, "cost": 27, "evolves": ["bryde", "obviate"] }
+  "cyerce": { "tier": 6, "stage": 5, "cost": 150, "evolves": ["quad", "dp-giga-unit"] }
+  "tecta": { "tier": 6, "stage": 7, "cost": 520, "evolves": ["collaris"] }
+  "dp-aractid-unit": { "tier": 6, "stage": 5, "cost": 185, "evolves": ["toxopid"] }
+
+  "scepter": { "tier": 7, "stage": 6, "cost": 105, "evolves": ["vanquish"] }
+  "navanax": { "tier": 7, "stage": 9, "cost": 450, "evolves": ["flare", "merui", "dagger"] }
+  "toxopid": { "tier": 7, "stage": 7, "cost": 415, "evolves": ["nova", "flare", "dagger", "mono"] }
+  "bryde": { "tier": 7, "stage": 5, "cost": 180, "evolves": ["antumbra"] }
+  "obviate": { "tier": 7, "stage": 5, "cost": 90, "evolves": ["quell", "dp-spearhead-unit"] }
+  "quad": { "tier": 7, "stage": 7, "cost": 450, "evolves": ["oct"] }
+  "dp-giga-unit": { "tier": 7, "stage": 7, "cost": 360, "evolves": ["dp-omni-unit"] }
+
+  "vanquish": { "tier": 8, "stage": 6, "cost": 200, "evolves": ["reign"] }
+  "dp-stryker-unit": { "tier": 8, "stage": 6, "cost": 320, "evolves": ["dp-devastator-unit"] }
+  "dp-incinerate-unit": { "tier": 8, "stage": 6, "cost": 460, "evolves": ["dp-vulcan-unit"] }
+  "collaris": { "tier": 8, "stage": 7, "cost": 1170, "evolves": ["nova", "flare", "dagger", "mono"] }
+  "antumbra": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["eclipse", "sei"] }
+  "oct": { "tier": 8, "stage": 8, "cost": 1300, "evolves": ["merui", "nova", "flare", "dagger"] }
+  "dp-omni-unit": { "tier": 8, "stage": 8, "cost": 980, "evolves": ["flare", "merui", "mono", "nova"] }
+  "quell": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["disrupt"] }
+  "dp-spearhead-unit": { "tier": 8, "stage": 6, "cost": 140, "evolves": ["disrupt"] }
+
+  "reign": { "tier": 9, "stage": 7, "cost": 450, "evolves": ["conquer"] }
+  "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 580, "evolves": ["nova", "merui", "flare"] }
+  "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dagger", "nova", "merui"] }
+  "eclipse": { "tier": 9, "stage": 6, "cost": 270, "evolves": ["dp-daybreak-unit"] }
+  "disrupt": { "tier": 9, "stage": 8, "cost": 800, "evolves": ["nova", "flare", "dagger"] }
+
+  "conquer": { "tier": 10, "stage": 7, "cost": 450, "evolves": ["merui", "nova", "flare", "mono"] }
+  "sei": { "tier": 10, "stage": 6, "cost": 350, "evolves": ["omura"] }
+
+  "omura": { "tier": 11, "stage": 9, "cost": 1650, "evolves": ["merui", "nova", "dagger", "mono"] }
+
+  "dp-daybreak-unit": { "tier": 8, "stage": 9, "cost": 960, "evolves": ["merui", "nova", "flare", "dagger"] }
+}

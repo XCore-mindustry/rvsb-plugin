@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -21,25 +23,26 @@ import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
 
 public class Booster {
     private static final Map<String, StationData> boostersMap = new ConcurrentHashMap<>();
+    private static final float BOOST_RADIUS = 64f;
+    /** overclock lasts 3 s, the same as the pulse interval */
+    private static final float BUFF_TICKS = 3f * 60f;
 
     public static void initTimer() {
+        // one pulse every 3 s; every blue unit inside gets overclock for 3 s and a beam + sparks from the booster
         Timer.schedule(() -> boostersMap.forEach((owner, pointData) -> {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
-            for (int i = 0; i < 19; i++) {
-                Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 64), (float) (centerY + Math.cos(i) * 64), 1, Color.orange);
-            }
+            StationFx.pulse(centerX, centerY, BOOST_RADIUS, StationFx.boost);
 
             Groups.unit.each(u -> {
-                if (u.team == Team.blue) {
-                    if (u.dst(centerX, centerY) <= 64) {
-                        u.apply(StatusEffects.overclock, 70);
-                    }
+                if (u.team == Team.blue && !u.dead && u.within(centerX, centerY, BOOST_RADIUS)) {
+                    u.apply(StatusEffects.overclock, BUFF_TICKS);
+                    StationFx.beam(centerX, centerY, u, StationFx.boost);
+                    StationFx.sparks(u.x, u.y, StationFx.boost);
                 }
             });
-
-        }), 0, 1);
+        }), 0, 3);
         Timer.schedule(Booster::renderBoosters, 0, 1);
     }
 
@@ -58,10 +61,10 @@ public class Booster {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         String text = player.name + "[gold]'s\n[orange]Booster";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
-                        StationData boosterData = new StationData(player, tile, label);
+                        StationData boosterData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, BOOST_RADIUS, StationFx.boost));
                         boostersMap.put(player.uuid(), boosterData);
                         Call.constructFinish(tile, Blocks.beamNode, null, (byte) 0, Team.blue, null);
-                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        StationFx.at(Fx.teleportActivate, tile.x*8, tile.y*8, 0, StationFx.boost, null, 48);
                         players.get(player.uuid()).subtractScore(18);
                     }
                 }

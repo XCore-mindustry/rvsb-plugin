@@ -127,7 +127,7 @@ public final class EvolutionSprites {
         Map<String, Icon> map = new HashMap<>();
         Map<String, byte[]> textures = new HashMap<>();
         List<String> missing = new ArrayList<>();
-        for (Evolution evolution : Evolution.values()) {
+        for (Evolution evolution : Evolutions.all()) {
             String unit = evolution.unitName;
             Icon icon = resolve(unit, uiIcons.get(unit), fullIcons.get(unit), images.keySet());
             ImageAsset image = images.get(icon.region);

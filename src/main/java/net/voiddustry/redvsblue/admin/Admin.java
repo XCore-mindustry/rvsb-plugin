@@ -15,7 +15,7 @@ public class Admin {
             }
 
             switch (option) {
-                case 0 -> Boss.spawnBoss(Utils.getRandomPlayer(Team.crux));
+                case 0 -> Boss.killStreak(Utils.getRandomPlayer(Team.crux));
             }
         });
         MenuGuard.menu(player.con, menu, "[scarlet]Admin Panel", "", new String[][]{{"[red]Spawn Random Boss"}});

@@ -30,13 +30,29 @@ public class CruxUnit {
         Events.on(EventType.UnitDestroyEvent.class, event -> {
                 spawnTimes.remove(event.unit);
         });
+
+        // Respawn watchdog. UnitDestroyEvent only respawns ground units: a dying flying unit falls as a wreck first,
+        // the player is detached from it as soon as it is dead and the destroy event comes later with isPlayer() false.
+        // This also catches anything else that leaves a crux player without a unit.
+        Timer.schedule(() -> {
+            if (!RedVsBluePlugin.playing || Utils.gameover || RedVsBluePlugin.redSpawns.isEmpty()) return;
+            for (Player player : Groups.player) {
+                if (player.team() == Team.crux && player.dead() && player.con != null && player.con.isConnected()) {
+                    callSpawn(player);
+                }
+            }
+        }, 1f, 0.5f);
     }
     
     public static void callSpawn(Player player) {
         
         UnitType type = ClassChooseMenu.selectedUnit.get(player.uuid());
+        if (type == null) {
+            type = UnitTypes.dagger;
+            ClassChooseMenu.selectedUnit.put(player.uuid(), type);
+        }
 
-        if (type != null) {
+        {
             Tile cruxSpawn = RedVsBluePlugin.redSpawns.random();
 
             if (cruxSpawn != null && cruxSpawn.block() != null) {
@@ -44,7 +60,7 @@ public class CruxUnit {
             }
             Unit unit = type.spawn(Team.crux, cruxSpawn);
 
-            if (RedVsBluePlugin.stage == 11) {
+            if (RedVsBluePlugin.stage >= 11) {
                 int renaleAmount = 2 + new Random().nextInt(8);
                 for (int i = 0; i < renaleAmount; i++) {
                     UnitTypes.renale.spawn(Team.crux, cruxSpawn);
@@ -89,8 +105,8 @@ public class CruxUnit {
 
                 }, 3);
 
-                player.unit(unit);
                 unit.spawnedByCore = true;
+                Utils.assignUnit(player, unit);
             }
         }
     }
@@ -111,34 +127,37 @@ public class CruxUnit {
                 Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
             }
 
-            if (RedVsBluePlugin.stage >= 11) {
-
-                boolean s11BossDead = true;
-                
-                for (Unit u : Groups.unit) {
-                    if (u.type==StageUnits.bosses.get(11)) {
-                        s11BossDead = false;
-                    }
+            if (RedVsBluePlugin.stage == 11 && bossDead(11)) {
+                Random rand = new Random();
+                if (rand.nextInt(20) == 1) {
+                    UnitTypes.latum.spawn(Team.crux, cruxSpawn);
                 }
-
-                if (s11BossDead) {
-                    Random rand = new Random();
-                    if (rand.nextInt(20) == 1) {
-                        UnitTypes.latum.spawn(Team.crux, cruxSpawn);
-                    }
-                    if (rand.nextInt(13) == 1) {
-                        UnitTypes.conquer.spawn(Team.crux, cruxSpawn);
-                    }
-                    if (rand.nextInt(7) == 1) {
-                        UnitTypes.tecta.spawn(Team.crux, cruxSpawn);
-                    }
+                if (rand.nextInt(13) == 1) {
+                    UnitTypes.conquer.spawn(Team.crux, cruxSpawn);
+                }
+                if (rand.nextInt(7) == 1) {
+                    UnitTypes.tecta.spawn(Team.crux, cruxSpawn);
                 }
             }
-            
+
+            // stage 13 after the Voidweaver died: same odds as stage 11, with T6 / custom units
+            if (RedVsBluePlugin.stage == 13 && bossDead(13)) {
+                Random rand = new Random();
+                if (rand.nextInt(20) == 1) {
+                    spawnNamed("dp-aranethys-crux-t6", cruxSpawn);
+                }
+                if (rand.nextInt(13) == 1) {
+                    spawnNamed("dp-venomreach-crux-t6", cruxSpawn);
+                }
+                if (rand.nextInt(7) == 1) {
+                    spawnNamed("dp-devastator-unit", cruxSpawn);
+                }
+            }
+
             Unit unit = unitType.spawn(Team.crux, cruxSpawn);
             spawnTimes.put(unit, System.currentTimeMillis());
 
-            if (RedVsBluePlugin.stage == 11) {
+            if (RedVsBluePlugin.stage >= 11) {
                 int renaleAmount = 2 + new Random().nextInt(8);
                 for (int i = 0; i < renaleAmount; i++) {
                     UnitTypes.renale.spawn(Team.crux, cruxSpawn);
@@ -181,12 +200,28 @@ public class CruxUnit {
     };
 
 
+    /** True when no unit of the stage's boss type is alive (stage 11: any team, like before; other stages: crux only). */
+    private static boolean bossDead(int bossStage) {
+        UnitType boss = StageUnits.bosses.get(bossStage);
+        if (boss == null) return true;
+        for (Unit u : Groups.unit) {
+            if (u.type == boss && (bossStage == 11 || u.team == Team.crux)) return false;
+        }
+        return true;
+    }
+
+    private static void spawnNamed(String name, Tile tile) {
+        UnitType type = Vars.content.unit(name);
+        if (type != null) type.spawn(Team.crux, tile);
+    }
+
     public static void checkUnitCount() {
         if (Utils.gameRun) {
             int players = Groups.player.size();
             int stage = RedVsBluePlugin.stage;
 
-            int cruxUnitsCount = Math.round((players + stage) / (float) 3);
+            // stage 13 spawns twice as many as stages 11 and 12
+            int cruxUnitsCount = Math.round((players + Math.min(stage, 12)) / (float) 3) * (stage >= 13 ? 2 : 1);
 
             final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();
 

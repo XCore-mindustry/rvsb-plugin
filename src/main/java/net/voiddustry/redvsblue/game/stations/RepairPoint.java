@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -27,9 +29,8 @@ public class RepairPoint {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
-            for (int i = 0; i < 19; i++) {
-                Call.effect(Fx.healWaveDynamic, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.red);
-            }
+            StationFx.pulse(centerX, centerY, 32, StationFx.repair);
+            StationFx.flash(pointData.tileOn().block(), centerX, centerY, StationFx.repair);
 
             Groups.unit.each(u -> {
                 if (u.team == Team.blue) {
@@ -43,7 +44,8 @@ public class RepairPoint {
                             }
 
                             u.health += add;
-                            Call.label("[lime]+" + add, 1, u.x, u.y);
+                            StationFx.beam(centerX, centerY, u, StationFx.repair);
+                            StationFx.label("[lime]+" + add, 1, u.x, u.y);
                         }
                     }
                 }
@@ -68,10 +70,10 @@ public class RepairPoint {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         String text = player.name + "[gold]'s\n[cyan]Repair Point";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
-                        StationData repairPointsData = new StationData(player, tile, label);
+                        StationData repairPointsData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 32, StationFx.repair));
                         repairPointsMap.put(player.uuid(), repairPointsData);
                         Call.constructFinish(tile, Blocks.mender, null, (byte) 0, Team.blue, null);
-                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        StationFx.at(Fx.teleportActivate, tile.x*8, tile.y*8, 0, StationFx.repair, null, 48);
                         players.get(player.uuid()).subtractScore(10);
                     }
                 }

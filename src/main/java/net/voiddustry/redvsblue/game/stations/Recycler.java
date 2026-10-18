@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -28,16 +30,20 @@ public class Recycler {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
-            for (int i = 0; i < 19; i++) {
-                Call.effect(Fx.vaporSmall, (float) (centerX + Math.sin(i) * 32), (float) (centerY + Math.cos(i) * 32), 1, Color.gray);
-            }
-
             Groups.player.each(p -> {
                 if (p.team() == Team.blue && p.unit() != null && (!(players.get(p.uuid()) == null))) {
                     if (p.dst(centerX, centerY) <= 32) {
                         if (p.unit().stack.amount >= 20) {
                             if (!((p.unit().stack.item == Items.plastanium && p.unit().type == UnitTypes.cyerce) || (p.unit().stack.item == Items.sporePod && p.unit().type == UnitTypes.spiroct) || (p.unit().stack.item == Items.blastCompound && p.unit().type == UnitTypes.reign) || (p.unit().stack.item == Items.sporePod && p.unit().type == UnitTypes.toxopid) || (p.unit().stack.item == Items.surgeAlloy && (p.unit().type == UnitTypes.quad || p.unit().type == UnitTypes.oct)) || (p.unit().stack.item == Items.carbide && p.unit().type == UnitTypes.disrupt))) {
                                 int add = p.unit().stack.amount/20;
+                                // the items drift from the unit into the recycler
+                                Color itemColor = p.unit().stack.item.color;
+                                for (int k = 0; k < Math.min(3, add); k++) {
+                                    StationFx.seek(p.unit().x, p.unit().y, centerX, centerY, itemColor);
+                                }
+                                StationFx.flash(pointData.tileOn().block(), centerX, centerY, itemColor);
+                                // the only pulse: when something is actually recycled
+                                StationFx.pulse(centerX, centerY, 32, itemColor);
                                 Utils.label(p.x, p.y, "[#023919]+" + add, 3, 0.8F);
                                 p.unit().stack.amount -= add * 20;
     
@@ -67,10 +73,10 @@ public class Recycler {
                     if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
                         String text = player.name + "[gold]'s\n[#023919]Recycler";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
-                        StationData recyclerData = new StationData(player, tile, label);
+                        StationData recyclerData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 32, StationFx.recycle));
                         recyclersmap.put(player.uuid(), recyclerData);
                         Call.constructFinish(tile, Blocks.slagIncinerator, null, (byte) 0, Team.blue, null);
-                        Call.effect(Fx.regenParticle, tile.x*8, tile.y*8, 0, Color.red);
+                        StationFx.at(Fx.teleportActivate, tile.x*8, tile.y*8, 0, StationFx.recycle, null, 48);
                         players.get(player.uuid()).subtractScore(6);
                     }
                 }

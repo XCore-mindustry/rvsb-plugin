@@ -23,6 +23,7 @@ Used in value calculations with weighted: true
 | key | meaning |
 |---|---|
 | `updateSeconds` | how often strength values refresh (default 60) |
+| `stageSuppression` | `{stage: fraction}`, removes that fraction of spawns in a stage by dividing every cooldown by 1 − fraction (e.g. `{13: 0.55}` → cooldowns ×2.22). Applies to all spawners, including map files |
 | `global.spawners` | spawners for every map… |
 | `global.exceptions` | …except these maps |
 
@@ -46,7 +47,7 @@ maps are matched by filename.
 | `multiplier` | 1 | strength multiplier |
 | `flex` | false | value moves linearly toward the target and would reach it in `flexSeconds` (300). It re-aims at each refresh and starts at 0 |
 | `playerScaling` | 0 | s: cooldown × (1 − s)^((bluePlayers − 1) / 9). So 0.5 halves the cooldown at 10 blue players and keeps shrinking it above 10. Negative values slow spawns down |
-| `minStage` / `maxStage` | – | only active in these game stages (1–12) |
+| `minStage` / `maxStage` | – | only active in these game stages (1–13) |
 | `graceSeconds` | 0 | no spawns in the first N seconds of the round |
 | `playersOnly` | false | count only player-controlled blue units |
 | `minUnitHp` / `maxUnitHp` | – | count only units whose maxHealth is in range (raw, unweighted) |

@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
+import net.voiddustry.redvsblue.util.AuraCircle;
+import net.voiddustry.redvsblue.util.StationFx;
 import arc.graphics.Color;
 import arc.util.Timer;
 import arc.struct.Seq;
@@ -27,14 +29,17 @@ public class SuppressorTower {
     private static final Map<String, StationData> suppressorTowerMap = new ConcurrentHashMap<>();
     private static final Seq<String> suppressorPlaced = new Seq<>();
 
+    private static int tick;
+
     public static void initTimer() {
+        Timer.schedule(() -> tick++, 0, 0.5F);
         Timer.schedule(() -> suppressorTowerMap.forEach((owner, pointData) -> {
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
-            for (int i = 0; i < 19; i++) {
-                Call.effect(Fx.fire, (float) (centerX + Math.sin(i) * 128), (float) (centerY + Math.cos(i) * 128), 0, Color.red);
-            }
+            // range ring every 1.5 s, lightning to at most 3 of the units in range every tick
+            if (tick % 3 == 0) StationFx.ring(centerX, centerY, 128, StationFx.suppress);
+            Seq<mindustry.gen.Unit> inRange = new Seq<>();
 
             Groups.unit.each(u -> {
                if (u.team() == Team.crux) {
@@ -45,11 +50,16 @@ public class SuppressorTower {
                         u.apply(StatusEffects.sapped, 50);
 
                         String removedHpText = "[#55557F]-" + Math.round(removedHp*10)/10;
-                        Call.label(removedHpText, 0.5F, u.x, u.y);
+                        StationFx.label(removedHpText, 0.5F, u.x, u.y);
+                        inRange.add(u);
                     }
 
                 }
             });
+            inRange.shuffle();
+            for (int k = 0; k < Math.min(3, inRange.size); k++) {
+                StationFx.zap(centerX, centerY, inRange.get(k).x, inRange.get(k).y, StationFx.suppress);
+            }
         }), 0, 0.5F);
         Timer.schedule(SuppressorTower::renderSuppressorTowers, 0, 0.5F);
     }
@@ -75,10 +85,10 @@ public class SuppressorTower {
                         Timer.schedule(() -> {
                             String text = player.name + "[gold]'s\n[accent]Suppressor Tower";
                             mindustry.gen.WorldLabel label = StationUtils.createStationLabel(placeTile, text);
-                            StationData towerData = new StationData(player, placeTile, label);
+                            StationData towerData = new StationData(player, placeTile, label, AuraCircle.fixed(placeTile.x * 8, placeTile.y * 8, 128, StationFx.suppress));
                             suppressorTowerMap.put(player.uuid(), towerData);
                             suppressorPlaced.remove(player.uuid());
-                            Call.effect(Fx.regenParticle, placeTile.x*8, placeTile.y*8, 0, Color.red);
+                            StationFx.at(Fx.teleportActivate, placeTile.x*8, placeTile.y*8, 0, StationFx.suppress, null, 48);
                         }, 10);
                     }
                 }

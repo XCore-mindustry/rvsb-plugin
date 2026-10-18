@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Grid layout of the evolution trees, derived from {@link Evolution}.
+ * Grid layout of the evolution trees, derived from {@link Evolutions}.
  *
  * <ul>
  *     <li>A tree is identified by its tier-2 unit: any non-tier-1 unit that a tier-1 unit evolves into.</li>
@@ -84,14 +84,20 @@ public final class EvolutionTree {
         return trees;
     }
 
+    /** Drops the cached layout; the next {@link #trees()} call rebuilds it from the reloaded tree. */
+    static synchronized void reset() {
+        trees = null;
+    }
+
     private static List<Tree> build() {
+        List<Evolution> all = Evolutions.all();
         List<Evolution> tier1 = new ArrayList<>();
-        for (Evolution e : Evolution.values()) {
+        for (Evolution e : all) {
             if (e.tier == 1) tier1.add(e);
         }
 
         List<Tree> result = new ArrayList<>();
-        for (Evolution e : Evolution.values()) {
+        for (Evolution e : all) {
             if (e.tier == 1) continue;
             List<Evolution> rootParents = new ArrayList<>();
             for (Evolution t : tier1) {
