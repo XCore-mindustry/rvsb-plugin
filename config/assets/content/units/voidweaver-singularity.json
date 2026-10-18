@@ -100,8 +100,8 @@ weapons: [
         bullet: {
             type: "BulletType", speed: 0, lifetime: 1, collides: false, collidesTiles: false
             collidesGround: true, collidesAir: true, hittable: false, absorbable: false, reflectable: false
-            keepVelocity: false, despawnHit: true, splashDamage: 5000, splashDamageRadius: 88
-            buildingDamageMultiplier: 0.6, lightning: 10, lightningDamage: 69, lightningLength: 18
+            keepVelocity: false, despawnHit: true, splashDamage: 2500, splashDamageRadius: 88
+            buildingDamageMultiplier: 0.6, lightning: 10, lightningDamage: 34.5, lightningLength: 18
             lightningColor: "98ffa9", status: "disarmed", statusDuration: 120, hitColor: "98ffa9"
             shootEffect: "none", smokeEffect: "none", despawnEffect: "none", lightOpacity: 0
             hitShake: 9, hitSound: "dp-voidweaver-blackhole", hitSoundVolume: 0.6, hitSoundPitch: 1
