@@ -2,7 +2,7 @@
 type: flying
 flying: true
 name: Midnight
-description: "Pierces enemies with harpoon, and lasers, armed with rocket lauchers"
+description: "Fires disarming harpoons, piercing lasers and missiles at enemy targets."
 details: "Flying terror"
 hideDetails: "false"
 speed: 0.45

@@ -1,7 +1,7 @@
 // aranethys (player unit), author: alphy
 type: legs
 name: Aranethys
-description: "The other giant enemy spider, because big spiders come in pairs."
+description: "Fires piercing lasers, oil and artillery shells at enemy targets."
 details: "Australia!"
 hideDetails: false
 flying: false

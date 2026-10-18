@@ -1055,7 +1055,7 @@ block.mender.localizedName: "Repair point"
 
 block.phase-wall.requirements: [dormant-cyst/20]
 block.phase-wall.category: logic
-block.phase-wall.localizedName: "Suppressor tower"
+block.phase-wall.localizedName: "Tesla tower"
 
 block.beam-node.requirements: [dormant-cyst/18]
 block.beam-node.category: logic

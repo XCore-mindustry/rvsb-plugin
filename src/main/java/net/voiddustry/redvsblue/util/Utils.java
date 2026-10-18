@@ -1,5 +1,6 @@
 package net.voiddustry.redvsblue.util;
 
+import net.voiddustry.redvsblue.game.crux.CruxUnit;
 import arc.graphics.Color;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -57,10 +58,17 @@ public class Utils {
     /** Registers the unit control filter. Call once from plugin init. */
     public static void initControlFilter() {
         netServer.admins.addActionFilter(action -> {
-            if (action.type != mindustry.net.Administration.ActionType.control || action.player == null) return true;
+            if (action.player == null) return true;
+            // "exit unit" (unitClear): crux players stay without a unit instead of being respawned into a new one
+            if (action.type == mindustry.net.Administration.ActionType.respawn) {
+                CruxUnit.markExited(action.player);
+                return true;
+            }
+            if (action.type != mindustry.net.Administration.ActionType.control) return true;
             Player player = action.player;
-            // dead players get their unit from the plugin (CruxUnit.callSpawn), never by grabbing a random AI unit
-            if (player.dead()) return false;
+            // dead players get their unit from the plugin (CruxUnit.callSpawn), never by grabbing a random AI unit;
+            // only crux players who exited their unit on purpose may take over an AI unit by clicking it
+            if (player.dead()) return CruxUnit.hasExited(player);
             Long until = controlLock.get(player.uuid());
             return until == null || Time.millis() > until;
         });

@@ -20,16 +20,39 @@ import net.voiddustry.redvsblue.game.crux.StageUnits;
 
 import java.util.Random;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.lang.Math;
 
 public class CruxUnit {
 
     private static final HashMap<Unit, Long> spawnTimes = new HashMap<>();
 
+    /**
+     * uuids of crux players who left their unit on purpose (the client's "exit unit" / unitClear). They are not
+     * respawned by the watchdog and may take over a crux AI unit by clicking it. Cleared when they get a unit again
+     * (taking over a unit, /c, death of a taken-over unit and the normal respawn after it), leave, or a map loads.
+     */
+    public static final HashSet<String> exited = new HashSet<>();
+
+    /** Called from the respawn action filter: the player pressed "exit unit". */
+    public static void markExited(Player player) {
+        if (player.team() == Team.crux && !player.dead()) exited.add(player.uuid());
+    }
+
+    public static boolean hasExited(Player player) {
+        return player.team() == Team.crux && exited.contains(player.uuid());
+    }
+
     public static void addEvent() {
         Events.on(EventType.UnitDestroyEvent.class, event -> {
                 spawnTimes.remove(event.unit);
         });
+
+        Events.on(EventType.UnitChangeEvent.class, event -> {
+            if (event.player != null && !event.player.dead()) exited.remove(event.player.uuid());
+        });
+        Events.on(EventType.PlayerLeave.class, event -> exited.remove(event.player.uuid()));
+        Events.on(EventType.WorldLoadEvent.class, event -> exited.clear());
 
         // Respawn watchdog. UnitDestroyEvent only respawns ground units: a dying flying unit falls as a wreck first,
         // the player is detached from it as soon as it is dead and the destroy event comes later with isPlayer() false.
@@ -37,7 +60,7 @@ public class CruxUnit {
         Timer.schedule(() -> {
             if (!RedVsBluePlugin.playing || Utils.gameover || RedVsBluePlugin.redSpawns.isEmpty()) return;
             for (Player player : Groups.player) {
-                if (player.team() == Team.crux && player.dead() && player.con != null && player.con.isConnected()) {
+                if (player.team() == Team.crux && player.dead() && !exited.contains(player.uuid()) && player.con != null && player.con.isConnected()) {
                     callSpawn(player);
                 }
             }
@@ -45,7 +68,8 @@ public class CruxUnit {
     }
     
     public static void callSpawn(Player player) {
-        
+        exited.remove(player.uuid());
+
         UnitType type = ClassChooseMenu.selectedUnit.get(player.uuid());
         if (type == null) {
             type = UnitTypes.dagger;

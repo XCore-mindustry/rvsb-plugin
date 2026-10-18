@@ -1,7 +1,7 @@
-// empire boss, author: alphy
+\// empire boss, author: alphy
 type: "mech"
 name: "Empire"
-description: "Siege machine. Deals insane damage to buildings."
+description: "Fires large piercing energy shells and landmines at enemy targets."
 hidden: false
 credit: "alphy"
 parts: [

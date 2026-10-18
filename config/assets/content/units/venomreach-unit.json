@@ -1,7 +1,7 @@
 // venomreach (player unit)
 type: legs
 name: Venomreach
-description: "THE giant enemy spider"
+description: "Fires a massive sapping laser and bombs at enemy targets."
 credit: alphy
 hidden: false
 
@@ -495,8 +495,8 @@ mirror: false
 rotate: false
 shootCone: 360
 useAttackRange: false
-alwaysShooting: true
-controllable: false
+alwaysShooting: false
+controllable: true
 reload: 100
 recoil: 0
 recoils: 1
