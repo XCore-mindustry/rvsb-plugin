@@ -12,6 +12,7 @@ import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
+import mindustry.gen.BlockUnitc;
 import mindustry.type.UnitType;
 import mindustry.world.Tile;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
@@ -34,9 +35,37 @@ public class CruxUnit {
      */
     public static final HashSet<String> exited = new HashSet<>();
 
+    /**
+     * uuid -> unit type of the crux AI unit the player took over. While set, the player respawns as that type instead
+     * of their /c class. Replaced by taking over another unit; cleared by "exit unit", picking a class with /c, or a map load.
+     */
+    public static final HashMap<String, UnitType> possessed = new HashMap<>();
+    /** uuid -> unit the player asked to take over (allowed by the control filter, confirmed in UnitChangeEvent) */
+    private static final HashMap<String, Unit> pendingPossess = new HashMap<>();
+
     /** Called from the respawn action filter: the player pressed "exit unit". */
     public static void markExited(Player player) {
-        if (player.team() == Team.crux && !player.dead()) exited.add(player.uuid());
+        if (player.team() == Team.crux && !player.dead()) {
+            exited.add(player.uuid());
+            possessed.remove(player.uuid());
+        }
+    }
+
+    /** Called from the control action filter when a client's request to take over a unit was allowed. */
+    public static void possessRequested(Player player, Unit unit) {
+        if (player.team() == Team.crux && unit != null && !(unit instanceof BlockUnitc)) pendingPossess.put(player.uuid(), unit);
+    }
+
+    /** The unit type a crux player respawns as: the taken-over unit's type, else the /c class (dagger by default). */
+    public static UnitType respawnType(Player player) {
+        UnitType type = possessed.get(player.uuid());
+        if (type != null) return type;
+        type = ClassChooseMenu.selectedUnit.get(player.uuid());
+        if (type == null) {
+            type = UnitTypes.dagger;
+            ClassChooseMenu.selectedUnit.put(player.uuid(), type);
+        }
+        return type;
     }
 
     public static boolean hasExited(Player player) {
@@ -49,10 +78,23 @@ public class CruxUnit {
         });
 
         Events.on(EventType.UnitChangeEvent.class, event -> {
-            if (event.player != null && !event.player.dead()) exited.remove(event.player.uuid());
+            if (event.player == null) return;
+            String uuid = event.player.uuid();
+            Unit requested = pendingPossess.remove(uuid);
+            if (event.player.dead()) return;
+            exited.remove(uuid);
+            // the player took over this crux AI unit themselves: respawn as its type from now on
+            if (requested != null && requested == event.unit && event.player.team() == Team.crux) possessed.put(uuid, event.unit.type);
         });
-        Events.on(EventType.PlayerLeave.class, event -> exited.remove(event.player.uuid()));
-        Events.on(EventType.WorldLoadEvent.class, event -> exited.clear());
+        Events.on(EventType.PlayerLeave.class, event -> {
+            exited.remove(event.player.uuid());
+            pendingPossess.remove(event.player.uuid());
+        });
+        Events.on(EventType.WorldLoadEvent.class, event -> {
+            exited.clear();
+            possessed.clear();
+            pendingPossess.clear();
+        });
 
         // Respawn watchdog. UnitDestroyEvent only respawns ground units: a dying flying unit falls as a wreck first,
         // the player is detached from it as soon as it is dead and the destroy event comes later with isPlayer() false.
@@ -70,11 +112,7 @@ public class CruxUnit {
     public static void callSpawn(Player player) {
         exited.remove(player.uuid());
 
-        UnitType type = ClassChooseMenu.selectedUnit.get(player.uuid());
-        if (type == null) {
-            type = UnitTypes.dagger;
-            ClassChooseMenu.selectedUnit.put(player.uuid(), type);
-        }
+        UnitType type = respawnType(player);
 
         {
             Tile cruxSpawn = RedVsBluePlugin.redSpawns.random();

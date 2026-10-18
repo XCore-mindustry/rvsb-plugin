@@ -36,6 +36,8 @@ public class ClassChooseMenu {
             }
 
             selectedUnit.put(playerInMenu.uuid(), unitsNumbers[option]);
+            // picking a class replaces the unit type taken over from an AI unit
+            CruxUnit.possessed.remove(playerInMenu.uuid());
             CruxUnit.callSpawn(playerInMenu);
         });
 

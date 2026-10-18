@@ -1,5 +1,6 @@
 // aranethys (player unit), author: alphy
 type: legs
+buildSpeed: 0.01
 name: Aranethys
 description: "Fires piercing lasers, oil and artillery shells at enemy targets."
 details: "Australia!"

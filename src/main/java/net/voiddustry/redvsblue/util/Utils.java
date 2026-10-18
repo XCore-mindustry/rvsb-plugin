@@ -68,9 +68,16 @@ public class Utils {
             Player player = action.player;
             // dead players get their unit from the plugin (CruxUnit.callSpawn), never by grabbing a random AI unit;
             // only crux players who exited their unit on purpose may take over an AI unit by clicking it
-            if (player.dead()) return CruxUnit.hasExited(player);
-            Long until = controlLock.get(player.uuid());
-            return until == null || Time.millis() > until;
+            boolean allowed;
+            if (player.dead()) {
+                allowed = CruxUnit.hasExited(player);
+            } else {
+                Long until = controlLock.get(player.uuid());
+                allowed = until == null || Time.millis() > until;
+            }
+            // a crux player taking over an AI unit will respawn as its type (confirmed once the switch happens)
+            if (allowed) CruxUnit.possessRequested(player, action.unit);
+            return allowed;
         });
     }
 

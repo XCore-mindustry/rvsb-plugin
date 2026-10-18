@@ -1,5 +1,6 @@
 // Midnight boss, author: destro
 type: flying
+buildSpeed: 0.01
 flying: true
 name: Midnight
 description: "Fires disarming harpoons, piercing lasers and missiles at enemy targets."
