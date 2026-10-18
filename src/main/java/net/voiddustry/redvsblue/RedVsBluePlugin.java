@@ -702,10 +702,10 @@ public class RedVsBluePlugin extends Plugin {
 			smiteIps.add(player.con.address);
 			if (voteYes) {
 				votes++;
-				Utils.sendBundled("f.vote.yes", player.name);
+				Utils.sendBundled("f.vote.yes", player.name, smiteTargetName);
 			} else {
 				votes--;
-				Utils.sendBundled("f.vote.no", player.name);
+				Utils.sendBundled("f.vote.no", player.name, smiteTargetName);
 			}
 			if (votes >= SMITE_VOTES_NEEDED) {
 				Player target = Groups.player.find(p -> p.uuid().equals(smiteTarget));
@@ -739,15 +739,19 @@ public class RedVsBluePlugin extends Plugin {
 	private static final CharTreeSet yes = new CharTreeSet("y", "yes", "Y", "YES", "н", "нуы", "Н", "НУЫ", "нуі", "НУІ");
 	private static final CharTreeSet no = new CharTreeSet("n", "no", "N", "NO", "т", "тщ", "Т", "ТЩ");
 
-	private static final long SMITE_VOTE_MS = 30_000L;
+	private static final long SMITE_VOTE_MS = 90_000L;
 	private static final long SMITE_COOLDOWN_MS = 5 * 60_000L;
 	private static final int SMITE_VOTES_NEEDED = 5;
 
 	/** uuid of the player being voted on, null = no vote running */
 	private static String smiteTarget = null;
+	/** name of the player being voted on, kept for vote messages even if they leave */
+	private static String smiteTargetName = "";
 	private static long smiteTime = 0;
-	/** no new vote before this time (global, set when a vote ends) */
-	private static long smiteCooldownUntil = 0;
+	/** uuid and ip of the player who started the current vote */
+	private static String smiteStarterUuid = null, smiteStarterIp = null;
+	/** per player: "u:" + uuid / "i:" + ip -> time until which they cannot start a new vote (set when their vote ends) */
+	private static final ObjectMap<String, Long> smiteCooldowns = new ObjectMap<>();
 	private static int votes = 0;
 	/** a smite vote already passed this game; reset on world load */
 	private static boolean smiteUsed = false;
@@ -769,7 +773,7 @@ public class RedVsBluePlugin extends Plugin {
 			player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
 			return;
 		}
-		long wait = smiteCooldownUntil - System.currentTimeMillis();
+		long wait = smiteCooldownLeft(player);
 		if (wait > 0) {
 			long s = (wait + 999) / 1000;
 			player.con.send(new SMCP(Bundle.format("f.vote.cooldown", Bundle.findLocale(player.locale()), s / 60, String.format("%02d", s % 60))), true);
@@ -794,13 +798,16 @@ public class RedVsBluePlugin extends Plugin {
 			player.con.send(new SMCP(Bundle.get("f.vote.underway", player.locale)), true);
 			return;
 		}
-		if (smiteUsed || System.currentTimeMillis() < smiteCooldownUntil) return;
+		if (smiteUsed || smiteCooldownLeft(player) > 0) return;
 		Player target = Groups.player.find(p -> p.uuid().equals(uuids[option]));
 		if (target == null || target.team() != Team.blue) {
 			player.con.send(new SMCP(Bundle.get("f.vote.gone", player.locale)), true);
 			return;
 		}
 		smiteTarget = target.uuid();
+		smiteTargetName = target.name;
+		smiteStarterUuid = player.uuid();
+		smiteStarterIp = player.con.address;
 		smiteTime = System.currentTimeMillis() + SMITE_VOTE_MS;
 		smiteUuids.clear();
 		smiteIps.clear();
@@ -814,7 +821,18 @@ public class RedVsBluePlugin extends Plugin {
 		smiteTarget = null;
 		smiteUuids.clear();
 		smiteIps.clear();
-		smiteCooldownUntil = System.currentTimeMillis() + SMITE_COOLDOWN_MS;
+		long until = System.currentTimeMillis() + SMITE_COOLDOWN_MS;
+		if (smiteStarterUuid != null) smiteCooldowns.put("u:" + smiteStarterUuid, until);
+		if (smiteStarterIp != null) smiteCooldowns.put("i:" + smiteStarterIp, until);
+		smiteStarterUuid = smiteStarterIp = null;
+	}
+
+	/** ms until this player may start another smite vote (matched by uuid or ip), 0 = allowed now */
+	private static long smiteCooldownLeft(Player player) {
+		long now = System.currentTimeMillis();
+		for (var it = smiteCooldowns.entries().iterator(); it.hasNext(); ) if (it.next().value <= now) it.remove();
+		long until = Math.max(smiteCooldowns.get("u:" + player.uuid(), 0L), smiteCooldowns.get("i:" + player.con.address, 0L));
+		return Math.max(until - now, 0L);
 	}
 
 	public static class CharTreeSet {
