@@ -1,0 +1,3508 @@
+//oh no
+{
+ "type": "legs",
+ "name": "Tetraphyllus",
+ "credit": "alphy",
+ "hidden": false,
+ "description": "Fires devastating ballistic missiles at enemy targets.",
+ "outlineColor": "2d2f39",
+ "outlines": false,
+ "health": 41000,
+ "armor": 16,
+ "hitSize": 44,
+ "speed": 0.4,
+ "drag": 0.1,
+ "rotateSpeed": 1.1,
+ "faceTarget": true,
+ "buildSpeed": 0.01,
+ "itemCapacity": 0,
+ "targetAir": true,
+ "targetGround": true,
+ "immunities": [
+  "burning"
+ ],
+ "playerControllable": true,
+ "logicControllable": true,
+ "coreUnitDock": false,
+ "clipSize": 680,
+ "hovering": true,
+ "lockLegBase": true,
+ "legContinuousMove": true,
+ "legCount": 6,
+ "legLength": 26,
+ "legGroupSize": 3,
+ "legExtension": -5,
+ "legBaseOffset": 19,
+ "legStraightness": 0.4,
+ "baseLegStraightness": 0.5,
+ "legMaxLength": 1.3,
+ "legForwardScl": 0.5,
+ "legMoveSpace": 1.3,
+ "legSplashDamage": 60,
+ "legSplashRange": 32,
+ "rippleScale": 2,
+ "stepShake": 1.5,
+ "shadowElevation": 0.4,
+ "groundLayer": 75,
+ "drownTimeMultiplier": 1.6,
+ "parts": [
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-0",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.06,
+      "end": 0.36
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-1",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.16,
+      "end": 0.45999999999999996
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-2",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.26,
+      "end": 0.56
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-3",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.36000000000000004,
+      "end": 0.66
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-4",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.46,
+      "end": 0.76
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-glow-5",
+   "drawRegion": false,
+   "outline": false,
+   "mirror": false,
+   "heatColor": "a9d8ff4c",
+   "heatProgress": {
+    "type": "warmup",
+    "ops": [
+     {
+      "op": "compress",
+      "start": 0.56,
+      "end": 0.8600000000000001
+     }
+    ]
+   },
+   "heatLayerOffset": 0.0002
+  },
+  {
+   "type": "RegionPart",
+   "name": "dp-tetraphyllus-hip",
+   "outline": false,
+   "mirror": true,
+   "x": 14.25,
+   "y": 13.45,
+   "layerOffset": -0.012
+  }
+ ],
+ "weapons": [
+  {
+   "name": "tetraphyllus-silo",
+   "x": 0,
+   "y": 0,
+   "shootY": 0,
+   "mirror": false,
+   "rotate": false,
+   "top": true,
+   "shootCone": 360,
+   "reload": 300,
+   "minWarmup": 0.99,
+   "linearWarmup": true,
+   "shootWarmupSpeed": 0.004167,
+   "inaccuracy": 0,
+   "velocityRnd": 0,
+   "parentizeEffects": true,
+   "shootSound": "shootScathe",
+   "shootSoundVolume": 1.1,
+   "soundPitchMin": 0.8,
+   "soundPitchMax": 0.9,
+   "shake": 3,
+   "recoil": 0,
+   "shadow": 0,
+   "heatColor": "a9d8ff",
+   "cooldownTime": 120,
+   "bullet": {
+    "type": "BulletType",
+    "damage": 0,
+    "speed": 15,
+    "drag": 0.012,
+    "followAimSpeed": 10,
+    "lifetime": 600,
+    "keepVelocity": false,
+    "rangeOverride": 960,
+    "drawSize": 240,
+    "layer": 110,
+    "collides": false,
+    "collidesTiles": false,
+    "collidesAir": true,
+    "collidesGround": true,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "despawnHit": true,
+    "splashDamage": 6200,
+    "splashDamageRadius": 52,
+    "status": "burning",
+    "statusDuration": 600,
+    "buildingDamageMultiplier": 0.6,
+    "hitShake": 6,
+    "hitColor": "a9d8ff",
+    "hitEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      "scatheExplosion",
+      "scatheLight",
+      {
+       "type": "WrapEffect",
+       "effect": "dynamicExplosion",
+       "rotation": 3.5,
+       "color": "ffffff"
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 12,
+       "particles": 1,
+       "length": 0,
+       "cone": 360,
+       "colorFrom": "ffffffff",
+       "colorTo": "a9d8ff00",
+       "sizeFrom": 30,
+       "sizeTo": 0
+      },
+      {
+       "type": "WaveEffect",
+       "lifetime": 30,
+       "sizeFrom": 6,
+       "sizeTo": 74,
+       "strokeFrom": 6,
+       "strokeTo": 0,
+       "colorFrom": "ffffff",
+       "colorTo": "8ca9e8"
+      },
+      {
+       "type": "WaveEffect",
+       "lifetime": 44,
+       "sizeFrom": 4,
+       "sizeTo": 50,
+       "strokeFrom": 3,
+       "strokeTo": 0,
+       "colorFrom": "d1efff",
+       "colorTo": "8ca9e8",
+       "sides": 6,
+       "interp": "pow3Out"
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 26,
+       "particles": 26,
+       "length": 80,
+       "cone": 180,
+       "colorFrom": "ffffff",
+       "colorTo": "a9d8ff",
+       "line": true,
+       "lenFrom": 15,
+       "lenTo": 0,
+       "strokeFrom": 2.4,
+       "strokeTo": 0
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 40,
+       "particles": 16,
+       "length": 34,
+       "cone": 180,
+       "colorFrom": "ffffff",
+       "colorTo": "8ca9e8",
+       "sizeFrom": 9,
+       "sizeTo": 0,
+       "interp": "pow3Out"
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 70,
+       "particles": 14,
+       "length": 40,
+       "cone": 180,
+       "colorFrom": "d1efff",
+       "colorTo": "6a6b70cc",
+       "sizeFrom": 11,
+       "sizeTo": 0,
+       "interp": "pow5Out",
+       "startDelay": 6
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 240,
+       "particles": 14,
+       "length": 70,
+       "cone": 180,
+       "sizeFrom": 8,
+       "sizeTo": 18,
+       "sizeInterp": "pow2Out",
+       "colorInterp": "pow3In",
+       "colorFrom": "66676c2e",
+       "colorTo": "5e5f6400",
+       "lightOpacity": 0,
+       "layer": 111,
+       "baseLength": 20,
+       "randLength": false,
+       "interp": "pow5Out",
+       "startDelay": 18
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 420,
+       "particles": 9,
+       "length": 40,
+       "cone": 180,
+       "sizeFrom": 12,
+       "sizeTo": 26,
+       "sizeInterp": "pow2Out",
+       "colorInterp": "pow3In",
+       "colorFrom": "5c5d6233",
+       "colorTo": "54555a00",
+       "lightOpacity": 0,
+       "layer": 111,
+       "baseLength": 14,
+       "randLength": false,
+       "interp": "pow4Out",
+       "startDelay": 20
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 400,
+       "particles": 3,
+       "length": 10,
+       "cone": 180,
+       "sizeFrom": 14,
+       "sizeTo": 30,
+       "sizeInterp": "pow2Out",
+       "colorInterp": "pow3In",
+       "colorFrom": "4e4f5440",
+       "colorTo": "45464b00",
+       "lightOpacity": 0,
+       "layer": 111,
+       "interp": "pow3Out",
+       "startDelay": 18
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 80,
+       "particles": 22,
+       "length": 70,
+       "cone": 180,
+       "colorFrom": "6e7080",
+       "colorTo": "4a4b53",
+       "sizeFrom": 3.5,
+       "sizeTo": 0,
+       "baseLength": 4,
+       "interp": "pow5Out",
+       "lightOpacity": 0,
+       "layer": 111
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 360,
+       "particles": 22,
+       "length": 48,
+       "cone": 180,
+       "colorFrom": "ffc26b",
+       "colorTo": "ff5a2a00",
+       "sizeFrom": 2.2,
+       "sizeTo": 0,
+       "interp": "pow10Out",
+       "layer": 30.5,
+       "startDelay": 8
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 260,
+       "particles": 12,
+       "length": 40,
+       "cone": 180,
+       "colorFrom": "ffe7a8",
+       "colorTo": "ff5a2a00",
+       "sizeFrom": 1.4,
+       "sizeTo": 0,
+       "interp": "pow10Out",
+       "layer": 30.6,
+       "startDelay": 20
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 120,
+       "particles": 10,
+       "length": 36,
+       "cone": 180,
+       "colorFrom": "ffc26bcc",
+       "colorTo": "5a3a2a00",
+       "sizeFrom": 4.5,
+       "sizeTo": 0,
+       "interp": "pow5Out",
+       "layer": 30.4,
+       "startDelay": 14
+      }
+     ]
+    },
+    "despawnEffect": "none",
+    "incendAmount": 12,
+    "incendSpread": 46,
+    "incendChance": 1,
+    "hitSound": "explosionTitan",
+    "hitSoundVolume": 1.6,
+    "hitSoundPitch": 0.9,
+    "fragBullet": {
+     "type": "BulletType",
+     "damage": 0,
+     "speed": 0,
+     "lifetime": 1,
+     "keepVelocity": false,
+     "collides": false,
+     "collidesTiles": false,
+     "collidesAir": true,
+     "collidesGround": true,
+     "hittable": false,
+     "absorbable": false,
+     "reflectable": false,
+     "despawnHit": true,
+     "splashDamage": 0,
+     "splashDamageRadius": 52,
+     "status": "slow",
+     "statusDuration": 480,
+     "hitEffect": "none",
+     "despawnEffect": "none",
+     "shootEffect": "none",
+     "smokeEffect": "none",
+     "hitSound": "none",
+     "despawnSound": "none",
+     "fragBullet": {
+      "type": "BasicBulletType",
+      "damage": 270,
+      "speed": 5.5,
+      "lifetime": 18,
+      "width": 5,
+      "height": 10,
+      "shrinkY": 0.4,
+      "frontColor": "d1efff",
+      "backColor": "8ca9e8",
+      "hitColor": "8ca9e8",
+      "trailColor": "8ca9e8",
+      "trailWidth": 1.2,
+      "trailLength": 5,
+      "pierceCap": 2,
+      "pierce": true,
+      "incendAmount": 1,
+      "incendChance": 0.25,
+      "incendSpread": 6,
+      "hitEffect": "hitBulletColor",
+      "despawnEffect": "hitBulletColor",
+      "shootEffect": "none",
+      "smokeEffect": "none"
+     },
+     "fragBullets": 12,
+     "fragRandomSpread": 360,
+     "fragVelocityMin": 0.6,
+     "fragVelocityMax": 1.1
+    },
+    "fragBullets": 1,
+    "fragRandomSpread": 0,
+    "fragVelocityMin": 1,
+    "fragVelocityMax": 1,
+    "shootEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      {
+       "type": "ParticleEffect",
+       "lifetime": 10,
+       "particles": 1,
+       "length": 0,
+       "cone": 360,
+       "colorFrom": "ffffffee",
+       "colorTo": "a9d8ff00",
+       "sizeFrom": 7,
+       "sizeTo": 0
+      },
+      {
+       "type": "WaveEffect",
+       "lifetime": 22,
+       "sizeFrom": 3,
+       "sizeTo": 22,
+       "strokeFrom": 2.2,
+       "strokeTo": 0,
+       "colorFrom": "ffffff",
+       "colorTo": "8ca9e8"
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 14,
+       "particles": 8,
+       "length": 22,
+       "cone": 180,
+       "colorFrom": "ffffff",
+       "colorTo": "a9d8ff",
+       "line": true,
+       "lenFrom": 7,
+       "lenTo": 0,
+       "strokeFrom": 1.4,
+       "strokeTo": 0
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 162,
+       "particles": 16,
+       "length": 20,
+       "cone": 180,
+       "colorFrom": "6a6b70d0",
+       "colorTo": "4c4d5200",
+       "sizeFrom": 11,
+       "sizeTo": 0,
+       "interp": "pow3Out",
+       "baseLength": 9.6,
+       "layer": 111,
+       "lightOpacity": 0
+      },
+      {
+       "type": "ParticleEffect",
+       "lifetime": 132,
+       "particles": 8,
+       "length": 10,
+       "cone": 180,
+       "colorFrom": "6a6b70b8",
+       "colorTo": "4c4d5200",
+       "sizeFrom": 8,
+       "sizeTo": 0,
+       "interp": "pow3Out",
+       "baseLength": 10.799999999999999,
+       "layer": 111,
+       "lightOpacity": 0
+      }
+     ]
+    },
+    "smokeEffect": "none",
+    "spawnBullets": [
+     {
+      "type": "BasicBulletType",
+      "sprite": "dp-tetraphyllus-missile",
+      "damage": 0,
+      "speed": 0.4,
+      "lifetime": 126,
+      "drag": -0.0218,
+      "keepVelocity": false,
+      "width": 9.78,
+      "height": 15.51,
+      "shrinkX": -2.76,
+      "shrinkY": -2.76,
+      "shrinkInterp": "linear",
+      "frontColor": "ffffff",
+      "backColor": "ffffff",
+      "mixColorFrom": "ffffff00",
+      "mixColorTo": "ffffffcc",
+      "layer": 117,
+      "collides": false,
+      "collidesTiles": false,
+      "collidesGround": false,
+      "collidesAir": false,
+      "hittable": false,
+      "absorbable": false,
+      "reflectable": false,
+      "trailColor": "8ca9e8",
+      "trailWidth": 2.2,
+      "trailLength": 10,
+      "trailInterval": 2,
+      "trailMinVelocity": 0.9,
+      "trailEffect": {
+       "type": "ParticleEffect",
+       "lifetime": 44,
+       "particles": 1,
+       "length": 1.5,
+       "cone": 180,
+       "colorFrom": "8a8b90b0",
+       "colorTo": "4c4d5200",
+       "sizeFrom": 2.4,
+       "sizeTo": 0,
+       "layer": 116.5,
+       "lightOpacity": 0
+      },
+      "hitEffect": "none",
+      "despawnEffect": {
+       "type": "MultiEffect",
+       "effects": [
+        {
+         "type": "WaveEffect",
+         "lifetime": 18,
+         "sizeFrom": 2,
+         "sizeTo": 12,
+         "strokeFrom": 1.6,
+         "strokeTo": 0,
+         "colorFrom": "ffffffcc",
+         "colorTo": "8ca9e800",
+         "layer": 118
+        },
+        {
+         "type": "ParticleEffect",
+         "lifetime": 20,
+         "particles": 5,
+         "length": 9,
+         "cone": 180,
+         "colorFrom": "ffffff",
+         "colorTo": "8ca9e800",
+         "sizeFrom": 1.8,
+         "sizeTo": 0,
+         "layer": 118
+        }
+       ]
+      },
+      "shootEffect": "none",
+      "smokeEffect": "none",
+      "parts": [
+       {
+        "type": "ShapePart",
+        "layer": 116.9,
+        "color": "a9d8ff",
+        "colorTo": "ffffff",
+        "circle": true,
+        "y": -6,
+        "moveY": -12,
+        "radius": 1.8,
+        "radiusTo": 5
+       },
+       {
+        "type": "FlarePart",
+        "layer": 116.8,
+        "color1": "8ca9e8",
+        "color2": "ffffff",
+        "sides": 4,
+        "y": -8,
+        "moveY": -12,
+        "radius": 5,
+        "radiusTo": 16,
+        "stroke": 1.4,
+        "innerScl": 0.5,
+        "followRotation": true,
+        "spinSpeed": 4,
+        "progress": "warmup"
+       }
+      ]
+     }
+    ],
+    "intervalBullet": {
+     "type": "BasicBulletType",
+     "sprite": "dp-tetraphyllus-fall",
+     "damage": 0,
+     "speed": 0,
+     "lifetime": 48,
+     "keepVelocity": false,
+     "spin": 3,
+     "width": 23.75,
+     "height": 23.75,
+     "shrinkX": 0.62,
+     "shrinkY": 0.62,
+     "shrinkInterp": "pow2Out",
+     "frontColor": "ffffff",
+     "backColor": "ffffff",
+     "mixColorFrom": "ffffff88",
+     "mixColorTo": "ffffff00",
+     "layer": 117,
+     "collides": false,
+     "collidesTiles": false,
+     "collidesGround": false,
+     "collidesAir": false,
+     "hittable": false,
+     "absorbable": false,
+     "reflectable": false,
+     "trailColor": "ff4d3d",
+     "trailInterval": 3,
+     "trailEffect": {
+      "type": "ParticleEffect",
+      "lifetime": 44,
+      "particles": 1,
+      "length": 1.5,
+      "cone": 180,
+      "colorFrom": "8a8b90b0",
+      "colorTo": "4c4d5200",
+      "sizeFrom": 2.4,
+      "sizeTo": 0,
+      "layer": 116.5,
+      "lightOpacity": 0
+     },
+     "hitEffect": "none",
+     "despawnEffect": "none",
+     "shootEffect": "none",
+     "smokeEffect": "none",
+     "parts": [
+      {
+       "type": "FlarePart",
+       "layer": 116.85,
+       "color1": "ff4d3d",
+       "color2": "ffffff",
+       "sides": 4,
+       "radius": 0,
+       "radiusTo": 56,
+       "stroke": 2.6,
+       "innerScl": 0.5,
+       "spinSpeed": -4,
+       "rotation": 45,
+       "followRotation": false,
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2Out"
+         },
+         {
+          "op": "mul",
+          "amount": -0.85
+         },
+         {
+          "op": "add",
+          "amount": 1
+         },
+         {
+          "op": "mul",
+          "other": {
+           "type": "warmup",
+           "ops": [
+            {
+             "op": "mul",
+             "amount": 0
+            },
+            {
+             "op": "add",
+             "amount": 0.6499999999999999
+            },
+            {
+             "op": "sin",
+             "offset": 0,
+             "scl": 1.8,
+             "mag": 0.35
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "type": "ShapePart",
+       "layer": 117.1,
+       "color": "ff4d3d77",
+       "colorTo": "ff4d3d55",
+       "circle": true,
+       "radius": 3.2,
+       "radiusTo": 1.3,
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "warmup",
+           "ops": [
+            {
+             "op": "mul",
+             "amount": 0
+            },
+            {
+             "op": "add",
+             "amount": 0.925
+            },
+            {
+             "op": "sin",
+             "offset": 0,
+             "scl": 1.3,
+             "mag": 0.07500000000000001
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "type": "ShapePart",
+       "layer": 117.2,
+       "color": "ffffff",
+       "colorTo": "ffffff",
+       "circle": true,
+       "radius": 2.0,
+       "radiusTo": 0.8,
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "warmup",
+           "ops": [
+            {
+             "op": "mul",
+             "amount": 0
+            },
+            {
+             "op": "add",
+             "amount": 0.9
+            },
+            {
+             "op": "sin",
+             "offset": 3.456,
+             "scl": 1.1,
+             "mag": 0.09999999999999998
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    },
+    "intervalDelay": 552,
+    "bulletInterval": 62,
+    "intervalBullets": 1,
+    "intervalRandomSpread": 0,
+    "parts": [
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "a9d8ff00",
+      "colorTo": "a9d8ff16",
+      "circle": true,
+      "radius": 0,
+      "radiusTo": 20,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.45
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ff4d3d00",
+      "colorTo": "ff4d3d16",
+      "circle": true,
+      "radius": 0,
+      "radiusTo": 20,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.45
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "d1efff",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 2.3,
+      "haloRadius": 0,
+      "haloRadiusTo": 34,
+      "haloRotateSpeed": 0.45,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "ff4d3d",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 2.3,
+      "haloRadius": 0,
+      "haloRadiusTo": 34,
+      "haloRotateSpeed": 0.45,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "d1efff",
+      "colorTo": "8ca9e8",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 1.3,
+      "haloRadius": 0,
+      "haloRadiusTo": 30,
+      "haloRotateSpeed": 0.45,
+      "haloRotation": 14,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.21000000000000002,
+         "end": 0.25
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.25,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ff4d3d",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 1.3,
+      "haloRadius": 0,
+      "haloRadiusTo": 30,
+      "haloRotateSpeed": 0.45,
+      "haloRotation": 14,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.21000000000000002,
+         "end": 0.25
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.25,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "8ca9e8",
+      "colorTo": "8ca9e8",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 0.8,
+      "haloRadius": 0,
+      "haloRadiusTo": 27,
+      "haloRotateSpeed": 0.45,
+      "haloRotation": 26,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.22,
+         "end": 0.26
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.26,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ff4d3d",
+      "shapes": 3,
+      "sides": 12,
+      "radius": 0,
+      "radiusTo": 0.8,
+      "haloRadius": 0,
+      "haloRadiusTo": 27,
+      "haloRotateSpeed": 0.45,
+      "haloRotation": 26,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.22,
+         "end": 0.26
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.26,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "8ca9e8",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 2.4,
+      "triLength": 0,
+      "triLengthTo": 7,
+      "haloRadius": 0,
+      "haloRadiusTo": 38,
+      "haloRotateSpeed": -0.7,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.7
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "ff4d3d",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 2.4,
+      "triLength": 0,
+      "triLengthTo": 7,
+      "haloRadius": 0,
+      "haloRadiusTo": 38,
+      "haloRotateSpeed": -0.7,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.7
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "d1efff",
+      "colorTo": "8ca9e8",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 1.2,
+      "triLength": 0,
+      "triLengthTo": 3.5,
+      "haloRadius": 0,
+      "haloRadiusTo": 42,
+      "haloRotateSpeed": -0.7,
+      "haloRotation": 45,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.23,
+         "end": 0.28
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.28,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ff4d3d",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 1.2,
+      "triLength": 0,
+      "triLengthTo": 3.5,
+      "haloRadius": 0,
+      "haloRadiusTo": 42,
+      "haloRotateSpeed": -0.7,
+      "haloRotation": 45,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.23,
+         "end": 0.28
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.28,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.72
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "d1efff",
+      "colorTo": "ffffff",
+      "sides": 6,
+      "hollow": true,
+      "radius": 0,
+      "radiusTo": 9,
+      "stroke": 0,
+      "strokeTo": 1,
+      "rotateSpeed": 2.4,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.25
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "sides": 6,
+      "hollow": true,
+      "radius": 0,
+      "radiusTo": 9,
+      "stroke": 0,
+      "strokeTo": 1,
+      "rotateSpeed": 2.4,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.25
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "d1efff",
+      "sides": 4,
+      "hollow": true,
+      "radius": 0,
+      "radiusTo": 5,
+      "stroke": 0,
+      "strokeTo": 0.8,
+      "rotateSpeed": -3.5,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.2
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "ff4d3d",
+      "sides": 4,
+      "hollow": true,
+      "radius": 0,
+      "radiusTo": 5,
+      "stroke": 0,
+      "strokeTo": 0.8,
+      "rotateSpeed": -3.5,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.2
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "a9d8ff",
+      "colorTo": "ffffff",
+      "shapes": 3,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 1.4,
+      "triLength": 0,
+      "triLengthTo": 3,
+      "haloRadius": 0,
+      "haloRadiusTo": 14,
+      "haloRotateSpeed": 3,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.3
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "shapes": 3,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 1.4,
+      "triLength": 0,
+      "triLengthTo": 3,
+      "haloRadius": 0,
+      "haloRadiusTo": 14,
+      "haloRotateSpeed": 3,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.24000000000000002,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.3
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "a9d8ff",
+      "colorTo": "ffffff",
+      "circle": true,
+      "radius": 0,
+      "radiusTo": 1.9,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0,
+            "end": 0.001
+           },
+           {
+            "op": "mul",
+            "amount": 0.6
+           },
+           {
+            "op": "absin",
+            "scl": 5,
+            "mag": 0.4
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "circle": true,
+      "radius": 0,
+      "radiusTo": 1.9,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.2,
+         "end": 0.24000000000000002
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0,
+            "end": 0.001
+           },
+           {
+            "op": "mul",
+            "amount": 0.6
+           },
+           {
+            "op": "absin",
+            "scl": 5,
+            "mag": 0.4
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.666
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 3,
+      "triLength": 0,
+      "triLengthTo": 8,
+      "haloRadius": 18,
+      "haloRadiusTo": 60,
+      "haloRotateSpeed": 0,
+      "haloRotation": 45,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.6000000000000001,
+         "end": 0.601
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.601,
+            "end": 0.66
+           },
+           {
+            "op": "curve",
+            "interp": "pow2In"
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 2,
+      "triLength": 0,
+      "triLengthTo": 5.5,
+      "haloRadius": 16,
+      "haloRadiusTo": 16,
+      "haloRotateSpeed": 0,
+      "haloRotation": 45,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.66,
+         "end": 0.661
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.74,
+            "end": 0.741
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "mul",
+            "amount": 0
+           },
+           {
+            "op": "add",
+            "amount": -1
+           },
+           {
+            "op": "absin",
+            "scl": 1.4,
+            "mag": 2.2
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "sides": 4,
+      "hollow": true,
+      "rotation": 45,
+      "radius": 0,
+      "radiusTo": 12,
+      "stroke": 0,
+      "strokeTo": 0.8,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.66,
+         "end": 0.661
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.74,
+            "end": 0.741
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "mul",
+            "amount": 0
+           },
+           {
+            "op": "add",
+            "amount": -1
+           },
+           {
+            "op": "absin",
+            "scl": 1.4,
+            "mag": 2.2
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "shapes": 4,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 2,
+      "triLength": 0,
+      "triLengthTo": 5.5,
+      "haloRadius": 16,
+      "haloRadiusTo": 16,
+      "haloRotateSpeed": 0,
+      "haloRotation": 45,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.74,
+         "end": 0.741
+        },
+        {
+         "op": "mul",
+         "amount": 0.7
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ff4d3d",
+      "colorTo": "ffffff",
+      "sides": 4,
+      "hollow": true,
+      "rotation": 45,
+      "radius": 0,
+      "radiusTo": 12,
+      "stroke": 0,
+      "strokeTo": 0.8,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.74,
+         "end": 0.741
+        },
+        {
+         "op": "mul",
+         "amount": 0.7
+        }
+       ]
+      }
+     },
+     {
+      "type": "FlarePart",
+      "layer": 110,
+      "color1": "ff4d3d",
+      "color2": "ffffff",
+      "sides": 4,
+      "radius": 0,
+      "radiusTo": 22,
+      "stroke": 1.6,
+      "innerScl": 0.5,
+      "rotation": 45,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.66,
+         "end": 0.661
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.66,
+            "end": 0.6900000000000001
+           },
+           {
+            "op": "inv"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "HaloPart",
+      "layer": 110,
+      "color": "ffffff",
+      "colorTo": "ff4d3d",
+      "shapes": 3,
+      "tri": true,
+      "radius": 0,
+      "radiusTo": 3,
+      "triLength": 0,
+      "triLengthTo": 8,
+      "haloRadius": 0,
+      "haloRadiusTo": 32,
+      "haloRotateSpeed": 4,
+      "shapeRotation": 180,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.84,
+         "end": 0.85
+        },
+        {
+         "op": "mul",
+         "other": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.85,
+            "end": 1
+           },
+           {
+            "op": "mul",
+            "amount": -0.85
+           },
+           {
+            "op": "add",
+            "amount": 1
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     {
+      "type": "ShapePart",
+      "layer": 110,
+      "color": "ffffff00",
+      "colorTo": "ffffffdd",
+      "circle": true,
+      "radius": 0,
+      "radiusTo": 7,
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "compress",
+         "start": 0.93,
+         "end": 1
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "parts": [
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-door",
+     "mirror": true,
+     "outline": false,
+     "x": 4.875,
+     "y": 0,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.12,
+        "end": 0.42
+       }
+      ]
+     },
+     "layerOffset": -0.002,
+     "moveX": 12.25,
+     "heatColor": "a9d8ffb2",
+     "heatProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.04,
+        "end": 0.12
+       },
+       {
+        "op": "mul",
+        "other": {
+         "type": "warmup",
+         "ops": [
+          {
+           "op": "compress",
+           "start": 0.3,
+           "end": 0.45
+          },
+          {
+           "op": "inv"
+          }
+         ]
+        }
+       }
+      ]
+     },
+     "heatLayerOffset": 0.0001
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-fin",
+     "mirror": true,
+     "outline": false,
+     "x": 18.0,
+     "y": -4.8,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.0,
+        "end": 0.3
+       },
+       {
+        "op": "blend",
+        "other": "reload",
+        "amount": 0.1
+       }
+      ]
+     },
+     "layerOffset": -0.001,
+     "moveX": 10.8,
+     "moveY": -8.4,
+     "moveRot": 32,
+     "heatColor": "a9d8ff",
+     "heatProgress": {
+      "type": "heat",
+      "ops": [
+       {
+        "op": "add",
+        "amount": 0.35
+       },
+       {
+        "op": "min",
+        "other": "warmup"
+       }
+      ]
+     },
+     "heatLayerOffset": 0.0001
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-fin",
+     "mirror": true,
+     "outline": false,
+     "x": 18.0,
+     "y": -4.8,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.1,
+        "end": 0.4
+       },
+       {
+        "op": "blend",
+        "other": "reload",
+        "amount": 0.1
+       }
+      ]
+     },
+     "layerOffset": -0.001,
+     "moveX": 10.8,
+     "moveY": -8.4,
+     "moveRot": 62,
+     "heatColor": "a9d8ff",
+     "heatProgress": {
+      "type": "heat",
+      "ops": [
+       {
+        "op": "add",
+        "amount": 0.35
+       },
+       {
+        "op": "min",
+        "other": "warmup"
+       }
+      ]
+     },
+     "heatLayerOffset": 0.0001
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-clamp",
+     "mirror": false,
+     "outline": false,
+     "x": 0.0,
+     "y": 10.08,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.0,
+        "end": 0.12
+       }
+      ]
+     },
+     "moveX": 0.0,
+     "moveY": 3.84
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-clamp",
+     "mirror": false,
+     "outline": false,
+     "x": 0.0,
+     "y": -10.08,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.0,
+        "end": 0.12
+       }
+      ]
+     },
+     "moveX": 0.0,
+     "moveY": -3.84,
+     "rotation": -180
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-clamp",
+     "mirror": true,
+     "outline": false,
+     "x": 8.73,
+     "y": 5.04,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.0,
+        "end": 0.12
+       }
+      ]
+     },
+     "moveX": 3.326,
+     "moveY": 1.92,
+     "rotation": -60
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-clamp",
+     "mirror": true,
+     "outline": false,
+     "x": 8.73,
+     "y": -5.04,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.0,
+        "end": 0.12
+       }
+      ]
+     },
+     "moveX": 3.326,
+     "moveY": -1.92,
+     "rotation": -120
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "circle": true,
+     "mirror": true,
+     "x": 4.454,
+     "y": 10.754,
+     "radius": 0,
+     "radiusTo": 0.9,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.28,
+        "end": 0.38
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "circle": true,
+     "mirror": true,
+     "x": 10.754,
+     "y": 4.454,
+     "radius": 0,
+     "radiusTo": 0.9,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.4,
+        "end": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "circle": true,
+     "mirror": true,
+     "x": 10.754,
+     "y": -4.454,
+     "radius": 0,
+     "radiusTo": 0.9,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.52,
+        "end": 0.62
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "circle": true,
+     "mirror": true,
+     "x": 4.454,
+     "y": -10.754,
+     "radius": 0,
+     "radiusTo": 0.9,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.64,
+        "end": 0.74
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "color": "0e1016",
+     "colorTo": "0e1016",
+     "layerOffset": -0.005,
+     "sides": 8,
+     "rotation": 22.5,
+     "radius": 9.87
+    },
+    {
+     "type": "ShapePart",
+     "color": "08090d",
+     "colorTo": "08090d",
+     "layerOffset": -0.0049,
+     "sides": 8,
+     "rotation": 22.5,
+     "radius": 7.92
+    },
+    {
+     "type": "ShapePart",
+     "color": "030304",
+     "colorTo": "030304",
+     "layerOffset": -0.0048,
+     "sides": 8,
+     "rotation": 22.5,
+     "radius": 5.2
+    },
+    {
+     "type": "ShapePart",
+     "color": "030304",
+     "colorTo": "dcefff",
+     "layerOffset": -0.0042,
+     "circle": true,
+     "radius": 3.6,
+     "progress": {
+      "type": "reload",
+      "ops": [
+       {
+        "op": "inv"
+       },
+       {
+        "op": "compress",
+        "start": 0.62,
+        "end": 0.95
+       },
+       {
+        "op": "curve",
+        "interp": "pow2In"
+       },
+       {
+        "op": "mul",
+        "other": {
+         "type": "warmup",
+         "ops": [
+          {
+           "op": "compress",
+           "start": 0.5,
+           "end": 0.95
+          },
+          {
+           "op": "curve",
+           "interp": "pow2In"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "type": "HaloPart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "shapes": 8,
+     "sides": 4,
+     "radius": 0,
+     "radiusTo": 0.55,
+     "haloRadius": 12.96,
+     "haloRotateSpeed": -0.9,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.6,
+        "end": 1
+       }
+      ]
+     }
+    },
+    {
+     "type": "HaloPart",
+     "layer": 110,
+     "color": "ffffff",
+     "colorTo": "d1efff",
+     "shapes": 3,
+     "tri": true,
+     "radius": 0,
+     "radiusTo": 1.2,
+     "triLength": 0,
+     "triLengthTo": 2.6,
+     "haloRadius": 14.88,
+     "haloRadiusTo": 10.56,
+     "shapeRotation": 180,
+     "haloRotateSpeed": 2.2,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.85,
+        "end": 1
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "ffffff00",
+     "colorTo": "ffffffdd",
+     "sides": 8,
+     "rotation": 22.5,
+     "radius": 0,
+     "radiusTo": 8.76,
+     "progress": {
+      "type": "reload",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.86,
+        "end": 1
+       }
+      ]
+     }
+    },
+    {
+     "type": "ShapePart",
+     "layer": 110,
+     "color": "8ca9e8",
+     "colorTo": "ffffff",
+     "sides": 8,
+     "rotation": 22.5,
+     "hollow": true,
+     "radius": 21.6,
+     "radiusTo": 8.4,
+     "stroke": 0,
+     "strokeTo": 1.4,
+     "progress": {
+      "type": "reload",
+      "ops": [
+       {
+        "op": "compress",
+        "start": 0.75,
+        "end": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "tetraphyllus-brace",
+   "x": 0,
+   "y": 0,
+   "mirror": false,
+   "rotate": false,
+   "shootCone": 360,
+   "reload": 10,
+   "minWarmup": 0,
+   "display": false,
+   "shoot": {
+    "shots": 0
+   },
+   "bullet": {
+    "type": "BulletType",
+    "damage": 0,
+    "speed": 4,
+    "lifetime": 90,
+    "collides": false,
+    "collidesTiles": false,
+    "collidesGround": false,
+    "collidesAir": false,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "keepVelocity": false,
+    "shootEffect": "none",
+    "smokeEffect": "none",
+    "hitEffect": "none",
+    "despawnEffect": "none"
+   },
+   "shootSound": "none",
+   "shootStatus": {
+    "name": "tetraphyllus-braced",
+    "localizedName": "Braced",
+    "speedMultiplier": 0.2,
+    "color": "8ca9e8",
+    "effect": {
+     "type": "ParticleEffect",
+     "lifetime": 30,
+     "particles": 1,
+     "length": 6,
+     "cone": 180,
+     "colorFrom": "a9d8ff",
+     "colorTo": "8ca9e800",
+     "sizeFrom": 1.6,
+     "sizeTo": 0
+    },
+    "effectChance": 0.12
+   },
+   "shootStatusDuration": 30
+  },
+  {
+   "name": "tetraphyllus-turret",
+   "x": 20.0,
+   "y": 0.5,
+   "mirror": true,
+   "alternate": false,
+   "top": true,
+   "rotate": true,
+   "rotateSpeed": 5,
+   "controllable": false,
+   "autoTarget": true,
+   "aiControllable": true,
+   "targetInterval": 12,
+   "targetSwitchInterval": 24,
+   "shadow": 0,
+   "reload": 6,
+   "recoil": 0,
+   "recoils": 2,
+   "recoilTime": 9,
+   "shootY": 11.85,
+   "shoot": {
+    "type": "ShootAlternate",
+    "barrels": 2,
+    "spread": 3.2
+   },
+   "inaccuracy": 2.5,
+   "velocityRnd": 0.08,
+   "cooldownTime": 40,
+   "heatColor": "a9d8ff",
+   "layerOffset": 0.001,
+   "shootSound": "shootCleroi",
+   "shootSoundVolume": 0.45,
+   "soundPitchMin": 1.05,
+   "soundPitchMax": 1.25,
+   "bullet": {
+    "type": "BasicBulletType",
+    "damage": 47.5,
+    "speed": 4.2,
+    "lifetime": 46,
+    "width": 7.5,
+    "height": 10,
+    "frontColor": "ffffff",
+    "backColor": "8ca9e8",
+    "hitColor": "8ca9e8",
+    "trailColor": "8ca9e8",
+    "trailWidth": 2,
+    "trailLength": 4,
+    "trailEffect": "missileTrail",
+    "trailParam": 1.8,
+    "trailInterval": 6,
+    "shake": 0,
+    "hitEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      "hitBulletColor",
+      {
+       "type": "WaveEffect",
+       "lifetime": 9,
+       "sizeFrom": 0,
+       "sizeTo": 27,
+       "strokeFrom": 3,
+       "strokeTo": 0,
+       "colorFrom": "8ca9e8",
+       "colorTo": "8ca9e8"
+      }
+     ]
+    },
+    "despawnEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      "hitBulletColor",
+      {
+       "type": "WaveEffect",
+       "lifetime": 9,
+       "sizeFrom": 0,
+       "sizeTo": 27,
+       "strokeFrom": 3,
+       "strokeTo": 0,
+       "colorFrom": "8ca9e8",
+       "colorTo": "8ca9e8"
+      }
+     ]
+    },
+    "hitSound": "explosionCleroi",
+    "hitSoundVolume": 0.35,
+    "shootEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      "shootBigColor",
+      {
+       "type": "WaveEffect",
+       "lifetime": 9,
+       "sizeFrom": 0,
+       "sizeTo": 5,
+       "strokeFrom": 1.7,
+       "strokeTo": 0,
+       "colorFrom": "ffffff",
+       "colorTo": "8ca9e8",
+       "sides": 4,
+       "rotation": 45
+      }
+     ]
+    },
+    "smokeEffect": "shootSmokeSquare"
+   },
+   "parts": [
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-tur-barrel",
+     "outline": false,
+     "mirror": false,
+     "x": -1.6,
+     "y": 6.6,
+     "layerOffset": 0.0001,
+     "heatColor": "a9d8ffcc",
+     "heatProgress": "heat",
+     "heatLayerOffset": 1e-05,
+     "recoilIndex": 0,
+     "moveY": -1.6,
+     "progress": {
+      "type": "recoil",
+      "ops": [
+       {
+        "op": "curve",
+        "interp": "pow2In"
+       }
+      ]
+     }
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-tur-barrel",
+     "outline": false,
+     "mirror": false,
+     "x": 1.6,
+     "y": 6.6,
+     "layerOffset": 0.0001,
+     "heatColor": "a9d8ffcc",
+     "heatProgress": "heat",
+     "heatLayerOffset": 1e-05,
+     "recoilIndex": 1,
+     "moveY": -1.6,
+     "progress": {
+      "type": "recoil",
+      "ops": [
+       {
+        "op": "curve",
+        "interp": "pow2In"
+       }
+      ]
+     }
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-tetraphyllus-tur-base",
+     "outline": false,
+     "mirror": false,
+     "x": 0,
+     "y": 0,
+     "layerOffset": 0.0002
+    },
+    {
+     "type": "ShapePart",
+     "circle": true,
+     "x": -1.6,
+     "y": 11.85,
+     "radius": 0,
+     "radiusTo": 1.8,
+     "color": "ffffff",
+     "colorTo": "8ca9e800",
+     "recoilIndex": 0,
+     "progress": {
+      "type": "recoil",
+      "ops": [
+       {
+        "op": "curve",
+        "interp": "pow3In"
+       }
+      ]
+     },
+     "layerOffset": 0.003
+    },
+    {
+     "type": "ShapePart",
+     "circle": true,
+     "x": 1.6,
+     "y": 11.85,
+     "radius": 0,
+     "radiusTo": 1.8,
+     "color": "ffffff",
+     "colorTo": "8ca9e800",
+     "recoilIndex": 1,
+     "progress": {
+      "type": "recoil",
+      "ops": [
+       {
+        "op": "curve",
+        "interp": "pow3In"
+       }
+      ]
+     },
+     "layerOffset": 0.003
+    },
+    {
+     "type": "ShapePart",
+     "color": "8ca9e8",
+     "colorTo": "d1efff",
+     "layerOffset": 0.0003,
+     "circle": true,
+     "radius": 0,
+     "radiusTo": 1.1,
+     "progress": "heat"
+    }
+   ]
+  },
+  {
+   "x": 0,
+   "y": 0,
+   "shootY": 0,
+   "mirror": false,
+   "rotate": false,
+   "shootCone": 360,
+   "reload": 300,
+   "minWarmup": 0.99,
+   "linearWarmup": true,
+   "shootWarmupSpeed": 0.004167,
+   "inaccuracy": 0,
+   "velocityRnd": 0,
+   "name": "tetraphyllus-sfx",
+   "display": false,
+   "top": false,
+   "shootSound": "none",
+   "shake": 0,
+   "recoil": 0,
+   "shadow": 0,
+   "bullet": {
+    "speed": 15,
+    "drag": 0.012,
+    "followAimSpeed": 10,
+    "keepVelocity": false,
+    "rangeOverride": 960,
+    "type": "BulletType",
+    "damage": 0,
+    "lifetime": 395,
+    "collides": false,
+    "collidesTiles": false,
+    "collidesAir": false,
+    "collidesGround": false,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "hitEffect": "none",
+    "despawnEffect": "none",
+    "shootEffect": "none",
+    "smokeEffect": "none",
+    "hitSound": "none",
+    "despawnSound": "none",
+    "fragBullet": {
+     "type": "BulletType",
+     "damage": 0,
+     "speed": 0,
+     "lifetime": 1,
+     "keepVelocity": false,
+     "collides": false,
+     "collidesTiles": false,
+     "collidesAir": false,
+     "collidesGround": false,
+     "hittable": false,
+     "absorbable": false,
+     "reflectable": false,
+     "despawnHit": true,
+     "hitSound": "dp-tetraphyllus-lock",
+     "hitSoundPitch": 1.0,
+     "hitSoundVolume": 1.6,
+     "hitSoundPitchRange": 0,
+     "despawnSound": "none",
+     "hitEffect": "none",
+     "despawnEffect": "none",
+     "shootEffect": "none",
+     "smokeEffect": "none",
+     "drawSize": 0,
+     "fragBullet": {
+      "type": "BulletType",
+      "damage": 0,
+      "speed": 0,
+      "lifetime": 42,
+      "keepVelocity": false,
+      "collides": false,
+      "collidesTiles": false,
+      "collidesAir": false,
+      "collidesGround": false,
+      "hittable": false,
+      "absorbable": false,
+      "reflectable": false,
+      "despawnHit": true,
+      "hitSound": "uiChat",
+      "hitSoundPitch": 1.0,
+      "hitSoundVolume": 0.8,
+      "hitSoundPitchRange": 0,
+      "despawnSound": "none",
+      "hitEffect": "none",
+      "despawnEffect": "none",
+      "shootEffect": "none",
+      "smokeEffect": "none",
+      "drawSize": 0,
+      "fragBullet": {
+       "type": "BulletType",
+       "damage": 0,
+       "speed": 0,
+       "lifetime": 36,
+       "keepVelocity": false,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": false,
+       "collidesGround": false,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "despawnHit": true,
+       "hitSound": "uiChat",
+       "hitSoundPitch": 1.05,
+       "hitSoundVolume": 0.85,
+       "hitSoundPitchRange": 0,
+       "despawnSound": "none",
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "drawSize": 0,
+       "fragBullet": {
+        "type": "BulletType",
+        "damage": 0,
+        "speed": 0,
+        "lifetime": 16,
+        "keepVelocity": false,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": false,
+        "collidesGround": false,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "despawnHit": true,
+        "hitSound": "padLand",
+        "hitSoundPitch": 1.25,
+        "hitSoundVolume": 1.6,
+        "hitSoundPitchRange": 0,
+        "despawnSound": "none",
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "drawSize": 0,
+        "fragBullet": {
+         "type": "BulletType",
+         "damage": 0,
+         "speed": 0,
+         "lifetime": 14,
+         "keepVelocity": false,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": false,
+         "collidesGround": false,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "despawnHit": true,
+         "hitSound": "uiChat",
+         "hitSoundPitch": 1.1,
+         "hitSoundVolume": 0.9,
+         "hitSoundPitchRange": 0,
+         "despawnSound": "none",
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "drawSize": 0,
+         "fragBullet": {
+          "type": "BulletType",
+          "damage": 0,
+          "speed": 0,
+          "lifetime": 24,
+          "keepVelocity": false,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": false,
+          "collidesGround": false,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "despawnHit": true,
+          "hitSound": "uiChat",
+          "hitSoundPitch": 1.18,
+          "hitSoundVolume": 0.95,
+          "hitSoundPitchRange": 0,
+          "despawnSound": "none",
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "drawSize": 0,
+          "fragBullet": {
+           "type": "BulletType",
+           "damage": 0,
+           "speed": 0,
+           "lifetime": 18,
+           "keepVelocity": false,
+           "collides": false,
+           "collidesTiles": false,
+           "collidesAir": false,
+           "collidesGround": false,
+           "hittable": false,
+           "absorbable": false,
+           "reflectable": false,
+           "despawnHit": true,
+           "hitSound": "uiChat",
+           "hitSoundPitch": 1.24,
+           "hitSoundVolume": 1.0,
+           "hitSoundPitchRange": 0,
+           "despawnSound": "none",
+           "hitEffect": "none",
+           "despawnEffect": "none",
+           "shootEffect": "none",
+           "smokeEffect": "none",
+           "drawSize": 0,
+           "fragBullet": {
+            "type": "BulletType",
+            "damage": 0,
+            "speed": 0,
+            "lifetime": 15,
+            "keepVelocity": false,
+            "collides": false,
+            "collidesTiles": false,
+            "collidesAir": false,
+            "collidesGround": false,
+            "hittable": false,
+            "absorbable": false,
+            "reflectable": false,
+            "despawnHit": true,
+            "hitSound": "uiChat",
+            "hitSoundPitch": 1.3,
+            "hitSoundVolume": 1.0,
+            "hitSoundPitchRange": 0,
+            "despawnSound": "none",
+            "hitEffect": "none",
+            "despawnEffect": "none",
+            "shootEffect": "none",
+            "smokeEffect": "none",
+            "drawSize": 0,
+            "fragBullet": {
+             "type": "BulletType",
+             "damage": 0,
+             "speed": 0,
+             "lifetime": 12,
+             "keepVelocity": false,
+             "collides": false,
+             "collidesTiles": false,
+             "collidesAir": false,
+             "collidesGround": false,
+             "hittable": false,
+             "absorbable": false,
+             "reflectable": false,
+             "despawnHit": true,
+             "hitSound": "uiChat",
+             "hitSoundPitch": 1.36,
+             "hitSoundVolume": 1.05,
+             "hitSoundPitchRange": 0,
+             "despawnSound": "none",
+             "hitEffect": "none",
+             "despawnEffect": "none",
+             "shootEffect": "none",
+             "smokeEffect": "none",
+             "drawSize": 0,
+             "fragBullet": {
+              "type": "BulletType",
+              "damage": 0,
+              "speed": 0,
+              "lifetime": 9,
+              "keepVelocity": false,
+              "collides": false,
+              "collidesTiles": false,
+              "collidesAir": false,
+              "collidesGround": false,
+              "hittable": false,
+              "absorbable": false,
+              "reflectable": false,
+              "despawnHit": true,
+              "hitSound": "uiChat",
+              "hitSoundPitch": 1.42,
+              "hitSoundVolume": 1.1,
+              "hitSoundPitchRange": 0,
+              "despawnSound": "none",
+              "hitEffect": "none",
+              "despawnEffect": "none",
+              "shootEffect": "none",
+              "smokeEffect": "none",
+              "drawSize": 0,
+              "fragBullet": {
+               "type": "BulletType",
+               "damage": 0,
+               "speed": 0,
+               "lifetime": 6,
+               "keepVelocity": false,
+               "collides": false,
+               "collidesTiles": false,
+               "collidesAir": false,
+               "collidesGround": false,
+               "hittable": false,
+               "absorbable": false,
+               "reflectable": false,
+               "despawnHit": true,
+               "hitSound": "uiChat",
+               "hitSoundPitch": 1.48,
+               "hitSoundVolume": 1.15,
+               "hitSoundPitchRange": 0,
+               "despawnSound": "none",
+               "hitEffect": "none",
+               "despawnEffect": "none",
+               "shootEffect": "none",
+               "smokeEffect": "none",
+               "drawSize": 0,
+               "fragBullet": {
+                "type": "BulletType",
+                "damage": 0,
+                "speed": 0,
+                "lifetime": 5,
+                "keepVelocity": false,
+                "collides": false,
+                "collidesTiles": false,
+                "collidesAir": false,
+                "collidesGround": false,
+                "hittable": false,
+                "absorbable": false,
+                "reflectable": false,
+                "despawnHit": true,
+                "hitSound": "uiChat",
+                "hitSoundPitch": 1.54,
+                "hitSoundVolume": 1.2,
+                "hitSoundPitchRange": 0,
+                "despawnSound": "none",
+                "hitEffect": "none",
+                "despawnEffect": "none",
+                "shootEffect": "none",
+                "smokeEffect": "none",
+                "drawSize": 0,
+                "fragBullet": {
+                 "type": "BulletType",
+                 "damage": 0,
+                 "speed": 0,
+                 "lifetime": 4,
+                 "keepVelocity": false,
+                 "collides": false,
+                 "collidesTiles": false,
+                 "collidesAir": false,
+                 "collidesGround": false,
+                 "hittable": false,
+                 "absorbable": false,
+                 "reflectable": false,
+                 "despawnHit": true,
+                 "hitSound": "uiChat",
+                 "hitSoundPitch": 1.6,
+                 "hitSoundVolume": 1.25,
+                 "hitSoundPitchRange": 0,
+                 "despawnSound": "none",
+                 "hitEffect": "none",
+                 "despawnEffect": "none",
+                 "shootEffect": "none",
+                 "smokeEffect": "none",
+                 "drawSize": 0
+                },
+                "fragBullets": 1,
+                "fragRandomSpread": 0,
+                "fragVelocityMin": 1,
+                "fragVelocityMax": 1
+               },
+               "fragBullets": 1,
+               "fragRandomSpread": 0,
+               "fragVelocityMin": 1,
+               "fragVelocityMax": 1
+              },
+              "fragBullets": 1,
+              "fragRandomSpread": 0,
+              "fragVelocityMin": 1,
+              "fragVelocityMax": 1
+             },
+             "fragBullets": 1,
+             "fragRandomSpread": 0,
+             "fragVelocityMin": 1,
+             "fragVelocityMax": 1
+            },
+            "fragBullets": 1,
+            "fragRandomSpread": 0,
+            "fragVelocityMin": 1,
+            "fragVelocityMax": 1
+           },
+           "fragBullets": 1,
+           "fragRandomSpread": 0,
+           "fragVelocityMin": 1,
+           "fragVelocityMax": 1
+          },
+          "fragBullets": 1,
+          "fragRandomSpread": 0,
+          "fragVelocityMin": 1,
+          "fragVelocityMax": 1
+         },
+         "fragBullets": 1,
+         "fragRandomSpread": 0,
+         "fragVelocityMin": 1,
+         "fragVelocityMax": 1
+        },
+        "fragBullets": 1,
+        "fragRandomSpread": 0,
+        "fragVelocityMin": 1,
+        "fragVelocityMax": 1
+       },
+       "fragBullets": 1,
+       "fragRandomSpread": 0,
+       "fragVelocityMin": 1,
+       "fragVelocityMax": 1
+      },
+      "fragBullets": 1,
+      "fragRandomSpread": 0,
+      "fragVelocityMin": 1,
+      "fragVelocityMax": 1
+     },
+     "fragBullets": 1,
+     "fragRandomSpread": 0,
+     "fragVelocityMin": 1,
+     "fragVelocityMax": 1
+    },
+    "fragBullets": 1,
+    "fragRandomSpread": 0,
+    "fragVelocityMin": 1,
+    "fragVelocityMax": 1
+   }
+  }
+ ]
+}

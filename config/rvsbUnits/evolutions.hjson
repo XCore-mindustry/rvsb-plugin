@@ -45,7 +45,7 @@
   "vanquish": { "tier": 7, "stage": 6, "cost": 200, "evolves": ["conquer"] }
   "dp-stryker-unit": { "tier": 8, "stage": 6, "cost": 320, "evolves": ["dp-devastator-unit"] }
   "dp-incinerate-unit": { "tier": 8, "stage": 6, "cost": 460, "evolves": ["dp-vulcan-unit"] }
-  "collaris": { "tier": 8, "stage": 7, "cost": 1170, "evolves": ["nova", "flare", "dagger", "mono"] }
+  "collaris": { "tier": 8, "stage": 7, "cost": 1170, "evolves": ["dp-tetraphyllus-unit", "nova", "flare", "dagger", "mono"] }
   "antumbra": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["eclipse", "sei"] }
   "oct": { "tier": 8, "stage": 8, "cost": 1300, "evolves": ["dp-omega-unit", "merui", "nova", "flare", "dagger"] }
   "dp-omni-unit": { "tier": 8, "stage": 8, "cost": 980, "evolves": ["dp-omega-unit", "flare", "merui", "mono", "nova"] }
@@ -71,4 +71,5 @@
   "dp-poseidon-unit": { "tier": 12, "stage": 11, "cost": 960, "evolves": ["merui", "nova", "dagger", "mono"] }
   "dp-empire-unit": { "tier": 12, "stage": 11, "cost": 1520, "evolves": ["merui", "nova", "flare", "mono"] }
   "dp-omega-unit": { "tier": 12, "stage": 11, "cost": 1340, "evolves": ["merui", "nova", "flare", "dagger"] }
+  "dp-tetraphyllus-unit": { "tier": 12, "stage": 11, "cost": 1080, "evolves": ["nova", "flare", "dagger", "mono"] }
 }

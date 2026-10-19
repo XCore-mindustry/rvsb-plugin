@@ -1,0 +1,5 @@
+unit.dp-tetraphyllus-unit: {
+	uiIcon: dp-tetraphyllus-unit-ui
+	fullIcon: dp-tetraphyllus-unit-full
+	shadowRegion: dp-tetraphyllus-unit-full
+}
