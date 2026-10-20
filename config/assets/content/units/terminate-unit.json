@@ -25,7 +25,7 @@
  "rotateSpeed": 5,
  "health": 860,
  "armor": 9,
- "hitSize": 24.9,
+ "hitSize": 19.9,
  "engineSize": 0,
  "fogRadius": 30,
  "circleTarget": true,
