@@ -1,0 +1,232 @@
+// Destroy (T2, Eliminate/Annihilate tree), author: alphy. Kitbash: plasma-laser core, large-purple-mount hips (serpulo). No shooting glow (no heat region); sprite colours kept.
+// Dagger-style side guns (artillery-mount pods at the hips, sprite flipped, under the hull): 14 splash (r 12), alternating, 45-tick reload each (~37 DPS). Top turret (point-defense-mount sprite): large shells 30 splash (r 16) / 50 ticks (~36 DPS).
+// v33: shells ignore everything on the way (no collision, not hittable/absorbable/reflectable) and burst at the aim point (scaleLife); all damage is splash.
+// Turret shell drawn above the unit (layer 117 > flying units 115).
+// Ground targets only (targetAir false, bullets collidesAir false). SFX: hip guns = minke artillery-mount (shootArtillerySmall), turret = fortress/bryde (shootArtillery).
+// Speed 2.2 -> 1.43 (-35%). Any shot applies slow (x0.4 speed) while firing. Oxynoe field: overclock (+15% speed/dmg, +25% reload) to allies incl. itself, 6 s every 6 s, range 60.
+// Weapon heat: destroy-gun-heat / destroy-cannon-heat (vanilla-style banded gradient from the muzzle), default turret-heat tint, cooldown 35 / 45 ticks.
+// destroy-sapper = decorative emitters only: inert weapon (never fires, ignored by AI and range calc, hidden from stats). Hit/despawn effects: ring + dots (WaveEffect + ParticleEffect).
+{
+ "type": "flying",
+ "name": "Destroy",
+ "description": "Fires artillery at enemy ground targets. Overclocks nearby units.",
+ "credit": "alphy",
+ "canAttack": true,
+ "targetAir": false,
+ "targetGround": true,
+ "playerControllable": true,
+ "logicControllable": true,
+ "useUnitCap": true,
+ "coreUnitDock": false,
+ "outlines": false,
+ "outlineColor": "565666",
+ "drawCell": true,
+ "buildSpeed": 0.01,
+ "itemCapacity": 0,
+ "flying": true,
+ "lowAltitude": false,
+ "drag": 0.06,
+ "speed": 1.43,
+ "accel": 0.1,
+ "rotateSpeed": 6,
+ "health": 420,
+ "armor": 5,
+ "hitSize": 14,
+ "engineSize": 0,
+ "fogRadius": 25,
+ "circleTarget": false,
+ "engines": [
+  {
+   "x": 3.5,
+   "y": -12,
+   "radius": 2.4,
+   "rotation": -90
+  },
+  {
+   "x": -3.5,
+   "y": -12,
+   "radius": 2.4,
+   "rotation": -90
+  }
+ ],
+ "abilities": [
+  {
+   "type": "StatusFieldAbility",
+   "effect": "overclock",
+   "duration": 360,
+   "reload": 360,
+   "range": 60
+  }
+ ],
+ "weapons": [
+  {
+   "name": "destroy-gun",
+   "x": 9,
+   "y": -4,
+   "shootY": 6.5,
+   "mirror": true,
+   "alternate": true,
+   "rotate": false,
+   "top": false,
+   "reload": 45,
+   "shootCone": 15,
+   "cooldownTime": 35,
+   "shootStatus": "slow",
+   "shootStatusDuration": 30,
+   "recoil": 1.5,
+   "ejectEffect": "casing1",
+   "shootSound": "shootArtillerySmall",
+   "bullet": {
+    "type": "BasicBulletType",
+    "collides": false,
+    "collidesTiles": false,
+    "collidesAir": false,
+    "collidesGround": true,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "scaleLife": true,
+    "keepVelocity": false,
+    "despawnHit": true,
+    "scaledSplashDamage": true,
+    "splashDamagePierce": true,
+    "speed": 3.4,
+    "damage": 0,
+    "splashDamage": 14,
+    "splashDamageRadius": 12,
+    "width": 10,
+    "height": 13,
+    "lifetime": 32,
+    "backColor": "d4816b",
+    "frontColor": "ffd37f",
+    "hitColor": "ffd37f",
+    "hitEffect": [
+     {
+      "type": "WaveEffect",
+      "lifetime": 12,
+      "sizeFrom": 0,
+      "sizeTo": 7,
+      "strokeFrom": 1.5555555555555556,
+      "strokeTo": 0,
+      "colorFrom": "ffd37f",
+      "colorTo": "d4816b"
+     },
+     {
+      "type": "ParticleEffect",
+      "particles": 4,
+      "lifetime": 18,
+      "length": 9,
+      "baseLength": 1,
+      "sizeFrom": 1.6,
+      "sizeTo": 0,
+      "colorFrom": "ffd37f",
+      "colorTo": "d4816b",
+      "interp": "pow2Out"
+     }
+    ],
+    "despawnEffect": "none",
+    "shootEffect": "shootSmallColor",
+    "smokeEffect": "shootSmallSmoke"
+   }
+  },
+  {
+   "name": "destroy-sapper",
+   "x": 4.5,
+   "y": -2,
+   "mirror": true,
+   "rotate": false,
+   "top": true,
+   "display": false,
+   "showStatSprite": false,
+   "controllable": false,
+   "autoTarget": false,
+   "aiControllable": false,
+   "noAttack": true,
+   "useAttackRange": false,
+   "reload": 60,
+   "shootSound": "none",
+   "bullet": {
+    "type": "BulletType",
+    "damage": 0,
+    "speed": 0,
+    "lifetime": 1,
+    "hitEffect": "none",
+    "despawnEffect": "none",
+    "shootEffect": "none",
+    "smokeEffect": "none"
+   }
+  },
+  {
+   "name": "destroy-cannon",
+   "x": 0,
+   "y": -4,
+   "shootY": 3.5,
+   "mirror": false,
+   "rotate": true,
+   "rotateSpeed": 4,
+   "top": true,
+   "reload": 50,
+   "shootCone": 10,
+   "cooldownTime": 45,
+   "shootStatus": "slow",
+   "shootStatusDuration": 55,
+   "recoil": 2,
+   "shake": 1,
+   "shootSound": "shootArtillery",
+   "ejectEffect": "casing2",
+   "bullet": {
+    "type": "BasicBulletType",
+    "collides": false,
+    "collidesTiles": false,
+    "collidesAir": false,
+    "collidesGround": true,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "scaleLife": true,
+    "keepVelocity": false,
+    "despawnHit": true,
+    "scaledSplashDamage": true,
+    "splashDamagePierce": true,
+    "layer": 117,
+    "speed": 3.6,
+    "damage": 0,
+    "splashDamage": 30,
+    "splashDamageRadius": 16,
+    "width": 14,
+    "height": 19,
+    "lifetime": 34,
+    "backColor": "d4816b",
+    "frontColor": "ffd37f",
+    "hitColor": "ffd37f",
+    "hitEffect": [
+     {
+      "type": "WaveEffect",
+      "lifetime": 16,
+      "sizeFrom": 0,
+      "sizeTo": 11,
+      "strokeFrom": 2.4444444444444446,
+      "strokeTo": 0,
+      "colorFrom": "ffd37f",
+      "colorTo": "d4816b"
+     },
+     {
+      "type": "ParticleEffect",
+      "particles": 6,
+      "lifetime": 22,
+      "length": 14,
+      "baseLength": 1,
+      "sizeFrom": 2.4,
+      "sizeTo": 0,
+      "colorFrom": "ffd37f",
+      "colorTo": "d4816b",
+      "interp": "pow2Out"
+     }
+    ],
+    "despawnEffect": "none",
+    "shootEffect": "shootBigColor",
+    "smokeEffect": "shootBigSmoke"
+   }
+  }
+ ]
+}

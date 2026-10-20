@@ -1,0 +1,11 @@
+// Terminate strain stack 4/9 (no damage): x0.85724 move speed and reload. 9 stacks = x0.25.
+{
+ "hideDatabase": true,
+ "show": false,
+ "permanent": false,
+ "speedMultiplier": 0.85724,
+ "reloadMultiplier": 0.85724,
+ "color": "989aa4ff",
+ "effect": "none",
+ "applyEffect": "none"
+}

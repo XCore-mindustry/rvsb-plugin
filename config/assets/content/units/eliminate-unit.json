@@ -55,7 +55,7 @@ weapons: [
     {
         name: "eliminate-launcher", x: 9, y: -7.5, shootY: 6, mirror: true, alternate: true
         top: true, layerOffset: 0.001, shadow: 6
-        rotate: true, rotateSpeed: 7, useAttackRange: false
+        rotate: true, rotateSpeed: 7, useAttackRange: true
         shootCone: 20, reload: 30, recoil: 1.5, recoilTime: 20, shake: 0.6, inaccuracy: 3
         shoot: { type: "ShootAlternate", shots: 2, shotDelay: 5, barrels: 2, spread: 4.5 }
         shootSound: "shootMissileLong", shootSoundVolume: 0.6, heatColor: "ffd37f", cooldownTime: 30

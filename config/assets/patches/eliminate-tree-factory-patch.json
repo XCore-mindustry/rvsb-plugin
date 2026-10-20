@@ -1,0 +1,10 @@
+// Eliminate tree (author: alphy): Remove (T1) is built in the air factory (15 s, like flare), the rest come from reconstructors.
+block.air-factory.plans.+: {
+	unit: dp-remove-unit
+	time: 900
+	requirements: [titanium/55, silicon/45, lead/18]
+}
+block.additive-reconstructor.upgrades.+: [[dp-remove-unit, dp-destroy-unit]]
+block.multiplicative-reconstructor.upgrades.+: [[dp-destroy-unit, dp-terminate-unit]]
+block.exponential-reconstructor.upgrades.+: [[dp-terminate-unit, dp-eliminate-unit]]
+block.tetrative-reconstructor.upgrades.+: [[dp-eliminate-unit, dp-annihilate-unit]]
