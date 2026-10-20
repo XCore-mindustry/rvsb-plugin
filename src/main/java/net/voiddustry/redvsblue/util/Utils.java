@@ -27,6 +27,9 @@ import static net.voiddustry.redvsblue.RedVsBluePlugin.*;
 
 public class Utils {
 
+    /** Announcements share one popup slot: a new one replaces the previous in place. */
+    private static final String ANNOUNCE_POPUP_ID = "rvsb-announce";
+
     public static boolean voting;
     public static boolean gameRun;
     public static boolean gameover;
@@ -72,7 +75,7 @@ public class Utils {
         Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
-                announceBundled("game.game-starts-soon", 1, i[0]);
+                announceBundled("game.game-starts-soon", 2, i[0]);
                 i[0]--;
 
                 if (i[0] <= 0) {
@@ -349,6 +352,7 @@ public class Utils {
             Call.infoPopup(
                     player.con,
                     text,
+                    ANNOUNCE_POPUP_ID,
                     duration,
                     0,
                     0,
@@ -375,6 +379,7 @@ public class Utils {
             Call.infoPopup(
                     player.con,
                     text,
+                    ANNOUNCE_POPUP_ID,
                     duration,
                     0,
                     0,

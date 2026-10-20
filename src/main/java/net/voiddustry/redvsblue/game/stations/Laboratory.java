@@ -169,7 +169,8 @@ public class Laboratory {
                                         "evolution.evolution-available",
                                         player.locale
                                 ),
-                                0.5f,
+                                "rvsb-lab",
+                                1f,
                                 0,
                                 0,
                                 0,
