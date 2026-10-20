@@ -17,23 +17,27 @@ public class Evolutions {
         "atrax", Evolution.ATRAX,
         "risso", Evolution.RISSO,
         "poly", Evolution.POLY,
+        "elude", Evolution.ELUDE,
 
         "mace", Evolution.MACE,
         "quasar", Evolution.QUASAR,
         "cleroi", Evolution.CLEROI,
         "zenith", Evolution.ZENITH,
         "retusa", Evolution.RETUSA,
+        "dp-destroy-unit", Evolution.DESTROY,
 
         "fortress", Evolution.FORTRESS,
         "dp-vela-blue-unit", Evolution.VELA,
         "spiroct", Evolution.SPIROCT,
         "minke", Evolution.MINKE,
         "oxynoe", Evolution.OXYNOE,
+        "dp-terminate-unit", Evolution.TERMINATE,
 
         "locus", Evolution.LOCUS,
         "corvus", Evolution.CORVUS,
         "merui", Evolution.MERUI,
         "mega", Evolution.MEGA,
+        "dp-eliminate-unit", Evolution.ELIMINATE,
         
         "dp-orion-unit", Evolution.ORION,
         "precept", Evolution.PRECEPT,
@@ -42,6 +46,7 @@ public class Evolutions {
         "cyerce", Evolution.CYERCE,
         "tecta", Evolution.TECTA,
         "dp-aractid-unit", Evolution.ARACTID,
+        "dp-annihilate-unit", Evolution.ANNIHILATE,
 
         "scepter", Evolution.SCEPTER,
         "navanax", Evolution.NAVANAX,

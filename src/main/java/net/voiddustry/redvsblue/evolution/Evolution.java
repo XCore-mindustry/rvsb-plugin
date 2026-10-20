@@ -11,7 +11,7 @@ public enum Evolution {
     MERUI("merui", 1, 8 * multp,
             new String[]{"atrax", "nova", "flare", "dagger", "mono"}, 1),
     FLARE("flare", 1, 6 * multp,
-            new String[]{"risso", "nova", "merui", "dagger", "mono"}, 1),
+            new String[]{"risso", "elude", "nova", "merui", "dagger", "mono"}, 1),
     MONO("mono", 1, 5 * multp,
             new String[]{"poly", "nova", "merui", "dagger"}, 1),
 
@@ -23,6 +23,8 @@ public enum Evolution {
             new String[]{"zenith"}, 3),
     POLY("poly", 2, 21 * multp,
             new String[]{"retusa"}, 2),
+    ELUDE("elude", 2, 20 * multp,
+            new String[]{"dp-destroy-unit"}, 2),
 
     MACE("mace", 3, 20 * multp,
             new String[]{"fortress"}, 2),
@@ -34,6 +36,8 @@ public enum Evolution {
             new String[]{"minke"}, 3),
     RETUSA("retusa", 3, 15 * multp,
             new String[]{"oxynoe"}, 3),
+    DESTROY("dp-destroy-unit", 3, 45 * multp,
+            new String[]{"dp-terminate-unit"}, 3),
 
     FORTRESS("fortress", 4, 48 * multp,
             new String[]{"locus"}, 2),
@@ -45,6 +49,8 @@ public enum Evolution {
             new String[]{"avert"}, 3),
     OXYNOE("oxynoe", 4, 35 * multp,
             new String[]{"mega"}, 3),
+    TERMINATE("dp-terminate-unit", 4, 75 * multp,
+            new String[]{"dp-eliminate-unit"}, 3),
 
     LOCUS("locus", 5, 55 * multp,
             new String[]{"precept"}, 4),
@@ -52,6 +58,8 @@ public enum Evolution {
             new String[]{"aegires", "dp-orion-unit"}, 7),
     MEGA("mega", 5, 100 * multp,
             new String[]{"cyerce"}, 4),
+    ELIMINATE("dp-eliminate-unit", 5, 380 * multp,
+            new String[]{"dp-annihilate-unit"}, 6),
 
     ORION("dp-orion-unit", 6, 1680 * multp,
             new String[]{"nova", "flare", "merui"}, 10),
@@ -67,6 +75,8 @@ public enum Evolution {
             new String[]{"collaris"}, 7),
     ARACTID("dp-aractid-unit", 6, 185 * multp,
             new String[]{"toxopid"}, 5),
+    ANNIHILATE("dp-annihilate-unit", 6, 720 * multp,
+            new String[]{"nova", "flare", "dagger", "mono"}, 8),
 
     SCEPTER("scepter", 7, 105 * multp,
             new String[]{"vanquish"}, 6),
