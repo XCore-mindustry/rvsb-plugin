@@ -1,0 +1,10 @@
+// Terminate dash buff (v34): x6.3 move speed for the 0.3 s of each dash (applied by the dash weapons, shootStatus).
+{
+ "hideDatabase": true,
+ "show": false,
+ "permanent": false,
+ "speedMultiplier": 6.3,
+ "color": "ffd37fff",
+ "effect": "none",
+ "applyEffect": "none"
+}

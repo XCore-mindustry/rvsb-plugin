@@ -1,16 +1,3 @@
-// Terminate (T3, Eliminate/Annihilate tree), author: alphy. Kitbash: beam-weapon wings, spiroct fins, point-defense spine,
-// heal-shotgun nose, reversed artillery-mount shoulder pods (serpulo). Flyer, speed 0.8, flare-style circle-attack AI (circleTarget).
-// Dashes (mounts 0-2): forward impulse 0.7/tick for 0.3 s along the facing (bullet recoil -0.7; ~75 wu dash + glide ~150 wu total, = v24 x6.3).
-// No speed status any more: it multiplied AI steering and turn rate x6.3, so circle-attack turned 180 deg away from air targets mid-dash.
-// AI aims at the target itself (predictTarget false; the 0.01-speed bullet broke the intercept) and only dashes within 10 deg.
-// Attack = Spearhead shrapnel lance, smaller (len 70, 1 serration, no lightning) every tick of the dash, base 1.5 wu ahead of centre
-// (just past the wings): cosmetic (0 dmg); the dash bullet deals the damage every 3rd tick: 26.61 per hit, ~6 hits = ~160 per dash at 0 armor (v32 -20%, v33 +10%)
-// (v31: armor counts 6x per dash instead of 18x; vs armor 9 ~106 per dash). High-flying (lance drawn below). Whole nose heats per dash.
-// AI: singleTarget (dash mounts track the main target every tick; vanilla per-mount retarget every 1.5 s made it dash ~4x less).
-// 0.2 s between dashes (start-to-start 0.5 s), 2 s recharge after the 3rd. Tap = 1 dash, hold 0.5 s = 2, hold 1 s = 3. AI fires within 7 tiles.
-// Nozzles (mounts 12-13, build-beam sprites on the wing roots): automatic, not player/AI controlled. Alternating, 1 shot per 1.5 s:
-// 3 lightning bolts (length 7 = ~42 wu reach) in random directions x 33 dmg = 99 per shot (66 DPS if all bolts land; v32 -20%, v33 +10%).
-// Strain (mounts 3-11): 9 stacks over 24 s of firing, x0.85724 speed + reload each (x0.25 at 9), no damage, 6 s duration; lerp warmup memory.
 {
  "type": "flying",
  "name": "Terminate",
@@ -28,7 +15,7 @@
  "outlineColor": "565666",
  "drawCell": true,
  "buildSpeed": 0.01,
- "itemCapacity": 0,
+ "itemCapacity": 80,
  "singleTarget": true,
  "flying": true,
  "lowAltitude": false,
@@ -38,7 +25,7 @@
  "rotateSpeed": 5,
  "health": 860,
  "armor": 9,
- "hitSize": 24,
+ "hitSize": 24.9,
  "engineSize": 0,
  "fogRadius": 30,
  "circleTarget": true,
@@ -159,6 +146,8 @@
    "continuous": true,
    "reload": 180,
    "cooldownTime": 30,
+   "shootStatus": "dp-terminate-dash",
+   "shootStatusDuration": 18,
    "shootSound": "none",
    "initialShootSound": "shootLancer",
    "soundPitchMin": 1.3,
@@ -169,7 +158,7 @@
    "bullet": {
     "type": "ContinuousBulletType",
     "speed": 0.01,
-    "recoil": -0.7,
+    "recoil": 0,
     "lifetime": 18,
     "rangeOverride": 56,
     "collides": false,
@@ -236,6 +225,8 @@
    "continuous": true,
    "reload": 180,
    "cooldownTime": 30,
+   "shootStatus": "dp-terminate-dash",
+   "shootStatusDuration": 18,
    "shootSound": "none",
    "initialShootSound": "shootLancer",
    "soundPitchMin": 1.3,
@@ -246,7 +237,7 @@
    "bullet": {
     "type": "ContinuousBulletType",
     "speed": 0.01,
-    "recoil": -0.7,
+    "recoil": 0,
     "lifetime": 18,
     "rangeOverride": 56,
     "collides": false,
@@ -316,6 +307,8 @@
    "continuous": true,
    "reload": 180,
    "cooldownTime": 30,
+   "shootStatus": "dp-terminate-dash",
+   "shootStatusDuration": 18,
    "shootSound": "none",
    "initialShootSound": "shootLancer",
    "soundPitchMin": 1.3,
@@ -326,7 +319,7 @@
    "bullet": {
     "type": "ContinuousBulletType",
     "speed": 0.01,
-    "recoil": -0.7,
+    "recoil": 0,
     "lifetime": 18,
     "rangeOverride": 56,
     "collides": false,

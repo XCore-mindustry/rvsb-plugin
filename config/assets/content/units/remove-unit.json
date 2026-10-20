@@ -1,8 +1,3 @@
-// Remove (T1, Eliminate/Annihilate tree), author: alphy. Flyer. Kitbash: artillery pontoons, point-defense tail, plasma-missile core (serpulo).
-// Coils 1-10 fire at 0.7 s steps, then every 7 s in the same order (coil 1 refires 0.7 s after coil 10). Each = +20% speed/reload, -2.2 HP/s.
-// 10 stacks: speed 0.55 -> 3.4 (flare 2.7), DPS 28 -> 172 (atrax ~173), burn 22.2 HP/s = 280 HP in 12.6 s.
-// AI: range 4 (flies right up to the target: FlyingAI moveTo range*0.8), maxRange 109.2 keeps target acquisition at weapon range.
-// On death: crawler-style blast (crawler 80 r44 -> 50 splash r36, x0.68 vs buildings) + 4 lightning arcs x 15 dmg (shocked).
 {
  "type": "flying",
  "name": "Remove",
@@ -19,7 +14,7 @@
  "outlineColor": "565666",
  "drawCell": true,
  "buildSpeed": 0.01,
- "itemCapacity": 0,
+ "itemCapacity": 20,
  "range": 4,
  "maxRange": 109.2,
  "flying": true,
