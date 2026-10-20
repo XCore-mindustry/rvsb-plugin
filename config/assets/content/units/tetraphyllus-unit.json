@@ -1,4 +1,4 @@
-//oh no
+// among us
 {
  "type": "legs",
  "name": "Tetraphyllus",
@@ -10,7 +10,7 @@
  "health": 41000,
  "armor": 16,
  "hitSize": 44,
- "speed": 0.4,
+ "speed": 0.6,
  "drag": 0.1,
  "rotateSpeed": 1.1,
  "faceTarget": true,
@@ -556,23 +556,13 @@
     "smokeEffect": "none",
     "spawnBullets": [
      {
-      "type": "BasicBulletType",
-      "sprite": "dp-tetraphyllus-missile",
+      "type": "BulletType",
       "damage": 0,
-      "speed": 0.4,
-      "lifetime": 126,
-      "drag": -0.0218,
+      "speed": 0.1,
+      "lifetime": 2,
       "keepVelocity": false,
-      "width": 9.78,
-      "height": 15.51,
-      "shrinkX": -2.76,
-      "shrinkY": -2.76,
-      "shrinkInterp": "linear",
-      "frontColor": "ffffff",
-      "backColor": "ffffff",
-      "mixColorFrom": "ffffff00",
-      "mixColorTo": "ffffffcc",
-      "layer": 117,
+      "followAimSpeed": 360,
+      "drawSize": 0,
       "collides": false,
       "collidesTiles": false,
       "collidesGround": false,
@@ -580,103 +570,185 @@
       "hittable": false,
       "absorbable": false,
       "reflectable": false,
-      "trailColor": "8ca9e8",
-      "trailWidth": 2.2,
-      "trailLength": 10,
-      "trailInterval": 2,
-      "trailMinVelocity": 0.9,
-      "trailEffect": {
-       "type": "ParticleEffect",
-       "lifetime": 44,
-       "particles": 1,
-       "length": 1.5,
-       "cone": 180,
-       "colorFrom": "8a8b90b0",
-       "colorTo": "4c4d5200",
-       "sizeFrom": 2.4,
-       "sizeTo": 0,
-       "layer": 116.5,
-       "lightOpacity": 0
-      },
       "hitEffect": "none",
-      "despawnEffect": {
-       "type": "MultiEffect",
-       "effects": [
-        {
-         "type": "WaveEffect",
-         "lifetime": 18,
-         "sizeFrom": 2,
-         "sizeTo": 12,
-         "strokeFrom": 1.6,
-         "strokeTo": 0,
-         "colorFrom": "ffffffcc",
-         "colorTo": "8ca9e800",
-         "layer": 118
-        },
-        {
-         "type": "ParticleEffect",
-         "lifetime": 20,
-         "particles": 5,
-         "length": 9,
-         "cone": 180,
-         "colorFrom": "ffffff",
-         "colorTo": "8ca9e800",
-         "sizeFrom": 1.8,
-         "sizeTo": 0,
-         "layer": 118
-        }
-       ]
-      },
+      "despawnEffect": "none",
       "shootEffect": "none",
       "smokeEffect": "none",
-      "parts": [
-       {
-        "type": "ShapePart",
-        "layer": 116.9,
-        "color": "a9d8ff",
-        "colorTo": "ffffff",
-        "circle": true,
-        "y": -6,
-        "moveY": -12,
-        "radius": 1.8,
-        "radiusTo": 5
+      "hitSound": "none",
+      "despawnSound": "none",
+      "fragOnDespawn": true,
+      "fragBullet": {
+       "type": "BulletType",
+       "damage": 0,
+       "speed": 0.4,
+       "lifetime": 126,
+       "drag": -0.0218,
+       "keepVelocity": false,
+       "layer": 117,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesGround": false,
+       "collidesAir": false,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "trailColor": "8ca9e8",
+       "trailWidth": 2.2,
+       "trailLength": 10,
+       "trailInterval": 2,
+       "trailMinVelocity": 0.9,
+       "trailEffect": {
+        "type": "ParticleEffect",
+        "lifetime": 44,
+        "particles": 1,
+        "length": 1.5,
+        "cone": 180,
+        "colorFrom": "8a8b90b0",
+        "colorTo": "4c4d5200",
+        "sizeFrom": 2.4,
+        "sizeTo": 0,
+        "layer": 116.5,
+        "lightOpacity": 0
        },
-       {
-        "type": "FlarePart",
-        "layer": 116.8,
-        "color1": "8ca9e8",
-        "color2": "ffffff",
-        "sides": 4,
-        "y": -8,
-        "moveY": -12,
-        "radius": 5,
-        "radiusTo": 16,
-        "stroke": 1.4,
-        "innerScl": 0.5,
-        "followRotation": true,
-        "spinSpeed": 4,
-        "progress": "warmup"
-       }
-      ]
+       "hitEffect": "none",
+       "despawnEffect": {
+        "type": "MultiEffect",
+        "effects": [
+         {
+          "type": "WaveEffect",
+          "lifetime": 18,
+          "sizeFrom": 2,
+          "sizeTo": 12,
+          "strokeFrom": 1.6,
+          "strokeTo": 0,
+          "colorFrom": "ffffffcc",
+          "colorTo": "8ca9e800",
+          "layer": 118
+         },
+         {
+          "type": "ParticleEffect",
+          "lifetime": 20,
+          "particles": 5,
+          "length": 9,
+          "cone": 180,
+          "colorFrom": "ffffff",
+          "colorTo": "8ca9e800",
+          "sizeFrom": 1.8,
+          "sizeTo": 0,
+          "layer": 118
+         }
+        ]
+       },
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "parts": [
+        {
+         "type": "RegionPart",
+         "name": "dp-tetraphyllus-missile",
+         "outline": false,
+         "mirror": false,
+         "xScl": 0.85,
+         "yScl": 0.85,
+         "growX": 2.35,
+         "growY": 2.35,
+         "growProgress": "warmup",
+         "color": "ffffffff",
+         "colorTo": "ffffff00",
+         "mixColor": "ffffff00",
+         "mixColorTo": "ffffffcc",
+         "progress": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "compress",
+            "start": 0.4,
+            "end": 1
+           }
+          ]
+         }
+        },
+        {
+         "type": "ShapePart",
+         "layer": 116.9,
+         "color": "a9d8ff",
+         "colorTo": "ffffff00",
+         "circle": true,
+         "y": -6,
+         "moveY": -12,
+         "radius": 1.8,
+         "radiusTo": 5
+        },
+        {
+         "type": "FlarePart",
+         "layer": 116.8,
+         "color1": "8ca9e8",
+         "color2": "ffffff",
+         "sides": 4,
+         "y": -8,
+         "moveY": -12,
+         "radius": 5,
+         "radiusTo": 16,
+         "stroke": 1.4,
+         "innerScl": 0.5,
+         "followRotation": true,
+         "spinSpeed": 4,
+         "progress": {
+          "type": "warmup",
+          "ops": [
+           {
+            "op": "add",
+            "other": {
+             "type": "warmup",
+             "ops": [
+              {
+               "op": "add",
+               "amount": 0.4545
+              },
+              {
+               "op": "mul",
+               "other": {
+                "type": "warmup",
+                "ops": [
+                 {
+                  "op": "compress",
+                  "start": 0.4,
+                  "end": 1
+                 }
+                ]
+               }
+              },
+              {
+               "op": "mul",
+               "amount": -1
+              }
+             ]
+            }
+           }
+          ]
+         },
+         "clampProgress": false
+        }
+       ],
+       "trailInterp": "slope"
+      },
+      "fragBullets": 1,
+      "fragRandomSpread": 0,
+      "fragAngle": 0,
+      "fragSpread": 0,
+      "fragVelocityMin": 1,
+      "fragVelocityMax": 1,
+      "fragLifeMin": 1,
+      "fragLifeMax": 1,
+      "fragOffsetMin": 0,
+      "fragOffsetMax": 0
      }
     ],
     "intervalBullet": {
-     "type": "BasicBulletType",
-     "sprite": "dp-tetraphyllus-fall",
+     "type": "BulletType",
      "damage": 0,
      "speed": 0,
-     "lifetime": 48,
+     "lifetime": 120,
      "keepVelocity": false,
-     "spin": 3,
-     "width": 23.75,
-     "height": 23.75,
-     "shrinkX": 0.62,
-     "shrinkY": 0.62,
-     "shrinkInterp": "pow2Out",
-     "frontColor": "ffffff",
-     "backColor": "ffffff",
-     "mixColorFrom": "ffffff88",
-     "mixColorTo": "ffffff00",
      "layer": 117,
      "collides": false,
      "collidesTiles": false,
@@ -722,6 +794,11 @@
         "type": "warmup",
         "ops": [
          {
+          "op": "compress",
+          "start": 0.6,
+          "end": 1
+         },
+         {
           "op": "curve",
           "interp": "pow2Out"
          },
@@ -754,21 +831,63 @@
             }
            ]
           }
+         },
+         {
+          "op": "mul",
+          "other": {
+           "type": "warmup",
+           "ops": [
+            {
+             "op": "compress",
+             "start": 0.6,
+             "end": 0.6004999999999999
+            }
+           ]
+          }
          }
         ]
        }
       },
       {
+       "type": "RegionPart",
+       "name": "dp-tetraphyllus-fall",
+       "outline": false,
+       "mirror": false,
+       "xScl": 4.75,
+       "yScl": 4.75,
+       "growX": -4.028,
+       "growY": -4.028,
+       "growProgress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "moveRot": 360,
+       "progress": "warmup",
+       "color": "ffffff40",
+       "colorTo": "ffffffff",
+       "mixColor": "ffffff88",
+       "mixColorTo": "ffffff00"
+      },
+      {
        "type": "ShapePart",
        "layer": 117.1,
-       "color": "ff4d3d77",
+       "color": "ff4d3d18",
        "colorTo": "ff4d3d55",
        "circle": true,
-       "radius": 3.2,
+       "radius": 8.0,
        "radiusTo": 1.3,
        "progress": {
         "type": "warmup",
         "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         },
          {
           "op": "mul",
           "other": {
@@ -797,14 +916,18 @@
       {
        "type": "ShapePart",
        "layer": 117.2,
-       "color": "ffffff",
-       "colorTo": "ffffff",
+       "color": "ffffff33",
+       "colorTo": "ffffffff",
        "circle": true,
-       "radius": 2.0,
+       "radius": 5.0,
        "radiusTo": 0.8,
        "progress": {
         "type": "warmup",
         "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         },
          {
           "op": "mul",
           "other": {
@@ -830,10 +953,11 @@
         ]
        }
       }
-     ]
+     ],
+     "drawSize": 200
     },
-    "intervalDelay": 552,
-    "bulletInterval": 62,
+    "intervalDelay": 480,
+    "bulletInterval": 134,
     "intervalBullets": 1,
     "intervalRandomSpread": 0,
     "parts": [
@@ -2684,10 +2808,10 @@
     {
      "type": "ShapePart",
      "color": "030304",
-     "colorTo": "dcefff",
+     "colorTo": "848f99",
      "layerOffset": -0.0042,
      "circle": true,
-     "radius": 3.6,
+     "radius": 5.04,
      "progress": {
       "type": "reload",
       "ops": [
@@ -2845,27 +2969,11 @@
     "shootEffect": "none",
     "smokeEffect": "none",
     "hitEffect": "none",
-    "despawnEffect": "none"
+    "despawnEffect": "none",
+    "rangeOverride": 960
    },
    "shootSound": "none",
-   "shootStatus": {
-    "name": "tetraphyllus-braced",
-    "localizedName": "Braced",
-    "speedMultiplier": 0.2,
-    "color": "8ca9e8",
-    "effect": {
-     "type": "ParticleEffect",
-     "lifetime": 30,
-     "particles": 1,
-     "length": 6,
-     "cone": 180,
-     "colorFrom": "a9d8ff",
-     "colorTo": "8ca9e800",
-     "sizeFrom": 1.6,
-     "sizeTo": 0
-    },
-    "effectChance": 0.12
-   },
+   "shootStatus": "unmoving",
    "shootStatusDuration": 30
   },
   {
