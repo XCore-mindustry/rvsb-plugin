@@ -1,0 +1,10 @@
+// Serverminate dash buff (copy of dp-terminate-dash): x6.3 move speed for the 0.3 s of each dash. Applied on the server by the plugin (Serverminate.java).
+{
+ "hideDatabase": true,
+ "show": false,
+ "permanent": false,
+ "speedMultiplier": 6.3,
+ "color": "ffd37fff",
+ "effect": "none",
+ "applyEffect": "none"
+}

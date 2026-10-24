@@ -1,0 +1,21 @@
+// Serverminate dash trigger: spawned by the Serverminate dash mounts (server only; clients never spawn units).
+// The plugin reads its shooter (MissileAI.shooter) and queues a dash. Invisible, no sounds, dies after 5 ticks.
+// The plugin gives it dp-no-register-kills + dp-no-draw-hitbox as soon as it sees it.
+{
+ "type": "missile",
+ "controller": "MissileAI",
+ "hidden": true,
+ "health": 1, "armor": 0, "hitSize": 1,
+ "speed": 0, "accel": 0, "drag": 0, "rotateSpeed": 0, "missileAccelTime": 0,
+ "lifetime": 5,
+ "flying": true, "lowAltitude": true, "physics": false, "bounded": false, "canDrown": false,
+ "hittable": false, "targetable": false, "isEnemy": false, "useUnitCap": false,
+ "targetAir": false, "targetGround": false,
+ "playerControllable": false, "logicControllable": false, "controlSelectGlobal": false, "allowedInPayloads": false,
+ "createWreck": false, "createScorch": false, "deathShake": 0,
+ "deathSound": "none", "deathExplosionEffect": "none", "fallEffect": "none", "fallEngineEffect": "none",
+ "drawBody": false, "drawCell": false, "drawItems": false, "drawShields": false, "drawMinimap": false,
+ "drawSoftShadow": false, "outlines": false, "shadowElevation": 0,
+ "engineSize": 0, "engineOffset": 0, "trailLength": 0, "lightRadius": 0, "lightOpacity": 0,
+ "loopSound": "none", "fogRadius": 0
+}

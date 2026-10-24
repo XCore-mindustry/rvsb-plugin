@@ -23,7 +23,7 @@
  "speed": 0.8,
  "accel": 0.15,
  "rotateSpeed": 5,
- "health": 860,
+ "health": 946,
  "armor": 9,
  "hitSize": 19.9,
  "engineSize": 0,
@@ -186,7 +186,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 26.61,
+    "damage": 29.27,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -265,7 +265,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 26.61,
+    "damage": 29.27,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -347,7 +347,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 26.61,
+    "damage": 29.27,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -816,7 +816,7 @@
    },
    "bullet": {
     "type": "LightningBulletType",
-    "damage": 33.0,
+    "damage": 36.3,
     "lightningLength": 7,
     "lightningLengthRand": 0,
     "lightningColor": "ffd37f",

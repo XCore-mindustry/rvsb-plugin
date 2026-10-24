@@ -50,6 +50,7 @@ import net.voiddustry.redvsblue.game.building.UpdateConstructBlocks;
 import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
 import net.voiddustry.redvsblue.game.stations.*;
 import net.voiddustry.redvsblue.game.units.SpecialUnits;
+import net.voiddustry.redvsblue.game.units.special.Serverminate;
 import net.voiddustry.redvsblue.player.Hud;
 import net.voiddustry.redvsblue.player.Premium;
 import net.voiddustry.redvsblue.util.MapVote;
@@ -146,8 +147,8 @@ public class RedVsBluePlugin extends Plugin {
 
         Events.on(EventType.WorldLoadEvent.class, event -> {
             for (UnitType unit : Vars.content.units()) {
-                // data-asset missiles ("controller": "MissileAI", e.g. the Voidweaver singularity) keep their AI,
-                // MissileAI is what makes them fly at the shooter's cursor
+                // data-asset missiles ("controller": "MissileAI", e.g. the Voidweaver singularity, the Serverminate dash trigger) keep their AI,
+                // MissileAI is what makes them fly at the shooter's cursor; Serverminate reads the shooter from it
                 if (unit.aiController.get() instanceof MissileAI) {
                     continue;
                 }
@@ -488,7 +489,12 @@ public class RedVsBluePlugin extends Plugin {
 
                 if(tick%3==0){
 
+                    StatusEffect noDrawHitbox = Serverminate.noDrawHitbox();
+
                     Groups.unit.each(u -> {
+                        // units with dp-no-draw-hitbox (e.g. the Serverminate dash trigger) get no X
+                        if (noDrawHitbox != null && u.hasEffect(noDrawHitbox)) return;
+
                         WorldLabel label = hitboxLabels.get(u);
 
                         if (label == null || !label.isAdded()) {
@@ -510,7 +516,7 @@ public class RedVsBluePlugin extends Plugin {
                     while (it.hasNext()) {
                         Entry<Unit, WorldLabel> entry = it.next();
                         Unit u = entry.getKey();
-                        if (u == null || u.dead || !u.isAdded()) {
+                        if (u == null || u.dead || !u.isAdded() || (noDrawHitbox != null && u.hasEffect(noDrawHitbox))) {
                             entry.getValue().hide();   // hide(), not remove()
                             it.remove();
                         }
