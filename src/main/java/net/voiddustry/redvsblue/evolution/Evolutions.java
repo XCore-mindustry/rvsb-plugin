@@ -31,13 +31,13 @@ public class Evolutions {
         "spiroct", Evolution.SPIROCT,
         "minke", Evolution.MINKE,
         "oxynoe", Evolution.OXYNOE,
-        "dp-terminate-unit", Evolution.TERMINATE,
+        "dp-serverminate-unit", Evolution.SERVERMINATE,
 
         "locus", Evolution.LOCUS,
         "corvus", Evolution.CORVUS,
         "merui", Evolution.MERUI,
         "mega", Evolution.MEGA,
-        "dp-eliminate-unit", Evolution.ELIMINATE,
+        "dp-spearhead-unit", Evolution.SPEARHEAD,
         
         "dp-orion-unit", Evolution.ORION,
         "precept", Evolution.PRECEPT,
@@ -46,7 +46,7 @@ public class Evolutions {
         "cyerce", Evolution.CYERCE,
         "tecta", Evolution.TECTA,
         "dp-aractid-unit", Evolution.ARACTID,
-        "dp-annihilate-unit", Evolution.ANNIHILATE,
+        "dp-eliminate-unit", Evolution.ELIMINATE,
 
         "scepter", Evolution.SCEPTER,
         "navanax", Evolution.NAVANAX,
@@ -54,6 +54,7 @@ public class Evolutions {
         "bryde", Evolution.BRYDE,
         "quad", Evolution.QUAD,
         "dp-giga-unit", Evolution.GIGA,
+        "dp-annihilate-unit", Evolution.ANNIHILATE,
 
         "vanquish", Evolution.VANQUISH,
         "dp-stryker-unit", Evolution.STRYKER,
@@ -69,7 +70,6 @@ public class Evolutions {
         "dp-vulcan-unit", Evolution.VULCAN,
         "sei", Evolution.SEI,
         "quell", Evolution.QUELL,
-        "dp-spearhead-unit", Evolution.SPEARHEAD,
 
         "conquer", Evolution.CONQUER,
         "disrupt", Evolution.DISRUPT,

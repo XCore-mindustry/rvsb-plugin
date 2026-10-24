@@ -1,0 +1,8 @@
+unit.dp-serverminate-unit: {
+	localizedName: Terminate
+	cellRegion: dp-serverminate-unit-cell
+	uiIcon: dp-serverminate-unit-ui
+	fullIcon: dp-serverminate-unit-full
+	previewRegion: dp-serverminate-unit-full
+	shadowRegion: dp-serverminate-unit-full
+}
