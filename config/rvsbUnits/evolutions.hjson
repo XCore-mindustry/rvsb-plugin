@@ -9,21 +9,21 @@
   "atrax": { "tier": 2, "stage": 2, "cost": 18, "evolves": ["cleroi"] }
   "risso": { "tier": 2, "stage": 3, "cost": 45, "evolves": ["zenith"] }
   "poly": { "tier": 2, "stage": 2, "cost": 21, "evolves": ["retusa"] }
-  "elude": { "tier": 2, "stage": 2, "cost": 20, "evolves": ["dp-destroy-unit"] }
+  "elude": { "tier": 2, "stage": 2, "cost": 20, "evolves": ["dp-serverminate-unit"] }
 
   "mace": { "tier": 3, "stage": 2, "cost": 20, "evolves": ["fortress"] }
   "quasar": { "tier": 3, "stage": 3, "cost": 60, "evolves": ["dp-vela-blue-unit"] }
   "cleroi": { "tier": 3, "stage": 3, "cost": 65, "evolves": ["spiroct"] }
   "zenith": { "tier": 3, "stage": 3, "cost": 70, "evolves": ["minke"] }
   "retusa": { "tier": 3, "stage": 3, "cost": 15, "evolves": ["oxynoe"] }
-  "dp-destroy-unit": { "tier": 3, "stage": 3, "cost": 45, "evolves": ["dp-serverminate-unit"] }
+  "dp-serverminate-unit": { "tier": 3, "stage": 2, "cost": 42, "evolves": ["dp-destroy-unit"] }
 
   "fortress": { "tier": 4, "stage": 2, "cost": 48, "evolves": ["locus"] }
   "dp-vela-blue-unit": { "tier": 4, "stage": 6, "cost": 170, "evolves": ["corvus"] }
   "spiroct": { "tier": 4, "stage": 4, "cost": 95, "evolves": ["dp-aractid-unit", "tecta"] }
   "minke": { "tier": 4, "stage": 3, "cost": 90, "evolves": ["avert"] }
   "oxynoe": { "tier": 4, "stage": 3, "cost": 35, "evolves": ["mega"] }
-  "dp-serverminate-unit": { "tier": 4, "stage": 3, "cost": 75, "evolves": ["dp-spearhead-unit"] }
+  "dp-destroy-unit": { "tier": 4, "stage": 3, "cost": 65, "evolves": ["dp-spearhead-unit"] }
 
   "locus": { "tier": 5, "stage": 4, "cost": 55, "evolves": ["precept"] }
   "corvus": { "tier": 5, "stage": 7, "cost": 300, "evolves": ["aegires", "dp-orion-unit"] }
