@@ -677,8 +677,10 @@ public class RedVsBluePlugin extends Plugin {
         });
         
         handler.<Player>removeCommand("rtv");
+		// i HATE some other plugin:
         handler.<Player>removeCommand("observer");
         handler.<Player>removeCommand("spectator");
+		handler.<Player>removeCommand("spectate");
 //        handler.<Player>register("reset-data", "Use that if you blue and dont have unit.", (args, player) -> {
 //            if (player.team() == Team.blue) {
 //                players.put(player.uuid(), new PlayerData(player));
