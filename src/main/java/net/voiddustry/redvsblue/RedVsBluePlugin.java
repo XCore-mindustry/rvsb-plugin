@@ -309,21 +309,19 @@ public class RedVsBluePlugin extends Plugin {
             killCredit.remove(event.unit);
             
             if (event.unit.isPlayer()) {
-                if (event.unit.team() == Team.blue) {
-                    event.unit.getPlayer().team(Team.crux);
-                    PlayerData data = players.get(event.unit.getPlayer().uuid());
-                    if (!(data == null)) {
-                        data.setTeam(Team.crux);
-                        data.setScore(0);
-                        data.setKills(0);
-                    }
-
+                Player owner = event.unit.getPlayer();
+                PlayerData ownerData = players.get(owner.uuid());
+                if (owner.team() == Team.blue && ownerData != null && ownerData.getUnit() != null
+                        && ownerData.getUnit() != event.unit && !ownerData.getUnit().dead) {
+                    // not their own unit (a controlled block or a grabbed unit): they still have theirs, the HUD loop puts them back
+                    owner.clearUnit();
+                } else if (owner.team() == Team.blue) {
                     UnitTypes.renale.spawn(Team.malis, event.unit.x, event.unit.y).kill();
-
-                    ClassChooseMenu.selectedUnit.put(event.unit.getPlayer().uuid(), UnitTypes.dagger);
-                    CruxUnit.callSpawn(event.unit.getPlayer());
-                } else if (event.unit.getPlayer().team() == Team.crux) {
-                  CruxUnit.callSpawn(event.unit.getPlayer());
+                    // detaches the player from the dying unit before switching the team, then gives a fresh crux spawn
+                    CruxUnit.convertToCrux(owner);
+                } else if (owner.team() == Team.crux) {
+                    owner.clearUnit();
+                    CruxUnit.callSpawn(owner);
                 }
             }
             gameOverCheck();
@@ -563,12 +561,6 @@ public class RedVsBluePlugin extends Plugin {
             //}
        // });
 
-        handler.<Player>register("bc", "Boss select menu", (args, player) -> {
-            if (playing) {
-                BossChooseMenu.openMenu(player);
-            }
-        });
-
         handler.<Player>register("c", "Open Class Choose menu, only for crux", (args, player) -> {
             if (player.team() == Team.crux) {
                 ClassChooseMenu.openMenu(player);
@@ -638,7 +630,11 @@ public class RedVsBluePlugin extends Plugin {
         handler.<Player>register("blue", "Makes you blue, works only before stage 3", (args, player) -> {
             if (stage <= 3 && playing && player.team() != Team.blue && players.get(player.uuid()).getLastRedeemTime()+45<Instant.now().getEpochSecond()) {
                 Unit old = player.unit();
+                // detach first: Player.team() also sets the team of the attached unit, so a crux unit the player had
+                // taken over (not spawnedByCore, so it is not despawned) was turned blue together with the player
+                player.clearUnit();
                 if (old != null && old.spawnedByCore) Call.unitDespawn(old);
+                CruxUnit.resetPossession(player);
 
                 player.team(Team.blue);
                 players.put(player.uuid(), new PlayerData(player));

@@ -79,7 +79,7 @@ public class StartingMenu {
             playerData.setUnit(unit);
 
             net.voiddustry.redvsblue.util.Utils.assignUnit(player, unit);
-            oldUnit.kill();
+            if (oldUnit != null) oldUnit.kill();
 
             playerData.subtractScore(StartingItems.getStartingItem(unitType.name).cost);
         }

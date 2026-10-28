@@ -66,6 +66,14 @@ public class Utils {
             }
             if (action.type != mindustry.net.Administration.ActionType.control) return true;
             Player player = action.player;
+            Unit target = action.unit;
+            // blue players only get units from the plugin (spawn, laboratory, starting menu). A dead blue player's client
+            // asks for the closest AI unit of the same type; letting that through put them into it, and the switch to
+            // crux then recoloured that unit as well
+            if (player.team() != Team.crux && !(target instanceof BlockUnitc)) return false;
+            if (target != null && target.team != player.team()) return false;
+            // never a unit that belongs to another player (their unit can be AI-controlled for a moment while they reconnect)
+            if (target != null && isOwnedByOtherPlayer(target, player)) return false;
             // dead players get their unit from the plugin (CruxUnit.callSpawn), never by grabbing a random AI unit;
             // only crux players who exited their unit on purpose may take over an AI unit by clicking it
             boolean allowed;
@@ -79,6 +87,13 @@ public class Utils {
             if (allowed) CruxUnit.possessRequested(player, action.unit);
             return allowed;
         });
+    }
+
+    private static boolean isOwnedByOtherPlayer(Unit unit, Player player) {
+        for (var entry : players.entrySet()) {
+            if (!entry.getKey().equals(player.uuid()) && entry.getValue() != null && entry.getValue().getUnit() == unit) return true;
+        }
+        return false;
     }
 
     /** Keeps the player's camera on their unit for the given time (a short cutscene), e.g. right after joining. */

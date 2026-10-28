@@ -15,6 +15,7 @@ import mindustry.gen.Unit;
 import mindustry.gen.BlockUnitc;
 import mindustry.type.UnitType;
 import mindustry.world.Tile;
+import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.game.crux.StageUnits;
@@ -68,6 +69,38 @@ public class CruxUnit {
         return type;
     }
 
+    /** Forgets "exit unit" / possession state, so the next respawn is a fresh unit of the player's class. */
+    public static void resetPossession(Player player) {
+        exited.remove(player.uuid());
+        possessed.remove(player.uuid());
+        pendingPossess.remove(player.uuid());
+    }
+
+    /**
+     * Turns a blue player whose unit died into a crux player with a fresh crux spawn.
+     * The player is detached from whatever unit they are attached to BEFORE the team changes: Player.team() also
+     * sets the team of the attached unit (and Player.update() keeps re-applying it), so changing the team first
+     * recoloured that unit - e.g. a blue AI unit of the same type the client grabbed after the death.
+     */
+    public static void convertToCrux(Player player) {
+        if (player == null || player.team() != Team.blue) return;
+        player.clearUnit();
+        player.team(Team.crux);
+
+        PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+        if (data != null) {
+            data.setTeam(Team.crux);
+            data.setScore(0);
+            data.setKills(0);
+            data.setUnit(null);
+        }
+
+        resetPossession(player);
+        ClassChooseMenu.selectedUnit.put(player.uuid(), UnitTypes.dagger);
+        Utils.lockControl(player);
+        callSpawn(player);
+    }
+
     public static boolean hasExited(Player player) {
         return player.team() == Team.crux && exited.contains(player.uuid());
     }
@@ -75,6 +108,20 @@ public class CruxUnit {
     public static void addEvent() {
         Events.on(EventType.UnitDestroyEvent.class, event -> {
                 spawnTimes.remove(event.unit);
+        });
+
+        // A blue player's unit died. Ground units fire UnitDestroyEvent right away, but a flying unit with a wreck
+        // only does that when the wreck lands (and the player is detached from it as soon as it dies), so check
+        // every frame instead of waiting for the 0.2 s HUD loop: until the player gets their crux spawn, the client
+        // thinks it is dead and keeps asking for the closest AI unit of the same type and team.
+        Events.run(EventType.Trigger.update, () -> {
+            if (!RedVsBluePlugin.playing || Utils.gameover) return;
+            for (Player player : Groups.player) {
+                if (player.team() != Team.blue) continue;
+                PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+                if (data == null || data.getUnit() == null) continue;
+                if (data.getUnit().dead) convertToCrux(player);
+            }
         });
 
         Events.on(EventType.UnitChangeEvent.class, event -> {
@@ -116,8 +163,10 @@ public class CruxUnit {
 
         {
             Tile cruxSpawn = RedVsBluePlugin.redSpawns.random();
+            // no crux spawn on this map: the watchdog does nothing either, the player just stays without a unit
+            if (cruxSpawn == null) return;
 
-            if (cruxSpawn != null && cruxSpawn.block() != null) {
+            if (cruxSpawn.block() != null) {
                 Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
             }
             Unit unit = type.spawn(Team.crux, cruxSpawn);

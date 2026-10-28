@@ -61,11 +61,9 @@ public class Hud {
     
                 Call.setHudText(player.con, hudText);
                 
-                if (RedVsBluePlugin.playing && data.getUnit() != null) {
-                    if (data.getUnit().dead) {
-                        data.setTeam(Team.crux);
-                        player.team(data.getTeam());
-                    }
+                // fallback for the per-frame check in CruxUnit; only blue players, crux players keep their team and unit
+                if (RedVsBluePlugin.playing && player.team() == Team.blue && data.getUnit() != null && data.getUnit().dead) {
+                    CruxUnit.convertToCrux(player);
                 }
                 
                 if (RedVsBluePlugin.playing && data.getUnit() != null && player.team() == Team.blue) {
