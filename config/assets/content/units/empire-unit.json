@@ -156,8 +156,8 @@ weapons: [
                 minVolume: 0.35, maxVolume: 0.4, effect: "none"
             }
             // twice the damage per shot of the old cannons at half the fire rate per barrel (same DPS)
-            damage: 120, splashDamage: 600, splashDamageRadius: 34, lightning: 3
-            lightningDamage: 60, lightningLength: 14, lightningColor: "fffd7a", speed: 10
+            damage: 122, splashDamage: 612, splashDamageRadius: 34, lightning: 3
+            lightningDamage: 61, lightningLength: 14, lightningColor: "fffd7a", speed: 10
             lifetime: 17.5, width: 24, height: 58, shrinkY: 0, frontColor: "fff4d6"
             backColor: "ffa664", hitColor: "ffa664", trailLength: 10, trailWidth: 4.5
             trailColor: "ffa664"
@@ -246,9 +246,9 @@ weapons: [
             despawnSound: "shockBullet", fragBullets: 1, fragRandomSpread: 1, fragLifeMin: 5
             fragLifeMax: 6
             fragBullet: {
-                type: "BasicBulletType", damage: 200, width: 20, height: 40, lifetime: 4, speed: 14
+                type: "BasicBulletType", damage: 204, width: 20, height: 40, lifetime: 4, speed: 14
                 pierce: true, pierceBuilding: true, pierceCap: 99999, lightning: 1
-                lightningDamage: 40, lightningLength: 14, lightningColor: "fffd7a"
+                lightningDamage: 41, lightningLength: 14, lightningColor: "fffd7a"
                 frontColor: "ffffff", backColor: "ffa664", hitColor: "ffa664", trailLength: 5
                 trailWidth: 3, trailColor: "ffa664"
                 hitEffect: {
@@ -862,7 +862,7 @@ weapons: [
                                     hitEffect: "none", despawnHit: true, lightning: 3
                                     lightningLength: 24, lightningDamage: 24
                                     lightningColor: "ffff6b", hitSound: "explosionMissile"
-                                    hitShake: 2.5, killShooter: false, splashDamage: 500
+                                    hitShake: 2.5, killShooter: false, splashDamage: 510
                                     scaledSplashDamage: true, splashDamageRadius: 45
                                     buildingDamageMultiplier: 999
                                     // mine hit: electrified 3.5 s here, then two silent follow-up explosions for unmoving + disarmed 0.5 s

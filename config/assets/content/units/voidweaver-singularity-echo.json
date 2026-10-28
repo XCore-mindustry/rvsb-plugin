@@ -123,8 +123,8 @@
     "type": "PointBulletType",
     "speed": 8,
     "lifetime": 24,
-    "damage": 150,
-    "splashDamage": 600,
+    "damage": 75,
+    "splashDamage": 300,
     "splashDamageRadius": 48,
     "buildingDamageMultiplier": 0.6,
     "despawnHit": true,
@@ -170,12 +170,12 @@
     "lightning": 5,
     "lightningLength": 7,
     "lightningLengthRand": 6,
-    "lightningDamage": 45,
+    "lightningDamage": 23,
     "lightningColor": "98ffa9",
     "spawnBullets": [
      {
       "type": "LightningBulletType",
-      "damage": 90,
+      "damage": 45,
       "lightningLength": 22,
       "lightningLengthRand": 6,
       "lightningColor": "98ffa9",
@@ -385,7 +385,7 @@
                     collidesTiles: false, hittable: false, absorbable: false
                     reflectable: false, keepVelocity: false, despawnHit: true, damage: 0
                     lightning: 2, lightningLength: 5, lightningLengthRand: 25
-                    lightningDamage: 12, lightningColor: "98ffa9", hitEffect: "none"
+                    lightningDamage: 6, lightningColor: "98ffa9", hitEffect: "none"
                     despawnEffect: "none", shootEffect: "none", smokeEffect: "none"
                     hitSound: "none", fragBullets: 1, fragSpread: 0, fragRandomSpread: 360
                     fragVelocityMin: 1, fragLifeMin: 1
@@ -394,7 +394,7 @@
                         collidesTiles: false, hittable: false, absorbable: false
                         reflectable: false, keepVelocity: false, despawnHit: true, damage: 0
                         lightning: 1, lightningLength: 5, lightningLengthRand: 25
-                        lightningDamage: 12, lightningColor: "e8ffec", hitEffect: "none"
+                        lightningDamage: 6, lightningColor: "e8ffec", hitEffect: "none"
                         despawnEffect: "none", shootEffect: "none", smokeEffect: "none"
                         hitSound: "none", lightOpacity: 0
                     }
@@ -430,7 +430,7 @@
                     hitSound: "none", hitShake: 0, fragBullets: 12, fragSpread: 30
                     fragRandomSpread: 0, fragVelocityMin: 1, fragLifeMin: 1
                     fragBullet: {
-                        type: "LaserBulletType", damage: 188, length: 135, width: 17
+                        type: "LaserBulletType", damage: 94, length: 135, width: 17
                         sideAngle: 25, sideLength: 16, sideWidth: 0.8
                         colors: ["98ffa955", "98ffa9", "ffffff"], hitColor: "98ffa9"
                         lightColor: "98ffa9"
@@ -457,8 +457,8 @@
                     fragVelocityMax: 1.1, fragLifeMin: 0.6, fragLifeMax: 1.1
                     fragBullet: {
                         type: "BasicBulletType", sprite: "shell", width: 6, height: 9
-                        shrinkY: 0, spin: 14, speed: 7.5, drag: 0.045, lifetime: 36, damage: 50
-                        splashDamage: 113, splashDamageRadius: 24
+                        shrinkY: 0, spin: 14, speed: 7.5, drag: 0.045, lifetime: 36, damage: 25
+                        splashDamage: 57, splashDamageRadius: 24
                         buildingDamageMultiplier: 0.6, collides: false, collidesTiles: false
                         despawnHit: true, hittable: false, absorbable: false, reflectable: false
                         keepVelocity: false, frontColor: "ffffff", backColor: "98ffa9"
@@ -590,7 +590,7 @@
         bullet: {
             type: "BulletType", speed: 0, lifetime: 1, collides: false, collidesTiles: false
             collidesGround: true, collidesAir: true, hittable: false, absorbable: false
-            reflectable: false, keepVelocity: false, despawnHit: true, splashDamage: 1500
+            reflectable: false, keepVelocity: false, despawnHit: true, splashDamage: 750
             splashDamageRadius: 100, buildingDamageMultiplier: 0.6
             hitEffect: {
                 type: "MultiEffect"

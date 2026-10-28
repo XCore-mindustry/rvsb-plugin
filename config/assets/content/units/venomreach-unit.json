@@ -86,7 +86,7 @@ legMoveSpace: 0.8
 legPairOffset: 3
 legLengthScl: 0.93
 legSpeed: 0.18
-legSplashDamage: 140
+legSplashDamage: 168
 legSplashRange: 60
 rippleScale: 2.6
 stepShake: 1.2
@@ -174,7 +174,7 @@ type: SapBulletType
 sapStrength: 1
 buildingDamageMultiplier: 99999
 length: 200
-damage: 160
+damage: 192
 width: 1
 lifetime: 35
 knockback: -2
@@ -232,11 +232,11 @@ bullet: {
 type: basicBulletType
 speed: 4.5
 lifetime: 70
-damage: 90
+damage: 108
 width: 16
 height: 16
 shrinkY: 0
-splashDamage: 120
+splashDamage: 144
 splashDamageRadius: 50
 collidesAir: true
 backColor: "665c81"
@@ -299,11 +299,11 @@ bullet: {
 type: basicBulletType
 speed: 4.5
 lifetime: 70
-damage: 90
+damage: 108
 width: 16
 height: 16
 shrinkY: 0
-splashDamage: 120
+splashDamage: 144
 splashDamageRadius: 50
 collidesAir: true
 backColor: "665c81"
@@ -378,7 +378,7 @@ bullet: {
 type: basicBulletType
 speed: 3.5
 lifetime: 55
-damage: 40
+damage: 48
 width: 14
 height: 14
 shrinkY: 0
@@ -450,7 +450,7 @@ speed: 3
 lifetime: 90
 width: 24
 height: 24
-splashDamage: 60
+splashDamage: 72
 splashDamageRadius: 40
 collidesAir: false
 backColor: "665c81"
@@ -470,8 +470,8 @@ speed: 4
 lifetime: 60
 width: 9
 height: 12
-damage: 40
-splashDamage: 30
+damage: 48
+splashDamage: 36
 splashDamageRadius: 20
 collidesAir: true
 homingPower: 0.2
@@ -509,7 +509,7 @@ bullet: {
 type: explosionBulletType
 killShooter: false
 collidesAir: true
-splashDamage: 70
+splashDamage: 84
 splashDamageRadius: 100
 buildingDamageMultiplier: 0.25
 status: slow
@@ -652,7 +652,7 @@ fragBullet: {
 type: explosionBulletType
 collidesAir: true
 killShooter: false
-splashDamage: 120
+splashDamage: 144
 scaledSplashDamage: true
 splashDamageRadius: 40
 buildingDamageMultiplier: 1.5
@@ -660,7 +660,7 @@ status: sapped
 statusDuration: 480
 lightning: 5
 lightningLength: 22
-lightningDamage: 15
+lightningDamage: 18
 lightningColor: "c45edd"
 hitSound: shockwaveTower
 despawnHit: true
@@ -690,7 +690,7 @@ intervalBullet: {
 type: explosionBulletType
 collidesAir: true
 killShooter: false
-splashDamage: 85
+splashDamage: 102
 splashDamageRadius: 55
 buildingDamageMultiplier: 0.5
 status: sapped

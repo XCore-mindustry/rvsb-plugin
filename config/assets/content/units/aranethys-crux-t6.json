@@ -19,7 +19,7 @@ legPairOffset: 3
 legLengthScl: 0.95
 legForwardScl: 0.9
 legSpeed: 0.21
-legSplashDamage: 8
+legSplashDamage: 9.6
 legSplashRange: 32
 rippleScale: 2.5
 stepShake: 1.5
@@ -242,8 +242,8 @@ bullet: {
 type: BasicBulletType
 speed: 10
 lifetime: 60
-damage: 250
-splashDamage: 550
+damage: 300
+splashDamage: 660
 splashDamageRadius: 60
 width: 32
 height: 40
@@ -268,7 +268,7 @@ pierceCap: 4
 pierceArmor: true
 lightning: 6
 lightningLength: 24
-lightningDamage: 50
+lightningDamage: 60
 lightningColor: "c45edd"
 buildingDamageMultiplier: 1.5
 fragBullets: 6
@@ -279,13 +279,13 @@ fragBullet: {
 type: basicBulletType
 speed: 2.5
 lifetime: 50
-damage: 20
+damage: 24
 width: 12
 height: 12
 shrinkY: 0
 layer: 115
 collidesAir: true
-splashDamage: 45
+splashDamage: 54
 splashDamageRadius: 35
 backColor: "665c81"
 frontColor: "bf92f9"
@@ -349,7 +349,7 @@ bullet: {
 type: LaserBulletType
 length: 260
 width: 22
-damage: 40
+damage: 48
 layer: 76
 hitEffect: hitLaserBlast
 hitColor: "c45edd"
@@ -411,7 +411,7 @@ bullet: {
 type: LaserBulletType
 length: 260
 width: 22
-damage: 40
+damage: 48
 layer: 76
 hitEffect: hitLaserBlast
 hitColor: "c45edd"
@@ -448,7 +448,7 @@ type: LiquidBulletType
 liquid: oil
 speed: 5
 lifetime: 35
-damage: 12
+damage: 14
 layer: 76
 status: tarred
 statusDuration: 180
@@ -483,7 +483,7 @@ type: LiquidBulletType
 liquid: oil
 speed: 5
 lifetime: 35
-damage: 12
+damage: 14
 layer: 76
 status: tarred
 statusDuration: 180
@@ -582,14 +582,14 @@ fragBullet: {
 type: explosionBulletType
 collidesAir: true
 killShooter: false
-splashDamage: 130
+splashDamage: 156
 splashDamageRadius: 110
 buildingDamageMultiplier: 0.5
 status: sapped
 statusDuration: 480
 lightning: 10
 lightningLength: 28
-lightningDamage: 25
+lightningDamage: 30
 lightningColor: "c45edd"
 hitSound: shockwaveTower
 despawnHit: true
@@ -617,7 +617,7 @@ fragBullet: {
 type: explosionBulletType
 collidesAir: true
 killShooter: false
-splashDamage: 70
+splashDamage: 84
 splashDamageRadius: 110
 buildingDamageMultiplier: 0.5
 status: electrified
@@ -632,7 +632,7 @@ fragBullet: {
 type: basicBulletType
 speed: 4
 lifetime: 32
-damage: 30
+damage: 36
 width: 12
 height: 12
 shrinkY: 0
