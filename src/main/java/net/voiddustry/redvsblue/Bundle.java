@@ -84,6 +84,68 @@ public class Bundle {
         return get(key, defaultLocale);
     }
 
+    // ------------------------------------------------------------------ unit and block names
+    //
+    // Vanilla content is translated by the game itself, datapatch content by config/assets/bundles
+    // (the server sends those files to every client, which merges them into its own bundle).
+    // The plugin does not keep its own copies of these names.
+
+    private static final ObjectMap<String, ObjectMap<String, String>> dataBundles = new ObjectMap<>();
+    private static final ObjectMap<String, Long> dataBundleTimes = new ObjectMap<>();
+
+    /** Keys of config/assets/bundles/{@code file}.properties, reloaded when the file changes. Empty if missing. */
+    private static ObjectMap<String, String> dataBundle(String file) {
+        Fi fi = Vars.dataDirectory.child("assets/bundles/" + file + ".properties");
+        long time = fi.exists() ? fi.lastModified() : -1L;
+        if (!dataBundles.containsKey(file) || dataBundleTimes.get(file, -2L) != time) {
+            ObjectMap<String, String> map = new ObjectMap<>();
+            if (time != -1L) {
+                try (var reader = fi.reader("UTF-8")) {
+                    arc.util.io.PropertiesUtils.load(map, reader);
+                } catch (Exception e) {
+                    Log.err("Could not read @: @", fi.path(), e.getMessage());
+                }
+            }
+            dataBundles.put(file, map);
+            dataBundleTimes.put(file, time);
+        }
+        return dataBundles.get(file);
+    }
+
+    private static String nameKey(mindustry.ctype.UnlockableContent content) {
+        return content.getContentType().name() + "." + content.name + ".name";
+    }
+
+    private static boolean isVanilla(mindustry.ctype.UnlockableContent content) {
+        return content.minfo.mod == null;
+    }
+
+    /**
+     * Name for UI that the client renders (menu buttons, server UI labels): a {@code @bundle.key} the
+     * client translates into its own language, or the plain in-game name when the client has no key
+     * for it (hidden datapatch units without a bundle entry). Must be the whole label text.
+     */
+    public static String clientName(mindustry.ctype.UnlockableContent content) {
+        if (content == null) return "";
+        String key = nameKey(content);
+        if (isVanilla(content) || dataBundle("bundle").containsKey(key)) return "@" + key;
+        return content.localizedName;
+    }
+
+    /** Name of a unit or block in the given language, for text the server builds (chat messages). */
+    public static String contentName(mindustry.ctype.UnlockableContent content, Locale locale) {
+        if (content == null) return "";
+        if (!isVanilla(content)) {
+            String key = nameKey(content);
+            for (String file : new String[]{"bundle_" + locale, "bundle_" + locale.getLanguage(), "bundle"}) {
+                String name = dataBundle(file).get(key);
+                if (name != null) return name;
+            }
+        }
+        // the dedicated server has no vanilla translations: its names are the internal ones ("dagger")
+        return content.localizedName.equals(content.name) ? arc.util.Strings.capitalize(content.name) : content.localizedName;
+    }
+
     public static String get(String key, String locale) {
         return get(key, findLocale(locale));
     }

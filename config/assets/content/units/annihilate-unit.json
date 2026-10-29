@@ -1,5 +1,4 @@
 type: "flying", name: "Annihilate"
-description: "Fires plasma and energy bullets at enemy targets. Slows down while firing."
 credit: "alphy", flying: true, lowAltitude: true, omniMovement: true, faceTarget: true
 circleTarget: false, speed: 0.72, accel: 0.06, drag: 0.05, rotateSpeed: 3.5
 health: 17000, armor: 15, hitSize: 48, range: 172, itemCapacity: 240, buildSpeed: 0.01

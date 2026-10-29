@@ -2,7 +2,6 @@
 type: flying
 buildSpeed: 0.01
 name: Poseidon
-description: "T6 Flying Dreadnought. Heavy support ship with automated flak defenses."
 hidden: false
 credit: original by xexebe, remake by alphy
 

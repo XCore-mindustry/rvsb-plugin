@@ -1,6 +1,5 @@
 // venomreach unit
 unit.dp-venomreach-unit: {
-	localizedName: Venomreach
 	footRegion: arkyid-foot
 	uiIcon: dp-venomreach-crux-t6-ui
 	cellRegion: toxopid-cell

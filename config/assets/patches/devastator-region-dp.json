@@ -1,5 +1,4 @@
 unit.dp-devastator-unit: {
-	localizedName: Devastator
 
 	region: conquer
 	previewRegion: conquer

@@ -1,5 +1,4 @@
 type: "payload", name: "Omega"
-description: "Fires a barrage of bolts and slow-moving homing energy balls that damage enemy targets and repair allied structures. Rapidly repairs nearby allies. Suppresses enemy structure repair blocks. Capable of carrying most ground units."
 credit: "alphy", flying: true, lowAltitude: true, omniMovement: true, faceTarget: true
 circleTarget: false, speed: 0.945, accel: 0.07, drag: 0.035, rotateSpeed: 1.6
 strafePenalty: 0.25, health: 36000, armor: 22, hitSize: 56, itemCapacity: 300

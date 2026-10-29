@@ -145,7 +145,7 @@ public class Laboratory {
         Utils.sendBundled(
                 "game.evolved",
                 player.name(),
-                targetUnitName
+                targetType
         );
         return true;
     }

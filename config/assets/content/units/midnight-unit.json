@@ -5,8 +5,6 @@
   "flying": true,
   "outlines": false,
   "name": "Midnight",
-  "description": "Fires restraining harpoons, piercing lasers and missiles at enemy targets.",
-  "details": "Flying terror",
   "hideDetails": "false",
   "speed": 0.45,
   "rotateSpeed": 1.1,

@@ -1,5 +1,4 @@
 unit.dp-eliminate-unit: {
-	localizedName: Eliminate
 	cellRegion: dp-eliminate-unit-cell
 	uiIcon: dp-eliminate-unit-ui
 	fullIcon: dp-eliminate-unit-full

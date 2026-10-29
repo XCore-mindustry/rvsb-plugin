@@ -1,6 +1,5 @@
 // poseidon made by xexebe (player copy of the crux-t6 boss)
 unit.dp-poseidon-unit: {
-	localizedName: Poseidon
 	uiIcon: dp-poseidon-crux-t6-ui
 	shadowRegion: dp-poseidon-crux-t6-shadow
 	fullIcon: dp-poseidon-crux-t6-full

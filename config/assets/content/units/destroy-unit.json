@@ -1,7 +1,6 @@
 {
  "type": "flying",
  "name": "Destroy",
- "description": "Fires artillery at enemy ground targets. Overclocks nearby units.",
  "credit": "alphy",
  "canAttack": true,
  "targetAir": false,

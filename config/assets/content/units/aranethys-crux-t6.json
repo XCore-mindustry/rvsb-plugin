@@ -1,8 +1,6 @@
 // aranethys boss, author: alphy
 type: legs
 name: Aranethys
-description: "The other giant enemy spider, because big spiders come in pairs."
-details: "Australia!"
 hideDetails: false
 flying: false
 hidden: true

@@ -1,5 +1,4 @@
 unit.dp-stryker-unit: {
-    localizedName: Stryker
 
     region: vanquish
     previewRegion: vanquish

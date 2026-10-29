@@ -79,7 +79,7 @@ public final class StageUnits {
             if (unit == null) {
                 Log.warn("Unknown unit '@' in @.", value.asString(), configPath);
             } else {
-                target.put(unit, "units.crux.menu." + unit.name);
+                target.put(unit, unit.name);
             }
         }
     }

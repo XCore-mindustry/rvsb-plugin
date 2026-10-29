@@ -25,7 +25,8 @@ public class ClassChooseMenu {
         AtomicInteger i = new AtomicInteger();
 
         units.forEach((object) -> {
-            unitsBundleKeys[i.get()][0] = Bundle.get(object.value, player.locale);
+            // the client translates unit names itself
+            unitsBundleKeys[i.get()][0] = Bundle.clientName(object.key);
             unitsNumbers[i.get()] = object.key;
             i.addAndGet(1);
         });

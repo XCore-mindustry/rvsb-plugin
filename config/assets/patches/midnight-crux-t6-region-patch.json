@@ -1,6 +1,5 @@
 // Midnight boss, author: destro
 unit.dp-midnight-crux-t6: {
-	localizedName: Midnight
 	shadowRegion: dp-midnight-unit-full
 	previewRegion: dp-midnight-unit-full
 	uiIcon: dp-midnight-unit-ui

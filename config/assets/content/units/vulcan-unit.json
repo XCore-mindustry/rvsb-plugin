@@ -1,5 +1,4 @@
 type: "tank", name: "Vulcan"
-description: "Fires a devastating stream of fire at enemy targets."
 credit: "alphy"
 squareShape: true, omniMovement: false, rotateMoveFirst: true
 speed: 0.6, rotateSpeed: 1, hitSize: 46, health: 24000, armor: 28

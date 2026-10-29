@@ -1,7 +1,6 @@
 block.dp-workbench-station: {
     requirements: [dormant-cyst/8]
     category: logic
-    localizedName: "Workbench"
     region: block-1
     onRegion: switch
     uiIcon: radar

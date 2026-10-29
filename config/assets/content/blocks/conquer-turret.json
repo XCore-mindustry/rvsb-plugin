@@ -1,7 +1,6 @@
 {
   "type": "PowerTurret",
   "name": "Conquer turret",
-  "description": "conquer gun but its a turret, get it?",
   "size": 2,
   "health": 2000,
   "category": "turret",

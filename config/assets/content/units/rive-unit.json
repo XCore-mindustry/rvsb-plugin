@@ -1,7 +1,5 @@
 type: flying
 name: Rive
-localizedName: Rive
-description: Fast kamikaze drone
 flying: true
 controller: SuicideAI
 credit: xexebe

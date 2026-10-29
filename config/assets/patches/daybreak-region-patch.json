@@ -1,5 +1,4 @@
   unit.dp-daybreak-unit: {
-  localizedName: "Daybreak"
   region: "eclipse"
   shadowRegion: "dp-daybreak-unit-shadow"
   previewRegion: "dp-daybreak-unit-full"

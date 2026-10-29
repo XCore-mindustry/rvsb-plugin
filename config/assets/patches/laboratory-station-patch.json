@@ -1,7 +1,6 @@
 block.dp-laboratory-station: {
     requirements: [dormant-cyst/7]
     category: logic
-    localizedName: "Laboratory"
     region: block-1
     onRegion: switch
     uiIcon: carbide-wall

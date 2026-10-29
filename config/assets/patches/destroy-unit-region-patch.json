@@ -1,5 +1,4 @@
 unit.dp-destroy-unit: {
-	localizedName: Destroy
 	cellRegion: dp-destroy-unit-cell
 	uiIcon: dp-destroy-unit-ui
 	fullIcon: dp-destroy-unit-full

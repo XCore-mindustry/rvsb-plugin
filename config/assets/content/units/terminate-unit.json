@@ -1,8 +1,6 @@
 {
  "type": "flying",
  "name": "Terminate",
- "description": "Lunges at enemy targets. Overloads itself if attacking too often.",
- "details": "Cant smash into walls because it flies :))))",
  "credit": "alphy",
  "canAttack": true,
  "targetAir": true,

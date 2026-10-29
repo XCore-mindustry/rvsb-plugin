@@ -2,7 +2,6 @@
 type: "mech"
 buildSpeed: 0.01
 name: "Empire"
-description: "Fires large piercing energy shells and landmines at enemy targets."
 hidden: false
 credit: "alphy"
 parts: [

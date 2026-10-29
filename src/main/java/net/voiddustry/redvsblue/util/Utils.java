@@ -382,8 +382,14 @@ public class Utils {
         Groups.player.forEach(player -> {
             Locale locale = Bundle.findLocale(player.locale());
 
+            // units and blocks are named in each player's language
+            Object[] args = format.clone();
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof mindustry.ctype.UnlockableContent content) args[i] = Bundle.contentName(content, locale);
+            }
+
             player.sendMessage(
-                    Bundle.format(key, locale, format)
+                    Bundle.format(key, locale, args)
             );
         });
     }

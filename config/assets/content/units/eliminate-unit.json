@@ -1,5 +1,4 @@
 type: "flying", name: "Eliminate"
-description: "Fires an energy beam and missiles at enemy targets."
 credit: "alphy", flying: true, lowAltitude: true, omniMovement: true, faceTarget: true
 circleTarget: false, speed: 1.9, accel: 0.07, drag: 0.04, rotateSpeed: 6
 health: 7200, armor: 17, hitSize: 30, range: 124, itemCapacity: 160, buildSpeed: 0.01

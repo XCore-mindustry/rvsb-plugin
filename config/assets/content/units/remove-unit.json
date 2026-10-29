@@ -1,7 +1,6 @@
 {
  "type": "flying",
  "name": "Remove",
- "description": "Overclocks itself while firing bullets, gaining large stacking speed bonuses but damaging itself in the process. Explodes on death.",
  "credit": "alphy",
  "canAttack": true,
  "targetAir": true,

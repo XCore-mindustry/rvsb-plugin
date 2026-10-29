@@ -1,5 +1,4 @@
 unit.dp-terminate-unit: {
-	localizedName: Terminate
 	cellRegion: dp-terminate-unit-cell
 	uiIcon: dp-terminate-unit-ui
 	fullIcon: dp-terminate-unit-full

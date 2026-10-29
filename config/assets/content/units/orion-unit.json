@@ -1,6 +1,4 @@
 name: "orion"
-    localizedName: "Orion"
-    description: "Fires lasers, lightning and bolts that repair allied buildings and damage enemy targets"
     credit: "alphy"
     hideDetails: false
     credit: alphy

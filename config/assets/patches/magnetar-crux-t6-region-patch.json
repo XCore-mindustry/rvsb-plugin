@@ -1,6 +1,5 @@
 // magnetar made by alphy
 unit.dp-magnetar-crux-t6: {
-	localizedName: Magnetar
 	region: corvus
 	shadowRegion: dp-magnetar-crux-t6-shadow
 	cellRegion: quad

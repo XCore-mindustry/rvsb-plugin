@@ -324,6 +324,5 @@
 
   buildSpeed: 0.01
   targetAir: false
-  localizedName: "Страйкер "
   shownPlanets: [erekir]
 }

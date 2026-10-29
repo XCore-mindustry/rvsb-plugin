@@ -1,5 +1,4 @@
 unit.dp-omega-unit: {
-	localizedName: Omega
 	region: quad
 	cellRegion: dp-omega-unit-cell
 	uiIcon: dp-omega-unit-ui

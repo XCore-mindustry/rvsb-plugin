@@ -215,7 +215,7 @@ public final class EvolutionMenu {
         v.iconPlaceholder = name -> EvolutionSprites.icon(name).placeholder();
         v.displayName = name -> {
             UnitType type = Vars.content.unit(name);
-            return type != null ? type.localizedName : name;
+            return type != null ? Bundle.clientName(type) : name;
         };
         v.price = name -> {
             Evolution evolution = Evolutions.evolutions.get(name);
@@ -295,7 +295,8 @@ public final class EvolutionMenu {
         // every single half-cell is HALF wide; multi-column cells set their own width
         TableBuilder t = table().add(defaults().width(HALF));
 
-        t.add(label("[lightgray]" + v.displayName.apply(tree.root))
+        // a "@key" name must be the whole label text (the client translates it), so the colour is set separately
+        t.add(label(v.displayName.apply(tree.root)).color("bfbfbfff")
                 .labelAlign("center").colspan(cols).width(HALF * cols).padBottom(4f)).row();
 
         for (int r = -1; r <= tree.maxRow; r++) {

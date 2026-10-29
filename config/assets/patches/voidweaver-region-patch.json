@@ -1,5 +1,4 @@
 unit.dp-voidweaver-unit: {
-	localizedName: Voidweaver
 	region: cyerce
 	cellRegion: dp-voidweaver-unit-cell
 	uiIcon: dp-voidweaver-unit-ui

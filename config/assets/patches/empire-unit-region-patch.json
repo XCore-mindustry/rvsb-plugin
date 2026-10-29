@@ -1,6 +1,5 @@
 // empire boss, author: alphy (player copy of the crux-t6 boss)
 unit.dp-empire-unit: {
-	localizedName: Empire
 	uiIcon: dp-empire-crux-t6-ui
 	cellRegion: dp-empire-crux-t6-cell
 	legRegion: reign-leg

@@ -4,8 +4,6 @@
   "flying": true,
   "outlines": false,
   "name": "Midnight",
-  "description": "Pierces enemies with harpoon, and lasers, armed with rocket lauchers",
-  "details": "Flying terror",
   "hideDetails": "false",
   "speed": 0.45,
   "rotateSpeed": 1.1,

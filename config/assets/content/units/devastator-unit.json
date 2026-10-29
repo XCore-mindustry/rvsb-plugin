@@ -529,6 +529,5 @@
   circleTargetRadius: 1000
   shownPlanets: [erekir]
   credit: bumm
-  localizedName: "Уничтожитель "
   buildSpeed: 0.01
 }

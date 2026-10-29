@@ -1,5 +1,4 @@
 unit.dp-annihilate-unit: {
-	localizedName: Annihilate
 	cellRegion: dp-annihilate-unit-cell
 	uiIcon: dp-annihilate-unit-ui
 	fullIcon: dp-annihilate-unit-full

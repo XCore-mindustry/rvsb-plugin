@@ -2,7 +2,6 @@
 type: legs
 buildSpeed: 0.01
 name: Venomreach
-description: "Fires a massive sapping laser and bombs at enemy targets."
 credit: alphy
 hidden: false
 
