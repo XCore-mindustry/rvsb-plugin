@@ -1549,14 +1549,14 @@ weapons: [
             intervalBullet: {
                 type: "BulletType", speed: 0, lifetime: 1, collides: false, collidesTiles: false
                 hittable: false, absorbable: false, reflectable: false, keepVelocity: false
-                despawnHit: true, damage: 0, splashDamage: 33, splashDamageRadius: 36
+                despawnHit: true, damage: 0, splashDamage: 40, splashDamageRadius: 36, healAmount: 75, healColor: "98ffa9"
                 status: "electrified", statusDuration: 150, fragBullets: 1, fragSpread: 0
                 fragRandomSpread: 360, fragVelocityMin: 1, fragLifeMin: 1
                 fragBullet: {
                     type: "BulletType", speed: 4, lifetime: 6, collides: false
                     collidesTiles: false, hittable: false, absorbable: false, reflectable: false
                     keepVelocity: false, despawnHit: true, damage: 0, lightning: 1
-                    lightningLength: 4, lightningLengthRand: 8, lightningDamage: 20
+                    lightningLength: 4, lightningLengthRand: 8, lightningDamage: 24
                     lightningColor: "98ffa9"
                     lightningType: {
                         type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0
@@ -1572,7 +1572,7 @@ weapons: [
                         collidesTiles: false, hittable: false, absorbable: false
                         reflectable: false, keepVelocity: false, despawnHit: true, damage: 0
                         lightning: 1, lightningLength: 3, lightningLengthRand: 7
-                        lightningDamage: 20, lightningColor: "e8ffec"
+                        lightningDamage: 24, lightningColor: "e8ffec"
                         lightningType: {
                             type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0
                             hittable: false, absorbable: false, reflectable: false
@@ -1607,8 +1607,8 @@ weapons: [
                 hitSoundPitchRange: 0.04
             }
             bulletInterval: 10, intervalBullets: 1, intervalRandomSpread: 360, intervalDelay: 8
-            splashDamage: 61, splashDamageRadius: 40, lightning: 3, lightningLength: 7
-            lightningLengthRand: 6, lightningDamage: 40, lightningColor: "98ffa9"
+            splashDamage: 73, splashDamageRadius: 40, lightning: 3, lightningLength: 7
+            lightningLengthRand: 6, lightningDamage: 48, lightningColor: "98ffa9"
             lightningType: {
                 type: "BulletType", speed: 0.0001, lifetime: 10, damage: 0, hittable: false
                 absorbable: false, reflectable: false, hitEffect: "hitLancer"

@@ -112,8 +112,35 @@ public class Bundle {
         return dataBundles.get(file);
     }
 
+    /** Hidden copies that show up under the name of the unit they copy. */
+    private static final ObjectMap<String, String> nameAliases = ObjectMap.of(
+            "dp-serverminate-unit", "dp-terminate-unit"
+    );
+
     private static String nameKey(mindustry.ctype.UnlockableContent content) {
-        return content.getContentType().name() + "." + content.name + ".name";
+        return content.getContentType().name() + "." + nameAliases.get(content.name, content.name) + ".name";
+    }
+
+    // The dedicated server has no translations of vanilla content (its names are the internal ones, "dagger").
+    // The build copies the unit/block/item/liquid/status names out of the game's own bundles into
+    // vanilla-names/bundle_<plugin locale>.properties, so chat messages can name them in each player's language.
+    private static final ObjectMap<Locale, ObjectMap<String, String>> vanillaNames = new ObjectMap<>();
+
+    private static ObjectMap<String, String> vanillaNames(Locale locale) {
+        ObjectMap<String, String> map = vanillaNames.get(locale);
+        if (map == null) {
+            map = new ObjectMap<>();
+            Fi fi = Vars.mods.getMod("red-vs-blue").root.child("vanilla-names").child("bundle_" + locale + ".properties");
+            if (fi.exists()) {
+                try (var reader = fi.reader("UTF-8")) {
+                    arc.util.io.PropertiesUtils.load(map, reader);
+                } catch (Exception e) {
+                    Log.err("Could not read @: @", fi.path(), e.getMessage());
+                }
+            }
+            vanillaNames.put(locale, map);
+        }
+        return map;
     }
 
     private static boolean isVanilla(mindustry.ctype.UnlockableContent content) {
@@ -135,12 +162,15 @@ public class Bundle {
     /** Name of a unit or block in the given language, for text the server builds (chat messages). */
     public static String contentName(mindustry.ctype.UnlockableContent content, Locale locale) {
         if (content == null) return "";
+        String key = nameKey(content);
         if (!isVanilla(content)) {
-            String key = nameKey(content);
             for (String file : new String[]{"bundle_" + locale, "bundle_" + locale.getLanguage(), "bundle"}) {
                 String name = dataBundle(file).get(key);
                 if (name != null) return name;
             }
+        } else {
+            String name = vanillaNames(locale).get(key, () -> vanillaNames(defaultLocale).get(key));
+            if (name != null) return name;
         }
         // the dedicated server has no vanilla translations: its names are the internal ones ("dagger")
         return content.localizedName.equals(content.name) ? arc.util.Strings.capitalize(content.name) : content.localizedName;

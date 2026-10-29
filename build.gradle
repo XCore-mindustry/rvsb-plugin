@@ -79,6 +79,41 @@ tasks.register('jarAndroid'){
     }
 }
 
+// The dedicated server has no translations of vanilla content, but chat messages name units in each
+// player's language (Bundle.contentName). The names are copied out of the game's own bundles at build
+// time for every plugin locale, so this repo never keeps its own copies of them.
+def vanillaNamesDir = layout.buildDirectory.dir("generated/vanilla-names")
+tasks.register('vanillaNames'){
+    def locales = file("src/main/resources/bundles").list()
+            .findAll{ it.startsWith("bundle_") && it.endsWith(".properties") }
+            .collect{ it - "bundle_" - ".properties" }.sort()
+    def ref = mindustryVersion ==~ /v\d+.*/ ? mindustryVersion : "master"
+    inputs.property("ref", ref)
+    inputs.property("locales", locales)
+    outputs.dir(vanillaNamesDir)
+
+    doLast{
+        def out = new File(vanillaNamesDir.get().asFile, "vanilla-names")
+        out.mkdirs()
+        locales.each{ loc ->
+            def remote = loc == "en" ? "bundle" : "bundle_$loc"
+            def url = "https://raw.githubusercontent.com/Anuken/Mindustry/$ref/core/assets/bundles/${remote}.properties"
+            try{
+                def lines = new URL(url).getText("UTF-8").readLines()
+                        .findAll{ it ==~ /^(unit|block|item|liquid|status)\.[^.=\s]+\.name\s*=.*/ }
+                new File(out, "bundle_${loc}.properties").setText(lines.join("\n") + "\n", "UTF-8")
+            }catch(FileNotFoundException ignored){
+                logger.lifecycle("vanillaNames: the game has no '$remote' bundle, '$loc' players get English names")
+            }
+        }
+    }
+}
+
+processResources{
+    dependsOn 'vanillaNames'
+    from(vanillaNamesDir)
+}
+
 jar{
     archiveFileName = "${project.name}Desktop.jar"
 
