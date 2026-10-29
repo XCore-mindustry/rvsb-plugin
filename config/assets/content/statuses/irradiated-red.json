@@ -1,0 +1,20 @@
+{
+ "name": "Radiation sickness",
+ "show": true,
+ "hideDatabase": true,
+ "permanent": false,
+ "color": "ff5146",
+ "intervalDamage": 17,
+ "intervalDamageTime": 15,
+ "speedMultiplier": 0.79,
+ "reloadMultiplier": 0.68,
+ "effectChance": 0.05,
+ "effect": {
+  "type": "MultiEffect",
+  "effects": [
+   "corrosionVapor",
+   "electrified"
+  ]
+ },
+ "applyEffect": "none"
+}
