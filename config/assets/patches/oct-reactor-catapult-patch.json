@@ -9,6 +9,30 @@
  "unit.oct.aimDst": 224,
  "unit.oct.weapons.+": [
   {
+   "name": "dp-oct-catapult-mount",
+   "x": 0,
+   "y": 0,
+   "mirror": false,
+   "rotate": false,
+   "top": false,
+   "reload": 1000000,
+   "controllable": false,
+   "aiControllable": false,
+   "autoTarget": false,
+   "noAttack": true,
+   "display": false,
+   "showStatSprite": false,
+   "shootSound": "none",
+   "parts": [
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-base",
+     "y": -2.0,
+     "outline": false
+    }
+   ]
+  },
+  {
    "name": "dp-oct-reactor-catapult",
    "x": 0,
    "y": -2.0,
@@ -16,7 +40,6 @@
    "rotate": true,
    "rotateSpeed": 1.4,
    "top": true,
-   "layerOffset": 0.005,
    "reload": 3600,
    "recoil": 0,
    "recoilTime": 80,
@@ -47,7 +70,6 @@
      "name": "thorium-reactor",
      "y": -16.0,
      "outline": false,
-     "layerOffset": 0.0001,
      "progress": {
       "type": "reload",
       "ops": [
@@ -120,7 +142,6 @@
      "name": "white",
      "y": 6.0,
      "outline": false,
-     "layerOffset": 0.000105,
      "xScl": 96,
      "yScl": 96,
      "progress": {
@@ -189,7 +210,6 @@
      "name": "thorium-reactor-top",
      "y": -16.0,
      "outline": false,
-     "layerOffset": 0.00011,
      "progress": {
       "type": "reload",
       "ops": [
@@ -301,7 +321,6 @@
      "name": "thorium-reactor-lights",
      "y": 6.0,
      "outline": false,
-     "layerOffset": 0.00012,
      "xScl": 0,
      "yScl": 0,
      "growX": 1,
@@ -378,10 +397,294 @@
     },
     {
      "type": "RegionPart",
+     "name": "dp-oct-catapult-left-outline",
+     "outline": false,
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.955
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": -5.5
+      },
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.955,
+          "end": 1.0
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": 1.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         },
+         {
+          "op": "compress",
+          "start": 0.8,
+          "end": 1.0
+         },
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "x": -2.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-right-outline",
+     "outline": false,
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.955
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": 5.5
+      },
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.955,
+          "end": 1.0
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": -1.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         },
+         {
+          "op": "compress",
+          "start": 0.8,
+          "end": 1.0
+         },
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "x": 2.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-cap-outline",
+     "outline": false,
+     "moves": [
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
      "name": "dp-oct-catapult-left",
-     "outline": true,
-     "layerOffset": 0.002,
-     "outlineLayerOffset": -0.0005,
+     "outline": false,
      "heatProgress": {
       "type": "warmup",
       "ops": [
@@ -532,9 +835,7 @@
     {
      "type": "RegionPart",
      "name": "dp-oct-catapult-right",
-     "outline": true,
-     "layerOffset": 0.002,
-     "outlineLayerOffset": -0.0005,
+     "outline": false,
      "heatProgress": {
       "type": "warmup",
       "ops": [
@@ -685,9 +986,7 @@
     {
      "type": "RegionPart",
      "name": "dp-oct-catapult-cap",
-     "outline": true,
-     "layerOffset": 0.0021,
-     "outlineLayerOffset": -0.0006,
+     "outline": false,
      "heatProgress": {
       "type": "warmup",
       "ops": [
@@ -801,8 +1100,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     },
     {
      "type": "HaloPart",
@@ -844,8 +1142,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     },
     {
      "type": "RegionPart",
@@ -914,8 +1211,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     },
     {
      "type": "RegionPart",
@@ -984,8 +1280,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     },
     {
      "type": "RegionPart",
@@ -1054,8 +1349,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     },
     {
      "type": "RegionPart",
@@ -1124,8 +1418,7 @@
       ]
      },
      "color": "84f49000",
-     "colorTo": "84f490",
-     "layerOffset": 0.01
+     "colorTo": "84f490"
     }
    ],
    "bullet": {
@@ -2871,16 +3164,6 @@
    "linearWarmup": true,
    "minWarmup": 0.99,
    "noAttack": true
-  }
- ],
- "unit.oct.parts.+": [
-  {
-   "type": "RegionPart",
-   "name": "dp-oct-catapult-base",
-   "y": -2.0,
-   "outline": false,
-   "layerOffset": 0.001,
-   "weaponIndex": 0
   }
  ],
  "unit.oct.abilities.0.max": 12000,
