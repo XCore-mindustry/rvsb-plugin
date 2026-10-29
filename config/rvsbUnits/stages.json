@@ -12,6 +12,6 @@
     { "stage": 10, "units": ["obviate", "precept"], "bosses": ["eclipse", "dp-dominion-unit"] },
     { "stage": 11, "units": ["corvus", "vanquish"], "bosses": ["dp-aranethys-crux-t6", "dp-empire-crux-t6", "dp-magnetar-crux-t6", "dp-midnight-crux-t6", "dp-poseidon-crux-t6", "dp-venomreach-crux-t6", "dp-zoltraak-crux-t6"] },
     { "stage": 12, "units": ["dp-eliminate-unit", "vanquish", "dp-incinerate-unit"], "bosses": ["dp-annihilate-unit"], "bossCount": 3 },
-    { "stage": 13, "units": ["dp-annihilate-unit", "dp-eliminate-unit", "dp-vulcan-unit", "toxopid"], "bosses": ["dp-voidweaver-unit"] }
+    { "stage": 13, "units": ["dp-aractid-unit", "dp-eliminate-unit", "dp-vulcan-unit", "arkyid"], "bosses": ["dp-voidweaver-unit"] }
   ]
 }
