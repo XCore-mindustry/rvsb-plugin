@@ -1,0 +1,139 @@
+// Oct reactor catapult friendly fire. Vanilla splash damage skips the shooter's team, so the reactor spawns this
+// invisible unit (server only) where it lands. Its status fields only reach its own team: allies take 50% of the
+// blast (4 rings stepping 4080 -> 2040; vanilla falloff at 50% is 4250 -> 1700) and half-length radiation
+// sickness (red 15 s, orange 30 s, yellow 45 s) + 5 s slow. Ring damage = per-tick damage of dp-oct-fallout-1..4
+// over 10 ticks: 68+68+68+204 per tick in the centre.
+{
+ "type": "missile",
+ "controller": "MissileAI",
+ "hidden": true,
+ "health": 1000000,
+ "armor": 0,
+ "hitSize": 1,
+ "speed": 0,
+ "accel": 0,
+ "drag": 0,
+ "rotateSpeed": 0,
+ "missileAccelTime": 0,
+ "lifetime": 3,
+ "flying": false,
+ "hovering": true,
+ "physics": false,
+ "bounded": false,
+ "canDrown": false,
+ "hittable": false,
+ "targetable": false,
+ "isEnemy": false,
+ "useUnitCap": false,
+ "targetAir": false,
+ "targetGround": false,
+ "playerControllable": false,
+ "logicControllable": false,
+ "controlSelectGlobal": false,
+ "allowedInPayloads": false,
+ "createWreck": false,
+ "createScorch": false,
+ "deathShake": 0,
+ "deathSound": "none",
+ "deathExplosionEffect": "none",
+ "fallEffect": "none",
+ "fallEngineEffect": "none",
+ "drawBody": false,
+ "drawCell": false,
+ "drawItems": false,
+ "drawShields": false,
+ "drawMinimap": false,
+ "drawSoftShadow": false,
+ "outlines": false,
+ "shadowElevation": 0,
+ "engineSize": 0,
+ "engineOffset": 0,
+ "trailLength": 0,
+ "lightRadius": 0,
+ "lightOpacity": 0,
+ "loopSound": "none",
+ "fogRadius": 0,
+ "abilities": [
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-oct-fallout-1",
+   "duration": 10,
+   "reload": 2,
+   "range": 38,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-oct-fallout-2",
+   "duration": 10,
+   "reload": 2,
+   "range": 76,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-oct-fallout-3",
+   "duration": 10,
+   "reload": 2,
+   "range": 114,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-oct-fallout-4",
+   "duration": 10,
+   "reload": 2,
+   "range": 152,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-irradiated",
+   "duration": 2700,
+   "reload": 2,
+   "range": 152,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-irradiated-orange",
+   "duration": 1800,
+   "reload": 2,
+   "range": 152,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-irradiated-red",
+   "duration": 900,
+   "reload": 2,
+   "range": 152,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "slow",
+   "duration": 300,
+   "reload": 2,
+   "range": 152,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  },
+  {
+   "type": "StatusFieldAbility",
+   "effect": "dp-no-register-kills",
+   "duration": 60,
+   "reload": 2,
+   "range": 0.5,
+   "activeEffect": "none",
+   "applyEffect": "none"
+  }
+ ]
+}

@@ -123,6 +123,18 @@ public class Utils {
             }
         }, 0, 60);
 
+        // oct passive income: 1 point per second while piloting an oct
+        Timer.schedule(() -> {
+            if (!playing) return;
+            Groups.player.each(player -> {
+                Unit unit = player.unit();
+                if (unit == null || unit.dead() || unit.type != UnitTypes.oct) return;
+
+                PlayerData data = players.get(player.uuid());
+                if (data != null) data.addScore(1);
+            });
+        }, 1, 1);
+
         Timer.schedule(() -> stageTimer--, 0, 1);
 
 

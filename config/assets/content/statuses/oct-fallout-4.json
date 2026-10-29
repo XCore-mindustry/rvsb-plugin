@@ -1,0 +1,9 @@
+{
+ "show": false,
+ "hideDatabase": true,
+ "permanent": false,
+ "color": "ffd84a",
+ "damage": 204,
+ "effect": "none",
+ "applyEffect": "none"
+}

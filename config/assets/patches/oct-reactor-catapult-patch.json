@@ -1,0 +1,2889 @@
+//oct nuke, author: alphy
+{
+ "unit.oct.description": "Protects nearby allies with a regenerating shield. Capable of carrying most ground units. Can throw an overheating thorium reactor salted with U-233 and other unstable isotopes for instant exposure to crippling amounts of radiation. Can deal damage to allies if used improperly.",
+ "unit.oct.canAttack": false,
+ "unit.oct.targetAir": false,
+ "unit.oct.targetGround": false,
+ "unit.oct.range": -1000,
+ "unit.oct.maxRange": -1000,
+ "unit.oct.aimDst": 224,
+ "unit.oct.weapons.+": [
+  {
+   "name": "dp-oct-reactor-catapult",
+   "x": 0,
+   "y": -2.0,
+   "mirror": false,
+   "rotate": true,
+   "rotateSpeed": 1.4,
+   "top": true,
+   "layerOffset": 0.005,
+   "reload": 3600,
+   "recoil": 0,
+   "recoilTime": 80,
+   "cooldownTime": 260,
+   "shootY": 6.0,
+   "shootCone": 4,
+   "inaccuracy": 0,
+   "velocityRnd": 0,
+   "shake": 5,
+   "shootWarmupSpeed": 0.01,
+   "controllable": true,
+   "aiControllable": false,
+   "autoTarget": false,
+   "shoot": {
+    "firstShotDelay": 0
+   },
+   "parentizeEffects": true,
+   "ejectEffect": "none",
+   "showStatSprite": false,
+   "shootSound": "massdriver",
+   "shootSoundVolume": 0.7,
+   "chargeSound": "none",
+   "soundPitchMin": 0.9,
+   "soundPitchMax": 1.1,
+   "parts": [
+    {
+     "type": "RegionPart",
+     "name": "thorium-reactor",
+     "y": -16.0,
+     "outline": false,
+     "layerOffset": 0.0001,
+     "progress": {
+      "type": "reload",
+      "ops": [
+       {
+        "op": "inv"
+       },
+       {
+        "op": "compress",
+        "start": 0.9,
+        "end": 0.95
+       },
+       {
+        "op": "clamp"
+       }
+      ]
+     },
+     "color": "ffffff00",
+     "colorTo": "ffffffff",
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.95
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "y": 22
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "white",
+     "y": 6.0,
+     "outline": false,
+     "layerOffset": 0.000105,
+     "xScl": 96,
+     "yScl": 96,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "compress",
+        "start": 0.5,
+        "end": 1.0
+       }
+      ]
+     },
+     "color": "ffffff00",
+     "colorTo": "ffcaba52",
+     "moves": [
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "thorium-reactor-top",
+     "y": -16.0,
+     "outline": false,
+     "layerOffset": 0.00011,
+     "progress": {
+      "type": "reload",
+      "ops": [
+       {
+        "op": "inv"
+       },
+       {
+        "op": "compress",
+        "start": 0.9,
+        "end": 0.95
+       },
+       {
+        "op": "clamp"
+       },
+       {
+        "op": "add",
+        "other": {
+         "type": "warmup",
+         "ops": [
+          {
+           "op": "mul",
+           "other": {
+            "type": "reload",
+            "ops": [
+             {
+              "op": "inv"
+             },
+             {
+              "op": "compress",
+              "start": 0.9,
+              "end": 0.95
+             },
+             {
+              "op": "clamp"
+             }
+            ]
+           }
+          },
+          {
+           "op": "compress",
+           "start": 0.0,
+           "end": 0.5
+          },
+          {
+           "op": "mul",
+           "amount": -1
+          }
+         ]
+        }
+       },
+       {
+        "op": "clamp"
+       }
+      ]
+     },
+     "color": "6ecdec00",
+     "colorTo": "6ecdecff",
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.95
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "y": 22
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "thorium-reactor-lights",
+     "y": 6.0,
+     "outline": false,
+     "layerOffset": 0.00012,
+     "xScl": 0,
+     "yScl": 0,
+     "growX": 1,
+     "growY": 1,
+     "growProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "compress",
+        "start": 0.96,
+        "end": 0.961
+       }
+      ]
+     },
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "amount": 0
+       }
+      ]
+     },
+     "color": "ff00004d",
+     "colorTo": "ffff004d",
+     "moves": [
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-left",
+     "outline": true,
+     "layerOffset": 0.002,
+     "outlineLayerOffset": -0.0005,
+     "heatProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "add",
+        "other": "heat"
+       },
+       {
+        "op": "clamp"
+       }
+      ]
+     },
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.955
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": -5.5
+      },
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.955,
+          "end": 1.0
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": 1.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         },
+         {
+          "op": "compress",
+          "start": 0.8,
+          "end": 1.0
+         },
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "x": -2.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-right",
+     "outline": true,
+     "layerOffset": 0.002,
+     "outlineLayerOffset": -0.0005,
+     "heatProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "add",
+        "other": "heat"
+       },
+       {
+        "op": "clamp"
+       }
+      ]
+     },
+     "moves": [
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.9,
+          "end": 0.955
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": 5.5
+      },
+      {
+       "progress": {
+        "type": "reload",
+        "ops": [
+         {
+          "op": "inv"
+         },
+         {
+          "op": "compress",
+          "start": 0.955,
+          "end": 1.0
+         },
+         {
+          "op": "clamp"
+         }
+        ]
+       },
+       "x": -1.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         },
+         {
+          "op": "compress",
+          "start": 0.8,
+          "end": 1.0
+         },
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "x": 2.5
+      },
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "RegionPart",
+     "name": "dp-oct-catapult-cap",
+     "outline": true,
+     "layerOffset": 0.0021,
+     "outlineLayerOffset": -0.0006,
+     "heatProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "add",
+        "other": "heat"
+       },
+       {
+        "op": "clamp"
+       }
+      ]
+     },
+     "moves": [
+      {
+       "progress": {
+        "type": "warmup",
+        "ops": [
+         {
+          "op": "mul",
+          "other": {
+           "type": "reload",
+           "ops": [
+            {
+             "op": "inv"
+            },
+            {
+             "op": "compress",
+             "start": 0.9,
+             "end": 0.95
+            },
+            {
+             "op": "clamp"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "y": -4.0
+      },
+      {
+       "progress": {
+        "type": "recoil",
+        "ops": [
+         {
+          "op": "curve",
+          "interp": "pow2In"
+         }
+        ]
+       },
+       "y": -5
+      }
+     ]
+    },
+    {
+     "type": "HaloPart",
+     "tri": true,
+     "shapes": 1,
+     "haloRadius": 0,
+     "x": -19,
+     "moveX": 7,
+     "y": 20,
+     "radius": 0.6,
+     "triLength": 0,
+     "triLengthTo": 70,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    },
+    {
+     "type": "HaloPart",
+     "tri": true,
+     "shapes": 1,
+     "haloRadius": 0,
+     "x": 19,
+     "moveX": -7,
+     "y": 20,
+     "radius": 0.6,
+     "triLength": 0,
+     "triLengthTo": 70,
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    },
+    {
+     "type": "RegionPart",
+     "name": "bridge-arrow",
+     "y": 34,
+     "rotation": 90,
+     "outline": false,
+     "xScl": 0,
+     "yScl": 0,
+     "growX": 1.1,
+     "growY": 1.1,
+     "growProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    },
+    {
+     "type": "RegionPart",
+     "name": "bridge-arrow",
+     "y": 43,
+     "rotation": 90,
+     "outline": false,
+     "xScl": 0,
+     "yScl": 0,
+     "growX": 1.1,
+     "growY": 1.1,
+     "growProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    },
+    {
+     "type": "RegionPart",
+     "name": "bridge-arrow",
+     "y": 52,
+     "rotation": 90,
+     "outline": false,
+     "xScl": 0,
+     "yScl": 0,
+     "growX": 1.1,
+     "growY": 1.1,
+     "growProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    },
+    {
+     "type": "RegionPart",
+     "name": "bridge-arrow",
+     "y": 61,
+     "rotation": 90,
+     "outline": false,
+     "xScl": 0,
+     "yScl": 0,
+     "growX": 1.1,
+     "growY": 1.1,
+     "growProgress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "progress": {
+      "type": "warmup",
+      "ops": [
+       {
+        "op": "mul",
+        "other": {
+         "type": "reload",
+         "ops": [
+          {
+           "op": "inv"
+          },
+          {
+           "op": "compress",
+           "start": 0.9,
+           "end": 0.95
+          },
+          {
+           "op": "clamp"
+          }
+         ]
+        }
+       },
+       {
+        "op": "curve",
+        "interp": "pow2Out"
+       }
+      ]
+     },
+     "color": "84f49000",
+     "colorTo": "84f490",
+     "layerOffset": 0.01
+    }
+   ],
+   "bullet": {
+    "type": "BasicBulletType",
+    "sprite": "thorium-reactor",
+    "width": 32,
+    "height": 32,
+    "shrinkX": 0.25,
+    "shrinkY": 0.25,
+    "shrinkInterp": "slope",
+    "frontColor": "ffffff",
+    "backColor": "ffffff",
+    "mixColorFrom": "ffffff00",
+    "mixColorTo": "ffffff00",
+    "speed": 6,
+    "lifetime": 73.34,
+    "scaleLife": true,
+    "drag": 0,
+    "collides": false,
+    "collidesTiles": false,
+    "collidesAir": true,
+    "collidesGround": true,
+    "hittable": false,
+    "absorbable": false,
+    "reflectable": false,
+    "keepVelocity": false,
+    "despawnHit": true,
+    "layer": 117,
+    "drawSize": 400,
+    "damage": 0,
+    "splashDamage": 8500,
+    "splashDamageRadius": 152,
+    "scaledSplashDamage": false,
+    "status": "dp-irradiated",
+    "statusDuration": 5400,
+    "makeFire": true,
+    "incendChance": 0,
+    "fragBullets": 1,
+    "fragBullet": {
+     "type": "BulletType",
+     "speed": 0,
+     "lifetime": 1,
+     "collides": false,
+     "collidesTiles": false,
+     "collidesAir": true,
+     "collidesGround": true,
+     "hittable": false,
+     "absorbable": false,
+     "reflectable": false,
+     "keepVelocity": false,
+     "despawnHit": true,
+     "damage": 0,
+     "splashDamage": 0,
+     "splashDamageRadius": 152,
+     "status": "dp-irradiated-orange",
+     "statusDuration": 3600,
+     "hitEffect": "none",
+     "despawnEffect": "none",
+     "shootEffect": "none",
+     "smokeEffect": "none",
+     "hitSound": "none",
+     "despawnSound": "none",
+     "hitShake": 0,
+     "despawnShake": 0,
+     "lightRadius": 0,
+     "fragBullets": 1,
+     "fragBullet": {
+      "type": "BulletType",
+      "speed": 0,
+      "lifetime": 1,
+      "collides": false,
+      "collidesTiles": false,
+      "collidesAir": true,
+      "collidesGround": true,
+      "hittable": false,
+      "absorbable": false,
+      "reflectable": false,
+      "keepVelocity": false,
+      "despawnHit": true,
+      "damage": 0,
+      "splashDamage": 0,
+      "splashDamageRadius": 152,
+      "status": "dp-irradiated-red",
+      "statusDuration": 1800,
+      "hitEffect": "none",
+      "despawnEffect": "none",
+      "shootEffect": "none",
+      "smokeEffect": "none",
+      "hitSound": "none",
+      "despawnSound": "none",
+      "hitShake": 0,
+      "despawnShake": 0,
+      "lightRadius": 0,
+      "fragBullets": 1,
+      "fragBullet": {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 1,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "status": "slow",
+       "statusDuration": 600,
+       "fragBullets": 72,
+       "fragBullet": {
+        "type": "FireBulletType",
+        "speed": 1,
+        "damage": 0,
+        "lifetime": 60,
+        "drag": 0.03,
+        "velMin": 0.7,
+        "velMax": 4.4,
+        "radius": 2.2,
+        "colorFrom": "ffdcb0",
+        "colorMid": "ff9c5a",
+        "colorTo": "6e7080",
+        "fireTrailChance": 0.06,
+        "fireEffectChance": 0.012,
+        "fireEffectChance2": 0.02,
+        "pierce": true,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": false,
+        "collidesGround": false,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "lightColor": "ff9c5a",
+        "lightRadius": 14,
+        "lightOpacity": 0.5,
+        "despawnHit": false,
+        "layer": 89,
+        "trailEffect": {
+         "type": "ParticleEffect",
+         "lifetime": 25,
+         "length": 7,
+         "baseLength": 2,
+         "cone": 180,
+         "sizeFrom": 0.85,
+         "sizeTo": 0.05,
+         "lightOpacity": 0,
+         "layer": 89,
+         "particles": 1,
+         "colorFrom": "7f7f7f",
+         "colorTo": "7f7f7f"
+        },
+        "trailEffect2": {
+         "type": "ParticleEffect",
+         "lifetime": 25,
+         "length": 7,
+         "baseLength": 2,
+         "cone": 180,
+         "sizeFrom": 0.85,
+         "sizeTo": 0.05,
+         "lightOpacity": 0,
+         "layer": 89,
+         "particles": 2,
+         "colorFrom": "ffdd55",
+         "colorTo": "db401c"
+        }
+       },
+       "fragRandomSpread": 360,
+       "fragLifeMin": 1,
+       "fragLifeMax": 1,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0
+      },
+      "fragRandomSpread": 0,
+      "fragAngle": 0
+     },
+     "fragRandomSpread": 0,
+     "fragAngle": 0,
+     "spawnBullets": [
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 1,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 6,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 12,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 18,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 24,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 30,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 36,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 42,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 48,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      },
+      {
+       "type": "BulletType",
+       "speed": 0,
+       "lifetime": 54,
+       "collides": false,
+       "collidesTiles": false,
+       "collidesAir": true,
+       "collidesGround": true,
+       "hittable": false,
+       "absorbable": false,
+       "reflectable": false,
+       "keepVelocity": false,
+       "despawnHit": true,
+       "damage": 0,
+       "splashDamage": 0,
+       "splashDamageRadius": 152,
+       "hitEffect": "none",
+       "despawnEffect": "none",
+       "shootEffect": "none",
+       "smokeEffect": "none",
+       "hitSound": "none",
+       "despawnSound": "none",
+       "hitShake": 0,
+       "despawnShake": 0,
+       "lightRadius": 0,
+       "healPercent": 0.0001,
+       "healAmount": -408,
+       "healEffect": "none",
+       "status": "none",
+       "showStats": false,
+       "fragBullets": 1,
+       "fragBullet": {
+        "type": "BulletType",
+        "speed": 0,
+        "lifetime": 1,
+        "collides": false,
+        "collidesTiles": false,
+        "collidesAir": true,
+        "collidesGround": true,
+        "hittable": false,
+        "absorbable": false,
+        "reflectable": false,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "damage": 0,
+        "splashDamage": 0,
+        "splashDamageRadius": 114,
+        "hitEffect": "none",
+        "despawnEffect": "none",
+        "shootEffect": "none",
+        "smokeEffect": "none",
+        "hitSound": "none",
+        "despawnSound": "none",
+        "hitShake": 0,
+        "despawnShake": 0,
+        "lightRadius": 0,
+        "healPercent": 0.0001,
+        "healAmount": -136,
+        "healEffect": "none",
+        "status": "none",
+        "showStats": false,
+        "fragBullets": 1,
+        "fragBullet": {
+         "type": "BulletType",
+         "speed": 0,
+         "lifetime": 1,
+         "collides": false,
+         "collidesTiles": false,
+         "collidesAir": true,
+         "collidesGround": true,
+         "hittable": false,
+         "absorbable": false,
+         "reflectable": false,
+         "keepVelocity": false,
+         "despawnHit": true,
+         "damage": 0,
+         "splashDamage": 0,
+         "splashDamageRadius": 76,
+         "hitEffect": "none",
+         "despawnEffect": "none",
+         "shootEffect": "none",
+         "smokeEffect": "none",
+         "hitSound": "none",
+         "despawnSound": "none",
+         "hitShake": 0,
+         "despawnShake": 0,
+         "lightRadius": 0,
+         "healPercent": 0.0001,
+         "healAmount": -136,
+         "healEffect": "none",
+         "status": "none",
+         "showStats": false,
+         "fragBullets": 1,
+         "fragBullet": {
+          "type": "BulletType",
+          "speed": 0,
+          "lifetime": 1,
+          "collides": false,
+          "collidesTiles": false,
+          "collidesAir": true,
+          "collidesGround": true,
+          "hittable": false,
+          "absorbable": false,
+          "reflectable": false,
+          "keepVelocity": false,
+          "despawnHit": true,
+          "damage": 0,
+          "splashDamage": 0,
+          "splashDamageRadius": 38,
+          "hitEffect": "none",
+          "despawnEffect": "none",
+          "shootEffect": "none",
+          "smokeEffect": "none",
+          "hitSound": "none",
+          "despawnSound": "none",
+          "hitShake": 0,
+          "despawnShake": 0,
+          "lightRadius": 0,
+          "healPercent": 0.0001,
+          "healAmount": -136,
+          "healEffect": "none",
+          "status": "none",
+          "showStats": false
+         },
+         "fragRandomSpread": 0,
+         "fragAngle": 0
+        },
+        "fragRandomSpread": 0,
+        "fragAngle": 0
+       },
+       "fragRandomSpread": 0,
+       "fragAngle": 0
+      }
+     ]
+    },
+    "fragRandomSpread": 0,
+    "fragAngle": 0,
+    "hitShake": 6,
+    "despawnShake": 0,
+    "hitSound": "explosionReactor",
+    "hitSoundVolume": 1,
+    "hitColor": "ff9c5a",
+    "lightColor": "ff9575",
+    "lightRadius": 40,
+    "lightOpacity": 0.6,
+    "trailLength": 0,
+    "trailEffect": "none",
+    "shootEffect": {
+     "type": "WaveEffect",
+     "lifetime": 20,
+     "sizeFrom": 6,
+     "sizeTo": 30,
+     "strokeFrom": 4,
+     "strokeTo": 0,
+     "colorFrom": "ffffff",
+     "colorTo": "c8cad600",
+     "interp": "pow2Out"
+    },
+    "smokeEffect": "shootSmokeTitan",
+    "chargeEffect": "none",
+    "hitEffect": {
+     "type": "MultiEffect",
+     "effects": [
+      "reactorExplosion",
+      {
+       "type": "WrapEffect",
+       "effect": "titanExplosionLarge",
+       "color": "ff9c5a"
+      },
+      {
+       "type": "WrapEffect",
+       "effect": "titanSmokeLarge",
+       "color": "6e7080"
+      },
+      "massiveExplosion",
+      {
+       "type": "ExplosionEffect",
+       "lifetime": 90,
+       "waveColor": "ffdcb0",
+       "smokeColor": "6e7080",
+       "sparkColor": "ff9c5a",
+       "waveStroke": 6,
+       "waveRad": 60,
+       "waveLife": 16,
+       "smokes": 14,
+       "smokeSize": 9,
+       "smokeSizeBase": 2,
+       "smokeRad": 70,
+       "sparks": 22,
+       "sparkRad": 110,
+       "sparkLen": 9,
+       "sparkStroke": 2.4
+      },
+      {
+       "type": "WaveEffect",
+       "lifetime": 34,
+       "sizeFrom": 0,
+       "sizeTo": 152,
+       "strokeFrom": 8,
+       "strokeTo": 0,
+       "colorFrom": "ffdcb0",
+       "colorTo": "ff9c5a00",
+       "interp": "pow3Out"
+      },
+      {
+       "type": "ParticleEffect",
+       "region": "particle",
+       "lifetime": 150,
+       "particles": 34,
+       "length": 140,
+       "baseLength": 10,
+       "cone": 360,
+       "sizeFrom": 15,
+       "sizeTo": 0,
+       "colorFrom": "6e7080dd",
+       "colorTo": "6e708000",
+       "interp": "pow5Out",
+       "sizeInterp": "pow2In",
+       "randLength": true
+      },
+      {
+       "type": "ParticleEffect",
+       "region": "particle",
+       "lifetime": 110,
+       "particles": 40,
+       "length": 150,
+       "baseLength": 0,
+       "cone": 360,
+       "sizeFrom": 3,
+       "sizeTo": 0,
+       "colorFrom": "ffdcb0",
+       "colorTo": "ff9c5a",
+       "interp": "pow4Out",
+       "randLength": true
+      }
+     ]
+    },
+    "despawnEffect": "none",
+    "parts": [
+     {
+      "type": "RegionPart",
+      "name": "thorium-reactor",
+      "outline": false,
+      "xScl": 1.0,
+      "yScl": 1.0,
+      "layer": 49,
+      "color": "00000050",
+      "progress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "slope"
+        }
+       ]
+      },
+      "moves": [
+       {
+        "progress": {
+         "type": "warmup",
+         "ops": [
+          {
+           "op": "slope"
+          }
+         ]
+        },
+        "y": -14
+       }
+      ]
+     },
+     {
+      "type": "RegionPart",
+      "name": "white",
+      "outline": false,
+      "xScl": 96.0,
+      "yScl": 96.0,
+      "growX": 31.968000000000004,
+      "growY": 31.968000000000004,
+      "growProgress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "slope"
+        }
+       ]
+      },
+      "progress": "life",
+      "color": "ffcaba52",
+      "colorTo": "ff9575a3",
+      "layerOffset": 0.005
+     },
+     {
+      "type": "RegionPart",
+      "name": "thorium-reactor-lights",
+      "outline": false,
+      "xScl": 1.0,
+      "yScl": 1.0,
+      "growX": 0.333,
+      "growY": 0.333,
+      "growProgress": {
+       "type": "warmup",
+       "ops": [
+        {
+         "op": "slope"
+        }
+       ]
+      },
+      "progress": {
+       "type": "life",
+       "ops": [
+        {
+         "op": "mul",
+         "other": {
+          "type": "life",
+          "ops": [
+           {
+            "op": "mul",
+            "amount": 2.5
+           },
+           {
+            "op": "add",
+            "amount": 1.4
+           }
+          ]
+         }
+        },
+        {
+         "op": "mul",
+         "amount": 0.6485
+        },
+        {
+         "op": "loop",
+         "time": 1
+        },
+        {
+         "op": "slope"
+        }
+       ]
+      },
+      "color": "ff00004d",
+      "colorTo": "ffff004d",
+      "layerOffset": 0.011
+     }
+    ],
+    "hitSoundPitch": 1,
+    "hitSoundPitchRange": 0,
+    "despawnUnit": "dp-oct-fallout",
+    "despawnUnitCount": 1,
+    "despawnUnitChance": 1,
+    "despawnUnitRadius": 0.1,
+    "rangeOverride": 440.04
+   },
+   "linearWarmup": true,
+   "minWarmup": 0.99,
+   "noAttack": true
+  }
+ ],
+ "unit.oct.parts.+": [
+  {
+   "type": "RegionPart",
+   "name": "dp-oct-catapult-base",
+   "y": -2.0,
+   "outline": false,
+   "layerOffset": 0.001,
+   "weaponIndex": 0
+  }
+ ],
+ "unit.oct.abilities.0.max": 12000,
+ "unit.oct.fullIcon": "dp-oct-catapult-full",
+ "unit.oct.uiIcon": "dp-oct-catapult-ui"
+}
