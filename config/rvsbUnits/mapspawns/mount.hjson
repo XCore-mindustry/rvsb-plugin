@@ -45,7 +45,7 @@ spawners: [
         cooldown: 80
         options: [
           {weight: 30, units: [{type: "locus", effects: ["melting", "boss", "overdrive"], effectSeconds: 999}]}
-          {weight: 30, units: [{type: "spiroct"}]}
+          {weight: 30, units: [{type: "atrax"}]}
           {weight: 40, units: [{type: "cleroi", effects: ["overclock", "shielded"], effectSeconds: 999}]}
         ]
       }
