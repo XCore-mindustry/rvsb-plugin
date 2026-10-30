@@ -5,11 +5,12 @@ spawners: [
     metric: decaying
     hp: max
     weighted: true
+    decay: 0.8
     playerScaling: 0.5
     tiers: [
       {
         min: 1000
-        max: 4000
+        max: 3000
         cooldown: 40
         options: [
           {weight: 30, units: [{type: "dagger"}]}
@@ -18,8 +19,8 @@ spawners: [
         ]
       }
       {
-        min: 4000
-        max: 8000
+        min: 3000
+        max: 6000
         cooldown: 50
         options: [
           {weight: 30, units: [{type: "elude", effects: ["boss"], effectSeconds: 999}]}
@@ -28,9 +29,9 @@ spawners: [
         ]
       }
       {
-        min: 8000
-        max: 15000
-        cooldown: 80
+        min: 6000
+        max: 13000
+        cooldown: 85
         options: [
           {weight: 30, units: [{type: "locus", effects: ["boss", "overdrive"], effectSeconds: 999}]}
           {
@@ -47,9 +48,9 @@ spawners: [
         ]
       }
       {
-        min: 15000
-        max: 25000
-        cooldown: 90
+        min: 13000
+        max: 24000
+        cooldown: 110
         options: [
           {weight: 60, units: [{type: "obviate", effects: ["shielded", "sapped"], effectSeconds: 999}]}
           {
@@ -60,11 +61,11 @@ spawners: [
         ]
       }
       {
-        min: 25000
-        cooldown: 65
+        min: 24000
+        cooldown: 123
         options: [
           {weight: 33, units: [{type: "reign", effects: ["melting", "sapped"], effectSeconds: 999}]}
-          {weight: 33, units: [{type: "dp-annihilate-unit", effects: ["melting", "slow"], effectSeconds: 999}]}
+          {weight: 33, units: [{type: "dp-annihilate-unit", effects: ["corroded", "slow"], effectSeconds: 999}]}
           {weight: 34, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
         ]
       }
