@@ -2,14 +2,15 @@ globalMultiplier: 0.4
 spawners: [
   {
     name: miniboss
-    metric: sum
+    metric: decaying
     hp: max
     weighted: true
+    playerScaling: 0.5
     tiers: [
       {
         min: 1000
         max: 4000
-        cooldown: 35
+        cooldown: 40
         options: [
           {weight: 30, units: [{type: "dagger"}]}
           {weight: 30, units: [{type: "nova"}]}
@@ -19,7 +20,7 @@ spawners: [
       {
         min: 4000
         max: 8000
-        cooldown: 40
+        cooldown: 50
         options: [
           {weight: 30, units: [{type: "elude", effects: ["boss"], effectSeconds: 999}]}
           {weight: 30, units: [{type: "pulsar", effects: ["sapped"], effectSeconds: 999}]}
@@ -48,7 +49,7 @@ spawners: [
       {
         min: 15000
         max: 25000
-        cooldown: 80
+        cooldown: 90
         options: [
           {weight: 60, units: [{type: "obviate", effects: ["shielded", "sapped"], effectSeconds: 999}]}
           {
@@ -60,10 +61,10 @@ spawners: [
       }
       {
         min: 25000
-        cooldown: 55
+        cooldown: 65
         options: [
           {weight: 33, units: [{type: "reign", effects: ["melting", "sapped"], effectSeconds: 999}]}
-          {weight: 33, units: [{type: "antumbra", effects: ["melting"], effectSeconds: 999}]}
+          {weight: 33, units: [{type: "dp-annihilate-unit", effects: ["melting", "slow"], effectSeconds: 999}]}
           {weight: 34, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
         ]
       }
