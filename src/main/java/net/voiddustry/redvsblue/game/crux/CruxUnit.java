@@ -289,6 +289,8 @@ public class CruxUnit {
                     unit.apply(StatusEffects.tarred, 99999f);
                     unit.apply(StatusEffects.sporeSlowed, 99999f);
                     unit.apply(StatusEffects.shocked, 99999f);
+                    unit.apply(StatusEffects.shocked, 99999f);
+                    unit.apply(Vars.content.statusEffect("dp-evaporating"), 99999f);
                 }
             }
 
