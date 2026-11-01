@@ -6,7 +6,7 @@
     { "stage": 4,  "units": ["crawler", "merui", "dagger", "mace", "stell"], "bosses": ["quasar"] },
     { "stage": 5,  "units": ["crawler", "merui", "dagger", "mace", "stell"], "bosses": ["avert"] },
     { "stage": 6,  "units": ["crawler", "elude", "merui", "dagger", "nova", "cleroi"], "bosses": ["dp-aractid-unit"] },
-    { "stage": 7,  "units": ["cleroi", "flare", "horizon", "elude"], "bosses": ["precept"] },
+    { "stage": 7,  "units": ["cleroi", "flare", "horizon", "elude"], "bosses": ["precept"], "bossCount": 2 },
     { "stage": 8,  "units": ["fortress", "cleroi", "locus"], "bosses": ["tecta"] },
     { "stage": 9,  "units": ["fortress", "cleroi", "locus"], "bosses": ["vanquish"] },
     { "stage": 10, "units": ["obviate", "precept"], "bosses": ["eclipse", "dp-dominion-unit"] },
