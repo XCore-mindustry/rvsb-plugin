@@ -60,10 +60,12 @@ public class CruxUnit {
     /** The unit type a crux player respawns as: the taken-over unit's type, else the /c class (dagger by default). */
     public static UnitType respawnType(Player player) {
         UnitType type = possessed.get(player.uuid());
-        if (type != null) return type;
+        if (type != null && ClassChooseMenu.units.containsKey(type)) return type;
+        possessed.remove(player.uuid());
         type = ClassChooseMenu.selectedUnit.get(player.uuid());
-        if (type == null) {
-            type = UnitTypes.dagger;
+        if (type == null || !ClassChooseMenu.units.containsKey(type)) {
+            type = ClassChooseMenu.units.containsKey(UnitTypes.dagger) || ClassChooseMenu.units.isEmpty()
+                    ? UnitTypes.dagger : ClassChooseMenu.units.keys().next();
             ClassChooseMenu.selectedUnit.put(player.uuid(), type);
         }
         return type;
@@ -96,7 +98,7 @@ public class CruxUnit {
         }
 
         resetPossession(player);
-        ClassChooseMenu.selectedUnit.put(player.uuid(), UnitTypes.dagger);
+        ClassChooseMenu.selectedUnit.remove(player.uuid());
         Utils.lockControl(player);
         callSpawn(player);
     }
@@ -130,8 +132,10 @@ public class CruxUnit {
             Unit requested = pendingPossess.remove(uuid);
             if (event.player.dead()) return;
             exited.remove(uuid);
-            // the player took over this crux AI unit themselves: respawn as its type from now on
-            if (requested != null && requested == event.unit && event.player.team() == Team.crux) possessed.put(uuid, event.unit.type);
+            // the player took over this crux AI unit themselves: respawn as its type from now on (only if available in /c)
+            if (requested != null && requested == event.unit && event.player.team() == Team.crux && ClassChooseMenu.units.containsKey(event.unit.type)) {
+                possessed.put(uuid, event.unit.type);
+            }
         });
         Events.on(EventType.PlayerLeave.class, event -> {
             exited.remove(event.player.uuid());

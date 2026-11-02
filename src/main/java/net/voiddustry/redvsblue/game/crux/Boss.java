@@ -6,6 +6,7 @@ import arc.math.Angles;
 import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.Timer;
+import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
@@ -14,11 +15,11 @@ import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
-import net.voiddustry.redvsblue.util.AuraCircle;
 import net.voiddustry.redvsblue.util.StationFx;
 import net.voiddustry.redvsblue.util.Utils;
 
@@ -36,34 +37,23 @@ public class Boss {
     /** fraction of max health every blue unit inside loses each damage tick (0.5 s): 2% a second, twice the quad field */
     public static final float AURA_DAMAGE = 1f / 100f;
 
-    private static final class Aura {
-        final long until;
-        final AuraCircle circle = new AuraCircle(AURA_RADIUS, StationFx.rot);
-
-        Aura(long until) {
-            this.until = until;
-        }
-    }
-
-    /** uuid -> active aura */
-    private static final Map<String, Aura> auras = new HashMap<>();
+    /** uuid -> aura expiry timestamp (ms) */
+    private static final Map<String, Long> auras = new HashMap<>();
     private static int tick;
 
     public static boolean hasAura(Player player) {
-        Aura aura = auras.get(player.uuid());
-        return aura != null && Time.millis() < aura.until;
+        Long until = auras.get(player.uuid());
+        return until != null && Time.millis() < until;
     }
 
     public static void clear() {
-        auras.values().forEach(a -> a.circle.hide());
         auras.clear();
     }
 
     public static void killStreak(Player player) {
         if (player == null || hasAura(player)) return;
 
-        Aura old = auras.put(player.uuid(), new Aura(Time.millis() + AURA_MS));
-        if (old != null) old.circle.hide();
+        auras.put(player.uuid(), Time.millis() + AURA_MS);
         PlayerData data = RedVsBluePlugin.players.get(player.uuid());
         if (data != null) data.setKills(0);
 
@@ -75,13 +65,13 @@ public class Boss {
             multiplier = 1f;
         } else if (stage <= 7) {
             type = UnitTypes.locus;
-            multiplier = 4f;
+            multiplier = 2.4f;
         } else if (stage <= 10) {
             type = UnitTypes.precept;
-            multiplier = 9f;
+            multiplier = 4.95f;
         } else {
             type = UnitTypes.precept;
-            multiplier = 13.5f;
+            multiplier = 7.425f;
         }
 
         if (!RedVsBluePlugin.redSpawns.isEmpty()) {
@@ -91,10 +81,13 @@ public class Boss {
             unit.health = health * multiplier;
         }
 
-        if (!player.dead()) {
-            // a shockwave out to the rim and a spike star
-            StationFx.at(Fx.spawnShockwave, player.x, player.y, AURA_RADIUS - 50f, StationFx.rot, null, AURA_RADIUS);
-            StationFx.star(player.x, player.y, 40, StationFx.rot);
+        if (!player.dead() && player.unit() != null) {
+            Unit u = player.unit();
+            StatusEffect s = Vars.content.statusEffect("dp-killstreak-aura");
+            if (s != null) u.apply(s, 20f);
+            StationFx.at(Fx.spawnShockwave, u.x, u.y, AURA_RADIUS - 50f, StationFx.rot, null, AURA_RADIUS);
+            StationFx.at(Fx.healWaveMend, u.x, u.y, AURA_RADIUS, StationFx.rot, u, AURA_RADIUS);
+            StationFx.star(u.x, u.y, 40, StationFx.rot);
         }
 
         Groups.player.each(p -> {
@@ -104,34 +97,31 @@ public class Boss {
     }
 
     public static void forEachBoss() {
-        // 0.1 s: keeps the circle on the player
-        // 0.3 s: a soul particle is pulled in from the rim; 0.5 s: damage; 1.5 s: pulse out to the rim; 4.5 s: spike star
+        // dp-killstreak-aura renders smooth parented circles on the client; healWaveMend is the fallback
         Timer.schedule(() -> {
             tick++;
             long now = Time.millis();
-            Iterator<Map.Entry<String, Aura>> it = auras.entrySet().iterator();
+            StatusEffect auraStatus = Vars.content == null ? null : Vars.content.statusEffect("dp-killstreak-aura");
+            Iterator<Map.Entry<String, Long>> it = auras.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry<String, Aura> entry = it.next();
-                Aura aura = entry.getValue();
-                if (now >= aura.until) {
-                    aura.circle.hide();
+                Map.Entry<String, Long> entry = it.next();
+                if (now >= entry.getValue()) {
                     it.remove();
                     continue;
                 }
 
                 Player p = Groups.player.find(pl -> pl.uuid().equals(entry.getKey()));
-                if (p == null || p.dead() || p.team() != Team.crux) {
-                    aura.circle.hide();
-                    continue;
-                }
+                if (p == null || p.dead() || p.team() != Team.crux || p.unit() == null) continue;
 
-                aura.circle.update(p.x, p.y);
+                Unit u = p.unit();
+                if (auraStatus != null) u.apply(auraStatus, 20f);
+                else if (tick % 6 == 0) StationFx.at(Fx.healWaveMend, u.x, u.y, AURA_RADIUS, StationFx.rot, u, AURA_RADIUS);
+
                 if (tick % 3 == 0) {
                     float angle = Mathf.random(360f);
-                    StationFx.seek(p.x + Angles.trnsx(angle, AURA_RADIUS), p.y + Angles.trnsy(angle, AURA_RADIUS), p.x, p.y, StationFx.rot);
+                    StationFx.at(Fx.regenSuppressSeek, u.x + Angles.trnsx(angle, AURA_RADIUS), u.y + Angles.trnsy(angle, AURA_RADIUS), 0f, StationFx.rot, u, AURA_RADIUS);
                 }
-                if (tick % 15 == 0) StationFx.pulse(p.x, p.y, AURA_RADIUS, StationFx.rot);
-                if (tick % 45 == 0) StationFx.star(p.x, p.y, AURA_RADIUS * 0.55f, StationFx.rot);
+                if (tick % 45 == 0) StationFx.star(u.x, u.y, AURA_RADIUS * 0.55f, StationFx.rot);
                 if (tick % 5 == 0) damage(p);
             }
         }, 0, 0.1F);
@@ -139,6 +129,7 @@ public class Boss {
 
     /** Percentage damage like the quad field: every blue unit in the circle loses AURA_DAMAGE of its max health. */
     private static void damage(Player owner) {
+        Unit ownerUnit = owner.unit();
         float x = owner.x, y = owner.y;
         Seq<Unit> inside = new Seq<>();
         Groups.unit.each(u -> u.team == Team.blue && !u.dead && u.within(x, y, AURA_RADIUS), inside::add);
@@ -146,7 +137,7 @@ public class Boss {
         for (Unit u : inside) {
             float damage = u.maxHealth * AURA_DAMAGE;
             u.apply(StatusEffects.sapped, 40f);
-            StationFx.zap(x, y, u.x, u.y, StationFx.rot);
+            StationFx.at(Fx.chainEmp, x, y, 0f, StationFx.rot, u, AURA_RADIUS);
             StationFx.at(Fx.hitSquaresColor, u.x, u.y, 0f, StationFx.rot, null, 16f);
 
             Player victim = u.getPlayer();
@@ -159,7 +150,9 @@ public class Boss {
             } else {
                 // killed by the aura: a burst on the victim and its remains drift into the crux player
                 StationFx.star(u.x, u.y, Math.max(20f, u.hitSize), StationFx.rot);
-                for (int k = 0; k < 3; k++) StationFx.seek(u.x, u.y, x, y, StationFx.rot);
+                if (ownerUnit != null) {
+                    for (int k = 0; k < 3; k++) StationFx.at(Fx.regenSuppressSeek, u.x, u.y, 0f, StationFx.rot, ownerUnit, AURA_RADIUS);
+                }
                 u.kill();
             }
         }

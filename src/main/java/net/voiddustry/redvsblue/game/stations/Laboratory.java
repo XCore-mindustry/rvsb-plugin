@@ -350,7 +350,7 @@ public class Laboratory {
         String text = player.name + "[gold]'s\n[purple]Lab";
         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
         StationData laboratoryData =
-                new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 48, StationFx.lab));
+                new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 48, StationFx.lab, 0.16f, 0.85f, 2f));
 
         labsMap.put(
                 player.uuid(),

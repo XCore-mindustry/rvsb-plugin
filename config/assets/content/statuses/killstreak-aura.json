@@ -1,0 +1,42 @@
+{
+ "show": false,
+ "hideDatabase": true,
+ "permanent": false,
+ "color": "d1263aff",
+ "parentizeEffect": true,
+ "effectChance": 0.08,
+ "effect": {
+  "type": "MultiEffect",
+  "effects": [
+   {
+    "type": "WaveEffect",
+    "lifetime": 36,
+    "sides": -1,
+    "sizeFrom": 12,
+    "sizeTo": 64,
+    "strokeFrom": 2.2,
+    "strokeTo": 0,
+    "interp": "pow2Out",
+    "colorFrom": "d1263acc",
+    "colorTo": "d1263a00",
+    "lightOpacity": 0.25
+   },
+   {
+    "type": "ParticleEffect",
+    "line": true,
+    "particles": 2,
+    "lifetime": 24,
+    "length": 28,
+    "strokeFrom": 1.8,
+    "strokeTo": 0,
+    "lenFrom": 6,
+    "lenTo": 0,
+    "interp": "pow3Out",
+    "colorFrom": "ff6b6bff",
+    "colorTo": "d1263a00",
+    "lightOpacity": 0.15
+   }
+  ]
+ },
+ "applyEffect": "none"
+}

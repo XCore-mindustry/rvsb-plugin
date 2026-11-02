@@ -63,7 +63,11 @@ public final class AuraCircle {
 
     /** Clean, faint radius circle around a station; shown immediately. Call {@link #hide()} when the station goes. */
     public static AuraCircle fixed(float x, float y, float radius, Color color) {
-        AuraCircle circle = new AuraCircle(radius, color, 0.06f, 0.4f, 1.5f);
+        return fixed(x, y, radius, color, 0.06f, 0.4f, 1.5f);
+    }
+
+    public static AuraCircle fixed(float x, float y, float radius, Color color, float discAlpha, float rimAlpha, float stroke) {
+        AuraCircle circle = new AuraCircle(radius, color, discAlpha, rimAlpha, stroke);
         circle.disc.pos.set(x, y);
         circle.rim.pos.set(x, y);
         circle.create();
