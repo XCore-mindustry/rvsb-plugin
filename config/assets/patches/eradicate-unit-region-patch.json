@@ -1,0 +1,36 @@
+unit.dp-eradicate-unit: {
+	region: dp-eradicate-unit
+	cellRegion: dp-eradicate-unit-cell
+	uiIcon: dp-eradicate-unit-ui
+	fullIcon: dp-eradicate-unit-full
+	previewRegion: dp-eradicate-unit-full
+	shadowRegion: dp-eradicate-unit-full
+	weapons.0.region: disrupt-weapon
+	weapons.0.outlineRegion: disrupt-weapon-outline
+	weapons.1.region: disrupt-weapon
+	weapons.1.outlineRegion: disrupt-weapon-outline
+	weapons.2.region: disrupt-weapon
+	weapons.2.outlineRegion: disrupt-weapon-outline
+	weapons.3.region: disrupt-weapon
+	weapons.3.outlineRegion: disrupt-weapon-outline
+	weapons.4.region: quell-weapon
+	wreckRegions: [
+		disrupt-wreck0
+		disrupt-wreck1
+		disrupt-wreck2
+	]
+}
+unit.dp-eradicate-missile-unit: {
+	region: dp-eradicate-missile-outline
+	uiIcon: dp-eradicate-missile-unit-ui
+	fullIcon: dp-eradicate-missile-unit-full
+	previewRegion: dp-eradicate-missile-unit-full
+	shadowRegion: dp-eradicate-missile-unit-full
+}
+unit.dp-disrupt-missile-unit: {
+	region: dp-eradicate-missile-outline
+	uiIcon: dp-disrupt-missile-unit-ui
+	fullIcon: dp-disrupt-missile-unit-full
+	previewRegion: dp-disrupt-missile-unit-full
+	shadowRegion: dp-disrupt-missile-unit-full
+}

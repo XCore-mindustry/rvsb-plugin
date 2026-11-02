@@ -1,0 +1,253 @@
+{
+  "template": "ErekirUnitType",
+  "type": "payload",
+  "name": "Eradicate",
+  "controller": "FlyingFollowAI",
+  "envDisabled": 0,
+  "lowAltitude": false,
+  "flying": true,
+  "drag": 0.07,
+  "rotateSpeed": 0.9,
+  "accel": 0.15,
+  "health": 17000,
+  "armor": 12,
+  "hitSize": 48,
+  "payloadCapacity": 2304,
+  "engineSize": 7,
+  "engineOffset": 28.25,
+  "clipSize": 486,
+  "loopSound": "loopHover",
+  "abilities": [
+    {
+      "type": "SuppressionFieldAbility",
+      "reload": 900,
+      "range": 380,
+      "orbRadius": 5,
+      "particleSize": 3,
+      "y": 10,
+      "particles": 10
+    },
+    {
+      "type": "SuppressionFieldAbility",
+      "orbRadius": 5,
+      "particleSize": 3,
+      "y": -8,
+      "x": -10.75,
+      "particles": 10,
+      "active": false
+    },
+    {
+      "type": "SuppressionFieldAbility",
+      "orbRadius": 5,
+      "particleSize": 3,
+      "y": -8,
+      "x": 10.75,
+      "particles": 10,
+      "active": false
+    },
+    {
+      "type": "SuppressionFieldAbility",
+      "reload": 480,
+      "orbRadius": 4.3,
+      "y": 10,
+      "x": 16.5,
+      "active": false
+    },
+    {
+      "type": "SuppressionFieldAbility",
+      "reload": 480,
+      "orbRadius": 4.3,
+      "y": 10,
+      "x": -16.5,
+      "active": false
+    }
+  ],
+  "weapons": [
+    {
+      "name": "disrupt-weapon",
+      "shootSound": "shootMissileLarge",
+      "shootSoundVolume": 0.4,
+      "x": 30,
+      "y": -1.5,
+      "mirror": true,
+      "rotate": true,
+      "rotateSpeed": 0.5,
+      "layerOffset": -20,
+      "recoil": 1,
+      "rotationLimit": 30,
+      "minWarmup": 0.95,
+      "shootWarmupSpeed": 0.1,
+      "shootY": 2,
+      "shootCone": 40,
+      "shoot": {
+        "shots": 2,
+        "shotDelay": 3.75
+      },
+      "inaccuracy": 40,
+      "parts": [
+        {
+          "type": "RegionPart",
+          "name": "disrupt-weapon-blade",
+          "heatProgress": "warmup",
+          "progress": {
+            "type": "warmup",
+            "ops": [
+              {
+                "op": "blend",
+                "other": "reload",
+                "amount": 0.15
+              }
+            ]
+          },
+          "heatColor": "9c50ff",
+          "x": 1.25,
+          "y": 0,
+          "moveRot": -33,
+          "moveY": -1,
+          "moveX": -1,
+          "under": true,
+          "mirror": true
+        }
+      ],
+      "bullet": {
+        "type": "BulletType",
+        "recoil": 0,
+        "shootEffect": "sparkShoot",
+        "smokeEffect": "shootSmokeTitan",
+        "hitColor": "a393fe",
+        "speed": 0,
+        "keepVelocity": false,
+        "collidesAir": false,
+        "spawnUnit": "dp-eradicate-missile-unit"
+      },
+      "baseRotation": 320,
+      "reload": 7.5,
+      "autoTarget": true,
+      "ignoreRotation": true
+    },
+    {
+      "type": "Weapon",
+      "name": "dp-disrupt-weapon",
+      "bullet": {
+        "type": "BulletType",
+        "recoil": 0,
+        "speed": 0,
+        "shootEffect": "sparkShoot",
+        "smokeEffect": "shootSmokeTitan",
+        "keepVelocity": false,
+        "range": 612,
+        "hitColor": "#a393feff",
+        "collidesAir": false,
+        "spawnUnit": "dp-disrupt-missile-unit",
+        "lightningType": "damageLightningGround"
+      },
+      "rotate": true,
+      "rotateSpeed": 0.5,
+      "reload": 7.5,
+      "inaccuracy": 40,
+      "recoil": 1,
+      "recoilTime": 20,
+      "shootY": 2,
+      "x": 18,
+      "y": 16,
+      "shoot": {
+        "type": "ShootPattern",
+        "shots": 2,
+        "shotDelay": 3.75
+      },
+      "shootCone": 40,
+      "rotationLimit": 30,
+      "minWarmup": 0.95,
+      "otherSide": 1,
+      "layerOffset": -20,
+      "shootSound": "shootMissileLarge",
+      "shootSoundVolume": 0.4,
+      "parts": [
+        {
+          "type": "RegionPart",
+          "under": true,
+          "name": "disrupt-weapon-blade",
+          "mirror": true,
+          "heatProgress": "warmup",
+          "x": 1.25,
+          "moveX": -1,
+          "moveY": -1,
+          "moveRot": -33,
+          "heatColor": "#9c50ffff"
+        }
+      ],
+      "baseRotation": 320
+    },
+    {
+      "type": "Weapon",
+      "name": "quell-weapon",
+      "rotate": true,
+      "rotateSpeed": 2,
+      "shake": 1,
+      "recoil": 1,
+      "recoilTime": 110,
+      "x": 0,
+      "y": 25,
+      "shoot": {
+        "type": "ShootPattern",
+        "shots": 2,
+        "firstShotDelay": 5
+      },
+      "rotationLimit": 30,
+      "otherSide": 1,
+      "layerOffset": -0.001,
+      "shootSound": "shootMissileSmall",
+      "shootSoundVolume": 0.4,
+      "bullet": {
+        "type": "BulletType",
+        "recoil": 0,
+        "speed": 4,
+        "shootEffect": "sparkShoot",
+        "smokeEffect": "shootSmokeTitan",
+        "collidesAir": false,
+        "range": 612,
+        "hitColor": "#a393feff",
+        "spawnUnit": "dp-eradicate-missile-unit",
+        "lightningType": "damageLightningGround",
+        "lightRadius": 20,
+        "scaleLife": true
+      },
+      "ignoreRotation": true,
+      "autoTarget": true,
+      "reload": 10
+    }
+  ],
+  "engines": [
+    {
+      "x": 13.75,
+      "y": -26,
+      "radius": 5,
+      "rotation": 315
+    },
+    {
+      "x": -13.75,
+      "y": -26,
+      "radius": 5,
+      "rotation": 225
+    },
+    {
+      "x": 27.25,
+      "y": -10.75,
+      "radius": 4,
+      "rotation": 315
+    },
+    {
+      "x": -27.25,
+      "y": -10.75,
+      "radius": 4,
+      "rotation": 225
+    }
+  ],
+  "outlines": false,
+  "shownPlanets": [
+    "erekir"
+  ],
+  "speed": 0.9,
+  "buildSpeed": 0.01,
+  "credit": "bumm"
+}

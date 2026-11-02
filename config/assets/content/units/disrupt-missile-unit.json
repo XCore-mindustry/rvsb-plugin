@@ -1,0 +1,57 @@
+{
+  "template": "MissileUnitType",
+  "type": "missile",
+  "name": "Disrupt Missile",
+  "speed": 8,
+  "maxRange": 5,
+  "outlineColor": "2d2f39",
+  "homingDelay": 10,
+  "lowAltitude": true,
+  "engineSize": 3,
+  "engineColor": "6d56bfff",
+  "trailColor": "6d56bf",
+  "engineLayer": 110,
+  "deathExplosionEffect": "none",
+  "loopSoundVolume": 0.1,
+  "clipSize": 78,
+  "parts": [],
+  "weapons": [
+    {
+      "shootCone": 360,
+      "mirror": false,
+      "reload": 1,
+      "shootOnDeath": true,
+      "shootOnDeathEffect": "massiveExplosion",
+      "bullet": {
+        "type": "ExplosionBulletType",
+        "splashDamage": 110,
+        "splashDamageRadius": 24,
+        "suppressionRange": 120,
+        "shootEffect": {
+          "type": "ExplosionEffect",
+          "lifetime": 50,
+          "waveStroke": 5,
+          "waveLife": 12,
+          "waveColor": "b7a5ff",
+          "sparkColor": "a393fe",
+          "smokeColor": "a393fe",
+          "waveRad": 40,
+          "smokeSize": 4,
+          "smokes": 7,
+          "smokeSizeBase": 0,
+          "sparks": 10,
+          "sparkRad": 40,
+          "sparkLen": 6,
+          "sparkStroke": 2
+        }
+      }
+    }
+  ],
+  "waveTrailY": -3.5,
+  "waveTrailX": 3.5,
+  "rotateSpeed": 5,
+  "moveSoundVolume": 0.75,
+  "hideDatabase": true,
+  "targetable": false,
+  "hittable": false
+}
