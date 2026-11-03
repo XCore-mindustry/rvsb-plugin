@@ -1,0 +1,14 @@
+unit.dp-elysia-unit: {
+	flying: true
+	region: dp-elysia-unit
+	cellRegion: dp-elysia-unit-cell
+	uiIcon: dp-elysia-unit-ui
+	fullIcon: dp-elysia-unit-full
+	previewRegion: dp-elysia-unit-full
+	shadowRegion: dp-elysia-unit-full
+	wreckRegions: [
+		navanax-wreck0
+		navanax-wreck1
+		navanax-wreck2
+	]
+}
