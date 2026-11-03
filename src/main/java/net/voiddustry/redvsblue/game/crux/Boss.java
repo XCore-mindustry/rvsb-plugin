@@ -65,10 +65,10 @@ public class Boss {
             multiplier = 1f;
         } else if (stage <= 7) {
             type = UnitTypes.locus;
-            multiplier = 0.8f;
+            multiplier = 1.2f;
         } else if (stage <= 10) {
             type = UnitTypes.precept;
-            multiplier = 0.8f;
+            multiplier = 1.5f;
         } else {
             type = UnitTypes.precept;
             multiplier = 2.5f;
