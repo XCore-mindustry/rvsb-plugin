@@ -143,8 +143,8 @@
         lifetime: 40
         followAimSpeed: 10
         lightningColor: bf92f9ff
-        damage: 105
-        splashDamage: 80
+        damage: 79
+        splashDamage: 60
         splashDamageRadius: 15
         splashDamagePierce: true
         pierce: false
@@ -190,8 +190,8 @@
           pierceArmor: true
           removeAfterPierce: false
           splashDamagePierce: true
-          damage: 55
-          splashDamage: 40
+          damage: 41
+          splashDamage: 30
           splashDamageRadius: 15
           lightningColor: bf92f9ff
           homingPower: 0.4

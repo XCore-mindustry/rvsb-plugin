@@ -526,7 +526,7 @@ weapons: [
 
     bullet: {
       type: "BasicBulletType"
-      damage: 1309
+      damage: 1700
       speed: 40
       lifetime: 15
       width: 8
@@ -611,7 +611,7 @@ weapons: [
       fragOnDespawn: true
       fragBullet: {
         type: "BasicBulletType"
-        damage: 47
+        damage: 60
         speed: 12
         lifetime: 15
         sprite: "bullet"
@@ -730,7 +730,7 @@ weapons: [
 
     bullet: {
       type: "ArtilleryBulletType"
-      damage: 235
+      damage: 310
       speed: 5
       lifetime: 50
       width: 14
@@ -786,7 +786,7 @@ weapons: [
         layer: 130.0
         despawnSound: "explosionMissile"
         despawnShake: 4
-        splashDamage: 279
+        splashDamage: 360
         splashDamageRadius: 45
         trailEffect: {
           type: "MultiEffect"
@@ -813,7 +813,7 @@ weapons: [
         fragBullets: 12
         fragBullet: {
           type: "BasicBulletType"
-          damage: 68
+          damage: 90
           speed: 3.5
           lifetime: 35
           width: 10
@@ -835,7 +835,7 @@ weapons: [
           layer: 130.0
           lightning: 1
           lightningLength: 10
-          lightningDamage: 18
+          lightningDamage: 20
           lightningColor: "ffd37f"
         }
       }
@@ -929,7 +929,7 @@ weapons: [
 
     bullet: {
       type: "ArtilleryBulletType"
-      damage: 235
+      damage: 310
       speed: 5
       lifetime: 50
       width: 14
@@ -984,7 +984,7 @@ weapons: [
         layer: 130.0
         despawnSound: "explosionMissile"
         despawnShake: 4
-        splashDamage: 279
+        splashDamage: 360
         splashDamageRadius: 45
         trailEffect: {
           type: "MultiEffect"
@@ -1011,7 +1011,7 @@ weapons: [
         fragBullets: 12
         fragBullet: {
           type: "BasicBulletType"
-          damage: 68
+          damage: 90
           speed: 3.5
           lifetime: 35
           width: 10
@@ -1033,7 +1033,7 @@ weapons: [
           layer: 130.0
           lightning: 1
           lightningLength: 10
-          lightningDamage: 18
+          lightningDamage: 20
           lightningColor: "ffd37f"
         }
       }
@@ -1197,7 +1197,7 @@ weapons: [
       lifetime: 20
       width: 8
       height: 16
-      damage: 46
+      damage: 60
       backColor: "e09d3f"
       frontColor: "ffd37f"
       hitColor: "ffd37f"
@@ -1244,7 +1244,7 @@ weapons: [
       homingRange: 150.0
       lightning: 2
       lightningLength: 8
-      lightningDamage: 16
+      lightningDamage: 20
       lightningColor: "ffd37f"
     }
   }
@@ -1403,7 +1403,7 @@ weapons: [
       lifetime: 20
       width: 8
       height: 16
-      damage: 46
+      damage: 60
       backColor: "e09d3f"
       frontColor: "ffd37f"
       hitColor: "ffd37f"
@@ -1450,7 +1450,7 @@ weapons: [
       homingRange: 150.0
       lightning: 2
       lightningLength: 8
-      lightningDamage: 16
+      lightningDamage: 20
       lightningColor: "ffd37f"
     }
   }
