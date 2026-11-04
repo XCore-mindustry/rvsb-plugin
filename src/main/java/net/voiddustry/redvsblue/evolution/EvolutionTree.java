@@ -117,8 +117,6 @@ public final class EvolutionTree {
         expand(root, nodes, new HashSet<>());
 
         int rootWidth = width(root);
-        tree.width = Math.max(rootWidth, tier1Parents.size());
-        place(root, (tree.width - rootWidth) / 2);
 
         // longest-path depth (handles convergence nodes with parents on different depths)
         boolean changed = true;
@@ -134,6 +132,14 @@ public final class EvolutionTree {
             }
         }
 
+        // A row can contain more nodes than the owner-based leaf width when
+        // multiple branches converge into multiple shared children.
+        Map<Integer, Integer> rowCounts = new LinkedHashMap<>();
+        for (Node n : nodes.values()) rowCounts.merge(n.row, 1, Integer::sum);
+        tree.width = Math.max(rootWidth, tier1Parents.size());
+        for (int count : rowCounts.values()) tree.width = Math.max(tree.width, count);
+        place(root, (tree.width - rootWidth) / 2);
+
         // convergence: span the union of all parents' columns
         for (Node n : nodes.values()) {
             if (n.parents.size() > 1) {
@@ -144,6 +150,57 @@ public final class EvolutionTree {
                 }
                 n.col = start;
                 n.span = end - start;
+            }
+        }
+
+        // Shared children can have identical parent spans. Keep every node in
+        // a row visible instead of letting the first spanning cell hide the rest.
+        for (int row : rowCounts.keySet()) {
+            List<Node> rowNodes = new ArrayList<>();
+            for (Node n : nodes.values()) if (n.row == row) rowNodes.add(n);
+            // Nodes sharing exactly the same parent span should be distributed
+            // around its centre, rather than packed into the leftmost columns.
+            Set<Node> distributed = new HashSet<>();
+            for (Node first : rowNodes) {
+                if (distributed.contains(first)) continue;
+                List<Node> shared = new ArrayList<>();
+                for (Node other : rowNodes) {
+                    if (other.col == first.col && other.span == first.span) shared.add(other);
+                }
+                if (shared.size() < 2 || shared.size() > first.span) continue;
+                int start = first.col, span = first.span;
+                double centre = start + (span - 1) / 2.0;
+                double step = (double) span / shared.size();
+                for (int i = 0; i < shared.size(); i++) {
+                    double target = centre + (i - (shared.size() - 1) / 2.0) * step;
+                    Node n = shared.get(i);
+                    // Round half-cell ties inward to keep pairs centered without an extra gap.
+                    n.col = (int) (i < shared.size() / 2 ? Math.floor(target + 0.5) : Math.ceil(target - 0.5));
+                    n.span = 1;
+                    distributed.add(n);
+                }
+            }
+            rowNodes.sort((a, b) -> Integer.compare(a.center(), b.center()));
+            boolean overlaps = false;
+            int right = -1;
+            for (Node n : rowNodes) {
+                if (n.col < right) overlaps = true;
+                right = Math.max(right, n.col + n.span);
+            }
+            if (!overlaps) continue;
+
+            int[] cols = new int[rowNodes.size()];
+            int next = tree.width;
+            for (int i = rowNodes.size() - 1; i >= 0; i--) {
+                cols[i] = Math.min(next - 1, Math.round((rowNodes.get(i).center() - 1) / 2f));
+                next = cols[i];
+            }
+            int previous = -1;
+            for (int i = 0; i < rowNodes.size(); i++) {
+                Node n = rowNodes.get(i);
+                n.col = Math.max(previous + 1, cols[i]);
+                n.span = 1;
+                previous = n.col;
             }
         }
 
@@ -197,10 +254,28 @@ public final class EvolutionTree {
         path.remove(node.unit);
     }
 
+    // Shared children with the same parents form one convergence group, not
+    // separate branches in their first owner's row. Reserving a column for
+    // each child there creates a gap between the other parent branches.
+    private static boolean sameConvergence(Node a, Node b) {
+        return a.parents.size() > 1 && a.parents.size() == b.parents.size()
+                && a.parents.containsAll(b.parents);
+    }
+
     private static int width(Node node) {
         int sum = 0;
+        Set<Node> grouped = new HashSet<>();
         for (Node c : node.children) {
-            if (c.owner == node) sum += width(c);
+            if (c.owner != node || grouped.contains(c)) continue;
+            int groupWidth = width(c);
+            grouped.add(c);
+            for (Node sibling : node.children) {
+                if (sibling.owner == node && !grouped.contains(sibling) && sameConvergence(c, sibling)) {
+                    groupWidth = Math.max(groupWidth, width(sibling));
+                    grouped.add(sibling);
+                }
+            }
+            sum += groupWidth;
         }
         return Math.max(1, sum);
     }
@@ -209,11 +284,20 @@ public final class EvolutionTree {
         node.col = col;
         node.span = width(node);
         int x = col;
+        Set<Node> grouped = new HashSet<>();
         for (Node c : node.children) {
-            if (c.owner == node) {
-                place(c, x);
-                x += width(c);
+            if (c.owner != node || grouped.contains(c)) continue;
+            int groupWidth = width(c);
+            place(c, x);
+            grouped.add(c);
+            for (Node sibling : node.children) {
+                if (sibling.owner == node && !grouped.contains(sibling) && sameConvergence(c, sibling)) {
+                    place(sibling, x);
+                    groupWidth = Math.max(groupWidth, width(sibling));
+                    grouped.add(sibling);
+                }
             }
+            x += groupWidth;
         }
     }
 

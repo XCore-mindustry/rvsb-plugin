@@ -72,7 +72,14 @@
     {
       "mirror": false,
       "shootStatus": "dp-no-register-kills",
+      "shootStatusDuration": 120,
       "alwaysShooting": true,
+      "controllable": false,
+      "reload": 60,
+      "shootSound": "none",
+      "display": false,
+      "useAttackRange": false,
+      "shoot": { "type": "ShootPattern", "shots": 0 },
       "layerOffset": -15
     }
   ],
