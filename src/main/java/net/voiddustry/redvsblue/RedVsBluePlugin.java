@@ -221,7 +221,7 @@ public class RedVsBluePlugin extends Plugin {
         
 
         Events.on(EventType.UnitDamageEvent.class, event -> {
-            if (event.unit != null && event.bullet.owner() instanceof Unit damager) {
+            if (event.unit != null && event.unit.health > 0 && event.bullet.owner() instanceof Unit damager) {
                 if ((damager.isPlayer() || (spawnedUnitOwnership.get(damager) != null && spawnedUnitOwnership.get(damager).isPlayer())) && damager.team == Team.blue) {
                     Player damagerPlayer;
                     if (damager.isPlayer()) {

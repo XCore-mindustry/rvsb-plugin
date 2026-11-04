@@ -126,6 +126,20 @@
       "shootCone": 360,
       "shootOnDeathEffect": "massiveExplosion",
       "alwaysShooting": true
+    },
+    {
+      "type": "Weapon",
+      "mirror": false,
+      "alwaysShooting": true,
+      "controllable": false,
+      "reload": 999999,
+      "shootSound": "none",
+      "shootStatus": "dp-no-draw-hitbox",
+      "shootStatusDuration": 999999,
+      "shoot": {
+        "type": "ShootPattern",
+        "shots": 0
+      }
     }
   ],
   "outlines": false,

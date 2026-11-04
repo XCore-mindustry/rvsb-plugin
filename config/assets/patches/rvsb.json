@@ -519,6 +519,29 @@ damage: 10
 
 
 //quell and disrupt missiles
+// Apply the hide-hitbox status once, without firing a projectile.
+unit.quell-missile.weapons.+: {
+    type: Weapon
+    mirror: false
+    alwaysShooting: true
+    controllable: false
+    reload: 999999
+    shootSound: none
+    shootStatus: dp-no-draw-hitbox
+    shootStatusDuration: 999999
+    shoot: { type: ShootPattern, shots: 0 }
+}
+unit.disrupt-missile.weapons.+: {
+    type: Weapon
+    mirror: false
+    alwaysShooting: true
+    controllable: false
+    reload: 999999
+    shootSound: none
+    shootStatus: dp-no-draw-hitbox
+    shootStatusDuration: 999999
+    shoot: { type: ShootPattern, shots: 0 }
+}
 unit.disrupt.targetAir: true
 unit.disrupt-missile.targetAir: true
 unit.disrupt-missile.weapons.0: {

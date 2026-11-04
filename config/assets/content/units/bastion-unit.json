@@ -1,0 +1,152 @@
+{
+  "shownPlanets": [
+    "serpulo"
+  ],
+  "databaseTabs": [
+    "serpulo"
+  ],
+  "databaseCategory": "unit",
+  "databaseTag": "unit-ground",
+  "speed": 0.4,
+  "rotateSpeed": 3.0,
+  "hitSize": 20,
+  "stepShake": 0.0,
+  "health": 3100,
+  "armor": 12.0,
+  "range": 236.0,
+  "maxRange": 236.0,
+  "clipSize": 156.0,
+  "flyingLayer": 115.0,
+  "aimDst": 26.0,
+  "mineBeamOffset": 6.5,
+  "lightRadius": 60.0,
+  "fogRadius": 21.75,
+  "singleTarget": "true",
+  "weapons": [
+    {
+      "type": "Weapon",
+      "name": "large-bullet-mount",
+      "bullet": {
+        "type": "ArtilleryBulletType",
+        "lifetime": 106.5,
+        "speed": 2.0,
+        "damage": 18,
+        "hitEffect": "hitFuse",
+        "splashDamage": 63,
+        "knockback": 0.8,
+        "collidesTiles": "true",
+        "collides": "true",
+        "maxRange": 240.0,
+        "range": 240.0,
+        "despawnHit": "true",
+        "splashDamageRadius": 35.0,
+        "lightRadius": 20.0,
+        "width": 14.0,
+        "height": 14.0,
+        "intervalBullets": 5.0,
+        "fragBullets": 4.0,
+        "fragBullet": {
+          "type": "LightningBulletType",
+          "lightningColor": "ffd90083",
+          "damage": 6,
+          "lightningLength": 5.0
+        },
+        "intervalBullet": {
+          "type": "LightningBulletType",
+          "lightningLength": 4.0,
+          "lightningColor": "ffd80082",
+          "damage": 9
+        },
+        "trailColor": "f2e878ff",
+        "backColor": "f2e878ff",
+        "lightColor": "f2e878ff",
+        "status": "shocked"
+      },
+      "ejectEffect": "casing2",
+      "top": "false",
+      "reload": 40.0,
+      "shake": 2.0,
+      "recoil": 4.25,
+      "recoilTime": 210.0,
+      "x": 12.5,
+      "y": 1.0,
+      "shoot": {
+        "type": "ShootPattern"
+      },
+      "otherSide": 1.0,
+      "shootSound": "shootArtillery"
+    },
+    {
+      "type": "Weapon",
+      "name": "large-weapon",
+      "bullet": {
+        "type": "BasicBulletType",
+        "collidesTiles": "true",
+        "collides": "true",
+        "despawnHit": "true",
+        "lifetime": 80.0,
+        "speed": 1.5,
+        "damage": 10
+      },
+      "ejectEffect": "casing2",
+      "flipSprite": "true",
+      "top": "false",
+      "shake": 2.0,
+      "recoil": 1.25,
+      "x": -7.0,
+      "y": -2.0,
+      "shoot": {
+        "type": "ShootPattern"
+      },
+      "otherSide": 3.0,
+      "reload": 15.0,
+      "rotate": "true",
+      "recoilTime": 25.0
+    }
+  ],
+  "deathSound": "unitExplode2",
+  "wreckSound": "wreckFall",
+  "stepSoundVolume": 0.65,
+  "stepSoundPitch": 0.8,
+  "engines": [
+    {
+      "y": -5.0,
+      "radius": 2.5,
+      "rotation": -90.0
+    },
+    {
+      "y": -5.0,
+      "radius": 2.5,
+      "rotation": -90.0
+    }
+  ],
+  "flowfieldPathType": 0.0,
+  "commands": [
+    "move",
+    "enterPayload"
+  ],
+  "defaultCommand": "move",
+  "stances": [
+    "stop",
+    "holdfire",
+    "pursuetarget",
+    "patrol",
+    "ram"
+  ],
+  "itemCapacity": 50.0,
+  "mechFrontSway": 0.55,
+  "mechStride": 6.380953,
+  "segmentSpacing": 13.0,
+  "itemCircleRegion": "ring-item",
+  "softShadowRegion": "particle",
+  "mineLaserRegion": "minelaser",
+  "mineLaserEndRegion": "minelaser-end",
+  "wreckRegions": [],
+  "segmentRegions": [],
+  "segmentCellRegions": [],
+  "segmentOutlineRegions": [],
+  "type": "mech",
+  "cellRegion": "power-cell",
+  "credit": "iqtik123",
+  "buildSpeed": 0.01
+}

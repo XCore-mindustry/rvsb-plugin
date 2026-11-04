@@ -1,0 +1,70 @@
+unit.dp-sovereign-unit: {
+    region: dp-sovereign-outline
+    previewRegion: dp-sovereign-full
+    outlineRegion: dp-sovereign-outline
+    cellRegion: dp-sovereign-cell
+    fullIcon: dp-sovereign-ui
+    uiIcon: dp-sovereign-ui
+    shadowRegion: dp-sovereign-outline
+    treadRegion: conquer-treads
+    treadRegions: [
+        [
+            conquer-treads0-0
+            conquer-treads0-1
+            conquer-treads0-2
+            conquer-treads0-3
+            conquer-treads0-4
+            conquer-treads0-5
+            conquer-treads0-6
+            conquer-treads0-7
+            conquer-treads0-8
+            conquer-treads0-9
+            conquer-treads0-10
+            conquer-treads0-11
+            conquer-treads0-12
+            conquer-treads0-13
+            conquer-treads0-14
+            conquer-treads0-15
+            conquer-treads0-16
+            conquer-treads0-17
+        ]
+        [
+            conquer-treads0-0
+            conquer-treads0-1
+            conquer-treads0-2
+            conquer-treads0-3
+            conquer-treads0-4
+            conquer-treads0-5
+            conquer-treads0-6
+            conquer-treads0-7
+            conquer-treads0-8
+            conquer-treads0-9
+            conquer-treads0-10
+            conquer-treads0-11
+            conquer-treads0-12
+            conquer-treads0-13
+            conquer-treads0-14
+            conquer-treads0-15
+            conquer-treads0-16
+            conquer-treads0-17
+        ]
+    ]
+    weapons.0.region: dp-sovereign-weapon-1-outline
+    weapons.0.outlineRegion: dp-sovereign-weapon-1-outline
+    weapons.0.parts.0.regions: [dp-sovereign-conquer-weapon-sinks-outline]
+    weapons.0.parts.1.regions: [dp-sovereign-weapon-2-outline]
+    weapons.0.parts.2.regions: [dp-sovereign-weapon-1]
+    weapons.0.parts.3.regions: [dp-sovereign-conquer-weapon-sinks-outline]
+    weapons.0.parts.4.regions: [conquer-weapon-sinks-heat]
+    weapons.0.parts.5.regions: [conquer-weapon-sinks-heat]
+    weapons.0.parts.6.regions: [conquer-weapon-sinks-heat]
+    weapons.0.parts.7.regions: [conquer-weapon-sinks-heat]
+    weapons.0.parts.8.regions: [dp-sovereign-weapon-2-heat]
+    weapons.0.parts.9.regions: [dp-sovereign-weapon-2-heat]
+    weapons.1.region: dp-sovereign-pulsar-outline
+    wreckRegions: [
+        conquer-wreck0
+        conquer-wreck1
+        conquer-wreck2
+    ]
+}

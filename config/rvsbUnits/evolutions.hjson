@@ -57,13 +57,13 @@
   "dp-omni-unit": { "tier": 8, "stage": 8, "cost": 980, "evolves": ["dp-omega-unit"] }
   "quell": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["disrupt"] }
 
-  "reign": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit"] }
-  "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 580, "evolves": ["dp-empire-unit"] }
-  "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dp-empire-unit"] }
+  "reign": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 580, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
   "eclipse": { "tier": 9, "stage": 6, "cost": 270, "evolves": ["dp-daybreak-unit"] }
   "disrupt": { "tier": 9, "stage": 8, "cost": 800, "evolves": ["dp-eradicate-unit"] }
 
-  "conquer": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit"] }
+  "conquer": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
   "sei": { "tier": 10, "stage": 6, "cost": 350, "evolves": ["omura"] }
 
   "omura": { "tier": 11, "stage": 9, "cost": 1650, "evolves": ["dp-poseidon-unit"] }
@@ -80,4 +80,5 @@
   "dp-obliterate-unit": { "tier": 12, "stage": 12, "cost": 1240, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-eradicate-unit": { "tier": 12, "stage": 12, "cost": 1020, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-elysia-unit": { "tier": 12, "stage": 12, "cost": 1120, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-sovereign-unit": { "tier": 12, "stage": 12, "cost": 960, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
 }

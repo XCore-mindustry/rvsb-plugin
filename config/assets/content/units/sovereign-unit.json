@@ -1,0 +1,453 @@
+{
+  "type": "tank",
+  "name": "Sovereign",
+  "squareShape": true,
+  "omniMovement": false,
+  "rotateMoveFirst": true,
+  "envDisabled": 0,
+  "hitSize": 48,
+  "treadPullOffset": 1,
+  "speed": 0.75,
+  "health": 38000,
+  "armor": 39,
+  "crushDamage": 5.7,
+  "rotateSpeed": 1.2,
+  "floorMultiplier": 0.3,
+  "immunities": [
+    "burning",
+    "melting",
+    "electrified"
+  ],
+  "tankMoveVolume": 0.75,
+  "tankMoveSound": "tankMoveHeavy",
+  "crushFragile": true,
+  "treadRects": [
+    [
+      -88.5,
+      36.5,
+      46,
+      93
+    ],
+    [
+      -88.5,
+      -92.5,
+      46,
+      17
+    ]
+  ],
+  "clipSize": 462,
+  "parts": [],
+  "outlines": false,
+  "weapons": [
+    {
+      "name": "conquer-weapon",
+      "shootSound": "dp-empire-cannon",
+      "layerOffset": 0.1,
+      "reload": 90,
+      "shootY": 61,
+      "shake": 6,
+      "recoil": 0,
+      "recoilTime": 40,
+      "rotate": true,
+      "rotateSpeed": 0.8,
+      "mirror": false,
+      "x": 0,
+      "y": -2,
+      "shadow": 0,
+      "shootWarmupSpeed": 0.06,
+      "cooldownTime": 100,
+      "minWarmup": 0.9,
+      "shoot": {
+        "type": "ShootAlternate",
+        "barrels": 2,
+        "shots": 2,
+        "spread": 12,
+        "shotDelay": 0
+      },
+      "parts": [
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "under": true,
+          "progress": "warmup",
+          "moveX": 3,
+          "moveY": -3,
+          "x": 9.12,
+          "y": -13.62,
+          "suffix": "-sinks",
+          "heatColor": "#ff1919ff",
+          "layerOffset": 0.0001
+        },
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "under": true,
+          "progress": "recoil",
+          "moveY": -5,
+          "x": 6,
+          "y": 0,
+          "layerOffset": 0.0001
+        },
+        {
+          "type": "RegionPart",
+          "outline": false,
+          "layerOffset": 0.0003
+        },
+        {
+          "type": "RegionPart",
+          "under": true,
+          "outline": false,
+          "progress": "warmup",
+          "x": -0.37,
+          "y": -17.05,
+          "moveX": 0,
+          "moveY": -5.2,
+          "rotation": 315,
+          "layerOffset": 0.0001
+        },
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "blending": "additive",
+          "progress": "warmup",
+          "color": "#ff000000",
+          "colorTo": "#ff00004f",
+          "x": 9.12,
+          "y": -13.62,
+          "moves": [
+            {
+              "progress": "warmup",
+              "x": 3,
+              "y": -3
+            }
+          ],
+          "layerOffset": 0.0002
+        },
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "blending": "additive",
+          "progress": "heat",
+          "color": "#ff000000",
+          "colorTo": "#ff00008f",
+          "x": 9.12,
+          "y": -13.62,
+          "moves": [
+            {
+              "progress": "warmup",
+              "x": 3,
+              "y": -3
+            }
+          ],
+          "layerOffset": 0.0002
+        },
+        {
+          "type": "RegionPart",
+          "outline": false,
+          "blending": "additive",
+          "progress": "warmup",
+          "color": "#ff000000",
+          "colorTo": "#ff00004f",
+          "x": -0.37,
+          "y": -17.05,
+          "rotation": 315,
+          "moves": [
+            {
+              "progress": "warmup",
+              "x": 0,
+              "y": -5.2
+            }
+          ],
+          "layerOffset": 0.0002
+        },
+        {
+          "type": "RegionPart",
+          "outline": false,
+          "blending": "additive",
+          "progress": "heat",
+          "color": "#ff000000",
+          "colorTo": "#ff00008f",
+          "x": -0.37,
+          "y": -17.05,
+          "rotation": 315,
+          "moves": [
+            {
+              "progress": "warmup",
+              "x": 0,
+              "y": -5.2
+            }
+          ],
+          "layerOffset": 0.0002
+        },
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "blending": "additive",
+          "layerOffset": 0.0003,
+          "color": "#ff00004f",
+          "colorTo": "#ff00004f",
+          "x": 6,
+          "y": 0,
+          "moves": [
+            {
+              "progress": "recoil",
+              "y": -5
+            }
+          ]
+        },
+        {
+          "type": "RegionPart",
+          "mirror": true,
+          "outline": false,
+          "blending": "additive",
+          "layerOffset": 0.0003,
+          "progress": "heat",
+          "color": "#ff000000",
+          "colorTo": "#ff00008f",
+          "x": 6,
+          "y": 0,
+          "moves": [
+            {
+              "progress": "recoil",
+              "y": -5
+            }
+          ]
+        }
+      ],
+      "bullet": {
+        "type": "BasicBulletType",
+        "speed": 19,
+        "damage": 400,
+        "sprite": "missile-large",
+        "width": 7.5,
+        "height": 13,
+        "lifetime": 23,
+        "hitSize": 7,
+        "smokeEffect": "shootSmokeTitan",
+        "hitColor": "#feb380ff",
+        "backColor": "#feb380ff",
+        "trailColor": "#feb380ff",
+        "frontColor": "#ffffffff",
+        "trailWidth": 2.8,
+        "trailLength": 6,
+        "hitEffect": {
+          "type": "MultiEffect",
+          "effects": [
+            "massiveExplosion",
+            "mineImpactWave",
+            "titanLightSmall",
+            "titanExplosionFrag",
+            "reactorsmoke",
+            "scatheExplosionSmall",
+            "scatheLight"
+          ],
+          "lifetime": 15,
+          "layer": 101
+        },
+        "despawnEffect": "blastExplosion",
+        "shootEffect": {
+          "type": "SoundEffect",
+          "sound": "shootConquer",
+          "minVolume": 0.25,
+          "maxVolume": 0.25,
+          "effect": "shootTitan"
+        },
+        "spawnBullets": [],
+        "drawSize": 112,
+        "splashDamage": 750,
+        "range": 392,
+        "despawnHit": true,
+        "fragBullet": {
+          "type": "BasicBulletType",
+          "lifetime": 2.7,
+          "speed": 21,
+          "damage": 60,
+          "drag": 0.01,
+          "pierce": true,
+          "pierceBuilding": true,
+          "pierceCap": 2,
+          "hitEffect": {
+            "type": "MultiEffect",
+            "layer": 101,
+            "lifetime": 50,
+            "effects": [
+              "explosion",
+              "missileTrailSmokeSmall"
+            ]
+          },
+          "despawnEffect": "hitBulletColor",
+          "keepVelocity": false,
+          "range": 69.97076,
+          "hitColor": "383838ff",
+          "trailColor": "505050ff",
+          "trailLength": 3,
+          "trailWidth": 1.7,
+          "lightningType": "damageLightning",
+          "lightRadius": 20,
+          "backColor": "#feb380ff",
+          "frontColor": "#ffffffff",
+          "sprite": "missile-large",
+          "splashDamage": 60,
+          "splashDamageRadius": 8
+        },
+        "fragBullets": 20,
+        "trailInterval": 3,
+        "trailEffect": "hitSquaresColor",
+        "trailRotation": true,
+        "splashDamageRadius": 40,
+        "lightningType": "damageLightning",
+        "lightRadius": 30,
+        "pierceBuilding": true,
+        "pierce": true,
+        "pierceCap": 2
+      },
+      "shootSoundVolume": 1,
+      "soundPitchMin": 0.93,
+      "soundPitchMax": 1.05
+    },
+    {
+      "type": "Weapon",
+      "name": "minelauncher",
+      "bullet": {
+        "type": "MissileBulletType",
+        "lifetime": 44,
+        "damage": 0,
+        "drawSize": 120,
+        "shootEffect": {
+          "type": "MultiEffect",
+          "effects": [
+            "shootTitan"
+          ]
+        },
+        "smokeEffect": "shootSmokeTitan",
+        "maxRange": 180,
+        "range": 180,
+        "incendChance": 0.03,
+        "lightningType": "damageLightning",
+        "lightRadius": 20,
+        "length": 95,
+        "largeHit": false,
+        "colors": [
+          "#98ffa933",
+          "#98ffa97f",
+          "#b6ffcaff",
+          "#ffffffff"
+        ],
+        "width": 20,
+        "drag": -0.003,
+        "layer": 101,
+        "despawnEffect": "blastExplosion",
+        "splashDamage": 0,
+        "keepVelocity": false,
+        "despawnHit": true,
+        "fragVelocityMin": 0.5,
+        "trailChance": 0,
+        "splashDamageRadius": 0,
+        "homingRange": 0,
+        "weaveScale": 5,
+        "weaveMag": 3,
+        "frontColor": "818181ff",
+        "height": 20,
+        "sprite": "dp-sovereign-landmine-outline",
+        "speed": 8,
+        "intervalBullet": {
+          "type": "MissileBulletType",
+          "lifetime": 180,
+          "damage": 0,
+          "hitSize": 5,
+          "buildingDamageMultiplier": 0.3,
+          "keepVelocity": false,
+          "range": 84,
+          "hitColor": "#f3e979ff",
+          "trailColor": "#f3e979ff",
+          "trailLength": 5,
+          "trailWidth": 2.1,
+          "homingPower": 0.1,
+          "lightRadius": 25,
+          "backColor": "#f3e979ff",
+          "frontColor": "#ffffffff",
+          "width": 15,
+          "height": 15,
+          "scaleLife": true,
+          "lifeScaleRandMin": 0.6,
+          "lifeScaleRandMax": 2,
+          "despawnUnit": "dp-sovereign-landmine-unit",
+          "sprite": "dp-sovereign-landmine-outline",
+          "speed": 15,
+          "drag": 0.5,
+          "collidesAir": false,
+          "collidesGround": false,
+          "collides": false,
+          "targetMissiles": false,
+          "targetBlocks": false,
+          "hittable": false
+        },
+        "pierce": true,
+        "pierceCap": 12,
+        "fragOnHit": false,
+        "bulletInterval": 4,
+        "intervalRandomSpread": 361,
+        "intervalSpread": 361,
+        "intervalAngle": 361,
+        "trailParam": 4,
+        "trailLength": 12,
+        "trailWidth": 8,
+        "collidesAir": false,
+        "intervalDelay": 3,
+        "collideTerrain": true,
+        "targetMissiles": false,
+        "removeAfterPierce": false,
+        "reflectable": false,
+        "hittable": false,
+        "absorbable": false,
+        "spin": 4
+      },
+      "mirror": false,
+      "rotate": true,
+      "controllable": false,
+      "autoTarget": true,
+      "rotateSpeed": 6,
+      "shake": 1,
+      "recoil": 1,
+      "recoilTime": 170,
+      "cooldownTime": 170,
+      "shootY": 7,
+      "x": 0,
+      "y": -24.25,
+      "shoot": {
+        "type": "ShootPattern"
+      },
+      "shadow": 20,
+      "shootSound": "shootArtillery",
+      "reload": 800,
+      "inaccuracy": 10,
+      "rotationLimit": 45,
+      "baseRotation": 180,
+      "useAttackRange": false,
+      "layerOffset": -0.0001
+    }
+  ],
+  "abilities": [
+    {
+      "type": "ShieldArcAbility",
+      "max": 1200,
+      "regen": 60,
+      "radius": 150,
+      "angle": 17.5,
+      "width": 3,
+      "whenShooting": false,
+      "cooldown": 1,
+      "y": -112
+    }
+  ],
+  "buildSpeed": 0.01,
+  "credit": "Bumm",
+  "shownPlanets": [
+    "erekir"
+  ]
+}

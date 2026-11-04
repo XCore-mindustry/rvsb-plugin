@@ -1,0 +1,26 @@
+{
+  "name": "bastion textures",
+  "unit": {
+    "dp-bastion-unit": {
+      "weapons": {
+        "0": {
+          "name": "large-bullet-mount"
+        },
+        "1": {
+          "name": "large-bullet-mount"
+        },
+        "2": {
+          "name": "large-weapon"
+        },
+        "3": {
+          "name": "large-weapon"
+        }
+      },
+      "baseRegion": "fortress-base",
+      "legRegion": "scepter-leg",
+      "uiIcon": "dp-bastion-unit-ui",
+      "fullIcon": "dp-bastion-unit-full",
+      "previewRegion": "dp-bastion-unit-full"
+    }
+  }
+}
