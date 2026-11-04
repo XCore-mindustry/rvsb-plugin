@@ -36,11 +36,11 @@ public class RepairPoint {
                 if (u.team == Team.blue) {
                     if (u.dst(centerX, centerY) <= 32) {
                         if (u.health <= u.type.health) {
-                            float add = u.type.health/100;
+                            float add = u.type.health * 0.03f;
                             if (u.type.health >= 8200) {
-                                add = u.type.health/400;
+                                add = u.type.health * 0.0175f;
                             } else if (u.type.health <= 130) {
-                                add = u.type.health/50;
+                                add = u.type.health * 0.05f;
                             }
 
                             u.health += add;
