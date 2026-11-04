@@ -213,9 +213,6 @@ public class Laboratory {
         EvolutionMenu.open(player);
     }
 
-    /** units whose stage in evolutions.hjson is at least this get the steep early-buy price */
-    public static final int STEEP_PRICE_STAGE = 11;
-
     public static float getMultiplier(
             Evolution evolution,
             mindustry.gen.Player player
@@ -253,14 +250,6 @@ public class Laboratory {
             multiplier += 1f;
         } else if (RedVsBluePlugin.stage > requiredStage) {
             multiplier += 0.75f;
-        } else if (requiredStage >= STEEP_PRICE_STAGE) {
-            // stage 11+ units before their stage: 800% one stage early, 1600% two stages early, doubling per stage
-            multiplier += (float) Math.pow(
-                    2,
-                    requiredStage
-                            - RedVsBluePlugin.stage
-                            + 2
-            );
         } else {
             multiplier +=
                     1

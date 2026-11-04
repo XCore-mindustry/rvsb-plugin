@@ -222,7 +222,7 @@ public final class EvolutionMenu {
             if (evolution == null) return null;
             float multiplier = Laboratory.getMultiplier(evolution, player);
             int cost = (int) (evolution.cost * multiplier);
-            boolean hidden = evolution.stage >= Laboratory.STEEP_PRICE_STAGE && RedVsBluePlugin.stage < PRICE_REVEAL_STAGE;
+            boolean hidden = cost > WARNING_PRICE;
             return new Price(cost, priceColor(multiplier, cost, evolution.cost), hidden);
         };
         return v;
@@ -238,8 +238,8 @@ public final class EvolutionMenu {
 
     // ------------------------------------------------------------------ UI building (no game state)
 
-    /** Prices of stage 11+ units show as an error symbol until this stage. */
-    public static final int PRICE_REVEAL_STAGE = 9;
+    /** Prices above this show a warning symbol instead of the number. */
+    public static final int WARNING_PRICE = 4000;
 
     /** Current price of a unit and its colour markup; {@code hidden} shows an error symbol instead of the number. */
     public record Price(int cost, String color, boolean hidden) {
@@ -375,7 +375,7 @@ public final class EvolutionMenu {
 
     private static String priceText(Price price) {
         if (price == null) return "[gray]?";
-        if (price.hidden()) return "[scarlet]" + Iconc.warning;
+        if (price.hidden() || price.cost() > WARNING_PRICE) return "[scarlet]" + Iconc.warning;
         return price.color() + price.cost();
     }
 
