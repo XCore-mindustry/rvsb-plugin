@@ -38,8 +38,9 @@ public class Quad {
                                 u.kill();
                                 if(unit.getPlayer() != null) {
                                     PlayerData data = players.get(unit.getPlayer().uuid());
-                                    data.addScore(data.getLevel());
-                                    data.addExp(1);
+                                    if (data != null) {
+                                        data.rewardUnitKill(unit.getPlayer(), u);
+                                    }
                                 }
 
                                 Call.label("[scarlet]-" + damage, 3f, u.x, u.y);

@@ -2,9 +2,11 @@ package net.voiddustry.redvsblue;
 
 import mindustry.content.UnitTypes;
 import mindustry.game.Team;
+import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
+import net.voiddustry.redvsblue.util.Utils;
 
 @SuppressWarnings("unused")
 public class PlayerData {
@@ -71,6 +73,15 @@ public class PlayerData {
     }
     public double getLastRedeemTime() {
         return lastRedeemTime;
+    }
+
+    public void rewardUnitKill(Player player, Unit deadUnit) {
+        int multiplier = Math.max(1, (int) Math.ceil(deadUnit.maxHealth / 1000.0));
+        int reward = getLevel() * multiplier;
+        addScore(reward);
+        Call.label(player.con, "[lime]+" + reward, 2, deadUnit.x, deadUnit.y);
+        addExp(1);
+        Utils.processLevel(player, this);
     }
 
     public void addScore(int amount) {
