@@ -243,12 +243,8 @@ public class RedVsBluePlugin extends Plugin {
         
         //blue kill registration
         Events.on(EventType.UnitDestroyEvent.class, event -> {
-            StatusEffect noRegister = Vars.content.statusEffect("dp-no-register-kills");
-            if (noRegister == null) {
-                noRegister = Vars.content.statusEffect("noRegisterKills");
-            }
 
-            if ((noRegister == null || !event.unit.hasEffect(noRegister)) && !(event.unit.type instanceof MissileUnitType) && !(event.unit instanceof TimedKillc)) {
+            if ((!event.unit.hasEffect(Vars.content.statusEffect("dp-no-register-kills"))) && !(event.unit.type instanceof MissileUnitType) && !(event.unit instanceof TimedKillc)) {
                 Player killerPlayer = killCredit.get(event.unit);
                 killCredit.remove(event.unit);
                 
@@ -276,8 +272,9 @@ public class RedVsBluePlugin extends Plugin {
 
         //crux kill registration
         Events.on(EventType.UnitBulletDestroyEvent.class, event -> {
-            // bullet.shooter is the unit that fired the first stage, so kills by missile units
-            // (e.g. the Serverminate dash) count for the player who fired them
+            if (event.unit == null) return;
+            if (event.unit.hasEffect(Vars.content.statusEffect("dp-no-register-kills"))) return;
+
             Entityc source = event.bullet.shooter != null ? event.bullet.shooter : event.bullet.owner();
             if (event.unit != null && source instanceof Unit killer) {
                 if (killer.isPlayer() && killer.team == Team.crux) {
