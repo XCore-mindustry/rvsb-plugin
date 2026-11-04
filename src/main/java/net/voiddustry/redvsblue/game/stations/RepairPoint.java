@@ -38,7 +38,7 @@ public class RepairPoint {
                         if (u.health <= u.type.health) {
                             float add = u.type.health * 0.02f;
                             if (u.type.health >= 8200) {
-                                add = u.type.health * 0.0175f;
+                                add = u.type.health * 0.0125f;
                             } else if (u.type.health <= 130) {
                                 add = u.type.health * 0.025f;
                             }
