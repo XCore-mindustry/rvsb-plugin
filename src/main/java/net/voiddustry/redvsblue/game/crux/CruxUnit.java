@@ -258,13 +258,13 @@ public class CruxUnit {
             // stage 13 after the Voidweaver died: same odds as stage 11, with T6 / custom units
             if (RedVsBluePlugin.stage == 13 && bossDead(13)) {
                 Random rand = new Random();
-                if (rand.nextInt(20) == 1) {
+                if (rand.nextInt(60) == 1) {
                     spawnNamed("dp-aranethys-crux-t6", cruxSpawn);
                 }
-                if (rand.nextInt(13) == 1) {
+                if (rand.nextInt(33) == 1) {
                     spawnNamed("dp-venomreach-crux-t6", cruxSpawn);
                 }
-                if (rand.nextInt(7) == 1) {
+                if (rand.nextInt(14) == 1) {
                     spawnNamed("dp-devastator-unit", cruxSpawn);
                 }
             }
