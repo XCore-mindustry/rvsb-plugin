@@ -325,13 +325,11 @@ public class CruxUnit {
             int players = Groups.player.size();
             int stage = RedVsBluePlugin.stage;
 
-			int cruxUnitsCount = Math.round((players + Math.min(stage, 12)) / 3f);
+			int baseCount = Math.round((players + Math.min(stage, 12)) / 3f);
 
-			if (stage == 12) {
-			    cruxUnitsCount = Math.round(cruxUnitsCount * 1.3f);
-			} else if (stage >= 13) {
-			    cruxUnitsCount *= 2;
-			}
+			final int cruxUnitsCount = stage == 12
+			        ? Math.round(baseCount * 1.3f)
+			        : stage >= 13 ? baseCount * 2 : baseCount;
 			
             final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();
 
