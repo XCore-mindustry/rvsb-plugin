@@ -41,44 +41,44 @@
   "dp-annihilate-unit": { "tier": 7, "stage": 8, "cost": 720, "evolves": ["dp-obliterate-unit"] }
 
   "scepter": { "tier": 7, "stage": 6, "cost": 105, "evolves": ["reign"] }
-  "navanax": { "tier": 7, "stage": 9, "cost": 450, "evolves": ["dp-elysia-unit"] }
-  "toxopid": { "tier": 7, "stage": 7, "cost": 415, "evolves": ["dp-venomreach-unit", "dp-aranethys-unit"] }
+  "navanax": { "tier": 7, "stage": 9, "cost": 650, "evolves": ["dp-elysia-unit"] }
+  "toxopid": { "tier": 7, "stage": 7, "cost": 615, "evolves": ["dp-venomreach-unit", "dp-aranethys-unit"] }
   "bryde": { "tier": 7, "stage": 5, "cost": 180, "evolves": ["antumbra"] }
   "obviate": { "tier": 7, "stage": 5, "cost": 90, "evolves": ["quell"] }
   "quad": { "tier": 7, "stage": 7, "cost": 450, "evolves": ["oct"] }
   "dp-giga-unit": { "tier": 7, "stage": 7, "cost": 360, "evolves": ["dp-omni-unit"] }
 
-  "vanquish": { "tier": 7, "stage": 6, "cost": 200, "evolves": ["conquer"] }
+  "vanquish": { "tier": 7, "stage": 6, "cost": 250, "evolves": ["conquer"] }
   "dp-stryker-unit": { "tier": 8, "stage": 6, "cost": 320, "evolves": ["dp-devastator-unit"] }
   "dp-incinerate-unit": { "tier": 8, "stage": 6, "cost": 460, "evolves": ["dp-vulcan-unit"] }
-  "collaris": { "tier": 8, "stage": 7, "cost": 1170, "evolves": ["dp-tetraphyllus-unit"] }
+  "collaris": { "tier": 8, "stage": 7, "cost": 1670, "evolves": ["dp-tetraphyllus-unit"] }
   "antumbra": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["eclipse", "sei"] }
-  "oct": { "tier": 8, "stage": 8, "cost": 1300, "evolves": ["dp-omega-unit"] }
-  "dp-omni-unit": { "tier": 8, "stage": 8, "cost": 980, "evolves": ["dp-omega-unit"] }
-  "quell": { "tier": 8, "stage": 6, "cost": 180, "evolves": ["disrupt"] }
+  "oct": { "tier": 8, "stage": 8, "cost": 1500, "evolves": ["dp-omega-unit"] }
+  "dp-omni-unit": { "tier": 8, "stage": 8, "cost": 1480, "evolves": ["dp-omega-unit"] }
+  "quell": { "tier": 8, "stage": 6, "cost": 280, "evolves": ["disrupt"] }
 
-  "reign": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
-  "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 580, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
-  "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
-  "eclipse": { "tier": 9, "stage": 6, "cost": 270, "evolves": ["dp-daybreak-unit"] }
-  "disrupt": { "tier": 9, "stage": 8, "cost": 800, "evolves": ["dp-eradicate-unit"] }
+  "reign": { "tier": 8, "stage": 7, "cost": 650, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 980, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "eclipse": { "tier": 9, "stage": 6, "cost": 370, "evolves": ["dp-daybreak-unit"] }
+  "disrupt": { "tier": 9, "stage": 8, "cost": 1100, "evolves": ["dp-eradicate-unit"] }
 
-  "conquer": { "tier": 8, "stage": 7, "cost": 450, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
-  "sei": { "tier": 10, "stage": 6, "cost": 350, "evolves": ["omura"] }
+  "conquer": { "tier": 8, "stage": 7, "cost": 750, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
+  "sei": { "tier": 10, "stage": 6, "cost": 550, "evolves": ["omura"] }
 
-  "omura": { "tier": 11, "stage": 9, "cost": 1650, "evolves": ["dp-poseidon-unit"] }
+  "omura": { "tier": 11, "stage": 9, "cost": 2150, "evolves": ["dp-poseidon-unit"] }
 
-  "dp-daybreak-unit": { "tier": 8, "stage": 9, "cost": 960, "evolves": ["dp-midnight-unit"] }
+  "dp-daybreak-unit": { "tier": 8, "stage": 9, "cost": 1260, "evolves": ["dp-midnight-unit"] }
 
-  "dp-venomreach-unit": { "tier": 12, "stage": 12, "cost": 1120, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-aranethys-unit": { "tier": 12, "stage": 12, "cost": 940, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-midnight-unit": { "tier": 12, "stage": 12, "cost": 1450, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-poseidon-unit": { "tier": 12, "stage": 12, "cost": 960, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-empire-unit": { "tier": 12, "stage": 12, "cost": 1520, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-omega-unit": { "tier": 12, "stage": 12, "cost": 1340, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-tetraphyllus-unit": { "tier": 12, "stage": 12, "cost": 1080, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-obliterate-unit": { "tier": 12, "stage": 12, "cost": 1240, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-eradicate-unit": { "tier": 12, "stage": 12, "cost": 1020, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-elysia-unit": { "tier": 12, "stage": 12, "cost": 1120, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
-  "dp-sovereign-unit": { "tier": 12, "stage": 12, "cost": 960, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-venomreach-unit": { "tier": 12, "stage": 13, "cost": 1920, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-aranethys-unit": { "tier": 12, "stage": 13, "cost": 1870, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-midnight-unit": { "tier": 12, "stage": 13, "cost": 1980, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-poseidon-unit": { "tier": 12, "stage": 13, "cost": 1970, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-empire-unit": { "tier": 12, "stage": 13, "cost": 1980, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-omega-unit": { "tier": 12, "stage": 13, "cost": 1900, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-tetraphyllus-unit": { "tier": 12, "stage": 13, "cost": 1910, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-obliterate-unit": { "tier": 12, "stage": 13, "cost": 1900, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-eradicate-unit": { "tier": 12, "stage": 13, "cost": 1750, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-elysia-unit": { "tier": 12, "stage": 13, "cost": 1920, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-sovereign-unit": { "tier": 12, "stage": 13, "cost": 1950, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
 }
