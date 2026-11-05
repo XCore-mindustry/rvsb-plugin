@@ -194,12 +194,7 @@ public class CruxUnit {
                         unit.apply(StatusEffects.electrified, 99999f);
                         unit.apply(StatusEffects.sapped, 99999f);
                         unit.apply(StatusEffects.freezing, 99999f);
-                        unit.apply(StatusEffects.burning, 99999f);
                         unit.apply(StatusEffects.fast, 99999f);
-                        unit.apply(StatusEffects.corroded, 99999f);
-                        unit.apply(StatusEffects.tarred, 99999f);
-                        unit.apply(StatusEffects.sporeSlowed, 99999f);
-                        unit.apply(StatusEffects.shocked, 99999f);
                     }
                 }
 
@@ -287,14 +282,7 @@ public class CruxUnit {
                     unit.apply(StatusEffects.electrified, 99999f);
                     unit.apply(StatusEffects.sapped, 99999f);
                     unit.apply(StatusEffects.freezing, 99999f);
-                    unit.apply(StatusEffects.burning, 99999f);
                     unit.apply(StatusEffects.fast, 99999f);
-                    unit.apply(StatusEffects.corroded, 99999f);
-                    unit.apply(StatusEffects.tarred, 99999f);
-                    unit.apply(StatusEffects.sporeSlowed, 99999f);
-                    unit.apply(StatusEffects.shocked, 99999f);
-                    unit.apply(StatusEffects.shocked, 99999f);
-                    unit.apply(Vars.content.statusEffect("dp-evaporating"), 99999f);
                 }
             }
 
@@ -337,9 +325,14 @@ public class CruxUnit {
             int players = Groups.player.size();
             int stage = RedVsBluePlugin.stage;
 
-            // stage 13 spawns twice as many as stages 11 and 12
-            int cruxUnitsCount = Math.round((players + Math.min(stage, 12)) / (float) 3) * (stage >= 13 ? 2 : 1);
+			int cruxUnitsCount = Math.round((players + Math.min(stage, 12)) / 3f);
 
+			if (stage == 12) {
+			    cruxUnitsCount = Math.round(cruxUnitsCount * 1.3f);
+			} else if (stage >= 13) {
+			    cruxUnitsCount *= 2;
+			}
+			
             final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();
 
             if (!ClassChooseMenu.units.isEmpty()) {
