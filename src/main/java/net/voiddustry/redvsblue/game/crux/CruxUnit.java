@@ -259,7 +259,7 @@ public class CruxUnit {
                 if (rand.nextInt(33) == 1) {
                     spawnNamed("dp-venomreach-crux-t6", cruxSpawn);
                 }
-                if (rand.nextInt(14) == 1) {
+                if (rand.nextInt(33) == 1) {
                     spawnNamed("dp-devastator-unit", cruxSpawn);
                 }
             }
