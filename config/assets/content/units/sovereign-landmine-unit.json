@@ -79,7 +79,10 @@
       "shootSound": "none",
       "display": false,
       "useAttackRange": false,
-      "shoot": { "type": "ShootPattern", "shots": 0 },
+      "shoot": {
+        "type": "ShootPattern",
+        "shots": 0
+      },
       "layerOffset": -15
     }
   ],
@@ -124,5 +127,6 @@
   "alwaysUnlocked": true,
   "shownPlanets": [
     "erekir"
-  ]
+  ],
+  "hittable": false
 }

@@ -62,6 +62,10 @@ unit.dp-sovereign-unit: {
     weapons.0.parts.8.regions: [dp-sovereign-weapon-2-heat]
     weapons.0.parts.9.regions: [dp-sovereign-weapon-2-heat]
     weapons.1.region: dp-sovereign-pulsar-outline
+    weapons.2.region: dp-sovereign-aatank
+    weapons.2.parts.0.regions: [dp-sovereign-aatank-outline]
+    weapons.2.parts.1.regions: [dp-sovereign-large-bullet-mount-outline]
+    weapons.2.parts.2.regions: [dp-sovereign-large-bullet-mount-outline]
     wreckRegions: [
         conquer-wreck0
         conquer-wreck1
