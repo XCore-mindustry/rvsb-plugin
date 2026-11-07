@@ -17,7 +17,7 @@ legPairOffset: 3
 legLengthScl: 0.95
 legForwardScl: 0.9
 legSpeed: 0.21
-legSplashDamage: 9.6
+legSplashDamage: 10
 legSplashRange: 32
 rippleScale: 2.5
 stepShake: 1.5

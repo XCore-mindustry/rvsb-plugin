@@ -10,7 +10,7 @@
   "speed": 0.62,
   "health": 44000,
   "armor": 37,
-  "crushDamage": 5.7,
+  "crushDamage": 6,
   "rotateSpeed": 0.9,
   "floorMultiplier": 0.33,
   "immunities": [
@@ -438,7 +438,7 @@
         "type": "BasicBulletType",
         "lifetime": 32.105263,
         "speed": 9.5,
-        "damage": 67.5,
+        "damage": 68,
         "pierce": true,
         "pierceCap": 2,
         "hitEffect": "hitBulletColor",

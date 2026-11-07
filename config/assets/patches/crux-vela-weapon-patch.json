@@ -29,7 +29,7 @@ shoot: {
 bullet: {
 type: ShrapnelBulletType
 length: 90f
-damage: 110f
+damage: 83f
 width: 25f
 serrations : 5
 serrationLenScl: 7

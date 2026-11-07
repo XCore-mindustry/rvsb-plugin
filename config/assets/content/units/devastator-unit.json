@@ -21,7 +21,7 @@
   shadowRegion: dp-devastator-shadow
 
   treadPullOffset: 1
-  crushDamage: 5.8
+  crushDamage: 6
   crushFragile: true
   tankMoveVolume: 0.75
   tankMoveSound: tankMoveHeavy
@@ -365,7 +365,7 @@
 
       bullet: {
         type: BasicBulletType
-        damage: 37.5
+        damage: 38
         despawnEffect: hitBulletColor
         drawSize: 120
         hitColor: "#feb380ff"
@@ -416,7 +416,7 @@
 
       bullet: {
         type: BasicBulletType
-        damage: 37.5
+        damage: 38
         despawnEffect: hitBulletColor
         drawSize: 120
         hitColor: "#feb380ff"

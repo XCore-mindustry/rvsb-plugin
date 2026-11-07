@@ -6076,7 +6076,7 @@ weapons: [
       speed: 12
       lifetime: 28
       damage: 70
-      splashDamage: 81.2
+      splashDamage: 81
       splashDamageRadius: 44
       scaledSplashDamage: false
       despawnHit: true

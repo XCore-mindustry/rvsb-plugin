@@ -23,7 +23,7 @@
   shadowRegion: dp-stryker-shadow
 
   treadPullOffset: 4
-  crushDamage: 1.5
+  crushDamage: 2
   crushFragile: true
   tankMoveVolume: 0.625
   tankMoveSound: tankMoveHeavy

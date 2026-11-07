@@ -61,7 +61,7 @@ name: "orion"
     legLengthScl: 0.95
     lockLegBase: true
     legContinuousMove: true
-    legSplashDamage: 67.5
+    legSplashDamage: 68
     legSplashRange: 44
     rippleScale: 3.2
     flowfieldPathType: 1
@@ -462,7 +462,7 @@ despawnEffect: "none"
         ]
         bullet: {
           type: "ContinuousLaserBulletType"
-          damage: 37.5
+          damage: 38
           length: 250
           lifetime: 170
           drawSize: 560
@@ -548,7 +548,7 @@ despawnEffect: "none"
         ]
         bullet: {
           type: "ContinuousLaserBulletType"
-          damage: 37.5
+          damage: 38
           length: 250
           lifetime: 170
           drawSize: 560
@@ -623,7 +623,7 @@ despawnEffect: "none"
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 31.5
+          damage: 32
           lifetime: 34
           width: 3
           height: 11
@@ -688,7 +688,7 @@ despawnEffect: "none"
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 31.5
+          damage: 32
           lifetime: 34
           width: 3
           height: 11
@@ -751,7 +751,7 @@ despawnEffect: "none"
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 31.5
+          damage: 32
           lifetime: 34
           width: 3
           height: 11
@@ -814,7 +814,7 @@ despawnEffect: "none"
         bullet: {
           type: "LaserBoltBulletType"
           speed: 7
-          damage: 31.5
+          damage: 32
           lifetime: 34
           width: 3
           height: 11

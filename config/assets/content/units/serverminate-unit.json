@@ -195,7 +195,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 29.27,
+    "damage": 29,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -296,7 +296,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 29.27,
+    "damage": 29,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -400,7 +400,7 @@
      "colorFrom": "ffffff",
      "colorTo": "ffd37f"
     },
-    "damage": 29.27,
+    "damage": 29,
     "damageInterval": 3,
     "length": 70,
     "largeHit": true,
@@ -893,7 +893,7 @@
    },
    "bullet": {
     "type": "LightningBulletType",
-    "damage": 36.3,
+    "damage": 36,
     "lightningLength": 7,
     "lightningLengthRand": 0,
     "lightningColor": "ffd37f",

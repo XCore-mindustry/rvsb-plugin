@@ -40,7 +40,7 @@ weapons: [
         chargeSound: "chargeVela", shootSound: "beamPlasma", initialShootSound: "shootBeamPlasma"
         shootStatus: "slow", shootStatusDuration: 168
         bullet: {
-            type: "ContinuousLaserBulletType", damage: 25.8, pierceArmor: true, length: 120, width: 6, backLength: 1.5, lifetime: 120
+            type: "ContinuousLaserBulletType", damage: 26, pierceArmor: true, length: 120, width: 6, backLength: 1.5, lifetime: 120
             drawSize: 400, shake: 0.6, hitEffect: "hitMeltdown", despawnEffect: "smokeCloud", smokeEffect: "none"
             incendChance: 0.04, incendSpread: 5, incendAmount: 1
             colors: ["ffd37f33", "ffd37f88", "ffe39a", "ffffff"]
