@@ -237,7 +237,7 @@ public class CruxUnit {
                 Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
             }
 
-            if (RedVsBluePlugin.stage == 11 && bossDead(11)) {
+            if (RedVsBluePlugin.stage == 11) {
                 Random rand = new Random();
                 if (rand.nextInt(20) == 1) {
                     UnitTypes.latum.spawn(Team.crux, cruxSpawn);
@@ -250,16 +250,15 @@ public class CruxUnit {
                 }
             }
 
-            // stage 13 after the Voidweaver died: same odds as stage 11, with T6 / custom units
-            if (RedVsBluePlugin.stage == 13 && bossDead(13)) {
+            if (RedVsBluePlugin.stage == 13) {
                 Random rand = new Random();
-                if (rand.nextInt(60) == 1) {
+                if (rand.nextInt(120) == 1) {
                     spawnNamed("dp-aranethys-crux-t6", cruxSpawn);
                 }
-                if (rand.nextInt(33) == 1) {
+                if (rand.nextInt(66) == 1) {
                     spawnNamed("dp-venomreach-crux-t6", cruxSpawn);
                 }
-                if (rand.nextInt(33) == 1) {
+                if (rand.nextInt(66) == 1) {
                     spawnNamed("dp-devastator-unit", cruxSpawn);
                 }
             }
