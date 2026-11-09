@@ -11,7 +11,7 @@ circleTarget: false
 speed: 0.5
 rotateSpeed: 0.55
 strafePenalty: 0.4
-health: 128000
+health: 198000
 buildSpeed: 0.01
 buildBeamOffset: 85
 armor: 35
