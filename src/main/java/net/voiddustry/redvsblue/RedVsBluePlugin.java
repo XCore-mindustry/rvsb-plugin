@@ -107,7 +107,7 @@ public class RedVsBluePlugin extends Plugin {
                 return;
             }
             stage++;
-            stageTimer = 300;
+            restartStageClock();
             spawnBoss();
             announceBundled("game.new-stage", 15, stage);
             ClassChooseMenu.updateUnitsMap();
@@ -117,11 +117,16 @@ public class RedVsBluePlugin extends Plugin {
     /** the one clock that drives {@link #task}; never create another */
     static final Timer stageClock = new Timer();
 
-    /** (re)starts the stage clock so the next stage comes a full 300 s from now */
+    public static float stageDuration(int stage) {
+        return stage == 12 ? 120f : 300f;
+    }
+
+    /** (re)starts the stage clock for the current {@link #stage} */
     public static void restartStageClock() {
         task.cancel();
-        stageTimer = 300;
-        stageClock.scheduleTask(task, 300, 300);
+        float duration = stageDuration(stage);
+        stageTimer = duration;
+        stageClock.scheduleTask(task, duration);
     }
 
     @Override
@@ -406,9 +411,6 @@ public class RedVsBluePlugin extends Plugin {
                 }
             }
 
-            restartStageClock();
-
-
             Groups.player.each(player -> {
                 if (player != null) {
                     player.team(Team.blue);
@@ -427,7 +429,7 @@ public class RedVsBluePlugin extends Plugin {
             gameover = false;
             hardcore = false;
             stage = 1;
-            stageTimer = 300;
+            restartStageClock();
             StrengthSpawner.reset();
             voting = false;
             StartingMenu.canOpenMenu = true;
@@ -1075,11 +1077,9 @@ public class RedVsBluePlugin extends Plugin {
                 Log.info("No game is running");
                 return;
             }
-            // start the stage the same way the clock does, then restart the clock so the next stage is
-            // a full 300 s away (the old command left the clock alone, so the next stage came early)
+            // start the stage the same way the clock does (task.run() restarts the clock for the new stage)
             stage = target - 1;
             task.run();
-            restartStageClock();
             Log.info("Stage set to @", stage);
         });
 
