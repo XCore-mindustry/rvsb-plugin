@@ -25,7 +25,7 @@ weapons: [
         bullet: {
             type: "BasicBulletType", sprite: "circle-bullet"
             speed: 9, drag: 0.04, lifetime: 25, rangeOverride: 144
-            damage: 27, splashDamage: 5, splashDamageRadius: 16, collidesTeam: false
+            damage: 20, splashDamage: 5, splashDamageRadius: 16, collidesTeam: false
             width: 8, height: 8, shrinkX: 1, shrinkY: 1
             pierce: true, pierceCap: 2, hittable: false, absorbable: false, reflectable: false, keepVelocity: false
             backColor: "ff7a3a", frontColor: "ffe6a3"

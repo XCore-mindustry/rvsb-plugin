@@ -2258,7 +2258,7 @@ weapons: [
     }
     {
         type: "RepairBeamWeapon", name: "omega-tether", x: 16, y: 14, shootY: 6, mirror: true
-        top: true, layerOffset: 0.000228, recoil: 0, beamWidth: 1, repairSpeed: 3.5
+        top: true, layerOffset: 0.000228, recoil: 0, beamWidth: 1, repairSpeed: 2.5
         pulseRadius: 7, pulseStroke: 1.8, widthSinMag: 0.15, laserColor: "98ffa9"
         healColor: "98ffa9", bullet: { maxRange: 165 }
         parts: [

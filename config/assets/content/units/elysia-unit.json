@@ -6218,7 +6218,7 @@ weapons: [
     rotate: true
     rotateSpeed: 4.2
     shootY: 8.25
-    repairSpeed: 9.1667
+    repairSpeed: 5
     fractionRepairSpeed: 0
     targetUnits: true
     targetBuildings: false
