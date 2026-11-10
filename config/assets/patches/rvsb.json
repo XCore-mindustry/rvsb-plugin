@@ -734,20 +734,20 @@ instantDisappear: true
 
 
 
+
 //anthicus weapon by alphy
 unit.anthicus.faceTarget: false
 unit.anthicus.range: 350
 unit.anthicus.maxRange: 350
 unit.anthicus.weapons: [
   {
-    shoot: {
-    firstShotDelay: 65
-    shots: 65
-    shotDelay: 1
-    }
-//why
-    //alwaysShootWhenMoving: true
     name: "tecta-weapon"
+    mirror: false
+    shoot: {
+      firstShotDelay: 65
+      shots: 65
+      shotDelay: 1
+    }
     shootStatus: slow
     shootStatusDuration: 135
     rotate: true
@@ -762,27 +762,34 @@ unit.anthicus.weapons: [
     shootY: 11.75f
     shootSound: shootSublimate
     bullet: {
-    status: freezing
-    range: 350
-    maxRange: 350
-    type: railBulletType
-    pierceCap: 1
-    damage: 0
-    length: 340
-    pierceDamageFactor: 0.1
-    pointEffect: railTrail
-    hitColor: "89cffa"
-    pierceArmor: true
-    hitEffect: hitSquaresColor
+      type: railBulletType
+      range: 350
+      maxRange: 350
+      length: 350
+      damage: 2.5
+      buildingDamageMultiplier: 1.25
+      pierceCap: 1
+      pierceDamageFactor: 1
+      pierceArmor: true
+      hitUnder: true
+      status: freezing
+      statusDuration: 120f
+      pointEffect: railTrail
+      pierceEffect: none
+      hitColor: "89cffa"
+      hitEffect: hitSquaresColor
     }
-    }
-    {
+  }
+
+
+  {
+    mirror: false
+    display: false
     shoot: {
-    firstShotDelay: 65
-    shots: 65
-    shotDelay: 1
+      firstShotDelay: 65
+      shots: 65
+      shotDelay: 1
     }
-    //alwaysShootWhenMoving: true
     rotate: true
     shootStatus: freezing
     shootStatusDuration: 135
@@ -797,25 +804,26 @@ unit.anthicus.weapons: [
     shootY: 11.75f
     shootSound: loopMalign
     bullet: {
-    range: 350
-    maxRange: 350
-    type: continuousFlameBulletType
-    flareColor: "89cffa"
-    pierceCap: 1
-    damage: 1.6
-    length: 350
-    pierceDamageFactor: 0.1
-    width: 4f
-    colors: ["89cffa","ffffff","30a7f0","ffffff"]
-}
-}
-{
-    //alwaysShootWhenMoving: true
+      type: continuousFlameBulletType
+      range: 350
+      maxRange: 350
+      length: 350
+      damage: 0
+      pierceCap: 1
+      width: 4f
+      flareColor: "89cffa"
+      colors: ["89cffa","ffffff","30a7f0","ffffff"]
+    }
+  }
+
+
+  {
+    mirror: false
     rotate: true
     rotateSpeed: 0.25f
     ignoreRotation: true
     shoot: {
-    shots: 2
+      shots: 2
     }
     shootY: 7.75f
     shootX: -2f
@@ -825,15 +833,47 @@ unit.anthicus.weapons: [
     recoilTime: 120f
     shootSound: beamMeltdown
     bullet: {
-    range: 350
-    maxRange: 350
-    type: lightningBulletType
-    status: freezing
-    damage: 20
-    
+      type: railBulletType
+      range: 350
+      maxRange: 350
+      length: 350
+      damage: 16
+      buildingDamageMultiplier: 1.25
+      pierceCap: 1
+      pierceDamageFactor: 1
+      pierceArmor: true
+      hitUnder: true
+      status: freezing
+      statusDuration: 120f
+      pierceEffect: none
+      hitColor: "89cffa"
+      hitEffect: hitLancer
     }
-    
-}
+  }
+
+  // 4. Visual electric arc for the secondary pulse (0 dmg so no unit-homing bias)
+  {
+    mirror: false
+    display: false
+    rotate: true
+    rotateSpeed: 0.25f
+    ignoreRotation: true
+    shoot: {
+      shots: 2
+    }
+    shootY: 7.75f
+    shootX: -2f
+    reload: 30f
+    recoil: 0f
+    shootSound: none
+    bullet: {
+      type: lightningBulletType
+      range: 350
+      maxRange: 350
+      damage: 0
+      lightningColor: "89cffa"
+    }
+  }
 ]
 
 //mono weapon by alphy
