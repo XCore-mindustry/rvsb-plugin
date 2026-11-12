@@ -1,0 +1,16 @@
+unit.dp-interdict-unit: {
+  region: dp-interdict-unit
+  cellRegion: dp-interdict-unit-cell
+  uiIcon: dp-interdict-unit-ui
+  fullIcon: dp-interdict-unit-full
+  shadowRegion: dp-interdict-unit-shadow
+  previewRegion: dp-interdict-unit-full
+}
+
+unit.dp-interdict-missile-unit: {
+  region: dp-interdict-missile-unit
+  uiIcon: dp-interdict-missile-unit
+  fullIcon: dp-interdict-missile-unit
+  shadowRegion: dp-interdict-missile-unit
+  previewRegion: dp-interdict-missile-unit
+}

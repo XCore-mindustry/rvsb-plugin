@@ -1,0 +1,6 @@
+// Separate high-cost build path: does not replace Terminate or any reconstructor upgrade.
+block.air-factory.plans.+: {
+  unit: dp-interdict-unit
+  time: 10800
+  requirements: [thorium/450, silicon/700, oxide/220, carbide/160, surge-alloy/180]
+}

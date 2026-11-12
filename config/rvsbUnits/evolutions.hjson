@@ -61,7 +61,7 @@
   "dp-devastator-unit": { "tier": 9, "stage": 8, "cost": 780, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
   "dp-vulcan-unit": { "tier": 9, "stage": 8, "cost": 980, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
   "eclipse": { "tier": 9, "stage": 6, "cost": 370, "evolves": ["dp-daybreak-unit"] }
-  "disrupt": { "tier": 9, "stage": 8, "cost": 1100, "evolves": ["dp-eradicate-unit"] }
+  "disrupt": { "tier": 9, "stage": 8, "cost": 1100, "evolves": ["dp-eradicate-unit", "dp-interdict-unit"] }
 
   "conquer": { "tier": 8, "stage": 7, "cost": 750, "evolves": ["dp-empire-unit", "dp-sovereign-unit"] }
   "sei": { "tier": 10, "stage": 6, "cost": 550, "evolves": ["omura"] }
@@ -79,6 +79,7 @@
   "dp-tetraphyllus-unit": { "tier": 12, "stage": 12, "cost": 1830, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-obliterate-unit": { "tier": 12, "stage": 12, "cost": 1820, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-eradicate-unit": { "tier": 12, "stage": 12, "cost": 1670, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
+  "dp-interdict-unit": { "tier": 12, "stage": 12, "cost": 1950, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-elysia-unit": { "tier": 12, "stage": 12, "cost": 1840, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
   "dp-sovereign-unit": { "tier": 12, "stage": 12, "cost": 1870, "evolves": ["dagger", "nova", "merui", "flare", "mono"] }
 }

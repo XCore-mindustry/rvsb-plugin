@@ -518,6 +518,7 @@ public class RedVsBluePlugin extends Plugin {
                     }
 
                     //register missiles
+                    UnitType interdictType = Vars.content.unit("dp-interdict-unit");
                     for (Unit unit : Groups.unit) {
                     if (unit.type instanceof MissileUnitType) {
                         if (!spawnedUnitOwnership.containsKey(unit)) {
@@ -526,7 +527,7 @@ public class RedVsBluePlugin extends Plugin {
                             int dist;
                             for (Unit unait : Groups.unit) {
                                 dist = (int)(Math.round(Math.sqrt((unait.x - unit.x)*(unait.x - unit.x) + (unait.y - unit.y)*(unait.y - unit.y))));
-                                if (dist<mindist && (unait.type == UnitTypes.disrupt || unait.type == UnitTypes.quell)) {
+                                if (dist<mindist && (unait.type == UnitTypes.disrupt || unait.type == UnitTypes.quell || (interdictType != null && unait.type == interdictType))) {
                                     spawnerUnit = unait;
                                     mindist = dist;
                                 }

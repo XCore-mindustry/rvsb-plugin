@@ -1,0 +1,47 @@
+{
+  "show": true,
+  "hideDatabase": false,
+  "outline": false,
+  "permanent": false,
+  "speedMultiplier": 0.42,
+  "reloadMultiplier": 0.65,
+  "damageMultiplier": 0.82,
+  "dragMultiplier": 1.0,
+  "intervalDamage": 55,
+  "intervalDamageTime": 25,
+  "color": "bf92f9ff",
+  "effectChance": 0.38,
+  "parentizeEffect": true,
+  "effect": {
+    "type": "MultiEffect",
+    "effects": [
+      {
+        "type": "ParticleEffect",
+        "lifetime": 22,
+        "line": true,
+        "particles": 5,
+        "length": 18,
+        "baseLength": 2,
+        "lenFrom": 8,
+        "lenTo": 0,
+        "strokeFrom": 2.0,
+        "strokeTo": 0,
+        "colorFrom": "ffffff",
+        "colorTo": "bf92f900",
+        "interp": "pow3Out"
+      },
+      {
+        "type": "ParticleEffect",
+        "lifetime": 18,
+        "particles": 3,
+        "length": 12,
+        "sizeFrom": 2.8,
+        "sizeTo": 0,
+        "colorFrom": "e8dcff",
+        "colorTo": "a393fe00"
+      }
+    ]
+  },
+  "applyEffect": "hitLaserBlast",
+  "applyColor": "bf92f9ff"
+}

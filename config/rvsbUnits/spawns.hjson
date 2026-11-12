@@ -25,7 +25,7 @@ global: {
         }
         {
           min: 15000
-          max: 30000
+          max: 25000
           cooldown: 70
           units: [
             {type: "locus"}
@@ -34,8 +34,8 @@ global: {
           ]
         }
         {
-          min: 30000
-          max: 50000
+          min: 25000
+          max: 40000
           cooldown: 80
           units: [
             {type: "precept", effects: ["electrified"], effectSeconds: 999}
@@ -45,8 +45,8 @@ global: {
           ]
         }
         {
-          min: 50000
-          max: 75000
+          min: 40000
+          max: 60000
           cooldown: 90
           units: [
             {type: "scepter", effects: ["sapped"], effectSeconds: 999}
@@ -56,8 +56,8 @@ global: {
           ]
         }
         {
-          min: 75000
-          max: 105000
+          min: 60000
+          max: 85000
           cooldown: 95
           units: [
             {type: "arkyid", effects: ["electrified"], effectSeconds: 999}
@@ -67,8 +67,8 @@ global: {
           ]
         }
         {
-          min: 105000
-          max: 140000
+          min: 85000
+          max: 100000
           cooldown: 100
           units: [
             {type: "dp-regent-unit", effects: ["sapped"], effectSeconds: 999}
@@ -77,8 +77,8 @@ global: {
           ]
         }
         {
-          min: 140000
-          max: 180000
+          min: 100000
+          max: 140000
           cooldown: 105
           units: [
             {type: "dp-regent-unit"}
@@ -88,8 +88,8 @@ global: {
           ]
         }
         {
-          min: 180000
-          max: 225000
+          min: 140000
+          max: 1800000
           cooldown: 110
           units: [
             {type: "dp-annihilate-unit"}
@@ -99,8 +99,8 @@ global: {
           ]
         }
         {
-          min: 225000
-          max: 265000
+          min: 180000
+          max: 200000
           cooldown: 115
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
@@ -110,8 +110,8 @@ global: {
           ]
         }
         {
-          min: 265000
-          max: 285000
+          min: 200000
+          max: 220000
           cooldown: 120
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
@@ -121,7 +121,7 @@ global: {
           ]
         }
         {
-          min: 285000
+          min: 220000
           cooldown: 130
           units: [
             {type: "dp-regent-unit", count: 2}
@@ -154,7 +154,7 @@ global: {
         }
         {
           min: 15000
-          max: 30000
+          max: 25000
           cooldown: 35
           units: [
             {type: "locus"}
@@ -162,8 +162,8 @@ global: {
           ]
         }
         {
-          min: 30000
-          max: 50000
+          min: 25000
+          max: 40000
           cooldown: 40
           units: [
             {type: "locus"}
@@ -172,8 +172,8 @@ global: {
           ]
         }
         {
-          min: 50000
-          max: 75000
+          min: 40000
+          max: 60000
           cooldown: 45
           units: [
             {type: "dp-aractid-unit"}
@@ -181,8 +181,8 @@ global: {
           ]
         }
         {
-          min: 75000
-          max: 105000
+          min: 60000
+          max: 85000
           cooldown: 47.5
           units: [
             {type: "vanquish"}
@@ -190,8 +190,8 @@ global: {
           ]
         }
         {
-          min: 105000
-          max: 140000
+          min: 85000
+          max: 100000
           cooldown: 50
           units: [
             {type: "dp-eliminate-unit"}
@@ -199,8 +199,8 @@ global: {
           ]
         }
         {
-          min: 140000
-          max: 180000
+          min: 100000
+          max: 140000
           cooldown: 52.5
           units: [
             {type: "dp-incinerate-unit"}
@@ -208,8 +208,8 @@ global: {
           ]
         }
         {
-          min: 180000
-          max: 225000
+          min: 140000
+          max: 180000
           cooldown: 55
           units: [
             {type: "dp-annihilate-unit"}
@@ -217,8 +217,8 @@ global: {
           ]
         }
         {
-          min: 225000
-          max: 265000
+          min: 180000
+          max: 200000
           cooldown: 57.5
           units: [
             {type: "dp-vulcan-unit"}
@@ -227,8 +227,8 @@ global: {
           ]
         }
         {
-          min: 265000
-          max: 285000
+          min: 200000
+          max: 220000
           cooldown: 60
           units: [
             {type: "reign"}
@@ -237,7 +237,7 @@ global: {
           ]
         }
         {
-          min: 285000
+          min: 220000
           cooldown: 65
           units: [
             {type: "reign"}

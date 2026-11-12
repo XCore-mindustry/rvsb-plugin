@@ -1,0 +1,46 @@
+{
+  "show": false,
+  "hideDatabase": true,
+  "outline": false,
+  "permanent": false,
+  "speedMultiplier": 0.42,
+  "reloadMultiplier": 0.78,
+  "dragMultiplier": 2.4,
+  "intervalDamage": 28,
+  "intervalDamageTime": 18,
+  "color": "a393feff",
+  "effectChance": 0.35,
+  "parentizeEffect": true,
+  "effect": {
+    "type": "MultiEffect",
+    "effects": [
+      {
+        "type": "ParticleEffect",
+        "lifetime": 18,
+        "particles": 3,
+        "length": -12,
+        "baseLength": 14,
+        "sizeFrom": 2.6,
+        "sizeTo": 0,
+        "colorFrom": "e8dcffdd",
+        "colorTo": "6d56bf00",
+        "interp": "pow2In"
+      },
+      {
+        "type": "ParticleEffect",
+        "lifetime": 16,
+        "line": true,
+        "particles": 2,
+        "length": -10,
+        "baseLength": 12,
+        "lenFrom": 6,
+        "lenTo": 1,
+        "strokeFrom": 1.8,
+        "strokeTo": 0,
+        "colorFrom": "ffffffcc",
+        "colorTo": "a393fe00"
+      }
+    ]
+  },
+  "applyEffect": "none"
+}
