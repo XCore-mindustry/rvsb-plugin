@@ -1,5 +1,6 @@
 {
-  "show": true,
+  "show": false,
+  "hidden": true,
   "hideDatabase": false,
   "outline": false,
   "permanent": false,
