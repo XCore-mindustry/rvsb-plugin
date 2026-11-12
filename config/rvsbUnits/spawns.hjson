@@ -1,224 +1,248 @@
 updateSeconds: 60
-stageSuppression: {11: 0.15}
 global: {
   exceptions: ["frozen_district", "swamp"]
   spawners: [
     {
-      name: xexebe-A
+      name: xexebe
       metric: sum
       hp: max
       weighted: true
       playersOnly: true
+      playerScaling: 0.2
       maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 20000}
       graceSeconds: 600
       tiers: [
         {
           min: 5000
-          max: 10000
-          cooldown: 45
-          units: [{type: "atrax", effects: ["fast"], effectSeconds: 999}, {type: "horizon"}, {type: "pulsar"}]
-        }
-        {min: 10000, max: 20000, cooldown: 45, units: [{type: "locus"}, {type: "cleroi"}]}
-        {
-          min: 20000
-          max: 25000
-          cooldown: 45
+          max: 15000
+          cooldown: 60
           units: [
-            {type: "cleroi", effects: ["wet"], effectSeconds: 999}
-            {type: "spiroct", effects: ["electrified"], effectSeconds: 999}
+            {type: "pulsar"}
+            {type: "horizon"}
+            {type: "atrax"}
           ]
         }
         {
-          min: 25000
+          min: 15000
           max: 30000
-          cooldown: 60
+          cooldown: 70
           units: [
-            {type: "quasar", effects: ["sapped", "fast"], effectSeconds: 999}
-            {type: "precept", effects: ["sapped"], effectSeconds: 999}
+            {type: "locus"}
+            {type: "spiroct", effects: ["slow"], effectSeconds: 999}
+            {type: "quasar"}
           ]
         }
         {
           min: 30000
-          max: 35000
-          cooldown: 45
-          units: [{type: "spiroct", effects: ["boss", "overdrive", "fast", "overclock"], effectSeconds: 999}]
-        }
-        {
-          min: 35000
-          max: 45000
-          cooldown: 30
-          units: [
-            {type: "locus", effects: ["overclock"], effectSeconds: 999}
-            {type: "cleroi", effects: ["overclock"], effectSeconds: 999}
-            {type: "quasar", effects: ["overclock"], effectSeconds: 999}
-          ]
-        }
-        {
-          min: 45000
-          max: 70000
-          cooldown: 70
-          units: [
-            {type: "dp-aractid-unit", effects: ["fast", "overclock"], effectSeconds: 999}
-            {type: "obviate", effects: ["overclock"], effectSeconds: 999}
-          ]
-        }
-        {
-          min: 70000
-          max: 75000
+          max: 50000
           cooldown: 80
           units: [
-            {type: "precept", effects: ["overclock"], effectSeconds: 999}
-            {type: "dp-aractid-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "precept", effects: ["electrified"], effectSeconds: 999}
+            {type: "cleroi"}
+            {type: "quasar"}
+            {type: "dp-rive-unit"}
+          ]
+        }
+        {
+          min: 50000
+          max: 75000
+          cooldown: 90
+          units: [
+            {type: "scepter", effects: ["sapped"], effectSeconds: 999}
+            {type: "dp-aractid-unit", effects: ["electrified"], effectSeconds: 999}
+            {type: "obviate"}
+            {type: "dp-rive-unit"}
           ]
         }
         {
           min: 75000
-          max: 85000
-          cooldown: 115
-          units: [
-            {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
-            {type: "anthicus", effects: ["boss"], effectSeconds: 999}
-            {type: "dp-aractid-unit", effects: ["boss", "fast"], effectSeconds: 999}
-          ]
-        }
-        {
-          min: 85000
-          max: 100000
-          cooldown: 90
-          units: [{type: "vela", effects: ["boss", "overdrive"], effectSeconds: 999}, {type: "anthicus"}]
-        }
-        {
-          min: 100000
-          max: 110000
-          cooldown: 85
-          units: [
-            {type: "arkyid", effects: ["sapped"], effectSeconds: 999}
-            {type: "antumbra", effects: ["boss"], effectSeconds: 999}
-          ]
-        }
-        {
-          min: 110000
-          max: 140000
+          max: 105000
           cooldown: 95
           units: [
-            {type: "reign"}
-            {type: "quell", effects: ["overdrive", "fast"], effectSeconds: 999}
-            {type: "scepter", effects: ["overdrive", "boss", "fast"], effectSeconds: 999}
+            {type: "arkyid", effects: ["electrified"], effectSeconds: 999}
+            {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-aractid-unit"}
+            {type: "dp-rive-unit", count: 2}
+          ]
+        }
+        {
+          min: 105000
+          max: 140000
+          cooldown: 100
+          units: [
+            {type: "dp-regent-unit", effects: ["sapped"], effectSeconds: 999}
+            {type: "dp-eliminate-unit"}
+            {type: "dp-rive-unit", count: 3}
           ]
         }
         {
           min: 140000
-          max: 160000
-          cooldown: 50
+          max: 180000
+          cooldown: 105
           units: [
-            {type: "quell", effects: ["fast", "boss", "shielded"], effectSeconds: 999}
-            {type: "arkyid", effects: ["shielded", "overdrive", "boss"], effectSeconds: 999}
-            {type: "vanquish", effects: ["overdrive", "boss"], effectSeconds: 999}
+            {type: "dp-regent-unit"}
+            {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
+            {type: "vela", effects: ["shielded"], effectSeconds: 999}
+            {type: "collaris"}
           ]
         }
         {
-          min: 160000
-          cooldown: 90
+          min: 180000
+          max: 225000
+          cooldown: 110
           units: [
-            {type: "collaris", effects: ["overdrive", "boss"], effectSeconds: 999}
-            {type: "reign", effects: ["overdrive", "boss", "shielded"], effectSeconds: 999}
-            {type: "dp-aractid-unit", effects: ["fast", "shielded"], effectSeconds: 999, count: 3}
+            {type: "dp-annihilate-unit"}
+            {type: "reign", effects: ["overclock", "shielded"], effectSeconds: 999}
+            {type: "sei", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-rive-unit", count: 5}
+          ]
+        }
+        {
+          min: 225000
+          max: 265000
+          cooldown: 115
+          units: [
+            {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-vulcan-unit"}
+            {type: "conquer", effects: ["overclock"], effectSeconds: 999}
+            {type: "corvus"}
+          ]
+        }
+        {
+          min: 265000
+          max: 285000
+          cooldown: 120
+          units: [
+            {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
+            {type: "reign", effects: ["overclock"], effectSeconds: 999}
+            {type: "collaris", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-rive-unit", count: 6, effects: ["fast"], effectSeconds: 999}
+          ]
+        }
+        {
+          min: 285000
+          cooldown: 130
+          units: [
+            {type: "dp-regent-unit", count: 2}
+            {type: "dp-vulcan-unit", effects: ["overclock"], effectSeconds: 999}
+            {type: "dp-annihilate-unit"}
+            {type: "corvus", effects: ["overclock"], effectSeconds: 999}
           ]
         }
       ]
     }
     {
-      name: xexebe-B
+      name: xexebe-light
       metric: sum
       hp: max
       weighted: true
       playersOnly: true
-      maxUnitHp: 30000
+      playerScaling: 0.2
+      maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 20000}
       graceSeconds: 600
       tiers: [
-        {min: 20000, max: 25000, cooldown: 65, units: [{type: "quasar"}]}
-        {min: 25000, max: 30000, cooldown: 105, units: [{type: "obviate"}]}
-        {min: 30000, max: 35000, cooldown: 105, units: [{type: "anthicus"}, {type: "quasar"}]}
         {
-          min: 35000
-          max: 45000
-          cooldown: 135
-          units: [{type: "scepter", effects: ["electrified"], effectSeconds: 999}]
-        }
-        {
-          min: 45000
-          max: 70000
-          cooldown: 145
+          min: 5000
+          max: 15000
+          cooldown: 30
           units: [
-            {type: "vela", effects: ["boss"], effectSeconds: 999}
-            {type: "quasar", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "pulsar"}
+            {type: "atrax"}
           ]
         }
-        {min: 70000, max: 75000, cooldown: 175, units: [{type: "dp-regent-unit"}]}
+        {
+          min: 15000
+          max: 30000
+          cooldown: 35
+          units: [
+            {type: "locus"}
+            {type: "quasar"}
+          ]
+        }
+        {
+          min: 30000
+          max: 50000
+          cooldown: 40
+          units: [
+            {type: "locus"}
+            {type: "spiroct"}
+            {type: "quasar"}
+          ]
+        }
+        {
+          min: 50000
+          max: 75000
+          cooldown: 45
+          units: [
+            {type: "dp-aractid-unit"}
+            {type: "obviate"}
+          ]
+        }
         {
           min: 75000
-          max: 85000
-          cooldown: 145
+          max: 105000
+          cooldown: 47.5
           units: [
-            {type: "dp-regent-unit"}
-            {type: "reign", effects: ["freezing"], effectSeconds: 999}
-            {type: "dp-rive-unit", effects: ["unmoving","invincible"], effectSeconds: 10}
-            {type: "sei", effects: ["freezing"], effectSeconds: 999}
+            {type: "vanquish"}
+            {type: "dp-aractid-unit"}
           ]
         }
         {
-          min: 85000
-          max: 100000
-          cooldown: 145
-          units: [
-            {type: "scepter", effects: ["boss", "overclock"], effectSeconds: 999}
-            {type: "arkyid", effects: ["wet"], effectSeconds: 999}
-            {type: "dp-regent-unit"}
-            {type: "dp-rive-unit", effects: ["unmoving","invincible"], effectSeconds: 10}
-          ]
-        }
-        {
-          min: 100000
-          max: 110000
-          cooldown: 145
-          units: [
-            {type: "antumbra", effects: ["boss"], effectSeconds: 999}
-            {type: "vela", effects: ["boss"], effectSeconds: 999}
-            {type: "dp-regent-unit"}
-            {type: "dp-rive-unit", effects: ["unmoving","invincible"], effectSeconds: 10}
-          ]
-        }
-        {
-          min: 110000
+          min: 105000
           max: 140000
-          cooldown: 120
+          cooldown: 50
           units: [
-            {type: "tecta", effects: ["shielded", "boss"], shield: 14000, effectSeconds: 999}
-            {type: "vanquish", effects: ["boss", "fast"], effectSeconds: 999}
-            {type: "toxopid", effects: ["boss", "fast"], effectSeconds: 999}
-            {type: "dp-regent-unit"}
+            {type: "dp-eliminate-unit"}
+            {type: "toxopid"}
           ]
         }
         {
           min: 140000
-          max: 160000
-          cooldown: 120
+          max: 180000
+          cooldown: 52.5
           units: [
-            {type: "collaris", effects: ["overdrive", "boss"], effectSeconds: 999}
-            {type: "reign", effects: ["shielded", "overdrive"], effectSeconds: 999}
-            {type: "dp-regent-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "dp-incinerate-unit"}
+            {type: "vanquish"}
           ]
         }
         {
-          min: 160000
-          cooldown: 120
+          min: 180000
+          max: 225000
+          cooldown: 55
           units: [
-            {type: "quell", effects: ["overdrive", "boss"], effectSeconds: 999}
-            {type: "arkyid", effects: ["overclock", "fast", "shielded", "overdrive", "boss"], effectSeconds: 999}
-            {type: "conquer", effects: ["boss", "overclock"], effectSeconds: 999}
-            {type: "dp-regent-unit", effects: ["boss", "overclock"], effectSeconds: 999}
+            {type: "dp-annihilate-unit"}
+            {type: "vela"}
+          ]
+        }
+        {
+          min: 225000
+          max: 265000
+          cooldown: 57.5
+          units: [
+            {type: "dp-vulcan-unit"}
+            {type: "conquer"}
+            {type: "vela"}
+          ]
+        }
+        {
+          min: 265000
+          max: 285000
+          cooldown: 60
+          units: [
+            {type: "reign"}
+            {type: "collaris"}
+            {type: "vela"}
+          ]
+        }
+        {
+          min: 285000
+          cooldown: 65
+          units: [
+            {type: "reign"}
+            {type: "collaris"}
+            {type: "vela"}
           ]
         }
       ]
