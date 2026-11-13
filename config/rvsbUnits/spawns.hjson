@@ -1,6 +1,5 @@
 updateSeconds: 60
 global: {
-  exceptions: ["frozen_district", "swamp"]
   spawners: [
     {
       name: xexebe
@@ -8,7 +7,7 @@ global: {
       hp: max
       weighted: true
       playersOnly: true
-      playerScaling: 0.2
+      playerScaling: 0.3
       maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 20000}
       graceSeconds: 600
@@ -57,18 +56,17 @@ global: {
         }
         {
           min: 60000
-          max: 85000
+          max: 75000
           cooldown: 95
           units: [
-            {type: "arkyid", effects: ["electrified"], effectSeconds: 999}
             {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
             {type: "dp-aractid-unit"}
             {type: "dp-rive-unit", count: 2}
           ]
         }
         {
-          min: 85000
-          max: 100000
+          min: 75000
+          max: 90000
           cooldown: 100
           units: [
             {type: "dp-regent-unit", effects: ["sapped"], effectSeconds: 999}
@@ -77,8 +75,8 @@ global: {
           ]
         }
         {
-          min: 100000
-          max: 140000
+          min: 90000
+          max: 120000
           cooldown: 105
           units: [
             {type: "dp-regent-unit"}
@@ -88,8 +86,8 @@ global: {
           ]
         }
         {
-          min: 140000
-          max: 1800000
+          min: 120000
+          max: 140000
           cooldown: 110
           units: [
             {type: "dp-annihilate-unit"}
@@ -99,8 +97,8 @@ global: {
           ]
         }
         {
-          min: 180000
-          max: 200000
+          min: 140000
+          max: 180000
           cooldown: 115
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
@@ -110,8 +108,8 @@ global: {
           ]
         }
         {
-          min: 200000
-          max: 220000
+          min: 180000
+          max: 200000
           cooldown: 120
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
@@ -121,7 +119,7 @@ global: {
           ]
         }
         {
-          min: 220000
+          min: 200000
           cooldown: 130
           units: [
             {type: "dp-regent-unit", count: 2}
@@ -138,7 +136,7 @@ global: {
       hp: max
       weighted: true
       playersOnly: true
-      playerScaling: 0.2
+      playerScaling: 0.3
       maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 20000}
       graceSeconds: 600
@@ -182,7 +180,7 @@ global: {
         }
         {
           min: 60000
-          max: 85000
+          max: 75000
           cooldown: 47.5
           units: [
             {type: "vanquish"}
@@ -190,8 +188,8 @@ global: {
           ]
         }
         {
-          min: 85000
-          max: 100000
+          min: 75000
+          max: 90000
           cooldown: 50
           units: [
             {type: "dp-eliminate-unit"}
@@ -199,8 +197,8 @@ global: {
           ]
         }
         {
-          min: 100000
-          max: 140000
+          min: 90000
+          max: 120000
           cooldown: 52.5
           units: [
             {type: "dp-incinerate-unit"}
@@ -208,8 +206,8 @@ global: {
           ]
         }
         {
-          min: 140000
-          max: 180000
+          min: 120000
+          max: 140000
           cooldown: 55
           units: [
             {type: "dp-annihilate-unit"}
@@ -217,8 +215,8 @@ global: {
           ]
         }
         {
-          min: 180000
-          max: 200000
+          min: 140000
+          max: 180000
           cooldown: 57.5
           units: [
             {type: "dp-vulcan-unit"}
@@ -227,8 +225,8 @@ global: {
           ]
         }
         {
-          min: 200000
-          max: 220000
+          min: 180000
+          max: 200000
           cooldown: 60
           units: [
             {type: "reign"}
@@ -237,7 +235,7 @@ global: {
           ]
         }
         {
-          min: 220000
+          min: 200000
           cooldown: 65
           units: [
             {type: "reign"}

@@ -44,6 +44,7 @@ import net.voiddustry.redvsblue.ai.StalkerSuicideAI;
 import net.voiddustry.redvsblue.evolution.EvolutionMenu;
 import net.voiddustry.redvsblue.evolution.Evolutions;
 import net.voiddustry.redvsblue.game.crux.*;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
 import net.voiddustry.redvsblue.game.building.UpdateConstructBlocks;
@@ -97,7 +98,7 @@ public class RedVsBluePlugin extends Plugin {
     public int gamesUntilRestart = 2000000;
 
     /** last stage; when its timer runs out blue wins */
-    public static final int finalStage = 13;
+    public static int finalStage = 13;
 
     static Timer.Task task = new Timer.Task() {
         @Override
@@ -118,7 +119,7 @@ public class RedVsBluePlugin extends Plugin {
     static final Timer stageClock = new Timer();
 
     public static float stageDuration(int stage) {
-        return stage == 12 ? 120f : 300f;
+        return StagePacing.stageDuration(stage);
     }
 
     /** (re)starts the stage clock for the current {@link #stage} */
@@ -150,6 +151,11 @@ public class RedVsBluePlugin extends Plugin {
         
 
         StrengthSpawner.init();
+        try {
+            MapStats.init();
+        } catch (Throwable t) {
+            Log.err("[MapStats] init failed; statistics disabled", t);
+        }
 
         Events.on(EventType.WorldLoadEvent.class, event -> {
             for (UnitType unit : Vars.content.units()) {
@@ -351,6 +357,11 @@ public class RedVsBluePlugin extends Plugin {
             Boss.clear();
 
             initRules();
+
+            StagePacing.load();
+            CruxSpawning.load();
+            finalStage = StagePacing.finalStage();
+            gamesUntilRestart = StagePacing.gamesUntilRestart();
 
             StageUnits.load();
             StrengthSpawner.load();
@@ -932,9 +943,21 @@ public class RedVsBluePlugin extends Plugin {
             }
             Log.info("Duplicate smite votes: @", smiteAllowDupes ? "&gallowed (testing)&fr" : "&rblocked&fr");
         });
-        handler.register("crux-spawns", "[reload]", "Show strength spawner state, or reload rvsbUnits/spawns.hjson + unitWeights.hjson", args -> {
-            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) StrengthSpawner.load();
-            Log.info(StrengthSpawner.status());
+        handler.register("stats", "<reset>", "Wipe the map statistics file; the current match becomes its first line when it ends", args -> {
+            if (args.length != 1 || !args[0].equalsIgnoreCase("reset")) {
+                Log.info("usage: stats reset");
+                return;
+            }
+            MapStats.reset();
+        });
+
+        handler.register("crux-spawns", "[name|#|all|reload]", "Show strength spawner state, or reload rvsbUnits/spawns.hjson + unitWeights.hjson", args -> {
+            String arg = args.length > 0 ? args[0] : "";
+            if (arg.equalsIgnoreCase("reload")) {
+                StrengthSpawner.load();
+                arg = "";
+            }
+            Log.info(StrengthSpawner.status(arg));
         });
 //        handler.register("reload", "<config-name>", "Reload config", (args) -> {
 //            if (Objects.equals(args[0], "units")) {
@@ -1092,7 +1115,7 @@ public class RedVsBluePlugin extends Plugin {
                     gamesUntilRestart = Integer.parseInt(args[1]);
                 } else {
                     Log.info("Autorestart disabled");
-                    gamesUntilRestart = 2000000;
+                    gamesUntilRestart = StagePacing.gamesUntilRestart();
                 }
             } catch (Exception e) {
                 Log.info("A mysterious error has appeared while executing the command");
@@ -1114,6 +1137,7 @@ public class RedVsBluePlugin extends Plugin {
     }
 
     public static void gameOver(Team winner) {
+        MapStats.onGameOver(winner);
         StageUnits.rollBosses();
         StrengthSpawner.stop();
         Events.fire("rvsb_game_over:" + winner.name);

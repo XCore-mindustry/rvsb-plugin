@@ -27,6 +27,7 @@ public class Recycler {
 
     public static void initTimer() {
         Timer.schedule(() -> recyclersmap.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
@@ -58,8 +59,28 @@ public class Recycler {
         Timer.schedule(Recycler::renderRecycler, 0, 1);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : recyclersmap.keySet()) {
+            StationData data = recyclersmap.get(key);
+            if (data != null && data.tileOn() == tile) {
+                recyclersmap.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return recyclersmap.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = recyclersmap.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyRecycler(Player player, Tile tile) {
@@ -74,7 +95,7 @@ public class Recycler {
                         tile = tileUnderPlayer;
                     }
 
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         String text = player.name + "[gold]'s\n[#023919]Recycler";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
                         StationData recyclerData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 32, StationFx.recycle));
@@ -91,12 +112,14 @@ public class Recycler {
     public static void renderRecycler() {
         recyclersmap.forEach((owner, recycler) -> {
             if (recycler != null) {
-                if (recycler.tileOn().block() != Blocks.slagIncinerator || recycler.owner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(recycler.tileOn(), Blocks.slagIncinerator) || recycler.owner().team() != Team.blue) {
                     recyclersmap.remove(owner);
                     recycler.destroy();
                     if (recycler.tileOn().block() == Blocks.slagIncinerator) {
                         recycler.tileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(recycler.tileOn())) {
+                    StationUtils.markDeconstructing(recycler);
                 }
             }
         });

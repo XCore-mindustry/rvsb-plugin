@@ -21,7 +21,6 @@ import mindustry.world.Tile;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.game.stations.stationData.StationData;
 
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +35,7 @@ public class SuppressorTower {
     public static void initTimer() {
         Timer.schedule(() -> tick++, 0, 0.5F);
         Timer.schedule(() -> suppressorTowerMap.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
@@ -70,8 +70,29 @@ public class SuppressorTower {
         Timer.schedule(SuppressorTower::renderSuppressorTowers, 0, 0.5F);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : suppressorTowerMap.keySet()) {
+            StationData data = suppressorTowerMap.get(key);
+            if (data != null && data.tileOn() == tile) {
+                suppressorTowerMap.remove(key);
+                suppressorPlaced.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return suppressorTowerMap.containsKey(uuid) || suppressorPlaced.contains(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = suppressorTowerMap.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyTower(Player player, Tile tile) {
@@ -87,12 +108,17 @@ public class SuppressorTower {
                     }
 
                     final Tile placeTile = tile;
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         Call.constructFinish(tile, Blocks.phaseWall, null, (byte) 0, Team.blue, null);
                         players.get(player.uuid()).subtractScore(20);
                         StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Tesla Tower" + " - deploying", 10.5F);
                         suppressorPlaced.add(player.uuid());
                         Timer.schedule(() -> {
+                            // the tower may have been deconstructed during the deploy delay
+                            if (placeTile.block() != Blocks.phaseWall) {
+                                suppressorPlaced.remove(player.uuid());
+                                return;
+                            }
                             String text = player.name + "[gold]'s\n[accent]Tesla Tower";
                             mindustry.gen.WorldLabel label = StationUtils.createStationLabel(placeTile, text);
                             StationData towerData = new StationData(player, placeTile, label, AuraCircle.fixed(placeTile.x * 8, placeTile.y * 8, 128, StationFx.suppress));
@@ -109,12 +135,14 @@ public class SuppressorTower {
     public static void renderSuppressorTowers() {
         suppressorTowerMap.forEach((owner, tower) -> {
             if (tower != null) {
-                if (tower.tileOn().block() != Blocks.phaseWall || tower.owner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(tower.tileOn(), Blocks.phaseWall) || tower.owner().team() != Team.blue) {
                     suppressorTowerMap.remove(owner);
                     tower.destroy();
                     if (tower.tileOn().block() == Blocks.phaseWall) {
                         tower.tileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(tower.tileOn())) {
+                    StationUtils.markDeconstructing(tower);
                 }
             }
         });

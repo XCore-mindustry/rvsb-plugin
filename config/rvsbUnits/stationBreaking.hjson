@@ -1,0 +1,10 @@
+defaultSeconds: 10
+stations: {
+  suppressorTower: 15
+  miner: 5
+  repairPoint: 8
+  armorWorkbench: 8
+  laboratory: 3
+  recycler: 3
+  booster: 8
+}

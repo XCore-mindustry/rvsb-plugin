@@ -1,6 +1,7 @@
 package net.voiddustry.redvsblue.util;
 
 import net.voiddustry.redvsblue.game.crux.CruxUnit;
+import net.voiddustry.redvsblue.game.crux.StagePacing;
 import arc.graphics.Color;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -146,7 +147,7 @@ public class Utils {
     }
 
     public static void launchGameStartTimer() {
-        int[] i = {120};
+        int[] i = {StagePacing.startDelaySeconds()};
 
         Timer.Task task = new Timer.Task() {
             @Override

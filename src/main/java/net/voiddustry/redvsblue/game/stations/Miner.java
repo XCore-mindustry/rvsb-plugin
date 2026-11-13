@@ -27,6 +27,7 @@ public class Miner {
 
     public static void initTimer() {
         Timer.schedule(() -> minersMap.forEach((owner, minerData) -> {
+            if (StationUtils.isDeconstructing(minerData.getTileOn())) return;
             PlayerData data = players.get(minerData.getOwner().uuid());
             data.addScore(minerData.getLvl());
             minerData.addExp(1);
@@ -44,8 +45,28 @@ public class Miner {
         Timer.schedule(Miner::renderMiners, 0, 1);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : minersMap.keySet()) {
+            MinerData data = minersMap.get(key);
+            if (data != null && data.getTileOn() == tile) {
+                minersMap.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return minersMap.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        MinerData data = minersMap.get(uuid);
+        return data != null && data.getTileOn() == tile;
     }
 
     public static void buyMiner(Player player, Tile tile) {
@@ -60,7 +81,7 @@ public class Miner {
                         tile = tileUnderPlayer;
                     }
 
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         String text = player.name + "[gold]'s Miner\n[gray][ [gold]1[] | [accent]0 / 15[gray] ]";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
                         MinerData minerData = new MinerData(player, tile, label);
@@ -77,12 +98,14 @@ public class Miner {
     public static void renderMiners() {
         minersMap.forEach((owner, miner) -> {
             if (miner != null) {
-                if (miner.getTileOn().block() != Blocks.pulverizer || miner.getOwner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(miner.getTileOn(), Blocks.pulverizer) || miner.getOwner().team() != Team.blue) {
                     minersMap.remove(owner, miner);
                     miner.destroy();
                     if (miner.getTileOn().block() == Blocks.pulverizer) {
                         miner.getTileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(miner.getTileOn())) {
+                    miner.updateLabel();
                 }
             }
         });

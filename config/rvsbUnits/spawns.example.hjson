@@ -1,40 +1,165 @@
+// Strength-based balancer configuration.
+// The server reads config/rvsbUnits/spawns.hjson (or .json) on every world load.
+// This .example file documents every field with comments.
+//
+// How it works:
+//   - every second the plugin checks whether a spawner may fire;
+//   - the strength value is recomputed every updateSeconds;
+//   - a spawner picks the highest tier whose [min, max) contains the value;
+//   - after firing, it waits that tier's cooldown (scaled by playerScaling).
+// Normal small-unit waves are handled by the separate crux spawner; this file
+// is for the rarer, stronger elite waves.
+
+// How often strength values are recalculated, in seconds. Checks still run every second.
 updateSeconds: 60
+
+// Optional per-stage spawn suppression.
+// Key = stage, value = fraction of spawns to remove (0..0.95).
+// It divides every cooldown by (1 - fraction), e.g. 0.35 -> cooldowns x1.54,
+// 0.55 -> cooldowns x2.22. Applies to every spawner, including map files.
+// Example: make late stages much slower without editing every tier.
 stageSuppression: {11: 0.35, 12: 0.35, 13: 0.55}
 
 global: {
+  // Maps listed here never receive global spawners. Matched by map file name
+  // without extension first, then by display name. Case is ignored.
   exceptions: ["frozen_district"]
+
+  // Global spawners run on every map except the exceptions above.
   spawners: [
     {
+      // Shown in logs and in the "crux-spawns" console command. Not unique.
       name: top-heavy
+
+      // How the blue strength value is calculated:
+      //   sum          - total weighted HP of counted blue units
+      //   average      - total / number of counted units
+      //   avgTopHalf   - average + strongest unit HP / 2
+      //   decaying     - strongest + second * decay + third * decay^2 ...
       metric: decaying
+
+      // Only used by the "decaying" metric. Default 0.75.
       decay: 0.75
+
+      // Which HP to use for each unit:
+      //   max            - maxHealth
+      //   currentPlus30  - current health + 30% of maxHealth (hurt armies count less)
       hp: currentPlus30
+
+      // Apply unit weights from rvsbUnits/unitWeights.hjson. Default true.
       weighted: true
+
+      // Smoothly move the value toward the target instead of jumping.
+      // It would reach the target in flexSeconds. Starts at 0. Default false.
       flex: true
+
+      // Optional peak: value never decreases, keeps the highest reading since map start.
+      // peak: false
+
+      // Cooldown scaling by blue player count:
+      //   cooldown * (1 - s)^((bluePlayers - 1) / 9)
+      // 0.5 halves cooldowns at 10 players and keeps shrinking above 10.
+      // Negative values make spawns slower with more players. Default 0.
       playerScaling: 0.5
+
+      // Only spawn in this range of game stages. Both are optional.
       minStage: 3
       maxStage: 12
+
+      // No spawns during the first N seconds after map load. Default 0.
+      // graceSeconds: 600
+
+      // Count only player-controlled blue units. Default false.
+      // playersOnly: true
+
+      // Count only units whose maxHealth is inside this range (raw, unweighted).
+      // minUnitHp: 0
+      // maxUnitHp: 60000
+
+      // White/black lists of unit types.
+      // include: ["reign", "conquer"]
+      // exclude: ["vela"]
+
+      // Add bonus strength per blue building: {blockName: value}.
+      // buildingBonus: {dp-conquer-turret: 20000}
+
+      // Start the cooldown only after everything from the previous spawn is dead.
+      // waitForDeath: false
+
+      // Multiply the final strength value. Default 1.
+      // multiplier: 1
+
+      // Tiers are checked from highest min to lowest. The first matching tier fires.
       tiers: [
         {
+          // Value range: min <= value < max. max is optional (open-ended).
           min: 8000
           max: 20000
+
+          // Seconds until this spawner may fire again after this tier fires.
           cooldown: 90
+
+          // Optional stage gate for this specific tier.
+          // minStage: 1
+          // maxStage: 13
+
+          // One option is chosen by weight. An option with "units: []" means
+          // "nothing this time" and still consumes the cooldown.
           options: [
-            {weight: 70, units: [{type: "mace", count: 2}]}
-            {weight: 30, units: [{type: "fortress", effects: ["boss", {name: "overclock", seconds: 30}]}]}
+            {
+              weight: 70
+              units: [
+                {type: "mace", count: 2}
+              ]
+            }
+            {
+              weight: 30
+              units: [
+                {type: "fortress", effects: ["boss", {name: "overclock", seconds: 30}]}
+              ]
+            }
           ]
         }
         {
           min: 20000
+
+          // No max = this tier matches everything >= 20000.
           cooldown: 120
-          minStage: 6
-          options: [
-            {weight: 50, units: [{type: "scepter", shield: 2000}, {type: "dagger", count: 3, extraPerBlueUnit: 1}]}
-            {weight: 25, units: [{wave: 30}]}
-            {weight: 25, units: []}
+
+          // Shorthand: "units" without "options" is a single option with weight 1.
+          // All listed units spawn together, not one random unit.
+          units: [
+            {
+              // Internal unit name. dp-* data-asset units are allowed.
+              type: "scepter"
+
+              // Optional shield HP applied after spawn.
+              shield: 2000
+            }
+            {
+              type: "dagger"
+              count: 3
+
+              // Add floor(random(k * blueUnits)) extra units to count.
+              // extraPerBlueUnit: 1
+            }
           ]
         }
       ]
     }
   ]
 }
+
+// Unit entry fields inside "units":
+//   type              internal unit name; unknown names are skipped with one warning
+//   wave              instead of type: spawn the map's wave N groups
+//                     (like spawnwave; groups bound to another spawn point are skipped)
+//   count             how many copies (default 1)
+//   extraPerBlueUnit  add floor(random(k * blueUnits)) extra copies
+//   effects           list of status effects: "boss" or {name: "boss", seconds: 10}
+//                     default duration is permanent, or effectSeconds for the entry
+//   effectSeconds     default duration for all effects in this entry, in seconds
+//                     (999 is effectively permanent)
+//   shield            initial shield HP
+//   health            override spawned health
+//   flag              set the unit's logic flag value

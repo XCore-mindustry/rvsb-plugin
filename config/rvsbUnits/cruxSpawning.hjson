@@ -1,0 +1,44 @@
+recentWindowSeconds: 45
+formula: {
+  playerWeight: 1
+  stageWeight: 1
+  stageCap: 12
+  divisor: 3
+}
+stageMultipliers: {
+  12: 1.2
+  13: 1.7
+}
+perStage: {}
+specials: {
+  11: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+      {type: "latum", chance: 0.05}
+      {type: "conquer", chance: 0.076923}
+      {type: "tecta", chance: 0.142857}
+    ]
+  }
+  12: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+  }
+  13: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+      {type: "dp-aranethys-crux-t6", chance: 0.008333}
+      {type: "dp-venomreach-crux-t6", chance: 0.015152}
+      {type: "dp-stryker-unit", chance: 0.015152}
+    ]
+  }
+}

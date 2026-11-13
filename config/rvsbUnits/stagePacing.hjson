@@ -1,0 +1,7 @@
+finalStage: 13
+defaultSeconds: 300
+durations: {
+  12: 120
+}
+startDelaySeconds: 120
+gamesUntilRestart: 2000000

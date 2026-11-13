@@ -1,3 +1,4 @@
+globalMultiplier: 1.15
 spawners: [
   {
     name: q

@@ -1,25 +1,79 @@
+// Per-map additions and overrides for the strength balancer.
+// The server looks for config/rvsbUnits/mapspawns/<map>.hjson (or .json).
+// Matching: map file name without extension first, then map display name.
+// Case is ignored. The file is read on every map load, so edits apply next map.
+//
+// These spawners are ADDED to the global spawners from spawns.hjson; they do
+// not replace them. Use globalMultiplier: 0 to disable the global spawners
+// on this map, or a positive value to scale their strength.
+
+// Multiplies the strength of all GLOBAL spawners on this map. Default 1.
+// 0 -> global spawners never fire here.
+// 1.5 -> this map's blue army reaches global tiers 50% sooner.
 globalMultiplier: 1.5
 
+// Extra spawners for this map. Same schema as global spawners in spawns.hjson.
 spawners: [
   {
     name: elite-check
+
+    // How blue strength is measured (see spawns.example.hjson for all metrics).
     metric: avgTopHalf
+
+    // Count only units with maxHealth >= this value.
     minUnitHp: 600
+
+    // Never count these unit types.
     exclude: ["merui"]
+
+    // Optional peak/flex/playerScaling/graceSeconds/waitForDeath/multiplier
+    // are supported here exactly like in the global file.
+
     tiers: [
-      {min: 5000, cooldown: 60, units: [{type: "quasar", effects: ["shielded"], health: 400, flag: 1}]}
+      {
+        min: 5000
+        cooldown: 60
+        units: [
+          {
+            type: "quasar"
+
+            // Status effects, shield, health and flag work per unit entry.
+            effects: ["shielded"]
+            health: 400
+            flag: 1
+          }
+        ]
+      }
     ]
   }
   {
     name: boss
+
     metric: sum
+
+    // Only player-controlled blue units count toward strength.
     playersOnly: true
+
+    // Ignore units above this maxHealth; useful to exclude huge bosses.
     maxUnitHp: 30000
+
+    // Add strength per blue building of a block type.
     buildingBonus: {dp-conquer-turret: 20000}
+
+    // No spawns during the first 10 minutes of the map.
     graceSeconds: 600
+
+    // Start cooldown only after the previous spawn is fully dead.
     waitForDeath: true
+
     tiers: [
-      {min: 80000, cooldown: 300, units: [{type: "quell", effects: ["boss"]}]}
+      {
+        min: 80000
+        cooldown: 300
+        units: [
+          {type: "quell", effects: ["boss"]}
+        ]
+      }
     ]
   }
 ]

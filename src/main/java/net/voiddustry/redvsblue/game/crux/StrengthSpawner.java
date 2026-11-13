@@ -13,6 +13,8 @@ import arc.util.Strings;
 import arc.util.Time;
 import arc.util.serialization.Jval;
 import mindustry.Vars;
+
+import java.util.Locale;
 import mindustry.game.EventType;
 import mindustry.game.SpawnGroup;
 import mindustry.game.Team;
@@ -245,17 +247,278 @@ public final class StrengthSpawner {
         return weights.get(type, defaultWeight);
     }
 
-    /** Server command helper. */
+    /** Server command helper: summary + the tier that would fire next. */
     public static String status() {
-        StringBuilder b = new StringBuilder("map '" + mapKey + "', t=" + (int) clock + "s, blue units=" + blueUnits
-                + ", blue players=" + bluePlayers + ", stage=" + RedVsBluePlugin.stage
-                + ", suppression=" + (int) (stageSuppression.get(RedVsBluePlugin.stage, 0f) * 100) + "%" + (running ? "" : " (stopped)"));
-        for (Spawner s : active) {
-            b.append("\n  ").append(s.name).append(" [").append(s.metric.name().toLowerCase()).append("] value=")
-                    .append((int) s.value).append(" target=").append((int) s.target)
-                    .append(" next in ").append(Math.max(0, (int) (s.nextTime - clock))).append("s");
+        return status("");
+    }
+
+    /** Server command helper. Empty selector = current tiers, "all" = every tier, otherwise name or #index. */
+    public static String status(String selector) {
+        StringBuilder b = new StringBuilder();
+        b.append("map '").append(mapKey.isEmpty() ? "?" : mapKey).append('\'')
+                .append(" | stage ").append(RedVsBluePlugin.stage).append('/').append(RedVsBluePlugin.finalStage)
+                .append(" | blue ").append(blueUnits).append(" units / ").append(bluePlayers).append(" players")
+                .append(" | t=").append(Math.round(clock)).append('s')
+                .append(" | suppression ").append(Math.round(stageSuppression.get(RedVsBluePlugin.stage, 0f) * 100f)).append('%');
+        if (!running) b.append(" | stopped");
+
+        if (active.isEmpty()) {
+            b.append("\n  no active spawners");
+            return b.toString();
+        }
+
+        if (selector == null || selector.isEmpty()) {
+            for (int i = 0; i < active.size; i++) appendSpawner(b, active.get(i), i + 1, false);
+        } else if (selector.equalsIgnoreCase("all")) {
+            for (int i = 0; i < active.size; i++) appendSpawner(b, active.get(i), i + 1, true);
+        } else {
+            Spawner spawner = find(selector);
+            if (spawner == null) {
+                b.append("\n  no such spawner: ").append(selector).append("  (use: ");
+                for (int i = 0; i < active.size; i++) {
+                    if (i > 0) b.append(", ");
+                    b.append('#').append(i + 1).append(' ').append(active.get(i).name);
+                }
+                b.append(')');
+            } else {
+                int index = 1;
+                for (int i = 0; i < active.size; i++) {
+                    if (active.get(i) == spawner) {
+                        index = i + 1;
+                        break;
+                    }
+                }
+                appendSpawner(b, spawner, index, true);
+            }
         }
         return b.toString();
+    }
+
+    private static Spawner find(String selector) {
+        String value = selector.startsWith("#") ? selector.substring(1) : selector;
+        try {
+            int index = Integer.parseInt(value);
+            if (index >= 1 && index <= active.size) return active.get(index - 1);
+        } catch (NumberFormatException ignored) {
+        }
+        for (Spawner spawner : active) {
+            if (spawner.name.equalsIgnoreCase(selector)) return spawner;
+        }
+        String lower = selector.toLowerCase(Locale.ROOT);
+        for (Spawner spawner : active) {
+            if (spawner.name.toLowerCase(Locale.ROOT).contains(lower)) return spawner;
+        }
+        return null;
+    }
+
+    private static void appendSpawner(StringBuilder b, Spawner s, int index, boolean allTiers) {
+        b.append("\n#").append(index).append(' ').append(s.name)
+                .append(" [").append(metricName(s.metric)).append(']')
+                .append("  value ").append(num(s.value));
+        if (s.flex && Math.abs(s.target - s.value) > 0.5f) b.append(" -> ").append(num(s.target));
+        if (s.peak) b.append("  peak");
+        b.append('\n');
+
+        Seq<String> states = new Seq<>();
+        if (!running) states.add("stopped");
+        if (clock < s.grace) states.add("grace " + Math.round(s.grace - clock) + "s");
+        if (RedVsBluePlugin.stage < s.minStage || RedVsBluePlugin.stage > s.maxStage) {
+            states.add("stage gate " + intRange(s.minStage, s.maxStage) + " (now " + RedVsBluePlugin.stage + ")");
+        }
+        if (s.waitForDeath && !s.alive.isEmpty()) states.add("waiting: " + s.alive.size + " alive");
+        if (!states.isEmpty()) b.append("   state: ").append(states.toString(" | ")).append('\n');
+
+        appendFilters(b, s);
+
+        Tier current = currentTier(s);
+        if (allTiers) {
+            if (s.tiers.isEmpty()) {
+                b.append("   no tiers configured\n");
+                return;
+            }
+            b.append("   tiers:\n");
+            for (int i = 0; i < s.tiers.size; i++) {
+                appendTier(b, s, s.tiers.get(i), i + 1, s.tiers.get(i) == current);
+            }
+        } else if (current != null) {
+            appendTier(b, s, current, 0, true);
+        } else {
+            appendNoTier(b, s);
+        }
+    }
+
+    private static void appendFilters(StringBuilder b, Spawner s) {
+        Seq<String> filters = new Seq<>();
+        if (s.playersOnly) filters.add("players only");
+        if (s.currentHealth) filters.add("current hp + 30%");
+        if (!s.weighted) filters.add("unweighted");
+        if (Math.abs(s.multiplier - 1f) > 0.0001f) filters.add("x" + trim(s.multiplier));
+        if (s.minUnitHp > 0f) filters.add("hp>=" + num(s.minUnitHp));
+        if (s.maxUnitHp < Float.MAX_VALUE / 2f) filters.add("hp<=" + num(s.maxUnitHp));
+        if (s.metric == Metric.DECAYING && Math.abs(s.decay - 0.75f) > 0.0001f) filters.add("decay " + trim(s.decay));
+        if (s.minStage > 0 || s.maxStage < Integer.MAX_VALUE) filters.add("stage " + intRange(s.minStage, s.maxStage));
+        if (!s.include.isEmpty()) filters.add("only " + names(s.include));
+        if (!s.exclude.isEmpty()) filters.add("exclude " + names(s.exclude));
+        if (!s.buildingBonus.isEmpty()) filters.add("bonus " + bonuses(s.buildingBonus));
+        if (!filters.isEmpty()) b.append("   filters: ").append(filters.toString(", ")).append('\n');
+    }
+
+    private static void appendTier(StringBuilder b, Spawner s, Tier tier, int number, boolean current) {
+        if (number > 0) {
+            b.append("     ").append(number).append(") ");
+        } else {
+            int index = 1;
+            for (int i = 0; i < s.tiers.size; i++) {
+                if (s.tiers.get(i) == tier) {
+                    index = i + 1;
+                    break;
+                }
+            }
+            b.append("   current tier ").append(index).append('/').append(s.tiers.size).append(": ");
+        }
+        b.append(range(tier.min, tier.max))
+                .append(" | ").append(tier.minStage == 0 && tier.maxStage == Integer.MAX_VALUE
+                        ? "stage any" : "stage " + intRange(tier.minStage, tier.maxStage));
+
+        float effective = effectiveCooldown(s, tier);
+        b.append(" | cd ").append(num(tier.cooldown)).append('s');
+        if (Math.abs(effective - tier.cooldown) > 0.5f) b.append(" -> ").append(num(effective)).append('s');
+
+        if (current) {
+            int next = Math.max(0, Math.round(s.nextTime - clock));
+            b.append(" | ").append(next <= 0 ? "ready" : "next in " + next + "s");
+            if (number > 0) b.append(" | current");
+        }
+        b.append('\n');
+
+        if (tier.options.isEmpty()) {
+            b.append("        (no options)\n");
+            return;
+        }
+        b.append("        options:\n");
+        for (Option option : tier.options) {
+            float percent = tier.totalWeight <= 0f ? 0f : option.weight / tier.totalWeight * 100f;
+            b.append("          ").append(Math.round(percent)).append("%  ");
+            if (option.units.isEmpty()) {
+                b.append("nothing (cooldown still used)");
+            } else {
+                for (int i = 0; i < option.units.size; i++) {
+                    if (i > 0) b.append(", ");
+                    b.append(unit(option.units.get(i)));
+                }
+            }
+            b.append('\n');
+        }
+    }
+
+    private static void appendNoTier(StringBuilder b, Spawner s) {
+        if (s.tiers.isEmpty()) {
+            b.append("   no tiers configured\n");
+            return;
+        }
+        Tier byValue = null;
+        for (Tier tier : s.tiers) {
+            if (s.value >= tier.min && s.value < tier.max) {
+                byValue = tier;
+                break;
+            }
+        }
+        if (byValue != null) {
+            b.append("   no tier for this stage: ").append(range(byValue.min, byValue.max))
+                    .append(" is gated to stage ").append(intRange(byValue.minStage, byValue.maxStage))
+                    .append('\n');
+        } else {
+            Tier lowest = s.tiers.peek();
+            if (s.value < lowest.min) {
+                b.append("   value below lowest tier (starts at ").append(num(lowest.min)).append(")\n");
+            } else {
+                b.append("   no matching tier for value ").append(num(s.value)).append('\n');
+            }
+        }
+    }
+
+    private static Tier currentTier(Spawner s) {
+        for (Tier tier : s.tiers) {
+            if (s.value >= tier.min && s.value < tier.max
+                    && RedVsBluePlugin.stage >= tier.minStage && RedVsBluePlugin.stage <= tier.maxStage) {
+                return tier;
+            }
+        }
+        return null;
+    }
+
+    private static float effectiveCooldown(Spawner s, Tier tier) {
+        int players = Math.max(1, bluePlayers);
+        return tier.cooldown * (float) Math.pow(1f - s.playerScaling, (players - 1) / 9f) * stageCooldownScale();
+    }
+
+    private static String metricName(Metric metric) {
+        return switch (metric) {
+            case SUM -> "sum";
+            case AVERAGE -> "average";
+            case AVERAGE_TOP_HALF -> "avg top half";
+            case DECAYING -> "decaying";
+        };
+    }
+
+    private static String unit(UnitEntry entry) {
+        StringBuilder b = new StringBuilder();
+        if (entry.wave > 0) b.append("wave ").append(entry.wave);
+        else if (entry.type != null) b.append(entry.type.name);
+
+        if (entry.count != 1) b.append(" x").append(entry.count);
+        if (entry.extraPerBlueUnit > 0f) b.append(" +").append(trim(entry.extraPerBlueUnit)).append("/blue");
+        if (entry.shield > 0f) b.append(" shield ").append(num(entry.shield));
+        if (entry.health > 0f) b.append(" hp ").append(num(entry.health));
+        if (entry.setFlag) b.append(" flag ").append(flag(entry.flag));
+
+        if (!entry.effects.isEmpty()) {
+            b.append(" [");
+            for (int i = 0; i < entry.effects.size; i++) {
+                if (i > 0) b.append(", ");
+                b.append(entry.effects.get(i).name);
+                float duration = entry.effectDurations.get(i);
+                if (duration <= 0f) duration = entry.effectSeconds;
+                if (duration > 0f) b.append(' ').append(num(duration)).append('s');
+            }
+            b.append(']');
+        }
+        return b.toString();
+    }
+
+    private static String names(ObjectSet<UnitType> types) {
+        Seq<String> names = new Seq<>();
+        for (UnitType type : types) names.add(type.name);
+        return names.toString(", ");
+    }
+
+    private static String bonuses(ObjectFloatMap<Block> map) {
+        Seq<String> values = new Seq<>();
+        for (var e : map) values.add(e.key.name + ":" + trim(e.value));
+        return values.toString(", ");
+    }
+
+    private static String range(float min, float max) {
+        return num(min) + ".." + (max >= Float.MAX_VALUE / 2f ? "inf" : num(max));
+    }
+
+    private static String intRange(int min, int max) {
+        return min + ".." + (max == Integer.MAX_VALUE ? "inf" : String.valueOf(max));
+    }
+
+    private static String num(float value) {
+        if (value >= Float.MAX_VALUE / 2f) return "inf";
+        return String.format(Locale.ROOT, "%,d", Math.round(value));
+    }
+
+    private static String trim(float value) {
+        if (Math.abs(value - Math.round(value)) < 0.0001f) return String.valueOf(Math.round(value));
+        return String.format(Locale.ROOT, "%.2f", value);
+    }
+
+    private static String flag(double value) {
+        if (Math.abs(value - Math.rint(value)) < 0.0001d) return String.valueOf((long) value);
+        return String.format(Locale.ROOT, "%.2f", value);
     }
 
     // =====================================================================================================

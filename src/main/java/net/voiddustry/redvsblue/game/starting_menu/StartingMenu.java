@@ -12,6 +12,7 @@ import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.util.MenuGuard;
 import net.voiddustry.redvsblue.util.Utils;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 
 public class StartingMenu {
 
@@ -77,6 +78,7 @@ public class StartingMenu {
         if (!unit.dead()) {
             Unit oldUnit = playerData.getUnit();
             playerData.setUnit(unit);
+            MapStats.onPick(player, unitType);
 
             net.voiddustry.redvsblue.util.Utils.assignUnit(player, unit);
             if (oldUnit != null) oldUnit.kill();

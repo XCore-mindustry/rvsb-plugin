@@ -1,0 +1,25 @@
+// Deconstruction time per station.
+// Loaded from config/rvsbUnits/stationBreaking.hjson on every world load.
+//
+// The value is the number of seconds the owner has to keep breaking the station
+// (the deconstruction plan must stay queued and the unit must stay in range).
+// Progress pauses if either stops and resumes when the owner continues.
+// While a station is being deconstructed its effects stop, the label stays visible
+// with "deconstructing NN%" under it, and the owner cannot place a new station of
+// the same type until the old one is fully gone.
+
+// Fallback for any station not listed in "stations", in seconds.
+// Minimum is 0.2 (one server tick).
+defaultSeconds: 10
+
+// Per-station overrides, in seconds.
+// Keys are station names; comments show the underlying block name.
+stations: {
+  suppressorTower: 10   // Tesla Tower      - phase-wall
+  miner: 10             // Miner            - pulverizer
+  repairPoint: 10       // Repair Point     - mender
+  armorWorkbench: 10    // Armor Workbench  - dp-workbench-station
+  laboratory: 10        // Laboratory       - dp-laboratory-station
+  recycler: 10          // Recycler         - slag-incinerator
+  booster: 10           // Booster          - beam-node
+}

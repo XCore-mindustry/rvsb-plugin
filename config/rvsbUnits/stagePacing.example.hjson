@@ -1,0 +1,29 @@
+// Stage flow and pacing.
+// Loaded from config/rvsbUnits/stagePacing.hjson on every world load.
+// This file controls stage timing only; unit types/bosses live in stages.json,
+// normal-unit quotas and bonus spawns live in cruxSpawning.hjson.
+
+// Last stage number. When the clock of this stage expires, blue wins.
+// Must be >= 1. The "setstage" command accepts 1..finalStage.
+finalStage: 13
+
+// Default length of one stage, in seconds.
+// Used for every stage that has no entry in "durations".
+defaultSeconds: 300
+
+// Per-stage duration overrides, in seconds.
+// Keys are stage numbers; values are seconds. Omitted stages use defaultSeconds.
+// Example: stage 12 is shorter than the usual stage.
+durations: {
+  12: 120
+}
+
+// Delay before the actual game starts, in seconds.
+// During this time Utils.gameRun is false: normal crux spawns and the balancer
+// do not run yet, and players are in the starting menu.
+startDelaySeconds: 120
+
+// How many maps/games the server may play before it exits and restarts.
+// The "autorestart yes <n>" console command overrides this for the current process.
+// "autorestart no" resets it back to this configured value.
+gamesUntilRestart: 2000000
