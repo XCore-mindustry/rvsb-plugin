@@ -69,19 +69,13 @@ public class UpdateConstructBlocks implements Runnable {
     });
   }
 
-  /** The station block standing on this tile, or being deconstructed on it. */
+  /** Station block on this tile, including an in-progress deconstruction, or null. */
   static Block stationBlock(Tile tile) {
-    if (tile == null) return null;
-    Block block = tile.block();
-    if (tile.build instanceof ConstructBuild cb) block = cb.current;
-    return isStationBlock(block) ? block : null;
+    return StationUtils.stationBlock(tile);
   }
 
   static boolean isStationBlock(Block block) {
-    return block == Blocks.pulverizer || block == Blocks.mender || block == Blocks.phaseWall
-        || block == Blocks.beamNode || block == Blocks.slagIncinerator
-        || block == Vars.content.block("dp-workbench-station")
-        || block == Vars.content.block("dp-laboratory-station");
+    return StationUtils.isStationBlock(block);
   }
 
   static boolean ownsStation(Block block, String uuid, Tile tile) {
@@ -113,10 +107,11 @@ public class UpdateConstructBlocks implements Runnable {
    * the unit stays in range.
    */
   void updateBreaks() {
+    if (!RedVsBluePlugin.playing) return;
     for (Unit u : Groups.unit) {
-      if (u.team != Team.blue || u.plans().isEmpty()) continue;
+      if (u.team != Team.blue || u.dead || u.plans().isEmpty()) continue;
       Player player = u.getPlayer();
-      if (player == null) continue;
+      if (player == null || player.dead()) continue;
 
       var plans = u.plans();
       for (int i = plans.size - 1; i >= 0; i--) {
@@ -153,8 +148,11 @@ public class UpdateConstructBlocks implements Runnable {
         }
 
         breakSessions.put(key, station);
+        boolean owned = ownsStation(station, player.uuid(), tile);
         cb.deconstruct(u, null, StationBreaking.step(station));
         if (tile.block() == Blocks.air) {
+          // only a completed deconstruction by the owner refunds points; deaths/map changes/explosions do not
+          if (owned) refund(player, station);
           Log.info("[rvsb-break] @ finished breaking @ at @,@", player.name, station, tile.x, tile.y);
           plans.removeIndex(i);
         }
@@ -181,23 +179,38 @@ public class UpdateConstructBlocks implements Runnable {
     return 0;
   }
 
+  /** Half of the station price, paid only after the owner fully deconstructs it. */
+  static void refund(Player player, Block station) {
+    if (player == null || station == null || player.team() != Team.blue) return;
+    int amount = cost(station) / 2;
+    if (amount <= 0) return;
+    var data = RedVsBluePlugin.players.get(player.uuid());
+    if (data != null) data.addScore(amount);
+  }
+
   static boolean legal(Player player, Block block, Tile tile) {
     var data = RedVsBluePlugin.players.get(player.uuid());
     int cost = cost(block);
     if (player.team() != Team.blue || data == null || cost == 0 || data.getScore() < cost || Vars.state.rules.isBanned(block)) return false;
-    // never allow replacing an existing block (including a station): check the whole footprint
-    if (!StationUtils.isFreePlacement(block, tile)) return false;
-    String id = player.uuid();
-    boolean owned;
-    if (block == Blocks.pulverizer) owned = Miner.owns(id);
-    else if (block == Blocks.mender) owned = RepairPoint.owns(id);
-    else if (block == Blocks.phaseWall) owned = SuppressorTower.owns(id);
-    else if (block == Blocks.beamNode) owned = Booster.owns(id);
-    else if (block == Blocks.slagIncinerator) owned = Recycler.owns(id);
-    else if (block == Vars.content.block("dp-workbench-station")) owned = ArmorWorkbench.owns(id);
-    else if (block == Vars.content.block("dp-laboratory-station")) owned = Laboratory.owns(id);
-    else return true;
-    return !owned;
+
+    if (isStationBlock(block)) {
+      // stations still must go on a free tile and obey the one-per-player limit
+      if (!StationUtils.isFreePlacement(block, tile)) return false;
+      String id = player.uuid();
+      boolean owned;
+      if (block == Blocks.pulverizer) owned = Miner.owns(id);
+      else if (block == Blocks.mender) owned = RepairPoint.owns(id);
+      else if (block == Blocks.phaseWall) owned = SuppressorTower.owns(id);
+      else if (block == Blocks.beamNode) owned = Booster.owns(id);
+      else if (block == Blocks.slagIncinerator) owned = Recycler.owns(id);
+      else if (block == Vars.content.block("dp-workbench-station")) owned = ArmorWorkbench.owns(id);
+      else if (block == Vars.content.block("dp-laboratory-station")) owned = Laboratory.owns(id);
+      else owned = false;
+      return !owned;
+    }
+
+    // ordinary blocks keep their normal placement rules; only stations are protected from being covered
+    return !StationUtils.footprintContainsStation(block, tile);
   }
 
   @Override
@@ -217,7 +230,10 @@ public class UpdateConstructBlocks implements Runnable {
               int cost = cost(bp.block);
               Tile tile = Vars.world.tile(bp.x,bp.y);
 
-              if (!StationUtils.isFreePlacement(bp.block, tile)) {
+              boolean blocked = isStationBlock(bp.block)
+                      ? !StationUtils.isFreePlacement(bp.block, tile)
+                      : StationUtils.footprintContainsStation(bp.block, tile);
+              if (tile == null || blocked) {
                 u.plans().removeFirst();
                 continue;
               }
