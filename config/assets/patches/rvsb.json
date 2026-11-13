@@ -519,7 +519,6 @@ damage: 10
 
 
 //quell and disrupt missiles
-// Apply the hide-hitbox status once, without firing a projectile.
 unit.quell-missile.weapons.+: {
     type: Weapon
     mirror: false
@@ -530,6 +529,47 @@ unit.quell-missile.weapons.+: {
     shootStatus: dp-no-draw-hitbox
     shootStatusDuration: 999999
     shoot: { type: ShootPattern, shots: 0 }
+	bullet: {
+	  mirror: false
+	  x: 0
+	  y: 0
+	  reload: 1
+	  recoil: 0
+	  shake: 0
+	  shootSound: none
+	  ejectEffect: none
+
+	  bullet: {
+	    type: BasicBulletType
+	    createChance: 0
+
+	    damage: 0
+	    speed: 1
+	    lifetime: 1
+	    rangeOverride: 80
+
+	    shootEffect: none
+	    smokeEffect: none
+	    chargeEffect: none
+	    hitEffect: none
+	    despawnEffect: none
+	    hitSound: none
+	    despawnSound: none
+
+	    collides: false
+	    collidesTiles: false
+	    collidesAir: false
+	    collidesGround: false
+	    hittable: false
+	    absorbable: false
+	    reflectable: false
+
+	    lightRadius: 0
+	    trailLength: -1
+	    trailChance: 0
+	    trailInterval: 0
+	  }
+	}
 }
 unit.disrupt-missile.weapons.+: {
     type: Weapon
@@ -541,6 +581,47 @@ unit.disrupt-missile.weapons.+: {
     shootStatus: dp-no-draw-hitbox
     shootStatusDuration: 999999
     shoot: { type: ShootPattern, shots: 0 }
+	bullet: {
+	  mirror: false
+	  x: 0
+	  y: 0
+	  reload: 1
+	  recoil: 0
+	  shake: 0
+	  shootSound: none
+	  ejectEffect: none
+
+	  bullet: {
+	    type: BasicBulletType
+	    createChance: 0
+
+	    damage: 0
+	    speed: 1
+	    lifetime: 1
+	    rangeOverride: 80
+
+	    shootEffect: none
+	    smokeEffect: none
+	    chargeEffect: none
+	    hitEffect: none
+	    despawnEffect: none
+	    hitSound: none
+	    despawnSound: none
+
+	    collides: false
+	    collidesTiles: false
+	    collidesAir: false
+	    collidesGround: false
+	    hittable: false
+	    absorbable: false
+	    reflectable: false
+
+	    lightRadius: 0
+	    trailLength: -1
+	    trailChance: 0
+	    trailInterval: 0
+	  }
+	}
 }
 unit.disrupt.targetAir: true
 unit.disrupt-missile.targetAir: true
