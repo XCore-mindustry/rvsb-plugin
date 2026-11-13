@@ -1,4 +1,4 @@
-globalMultiplier: 1.1
+globalMultiplier: 1.25
 spawners: [
   {
     name: miniboss

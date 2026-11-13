@@ -1,0 +1,55 @@
+// Crux unit and boss selection per stage.
+// The server reads config/rvsbUnits/stages.json (JSON). This .example file uses
+// HJSON only so the fields can be documented with comments.
+//
+// What this file controls:
+//   - WHICH normal unit types are available at each stage
+//   - WHICH boss candidates can be picked for each stage
+//   - HOW MANY copies of the chosen boss spawn (bossCount)
+//
+// What this file does NOT control:
+//   - how many normal units spawn -> config/rvsbUnits/cruxSpawning.hjson
+//   - stage duration / final stage  -> config/rvsbUnits/stagePacing.hjson
+{
+  "stages": [
+    {
+      // Stage number. Must be >= 1 and <= finalStage from stagePacing.hjson.
+      "stage": 1
+
+      // Normal unit types available at this stage.
+      // These names are used by the class-selection menu and by the automatic
+      // crux spawner. They are types, not counts: the amount is calculated in
+      // cruxSpawning.hjson (formula or perStage unitCount/unitCounts).
+      // Duplicate names collapse into one entry; unknown names are skipped
+      // with a warning.
+      "units": ["crawler", "dagger"]
+
+      // Boss candidates. One candidate is picked randomly per stage when the
+      // map/world loads (StageUnits.rollBosses). Listing several bosses does
+      // NOT spawn all of them; it only gives the stage a random choice.
+      // Empty array = no boss for this stage.
+      "bosses": []
+
+      // Optional. How many copies of the picked boss spawn.
+      // Default 1; values below 1 are clamped to 1.
+      // "bossCount": 1
+    }
+
+    // A stage with a specific boss and two copies:
+    //
+    // {
+    //   "stage": 7
+    //   "units": ["cleroi", "flare", "horizon", "elude"]
+    //   "bosses": ["precept"]
+    //   "bossCount": 2
+    // }
+
+    // Multiple boss candidates (one random one is chosen):
+    //
+    // {
+    //   "stage": 10
+    //   "units": ["obviate", "precept"]
+    //   "bosses": ["eclipse", "dp-dominion-unit"]
+    // }
+  ]
+}

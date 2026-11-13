@@ -30,6 +30,7 @@ public class Booster {
     public static void initTimer() {
         // one pulse every 3 s; every blue unit inside gets overclock for 3 s and sparks
         Timer.schedule(() -> boostersMap.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
@@ -45,8 +46,28 @@ public class Booster {
         Timer.schedule(Booster::renderBoosters, 0, 1);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : boostersMap.keySet()) {
+            StationData data = boostersMap.get(key);
+            if (data != null && data.tileOn() == tile) {
+                boostersMap.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return boostersMap.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = boostersMap.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyBooster(Player player, Tile tile) {
@@ -61,7 +82,7 @@ public class Booster {
                         tile = tileUnderPlayer;
                     }
 
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         String text = player.name + "[gold]'s\n[orange]Booster";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
                         StationData boosterData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, BOOST_RADIUS, StationFx.boost));
@@ -78,12 +99,14 @@ public class Booster {
     public static void renderBoosters() {
         boostersMap.forEach((owner, booster) -> {
             if (booster != null) {
-                if (booster.tileOn().block() != Blocks.beamNode || booster.owner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(booster.tileOn(), Blocks.beamNode) || booster.owner().team() != Team.blue) {
                     boostersMap.remove(owner);
                     booster.destroy();
                     if (booster.tileOn().block() == Blocks.beamNode) {
                         booster.tileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(booster.tileOn())) {
+                    StationUtils.markDeconstructing(booster);
                 }
             }
         });

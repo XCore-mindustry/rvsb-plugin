@@ -7,6 +7,7 @@ import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
 import net.voiddustry.redvsblue.util.Utils;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 
 @SuppressWarnings("unused")
 public class PlayerData {
@@ -76,6 +77,7 @@ public class PlayerData {
     }
 
     public void rewardUnitKill(Player player, Unit deadUnit) {
+        MapStats.onKill(player);
         int multiplier = Math.max(1, (int) Math.ceil(deadUnit.maxHealth / 1000.0));
         int reward = getLevel() * multiplier;
         addScore(reward);

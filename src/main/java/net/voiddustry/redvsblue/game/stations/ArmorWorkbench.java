@@ -26,12 +26,14 @@ public class ArmorWorkbench {
 
     public static void initTimer() {
         Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
             StationFx.hexagon(centerX, centerY, 64, StationFx.armor);
         }), 0, 1F);
         Timer.schedule(() -> workbenches.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
@@ -53,8 +55,28 @@ public class ArmorWorkbench {
         Timer.schedule(ArmorWorkbench::renderWorkbenches, 0, 1);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : workbenches.keySet()) {
+            StationData data = workbenches.get(key);
+            if (data != null && data.tileOn() == tile) {
+                workbenches.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return workbenches.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = workbenches.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyWorkbench(Player player, Tile tile) {
@@ -68,7 +90,7 @@ public class ArmorWorkbench {
                     if (tile == null) {
                         tile = tileUnderPlayer;
                     }
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         String text = player.name + "[gold]'s\n[blue]Workbench";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
                         StationData workbenchData = new StationData(player, tile, label);
@@ -85,12 +107,14 @@ public class ArmorWorkbench {
     public static void renderWorkbenches() {
         workbenches.forEach((owner, workbench) -> {
             if (workbench != null) {
-                if (workbench.tileOn().block() != Vars.content.block("dp-workbench-station") || workbench.owner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(workbench.tileOn(), Vars.content.block("dp-workbench-station")) || workbench.owner().team() != Team.blue) {
                     workbenches.remove(owner);
                     workbench.destroy();
                     if (workbench.tileOn().block() == Vars.content.block("dp-workbench-station")) {
                         workbench.tileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(workbench.tileOn())) {
+                    StationUtils.markDeconstructing(workbench);
                 }
             }
         });

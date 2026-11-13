@@ -1,4 +1,4 @@
-globalMultiplier: 1.5
+globalMultiplier: 1.35
 spawners: [
   {
     name: q

@@ -1,5 +1,7 @@
 package net.voiddustry.redvsblue.game.crux;
 
+import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Timer;
 import arc.Events;
 import mindustry.Vars;
@@ -19,8 +21,8 @@ import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.game.crux.StageUnits;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 
-import java.util.Random;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.lang.Math;
@@ -86,6 +88,9 @@ public class CruxUnit {
      */
     public static void convertToCrux(Player player) {
         if (player == null || player.team() != Team.blue) return;
+        PlayerData statsData = RedVsBluePlugin.players.get(player.uuid());
+        Unit statsUnit = statsData != null ? statsData.getUnit() : player.unit();
+        MapStats.onBlueUnitDeath(player, statsUnit);
         player.clearUnit();
         player.team(Team.crux);
 
@@ -174,13 +179,7 @@ public class CruxUnit {
                 Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
             }
             Unit unit = type.spawn(Team.crux, cruxSpawn);
-
-            if (RedVsBluePlugin.stage >= 11) {
-                int renaleAmount = 2 + new Random().nextInt(8);
-                for (int i = 0; i < renaleAmount; i++) {
-                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
-                }
-            }
+            spawnSpecials(cruxSpawn, CruxSpawning.Context.playerRespawn);
 
             if (unit != null && !unit.dead) {
                 unit.health = Integer.MAX_VALUE;
@@ -237,41 +236,9 @@ public class CruxUnit {
                 Call.logicExplosion(Team.crux, cruxSpawn.x*8, cruxSpawn.y*8, 80, 999999, true, true, true, true);
             }
 
-            if (RedVsBluePlugin.stage == 11) {
-                Random rand = new Random();
-                if (rand.nextInt(20) == 1) {
-                    UnitTypes.latum.spawn(Team.crux, cruxSpawn);
-                }
-                if (rand.nextInt(13) == 1) {
-                    UnitTypes.conquer.spawn(Team.crux, cruxSpawn);
-                }
-                if (rand.nextInt(7) == 1) {
-                    UnitTypes.tecta.spawn(Team.crux, cruxSpawn);
-                }
-            }
-
-            if (RedVsBluePlugin.stage == 13) {
-                Random rand = new Random();
-                if (rand.nextInt(120) == 1) {
-                    spawnNamed("dp-aranethys-crux-t6", cruxSpawn);
-                }
-                if (rand.nextInt(66) == 1) {
-                    spawnNamed("dp-venomreach-crux-t6", cruxSpawn);
-                }
-                if (rand.nextInt(66) == 1) {
-                    spawnNamed("dp-stryker-unit", cruxSpawn);
-                }
-            }
-
             Unit unit = unitType.spawn(Team.crux, cruxSpawn);
             spawnTimes.put(unit, System.currentTimeMillis());
-
-            if (RedVsBluePlugin.stage >= 11) {
-                int renaleAmount = 2 + new Random().nextInt(8);
-                for (int i = 0; i < renaleAmount; i++) {
-                    UnitTypes.renale.spawn(Team.crux, cruxSpawn);
-                }
-            }
+            spawnSpecials(cruxSpawn, CruxSpawning.Context.aiSpawn);
 
             //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
             unit.apply(Vars.content.statusEffect("shielded"), 300f);
@@ -314,9 +281,15 @@ public class CruxUnit {
         return true;
     }
 
-    private static void spawnNamed(String name, Tile tile) {
-        UnitType type = Vars.content.unit(name);
-        if (type != null) type.spawn(Team.crux, tile);
+    private static void spawnSpecials(Tile tile, CruxSpawning.Context context) {
+        if (tile == null) return;
+        for (CruxSpawning.SpecialSpawn special : CruxSpawning.specials(RedVsBluePlugin.stage, context)) {
+            if (!Mathf.chance(special.chance)) continue;
+            UnitType type = Vars.content.unit(special.type);
+            if (type == null) continue;
+            int count = Mathf.random(special.min, special.max);
+            for (int i = 0; i < count; i++) type.spawn(Team.crux, tile);
+        }
     }
 
     public static void checkUnitCount() {
@@ -324,32 +297,30 @@ public class CruxUnit {
             int players = Groups.player.size();
             int stage = RedVsBluePlugin.stage;
 
-			int baseCount = Math.round((players + Math.min(stage, 12)) / 3f);
+            Seq<UnitType> types = ClassChooseMenu.units.keys().toSeq();
+            int[] quotas = CruxSpawning.quotas(stage, types, players);
+            if (types.isEmpty()) return;
 
-			final int cruxUnitsCount = stage == 12
-			        ? Math.round(baseCount * 1.3f)
-			        : stage >= 13 ? baseCount * 2 : baseCount;
-			
             final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();
+            long now = System.currentTimeMillis();
 
-            if (!ClassChooseMenu.units.isEmpty()) {
-                ClassChooseMenu.units.keys().toSeq().each(type -> {
-                    Groups.unit.each(u -> {
-                        if (u.team == Team.crux && u.type == type) {
-                        
-                            if ((!(spawnTimes.get(u) == null)) && System.currentTimeMillis()-spawnTimes.get(u)<45000) {
-                                if (cruxUnits.get(type) == null) {
-                                    cruxUnits.put(type, 0);
-                                } else {
-                                    cruxUnits.put(type, cruxUnits.get(type)+1);
-                                }
-                            }
+            for (int i = 0; i < types.size; i++) {
+                UnitType type = types.get(i);
+                int quota = quotas[i];
+                if (quota <= 0) continue;
+
+                Groups.unit.each(u -> {
+                    if (u.team == Team.crux && u.type == type) {
+                        Long spawnedAt = spawnTimes.get(u);
+                        if (spawnedAt != null && now - spawnedAt < CruxSpawning.recentWindowMillis()) {
+                            cruxUnits.merge(type, 1, Integer::sum);
                         }
-                    });
-                    if (cruxUnits.get(type) == null || cruxUnits.get(type) < cruxUnitsCount/ClassChooseMenu.units.keys().toSeq().size) {
-                        spawnCrux(type);
                     }
                 });
+
+                if (cruxUnits.getOrDefault(type, 0) < quota) {
+                    spawnCrux(type);
+                }
             }
         }
     }

@@ -1,0 +1,138 @@
+// Normal crux-unit quotas and stage-specific bonus spawns.
+// Loaded from config/rvsbUnits/cruxSpawning.hjson on every world load.
+//
+// This file only controls HOW MANY normal units and WHICH bonus units spawn.
+// The list of available unit types and bosses stays in stages.json.
+
+// Only units spawned by the automatic crux spawner during this many seconds
+// are counted towards the quota. Older living units are ignored, so the
+// spawner keeps replenishing the population instead of treating old units
+// as a permanent cap.
+recentWindowSeconds: 45
+
+// Default quota formula (used only when perStage has no unitCount/unitCounts):
+//
+//   count = round(
+//       (players * playerWeight + min(stage, stageCap) * stageWeight)
+//       / divisor
+//       * stageMultipliers[stage]
+//   )
+//
+// players = all players on the server (not only crux players).
+// The default values reproduce the old formula:
+//   round((players + min(stage, 12)) / 3)
+// with stage 12 multiplied by 1.3 and stage 13 by 2.0.
+formula: {
+  playerWeight: 1
+  stageWeight: 1
+  stageCap: 12
+  divisor: 3
+}
+
+// Multiplier applied to the formula result for a stage.
+// Missing stages use 1.0.
+// Example: {12: 1.3, 13: 2.0} means stage 12 gets 30% more and stage 13 twice as many.
+stageMultipliers: {
+  12: 1.3
+  13: 2.0
+}
+
+// Exact per-stage overrides. They take precedence over the formula.
+//
+// For one stage you can use either:
+//
+//   unitCount: 12
+//       Exact total number of normal units for the stage. The total is split
+//       evenly across the unit types available in stages.json for that stage;
+//       the remainder is given to the first types.
+//       Example: 11 units, 4 types -> 3, 3, 3, 2.
+//
+//   unitCounts: {crawler: 4, dagger: 3, mace: 2}
+//       Exact per-type counts. Keys are internal unit names from stages.json.
+//       Types not listed get 0 for this stage.
+//       unitCounts wins over unitCount when both are present.
+//
+// If a stage has neither field, the formula above is used.
+// The actual file can keep this object empty:
+//   perStage: {}
+//
+// Example:
+// perStage: {
+//   9: {
+//     unitCount: 12
+//   }
+//   12: {
+//     unitCounts: {
+//       corvus: 4
+//       vanquish: 3
+//       obviate: 2
+//     }
+//   }
+// }
+perStage: {}
+
+// Bonus/spice spawns. They are added on top of the normal unit quota.
+//
+// There are two independent contexts:
+//   playerRespawn - a crux player respawns after dying
+//   aiSpawn       - the automatic crux spawner creates a normal unit
+//
+// Each context is an array of entries:
+//   type   required; internal unit name (unknown names are skipped with a warning)
+//   chance optional, 0..1; default 1 (always)
+//   min    optional minimum count, default 1
+//   max    optional maximum count, default min
+//   min/max are inclusive; one random count in that range is spawned.
+//
+// A plain string is shorthand for {type: "...", chance: 1, min: 1, max: 1}.
+//
+// Example:
+//   11: {
+//     playerRespawn: [
+//       {type: "renale", chance: 1, min: 2, max: 9}
+//     ]
+//     aiSpawn: [
+//       {type: "renale", chance: 1, min: 2, max: 9}
+//       {type: "latum", chance: 0.05}
+//       {type: "conquer", chance: 0.076923}
+//       {type: "tecta", chance: 0.142857}
+//     ]
+//   }
+specials: {
+  // Stage 11: player respawns get a small renale escort;
+  // automatic spawns can additionally roll latum/conquer/tecta.
+  11: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+      {type: "latum", chance: 0.05}
+      {type: "conquer", chance: 0.076923}
+      {type: "tecta", chance: 0.142857}
+    ]
+  }
+
+  // Stage 12: only the renale escort; no extra T6 rolls.
+  12: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+  }
+
+  // Stage 13: renale escort plus rare T6/Stryker rolls.
+  13: {
+    playerRespawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+    ]
+    aiSpawn: [
+      {type: "renale", chance: 1, min: 2, max: 9}
+      {type: "dp-aranethys-crux-t6", chance: 0.008333}
+      {type: "dp-venomreach-crux-t6", chance: 0.015152}
+      {type: "dp-stryker-unit", chance: 0.015152}
+    ]
+  }
+}

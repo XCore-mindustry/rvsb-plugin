@@ -26,6 +26,7 @@ public class RepairPoint {
 
     public static void initTimer() {
         Timer.schedule(() -> repairPointsMap.forEach((owner, pointData) -> {
+            if (StationUtils.isDeconstructing(pointData.tileOn())) return;
             int centerX = pointData.tileOn().x * 8;
             int centerY = pointData.tileOn().y * 8;
 
@@ -54,8 +55,28 @@ public class RepairPoint {
         Timer.schedule(RepairPoint::renderRepairPoints, 0, 1);
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : repairPointsMap.keySet()) {
+            StationData data = repairPointsMap.get(key);
+            if (data != null && data.tileOn() == tile) {
+                repairPointsMap.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return repairPointsMap.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = repairPointsMap.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyRepairPoint(Player player, Tile tile) {
@@ -70,7 +91,7 @@ public class RepairPoint {
                         tile = tileUnderPlayer;
                     }
 
-                    if ((!player.dead() && player.team() == Team.blue && tile.block().isAir()) && tile.floor() != Blocks.empty) {
+                    if ((!player.dead() && player.team() == Team.blue && StationUtils.isFreeTile(tile))) {
                         String text = player.name + "[gold]'s\n[cyan]Repair Point";
                         mindustry.gen.WorldLabel label = StationUtils.createStationLabel(tile, text);
                         StationData repairPointsData = new StationData(player, tile, label, AuraCircle.fixed(tile.x * 8, tile.y * 8, 32, StationFx.repair));
@@ -87,12 +108,14 @@ public class RepairPoint {
     public static void renderRepairPoints() {
         repairPointsMap.forEach((owner, repairPoint) -> {
             if (repairPoint != null) {
-                if (repairPoint.tileOn().block() != Blocks.mender || repairPoint.owner().team() != Team.blue) {
+                if (!StationUtils.isStationTile(repairPoint.tileOn(), Blocks.mender) || repairPoint.owner().team() != Team.blue) {
                     repairPointsMap.remove(owner);
                     repairPoint.destroy();
                     if (repairPoint.tileOn().block() == Blocks.mender) {
                         repairPoint.tileOn().build.kill();
                     }
+                } else if (StationUtils.isDeconstructing(repairPoint.tileOn())) {
+                    StationUtils.markDeconstructing(repairPoint);
                 }
             }
         });

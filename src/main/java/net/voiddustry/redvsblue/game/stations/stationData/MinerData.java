@@ -3,6 +3,7 @@ package net.voiddustry.redvsblue.game.stations.stationData;
 import mindustry.gen.Player;
 import mindustry.gen.WorldLabel;
 import mindustry.world.Tile;
+import net.voiddustry.redvsblue.game.stations.StationUtils;
 
 public class MinerData {
     private Player owner;
@@ -84,6 +85,12 @@ public class MinerData {
     public void updateLabel() {
         if (label != null) {
             label.text = owner.name + "[gold]'s Miner\n[gray][ [gold]" + lvl + "[] | [accent]" + exp + " / " + maxExp + "[gray] ]";
+            if (StationUtils.isDeconstructing(tileOn)) {
+                int percent = StationUtils.deconstructPercent(tileOn);
+                if (percent >= 0) {
+                    label.text += "\n[scarlet]deconstructing " + percent + "%[]";
+                }
+            }
         }
     }
 

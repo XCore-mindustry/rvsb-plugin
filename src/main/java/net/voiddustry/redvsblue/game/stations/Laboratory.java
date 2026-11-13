@@ -24,6 +24,7 @@ import net.voiddustry.redvsblue.evolution.Evolution;
 import net.voiddustry.redvsblue.evolution.EvolutionMenu;
 import net.voiddustry.redvsblue.evolution.Evolutions;
 import net.voiddustry.redvsblue.game.stations.stationData.StationData;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 import net.voiddustry.redvsblue.util.Utils;
 
 import java.math.BigDecimal;
@@ -160,6 +161,8 @@ public class Laboratory {
                 }
 
                 labsMap.forEach((uuid, lab) -> {
+                    if (StationUtils.isDeconstructing(lab.tileOn())) return;
+
                     int centerX = lab.tileOn().x * 8;
                     int centerY = lab.tileOn().y * 8;
 
@@ -193,6 +196,8 @@ public class Laboratory {
 
             labTick++;
             labsMap.forEach((uuid, lab) -> {
+                if (StationUtils.isDeconstructing(lab.tileOn())) return;
+
                 int centerX = lab.tileOn().x * 8;
                 int centerY = lab.tileOn().y * 8;
 
@@ -284,8 +289,28 @@ public class Laboratory {
         );
     }
 
+    /** Drops the station on this exact tile, if any. */
+    public static boolean removeAt(Tile tile) {
+        if (tile == null) return false;
+        for (String key : labsMap.keySet()) {
+            StationData data = labsMap.get(key);
+            if (data != null && data.tileOn() == tile) {
+                labsMap.remove(key);
+                data.destroy();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean owns(String uuid) {
         return labsMap.containsKey(uuid);
+    }
+
+    public static boolean ownsAt(String uuid, Tile tile) {
+        if (uuid == null || tile == null) return false;
+        StationData data = labsMap.get(uuid);
+        return data != null && data.tileOn() == tile;
     }
 
     public static void buyLab(
@@ -328,11 +353,9 @@ public class Laboratory {
             );
         }
 
-        if (tile == null
-                || player.dead()
+        if (player.dead()
                 || player.team() != Team.blue
-                || !tile.block().isAir()
-                || tile.floor() == Blocks.empty) {
+                || !StationUtils.isFreeTile(tile)) {
             return;
         }
 
@@ -368,9 +391,9 @@ public class Laboratory {
                 return;
             }
 
-            if (lab.tileOn().block()
-                    != Vars.content.block(
-                    "dp-laboratory-station"
+            if (!StationUtils.isStationTile(
+                    lab.tileOn(),
+                    Vars.content.block("dp-laboratory-station")
             )
                     || lab.owner().team()
                     != Team.blue) {
@@ -384,6 +407,8 @@ public class Laboratory {
                 )) {
                     lab.tileOn().build.kill();
                 }
+            } else if (StationUtils.isDeconstructing(lab.tileOn())) {
+                StationUtils.markDeconstructing(lab);
             }
         });
     }
