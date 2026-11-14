@@ -519,6 +519,7 @@ damage: 10
 
 
 //quell and disrupt missiles
+unit.quell-missile.hittable: false
 unit.quell-missile.weapons.+: {
     type: Weapon
     mirror: false
@@ -571,6 +572,7 @@ unit.quell-missile.weapons.+: {
 	  }
 	}
 }
+unit.disrupt-missile.hittable: false
 unit.disrupt-missile.weapons.+: {
     type: Weapon
     mirror: false
