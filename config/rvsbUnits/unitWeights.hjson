@@ -1,16 +1,52 @@
 default: 1
 weights: {
-  corvus: 0.5
-  vela: 1
-  sei: 1.2
-  eclipse: 0.5
-  cyerce: 2
-  locus: 0.4
-  dp-omni-unit: 1.2
-  reign: 0.7
-  tecta: 1.3
-  quad: 1.2
+  antumbra: 1.1
+  atrax: 1.0
+  avert: 1.0
+  bryde: 1.3
+  cleroi: 1.2
+  collaris: 1.3
   conquer: 1.2
-  dp-spearhead-unit: 1.7
+  dp-spearhead-unit: 2.0
+  quasar: 0.8
+  quell: 0.8
+  reign: 1.0
+  retusa: 1.0
+  risso: 1.0
+  scepter: 1.35
+  sei: 1.3
+  spiroct: 1.0
+  stell: 1.0
+  tecta: 1.25
+  toxopid: 1.1
+  vanquish: 0.9
+  zenith: 0.9
+  dp-annihilate-unit: 1.0 // kto eto
+  dp-aractid-unit: 1.1
+  dp-aranethys-unit: 1.0 // t6
+  dp-destroy-unit: 1.0 // da da
+  dp-devastator-unit: 1.2
+  dp-eliminate-unit: 1.0 // kto eto
+  dp-elysia-unit: 1.0 // kto eto
+  dp-empire-unit: 1.0 // t6 
+  dp-eradicate-unit: 1.0 // kto eto
+  dp-giga-unit: 0.8
+  dp-incinerate-unit: 1.0 // kto eto
+  dp-interdict-unit: 1.0 // t6
+  dp-midnight-unit: 1.0 // t6
+  dp-obliterate-unit: 1.0 // kto eto
+  dp-omega-unit: 1.0 // kto eto
+  dp-omni-unit: 1.0 // t6
+  dp-orion-unit: 1.0 // kto eto
+  dp-poseidon-unit: 1.0 // t6
+  dp-remove-unit: 1.0 // kto eto
+  dp-sovereign-unit: 1.0 // t6
+  dp-stryker-unit: 1.0
+  dp-terminate-unit: 1.0 // kto eto
+  dp-tetraphyllus-unit: 1.0 // t6
+  dp-vela-blue-unit: 0.8
+  dp-venomreach-unit: 1.0 // t6
+  dp-vulcan-unit: 1.2
   dp-initiative-unit: 2.2
+  disrupt: 2
 }

@@ -294,11 +294,15 @@ public class CruxUnit {
 
     public static void checkUnitCount() {
         if (Utils.gameRun) {
-            int players = Groups.player.size();
+            int bluePopulation = 0;
+            float minHp = CruxSpawning.minUnitHp();
+            for (Unit unit : Groups.unit) {
+                if (unit.team == Team.blue && !unit.dead && unit.maxHealth > minHp) bluePopulation++;
+            }
             int stage = RedVsBluePlugin.stage;
 
             Seq<UnitType> types = ClassChooseMenu.units.keys().toSeq();
-            int[] quotas = CruxSpawning.quotas(stage, types, players);
+            int[] quotas = CruxSpawning.quotas(stage, types, bluePopulation);
             if (types.isEmpty()) return;
 
             final HashMap<UnitType, Integer> cruxUnits = new HashMap<>();

@@ -13,12 +13,13 @@ recentWindowSeconds: 45
 // Default quota formula (used only when perStage has no unitCount/unitCounts):
 //
 //   count = round(
-//       (players * playerWeight + min(stage, stageCap) * stageWeight)
+//       (bluePopulation * playerWeight + min(stage, stageCap) * stageWeight)
 //       / divisor
 //       * stageMultipliers[stage]
 //   )
 //
-// players = all players on the server (not only crux players).
+// bluePopulation = all blue units with maxHealth above minUnitHp. Units without
+// a player inside count too; small units (below the threshold) are ignored.
 // The default values reproduce the old formula:
 //   round((players + min(stage, 12)) / 3)
 // with stage 12 multiplied by 1.3 and stage 13 by 2.0.
@@ -27,6 +28,8 @@ formula: {
   stageWeight: 1
   stageCap: 12
   divisor: 3
+  // Blue units with maxHealth above this value are counted.
+  minUnitHp: 600
 }
 
 // Multiplier applied to the formula result for a stage.
@@ -49,7 +52,8 @@ stageMultipliers: {
 //
 //   unitCounts: {crawler: 4, dagger: 3, mace: 2}
 //       Exact per-type counts. Keys are internal unit names from stages.json.
-//       Types not listed get 0 for this stage.
+//       Only the listed types are overridden; types not listed keep the
+//       formula quota for this stage. Set a type to 0 to disable it.
 //       unitCounts wins over unitCount when both are present.
 //
 // If a stage has neither field, the formula above is used.

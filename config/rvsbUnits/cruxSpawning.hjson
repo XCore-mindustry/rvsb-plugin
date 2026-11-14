@@ -1,15 +1,34 @@
-recentWindowSeconds: 45
+recentWindowSeconds: 55
 formula: {
   playerWeight: 1
   stageWeight: 1
   stageCap: 12
-  divisor: 3
+  divisor: 2
+  minUnitHp: 600
 }
 stageMultipliers: {
-  12: 1.2
-  13: 1.7
+  10: 0.8
+  11: 0.7
+  12: 0.6
+  13: 0.4
 }
-perStage: {}
+perStage: {
+  11: {
+    unitCounts: {
+      corvus: 4
+    }
+  }
+  12: {
+    unitCounts: {
+      dp-incinerate-unit: 4
+    }
+  }
+  13: {
+    unitCounts: {
+      dp-vulcan-unit: 4
+    }
+  }
+}
 specials: {
   11: {
     playerRespawn: [

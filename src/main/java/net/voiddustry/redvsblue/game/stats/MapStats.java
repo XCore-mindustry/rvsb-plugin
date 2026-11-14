@@ -143,6 +143,7 @@ public final class MapStats {
             if (s == null) s = ensureSession();
             if (s == null || s.finished) return;
             s.endedAt = System.currentTimeMillis();
+            s.playersAtEnd = Groups.player.size();
             if (s.startedAt <= 0) s.startedAt = s.endedAt;
             s.endReason = winner == Team.blue ? "blueWin" : winner == Team.crux ? "cruxWin" : "gameOver";
             s.winner = winner == null ? "none" : winner.name;
@@ -163,6 +164,7 @@ public final class MapStats {
         Session old = session;
         if (old != null && !old.finished) {
             old.endedAt = now;
+            old.playersAtEnd = Groups.player.size();
             old.endReason = "mapChange";
             old.winner = "none";
             finish(old);
@@ -177,6 +179,7 @@ public final class MapStats {
         Session s = session;
         if (s != null && !s.finished) {
             s.endedAt = System.currentTimeMillis();
+            s.playersAtEnd = Groups.player.size();
             s.endReason = "shutdown";
             s.winner = "none";
             finish(s);
@@ -257,6 +260,11 @@ public final class MapStats {
         if (s == null || s.finished) return;
         s.finished = true;
         if (s.startedAt <= 0) return;
+        // maps that end with a nearly empty server are not representative
+        if (s.playersAtEnd < 3) {
+            Log.info("[MapStats] skipped @: only @ player(s) at the end", s.info.key, s.playersAtEnd);
+            return;
+        }
         if (s.endedAt <= 0) s.endedAt = System.currentTimeMillis();
         try {
             write(s);
@@ -329,6 +337,7 @@ public final class MapStats {
         b.append(",\"endReason\":\"").append(esc(s.endReason)).append('"');
         b.append(",\"winner\":\"").append(esc(s.winner)).append('"');
         b.append(",\"finalStage\":").append(Math.max(1, s.maxStage));
+        b.append(",\"playersAtEnd\":").append(s.playersAtEnd);
         b.append(",\"blue\":{\"unique\":").append(s.uniqueBlue.size)
                 .append(",\"peak\":").append(s.peakBlue)
                 .append(",\"seconds\":").append(s.blueSeconds)
@@ -523,6 +532,7 @@ public final class MapStats {
 
         long startedAt, endedAt;
         int peakBlue, peakCrux, blueSeconds;
+        int playersAtEnd;
         int maxStage = 1;
         String endReason = "unknown";
         String winner = "none";
