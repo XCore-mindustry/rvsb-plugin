@@ -1,14 +1,78 @@
 default: 1
 weights: {
-  corvus: 0.5
-  vela: 1
-  sei: 1.2
-  eclipse: 0.5
-  cyerce: 2
-  locus: 0.4
-  dp-omni-unit: 1.2
-  reign: 0.7
-  tecta: 1.3
+  aegires: 0.8
+  antumbra: 1.1
+  atrax: 1.0
+  avert: 1.0
+  bryde: 1.3
+  cleroi: 1.2
+  collaris: 1.3
+  conquer: 1.25
+  corvus: 1.1
+  cyerce: 0.8
+  dagger: 1.0
+  disrupt: 1.5
+  eclipse: 1.2
+  elude: 1.0
+  flare: 1.0
+  fortress: 1.0
+  locus: 1.2
+  mace: 0.6
+  mega: 1.0
+  merui: 1.0
+  minke: 1.0
+  mono: 1.0
+  navanax: 1.1
+  nova: 1.0
+  obviate: 1.1
+  oct: 1.0 // no default oct in blue
+  omura: 1.3
+  oxynoe: 1.0
+  poly: 1.0
+  precept: 1.2
+  pulsar: 1.0
   quad: 1.2
-  conquer: 1.2
+  quasar: 0.8
+  quell: 0.8
+  reign: 1.25
+  retusa: 1.0
+  risso: 1.0
+  scepter: 1.35
+  sei: 1.3
+  spiroct: 1.0
+  stell: 1.0
+  tecta: 1.25
+  toxopid: 1.5
+  vanquish: 0.9
+  vela: 0.8 // no default vela in blue
+  zenith: 0.9
+  dp-annihilate-unit: 1.0 // kto eto
+  dp-aractid-unit: 1.1
+  dp-aranethys-unit: 1.0 // t6
+  dp-daybreak-unit: 1.5
+  dp-destroy-unit: 1.0 // t6
+  dp-devastator-unit: 1.2
+  dp-eliminate-unit: 1.0 // kto eto
+  dp-elysia-unit: 1.0 // kto eto
+  dp-empire-unit: 1.0 // t6 
+  dp-eradicate-unit: 1.0 // kto eto
+  dp-giga-unit: 0.8
+  dp-incinerate-unit: 1.0 // kto eto
+  dp-interdict-unit: 1.0 // t6
+  dp-midnight-unit: 1.0 // t6
+  dp-obliterate-unit: 1.0 // kto eto
+  dp-oct-fallout: 1.5 // alphy autism
+  dp-omega-unit: 1.0 // kto eto
+  dp-omni-unit: 1.0 // t6
+  dp-orion-unit: 1.0 // kto eto
+  dp-poseidon-unit: 1.0 // t6
+  dp-remove-unit: 1.0 // kto eto
+  dp-sovereign-unit: 1.0 // t6
+  dp-spearhead-unit: 1.3
+  dp-stryker-unit: 1.2
+  dp-terminate-unit: 1.0 // kto eto
+  dp-tetraphyllus-unit: 1.0 // t6
+  dp-vela-blue-unit: 0.8
+  dp-venomreach-unit: 1.0 // t6
+  dp-vulcan-unit: 1.2
 }

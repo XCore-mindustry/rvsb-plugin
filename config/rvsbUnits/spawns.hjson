@@ -3,18 +3,19 @@ global: {
   spawners: [
     {
       name: xexebe
-      metric: sum
+      metric: decaying
+      decay: 0.8
       hp: max
       weighted: true
-      playersOnly: true
       playerScaling: 0.3
+      minUnitHp: 600
       maxUnitHp: 60000
-      buildingBonus: {dp-conquer-turret: 20000}
+      buildingBonus: {dp-conquer-turret: 1000}
       graceSeconds: 600
       tiers: [
         {
-          min: 5000
-          max: 15000
+          min: 2232
+          max: 6694
           cooldown: 60
           units: [
             {type: "pulsar"}
@@ -23,8 +24,8 @@ global: {
           ]
         }
         {
-          min: 15000
-          max: 25000
+          min: 6694
+          max: 11158
           cooldown: 70
           units: [
             {type: "locus"}
@@ -33,8 +34,8 @@ global: {
           ]
         }
         {
-          min: 25000
-          max: 40000
+          min: 11158
+          max: 17852
           cooldown: 80
           units: [
             {type: "precept", effects: ["electrified"], effectSeconds: 999}
@@ -44,8 +45,8 @@ global: {
           ]
         }
         {
-          min: 40000
-          max: 60000
+          min: 17852
+          max: 26778
           cooldown: 90
           units: [
             {type: "scepter", effects: ["sapped"], effectSeconds: 999}
@@ -55,8 +56,8 @@ global: {
           ]
         }
         {
-          min: 60000
-          max: 75000
+          min: 26778
+          max: 33472
           cooldown: 95
           units: [
             {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
@@ -65,8 +66,8 @@ global: {
           ]
         }
         {
-          min: 75000
-          max: 90000
+          min: 33472
+          max: 40167
           cooldown: 100
           units: [
             {type: "dp-regent-unit", effects: ["sapped"], effectSeconds: 999}
@@ -75,8 +76,8 @@ global: {
           ]
         }
         {
-          min: 90000
-          max: 120000
+          min: 40167
+          max: 53556
           cooldown: 105
           units: [
             {type: "dp-regent-unit"}
@@ -86,31 +87,29 @@ global: {
           ]
         }
         {
-          min: 120000
-          max: 140000
-          cooldown: 110
+          min: 53556
+          max: 62482
+          cooldown: 130
           units: [
-            {type: "dp-annihilate-unit"}
             {type: "reign", effects: ["overclock", "shielded"], effectSeconds: 999}
             {type: "sei", effects: ["overclock"], effectSeconds: 999}
             {type: "dp-rive-unit", count: 5}
           ]
         }
         {
-          min: 140000
-          max: 180000
-          cooldown: 115
+          min: 62482
+          max: 80334
+          cooldown: 130
           units: [
+            {type: "dp-annihilate-unit"}
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
             {type: "dp-vulcan-unit"}
-            {type: "conquer", effects: ["overclock"], effectSeconds: 999}
-            {type: "corvus"}
           ]
         }
         {
-          min: 180000
-          max: 200000
-          cooldown: 120
+          min: 80334
+          max: 89260
+          cooldown: 130
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
             {type: "reign", effects: ["overclock"], effectSeconds: 999}
@@ -119,7 +118,7 @@ global: {
           ]
         }
         {
-          min: 200000
+          min: 89260
           cooldown: 130
           units: [
             {type: "dp-regent-unit", count: 2}
@@ -132,18 +131,19 @@ global: {
     }
     {
       name: xexebe-light
-      metric: sum
+      metric: decaying
+      decay: 0.8
       hp: max
       weighted: true
       playersOnly: true
       playerScaling: 0.3
       maxUnitHp: 60000
-      buildingBonus: {dp-conquer-turret: 20000}
+      buildingBonus: {dp-conquer-turret: 2000}
       graceSeconds: 600
       tiers: [
         {
-          min: 5000
-          max: 15000
+          min: 2232
+          max: 6694
           cooldown: 30
           units: [
             {type: "pulsar"}
@@ -151,8 +151,8 @@ global: {
           ]
         }
         {
-          min: 15000
-          max: 25000
+          min: 6694
+          max: 11158
           cooldown: 35
           units: [
             {type: "locus"}
@@ -160,8 +160,8 @@ global: {
           ]
         }
         {
-          min: 25000
-          max: 40000
+          min: 11158
+          max: 17852
           cooldown: 40
           units: [
             {type: "locus"}
@@ -170,8 +170,8 @@ global: {
           ]
         }
         {
-          min: 40000
-          max: 60000
+          min: 17852
+          max: 26778
           cooldown: 45
           units: [
             {type: "dp-aractid-unit"}
@@ -179,8 +179,8 @@ global: {
           ]
         }
         {
-          min: 60000
-          max: 75000
+          min: 26778
+          max: 33472
           cooldown: 47.5
           units: [
             {type: "vanquish"}
@@ -188,8 +188,8 @@ global: {
           ]
         }
         {
-          min: 75000
-          max: 90000
+          min: 33472
+          max: 40167
           cooldown: 50
           units: [
             {type: "dp-eliminate-unit"}
@@ -197,8 +197,8 @@ global: {
           ]
         }
         {
-          min: 90000
-          max: 120000
+          min: 40167
+          max: 53556
           cooldown: 52.5
           units: [
             {type: "dp-incinerate-unit"}
@@ -206,36 +206,33 @@ global: {
           ]
         }
         {
-          min: 120000
-          max: 140000
+          min: 53556
+          max: 62482
           cooldown: 55
           units: [
-            {type: "dp-annihilate-unit"}
             {type: "vela"}
           ]
         }
         {
-          min: 140000
-          max: 180000
-          cooldown: 57.5
+          min: 62482
+          max: 80334
+          cooldown: 65
           units: [
             {type: "dp-vulcan-unit"}
-            {type: "conquer"}
             {type: "vela"}
           ]
         }
         {
-          min: 180000
-          max: 200000
+          min: 80334
+          max: 89260
           cooldown: 60
           units: [
             {type: "reign"}
-            {type: "collaris"}
             {type: "vela"}
           ]
         }
         {
-          min: 200000
+          min: 89260
           cooldown: 65
           units: [
             {type: "reign"}

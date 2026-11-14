@@ -45,6 +45,8 @@ public final class CruxSpawning {
     private static float stageWeight = 1f;
     private static int stageCap = 12;
     private static float divisor = 3f;
+    /** Blue units with maxHealth above this count towards the formula's population term. */
+    private static float minUnitHp = 600f;
 
     private static final IntFloatMap stageMultipliers = new IntFloatMap();
     private static final ObjectMap<Integer, StageSpawning> perStage = new ObjectMap<>();
@@ -59,6 +61,7 @@ public final class CruxSpawning {
         stageWeight = 1f;
         stageCap = 12;
         divisor = 3f;
+        minUnitHp = 600f;
         stageMultipliers.clear();
         perStage.clear();
         specials.clear();
@@ -81,6 +84,7 @@ public final class CruxSpawning {
                 stageWeight = formula.getFloat("stageWeight", 1f);
                 stageCap = Math.max(0, formula.getInt("stageCap", 12));
                 divisor = Math.max(0.001f, formula.getFloat("divisor", 3f));
+                minUnitHp = Math.max(0f, formula.getFloat("minUnitHp", 600f));
             }
 
             if (value.has("stageMultipliers")) {
@@ -166,30 +170,35 @@ public final class CruxSpawning {
     }
 
     /** How many recently-spawned units of each type should exist, aligned with the provided unit list. */
-    public static int[] quotas(int stage, Seq<UnitType> types, int players) {
+    public static int[] quotas(int stage, Seq<UnitType> types, int bluePopulation) {
         int[] result = new int[types.size];
         if (types.isEmpty()) return result;
 
         StageSpawning definition = perStage.get(stage);
-        if (definition != null && !definition.unitCounts.isEmpty()) {
-            for (int i = 0; i < types.size; i++) {
-                result[i] = Math.max(0, definition.unitCounts.get(types.get(i).name, 0));
-            }
-            return result;
-        }
 
-        if (definition != null && definition.unitCount >= 0) {
+        // Exact total: replaces the formula for the whole stage.
+        if (definition != null && definition.unitCount >= 0 && definition.unitCounts.isEmpty()) {
             return distribute(definition.unitCount, types.size);
         }
 
+        // Formula quotas are the base for every type.
         float stagePart = Math.min(stage, stageCap) * stageWeight;
-        float total = (players * playerWeight + stagePart) / divisor;
+        float total = (bluePopulation * playerWeight + stagePart) / divisor;
         total *= stageMultipliers.get(stage, 1f);
         int count = Math.max(0, Math.round(total));
 
-        // Preserve the original formula's integer division per type.
-        int perType = count / types.size;
+        // Preserve the original formula's integer division per type, but never starve a type completely:
+        // the old code always spawned one unit when none was recent, even if the per-type quota rounded to 0.
+        int perType = Math.max(1, count / types.size);
         for (int i = 0; i < result.length; i++) result[i] = perType;
+
+        // unitCounts overrides only the listed types; the rest keep the formula quota.
+        if (definition != null) {
+            for (int i = 0; i < types.size; i++) {
+                Integer exact = definition.unitCounts.get(types.get(i).name);
+                if (exact != null) result[i] = Math.max(0, exact);
+            }
+        }
         return result;
     }
 
@@ -204,6 +213,11 @@ public final class CruxSpawning {
 
     public static long recentWindowMillis() {
         return recentWindowMillis;
+    }
+
+    /** Blue units with maxHealth above this value count towards the quota formula. */
+    public static float minUnitHp() {
+        return minUnitHp;
     }
 
     public static Seq<SpecialSpawn> specials(int stage, Context context) {
