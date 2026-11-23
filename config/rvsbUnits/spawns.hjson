@@ -41,7 +41,6 @@ global: {
             {type: "precept", effects: ["electrified"], effectSeconds: 999}
             {type: "cleroi"}
             {type: "quasar"}
-            {type: "dp-rive-unit"}
           ]
         }
         {

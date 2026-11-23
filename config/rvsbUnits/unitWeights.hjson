@@ -11,4 +11,5 @@ weights: {
   tecta: 1.3
   quad: 1.2
   conquer: 1.2
+  dp-spearhead-unit: 1.7
 }
