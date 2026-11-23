@@ -21,6 +21,7 @@ import net.voiddustry.redvsblue.game.crux.StageUnits;
 import net.voiddustry.redvsblue.game.starting_menu.StartingItems;
 import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
 import net.voiddustry.redvsblue.game.stations.*;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 
 import java.util.Locale;
 
@@ -157,6 +158,7 @@ public class Utils {
 
                 if (i[0] <= 0) {
                     gameRun = true;
+                    MapStats.ensurePicks();
                     this.cancel();
                     StartingMenu.canOpenMenu = false;
                 }

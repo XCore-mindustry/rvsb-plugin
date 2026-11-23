@@ -20,6 +20,7 @@ import mindustry.type.UnitType;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.game.stats.MapStats;
 import net.voiddustry.redvsblue.util.StationFx;
 import net.voiddustry.redvsblue.util.Utils;
 
@@ -153,6 +154,7 @@ public class Boss {
                 if (ownerUnit != null) {
                     for (int k = 0; k < 3; k++) StationFx.at(Fx.regenSuppressSeek, u.x, u.y, 0f, StationFx.rot, ownerUnit, AURA_RADIUS);
                 }
+                MapStats.onRedDirectKill(ownerUnit, u);
                 u.kill();
             }
         }

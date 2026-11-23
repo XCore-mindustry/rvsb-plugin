@@ -1,74 +1,75 @@
-globalMultiplier: 0.75
-spawners: [
-  {
-    name: miniboss
-    metric: decaying
-    hp: max
-    weighted: true
-    decay: 0.8
-    playerScaling: 0.5
-    tiers: [
-      {
-        min: 1000
-        max: 3000
-        cooldown: 40
-        options: [
-          {weight: 30, units: [{type: "dagger"}]}
-          {weight: 30, units: [{type: "nova"}]}
-          {weight: 40, units: [{type: "stell"}]}
-        ]
-      }
-      {
-        min: 3000
-        max: 6000
-        cooldown: 50
-        options: [
-          {weight: 30, units: [{type: "elude", effects: ["boss"], effectSeconds: 999}]}
-          {weight: 30, units: [{type: "pulsar", effects: ["sapped"], effectSeconds: 999}]}
-          {weight: 40, units: [{type: "mace", effects: ["shielded"], effectSeconds: 999}]}
-        ]
-      }
-      {
-        min: 6000
-        max: 13000
-        cooldown: 85
-        options: [
-          {weight: 30, units: [{type: "locus", effects: ["boss", "overdrive"], effectSeconds: 999}]}
-          {
-            weight: 30
-            units: [
-              {
-                type: spiroct
-                effects: ["melting", {name: "boss", seconds: 10}, {name: "overdrive", seconds: 10}]
-                effectSeconds: 999
-              }
-            ]
-          }
-          {weight: 40, units: [{type: "precept", effects: ["melting"], effectSeconds: 999}]}
-        ]
-      }
-      {
-        min: 13000
-        max: 24000
-        cooldown: 110
-        options: [
-          {weight: 60, units: [{type: "obviate", effects: ["shielded", "sapped"], effectSeconds: 999}]}
-          {
-            weight: 20
-            units: [{type: "reign", effects: ["electrified", "shocked", "sapped", "corroded"], effectSeconds: 999}]
-          }
-          {weight: 20, units: [{type: "scepter", effects: ["melting"], effectSeconds: 999}]}
-        ]
-      }
-      {
-        min: 24000
-        cooldown: 123
-        options: [
-          {weight: 33, units: [{type: "reign", effects: ["melting", "sapped"], effectSeconds: 999}]}
-          {weight: 33, units: [{type: "dp-annihilate-unit", effects: ["corroded", "slow"], effectSeconds: 999}]}
-          {weight: 34, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
-        ]
-      }
-    ]
-  }
-]
+globalMultiplier: 0.55
+// --- map-specific spawners temporarily disabled for tests ---
+// spawners: [
+//   {
+//     name: miniboss
+//     metric: decaying
+//     hp: max
+//     weighted: true
+//     decay: 0.8
+//     playerScaling: 0.5
+//     tiers: [
+//       {
+//         min: 1061
+//         max: 3183
+//         cooldown: 40
+//         options: [
+//           {weight: 30, units: [{type: "dagger"}]}
+//           {weight: 30, units: [{type: "nova"}]}
+//           {weight: 40, units: [{type: "stell"}]}
+//         ]
+//       }
+//       {
+//         min: 3183
+//         max: 6365
+//         cooldown: 50
+//         options: [
+//           {weight: 30, units: [{type: "elude", effects: ["boss"], effectSeconds: 999}]}
+//           {weight: 30, units: [{type: "pulsar", effects: ["sapped"], effectSeconds: 999}]}
+//           {weight: 40, units: [{type: "mace", effects: ["shielded"], effectSeconds: 999}]}
+//         ]
+//       }
+//       {
+//         min: 6365
+//         max: 13792
+//         cooldown: 85
+//         options: [
+//           {weight: 30, units: [{type: "locus", effects: ["boss", "overdrive"], effectSeconds: 999}]}
+//           {
+//             weight: 30
+//             units: [
+//               {
+//                 type: spiroct
+//                 effects: ["melting", {name: "boss", seconds: 10}, {name: "overdrive", seconds: 10}]
+//                 effectSeconds: 999
+//               }
+//             ]
+//           }
+//           {weight: 40, units: [{type: "precept", effects: ["melting"], effectSeconds: 999}]}
+//         ]
+//       }
+//       {
+//         min: 13792
+//         max: 25462
+//         cooldown: 110
+//         options: [
+//           {weight: 60, units: [{type: "obviate", effects: ["shielded", "sapped"], effectSeconds: 999}]}
+//           {
+//             weight: 20
+//             units: [{type: "reign", effects: ["electrified", "shocked", "sapped", "corroded"], effectSeconds: 999}]
+//           }
+//           {weight: 20, units: [{type: "scepter", effects: ["melting"], effectSeconds: 999}]}
+//         ]
+//       }
+//       {
+//         min: 25462
+//         cooldown: 123
+//         options: [
+//           {weight: 33, units: [{type: "reign", effects: ["melting", "sapped"], effectSeconds: 999}]}
+//           {weight: 33, units: [{type: "dp-annihilate-unit", effects: ["corroded", "slow"], effectSeconds: 999}]}
+//           {weight: 34, units: [{type: "vanquish", effects: ["melting"], effectSeconds: 999}]}
+//         ]
+//       }
+//     ]
+//   }
+// ]

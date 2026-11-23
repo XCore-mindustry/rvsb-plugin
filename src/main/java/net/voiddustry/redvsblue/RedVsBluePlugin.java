@@ -198,6 +198,7 @@ public class RedVsBluePlugin extends Plugin {
 
                     data.setUnit(unit);
                     Utils.assignUnit(player, unit);
+                    if (Utils.gameRun) MapStats.onPick(player, unit.type);
                 }
                 if (playing && player.team() == Team.crux) {
                     CruxUnit.callSpawn(player);
@@ -581,6 +582,8 @@ public class RedVsBluePlugin extends Plugin {
 
         handler.<Player>register("s", "Open stations selecting menu", (args, player) -> StationsMenu.openMenu(player));
 
+        handler.<Player>register("balancer", "Open the balancer status window", (args, player) -> BalancerMenu.open(player));
+
         handler.<Player>register("vote-map", "<map-number>", "Vote for specific map", (args, player) -> {
             if (Strings.canParseInt(args[0])) {
                 MapVote.registerVote(player, Integer.valueOf(args[0]));
@@ -653,6 +656,7 @@ public class RedVsBluePlugin extends Plugin {
 
                 data.setUnit(unit);
                 Utils.assignUnit(player, unit);
+                MapStats.onPick(player, unit.type);
                 data.setLastRedeemTime(Instant.now().getEpochSecond());
                 sendBundled("game.redeemed", player.name);
             } else {

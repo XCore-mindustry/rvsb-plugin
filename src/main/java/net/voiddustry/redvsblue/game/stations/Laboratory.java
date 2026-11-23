@@ -128,6 +128,7 @@ public class Laboratory {
         newUnit.controller(player);
         net.voiddustry.redvsblue.util.Utils.assignUnit(player, newUnit);
         playerData.setUnit(newUnit);
+        net.voiddustry.redvsblue.game.stats.MapStats.onPick(player, targetType);
 
         oldUnit.kill();
 

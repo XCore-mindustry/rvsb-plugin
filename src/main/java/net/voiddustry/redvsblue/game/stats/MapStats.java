@@ -2,8 +2,8 @@ package net.voiddustry.redvsblue.game.stats;
 
 import arc.Events;
 import arc.files.Fi;
+import arc.struct.IntMap;
 import arc.struct.ObjectMap;
-import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Strings;
@@ -11,6 +11,8 @@ import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
+import mindustry.gen.Bullet;
+import mindustry.gen.Entityc;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Unit;
@@ -24,7 +26,6 @@ import net.voiddustry.redvsblue.util.Utils;
 
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 
 /**
  * Append-only per-map statistics. The server never reads this file: one JSON line is added when a map
@@ -32,21 +33,10 @@ import java.security.MessageDigest;
  */
 public final class MapStats {
 
-    private static final int SCHEMA = 1;
+    private static final int SCHEMA = 2;
     private static final long SAMPLE_INTERVAL_MS = 1000L;
     private static final String DIR = "rvsbStats";
     private static final String FILE = "mapStats.jsonl";
-    private static final String[] BALANCE_FILES = {
-            "rvsbUnits/spawns.hjson",
-            "rvsbUnits/spawns.json",
-            "rvsbUnits/cruxSpawning.hjson",
-            "rvsbUnits/cruxSpawning.json",
-            "rvsbUnits/stages.json",
-            "rvsbUnits/evolutions.hjson",
-            "rvsbUnits/unitWeights.hjson",
-            "rvsbUnits/stagePacing.hjson",
-            "rvsbUnits/stationBreaking.hjson"
-    };
 
     private static final Object FILE_LOCK = new Object();
     private static boolean initialized;
@@ -63,6 +53,9 @@ public final class MapStats {
         initialized = true;
         Events.on(EventType.WorldLoadEvent.class, e -> safe("world-load", MapStats::onWorldLoad));
         Events.on(EventType.DisposeEvent.class, e -> safe("dispose", MapStats::onDispose));
+        Events.on(EventType.PlayerLeave.class, e -> safe("player-leave", () -> onPlayerLeave(e.player)));
+        Events.on(EventType.UnitDamageEvent.class, e -> safe("unit-damage", () -> attributeDeath(e.unit, e.bullet)));
+        Events.on(EventType.UnitBulletDestroyEvent.class, e -> safe("unit-bullet-destroy", () -> attributeDeath(e.unit, e.bullet)));
         Timer.schedule(() -> safe("sample", MapStats::sample), 0f, 1f);
         lastSampleMs = System.currentTimeMillis();
     }
@@ -86,17 +79,26 @@ public final class MapStats {
     public static void onBlueUnitDeath(Player player, Unit unit) {
         try {
             if (player == null || unit == null || !RedVsBluePlugin.playing || !Utils.gameRun) return;
+            if (player.team() != Team.blue) return;
+            // ignore a stale association: after an evolution the player already owns a fresh, living unit
+            if (player.unit() != null && player.unit() != unit && !player.unit().dead()) return;
             Session s = session;
             if (s == null) s = ensureSession();
             if (s == null || s.finished) return;
-            if (player.team() != Team.blue) return;
 
-            UnitStat stat = unitStat(s, unit.type);
+            long now = System.currentTimeMillis();
+            int stageIndex = clampStage(s, RedVsBluePlugin.stage);
+
+            BlueStat stat = blueStat(s, unit.type);
             stat.deaths++;
-            StageStat stage = stage(s, RedVsBluePlugin.stage);
-            stage.blueDeaths++;
-            s.maxStage = Math.max(s.maxStage, stageIndex(s, RedVsBluePlugin.stage));
-            if (player.uuid() != null) s.uniqueBlue.add(player.uuid());
+            stage(s, stageIndex).blueDeaths++;
+            s.maxStage = Math.max(s.maxStage, stageIndex);
+
+            closeLife(s, player.uuid(), now);
+            // a flying unit fires its lethal bullet event before this hook, so an early marker may already exist
+            if (!s.pendingDeaths.containsKey(unit.id)) {
+                s.pendingDeaths.put(unit.id, new Pending(unit.type.name, stageIndex));
+            }
         } catch (Throwable t) {
             logOnce("blue-death", t);
         }
@@ -109,10 +111,47 @@ public final class MapStats {
             Session s = session;
             if (s == null) s = ensureSession();
             if (s == null || s.finished) return;
-            unitStat(s, type).picks++;
-            if (player.uuid() != null) s.uniqueBlue.add(player.uuid());
+
+            long now = System.currentTimeMillis();
+            closeLife(s, player.uuid(), now);
+
+            BlueStat stat = blueStat(s, type);
+            stat.picks++;
+            stat.picksByStage[clampStage(s, RedVsBluePlugin.stage) - 1]++;
+            // a pick made during the start countdown only begins ticking when the game actually starts
+            s.lives.put(player.uuid(), new Life(type, Utils.gameRun ? now : 0L));
         } catch (Throwable t) {
             logOnce("pick", t);
+        }
+    }
+
+    /**
+     * Opens a lifetime for every blue player that has none. The random unit handed out before the
+     * countdown (and a unit from a mid-game join or redeem) never goes through the starting menu,
+     * so without this those picks and lifetimes would be missing.
+     */
+    public static void ensurePicks() {
+        try {
+            if (!RedVsBluePlugin.playing || !Utils.gameRun) return;
+            for (Player player : Groups.player) {
+                if (player == null || player.team() != Team.blue) continue;
+                Session s = session;
+                if (s == null) s = ensureSession();
+                if (s == null || s.finished) return;
+
+                Life life = s.lives.get(player.uuid());
+                if (life != null) {
+                    if (life.startedAt <= 0) life.startedAt = System.currentTimeMillis();
+                    continue;
+                }
+
+                PlayerData data = RedVsBluePlugin.players.get(player.uuid());
+                Unit unit = data != null ? data.getUnit() : player.unit();
+                if (unit == null || unit.dead() || unit.type == null) continue;
+                onPick(player, unit.type);
+            }
+        } catch (Throwable t) {
+            logOnce("ensure-picks", t);
         }
     }
 
@@ -130,7 +169,7 @@ public final class MapStats {
             else if (player.unit() != null) type = player.unit().type;
             if (type == null) return;
 
-            unitStat(s, type).kills++;
+            blueStat(s, type).kills++;
         } catch (Throwable t) {
             logOnce("kill", t);
         }
@@ -142,12 +181,12 @@ public final class MapStats {
             Session s = session;
             if (s == null) s = ensureSession();
             if (s == null || s.finished) return;
-            s.endedAt = System.currentTimeMillis();
+            long now = System.currentTimeMillis();
+            s.endedAt = now;
             s.playersAtEnd = Groups.player.size();
-            if (s.startedAt <= 0) s.startedAt = s.endedAt;
-            s.endReason = winner == Team.blue ? "blueWin" : winner == Team.crux ? "cruxWin" : "gameOver";
-            s.winner = winner == null ? "none" : winner.name;
-            s.maxStage = Math.max(s.maxStage, Math.max(1, RedVsBluePlugin.stage));
+            if (s.startedAt <= 0) s.startedAt = now;
+            s.maxStage = Math.max(s.maxStage, clampStage(s, RedVsBluePlugin.stage));
+            closeAllLives(s, now);
             finish(s);
             session = null;
         } catch (Throwable t) {
@@ -165,8 +204,7 @@ public final class MapStats {
         if (old != null && !old.finished) {
             old.endedAt = now;
             old.playersAtEnd = Groups.player.size();
-            old.endReason = "mapChange";
-            old.winner = "none";
+            closeAllLives(old, now);
             finish(old);
         }
 
@@ -176,15 +214,88 @@ public final class MapStats {
     }
 
     private static void onDispose() {
+        long now = System.currentTimeMillis();
         Session s = session;
         if (s != null && !s.finished) {
-            s.endedAt = System.currentTimeMillis();
+            s.endedAt = now;
             s.playersAtEnd = Groups.player.size();
-            s.endReason = "shutdown";
-            s.winner = "none";
+            closeAllLives(s, now);
             finish(s);
         }
         session = null;
+    }
+
+    private static void onPlayerLeave(Player player) {
+        if (player == null) return;
+        Session s = session;
+        if (s == null || s.finished) return;
+        closeLife(s, player.uuid(), System.currentTimeMillis());
+    }
+
+    /**
+     * Credits a blue unit's death to the red unit whose bullet killed it. Ground units reach
+     * {@link #onBlueUnitDeath} on the same stack as the damage, before the engine fires the bullet event;
+     * a flying unit is only converted on the next frame, so the lethal damage event itself may arrive first.
+     * Both orders are covered by the pending marker, which is created here when the death hook has not run yet.
+     */
+    private static void attributeDeath(Unit unit, Bullet bullet) {
+        if (unit == null || bullet == null) return;
+        Session s = session;
+        if (s == null || s.finished) return;
+
+        Pending pending = s.pendingDeaths.get(unit.id);
+        if (pending == null) {
+            if (!unit.dead() || unit.team != Team.blue || !unit.isPlayer() || unit.type == null) return;
+            // an early marker: this damage event is the one that killed a flying unit
+            pending = new Pending(unit.type.name, clampStage(s, RedVsBluePlugin.stage));
+            s.pendingDeaths.put(unit.id, pending);
+        }
+        if (pending.resolved) return;
+        pending.resolved = true;
+
+        Entityc owner = bullet.shooter != null ? bullet.shooter : bullet.owner;
+        if (!(owner instanceof Unit killer) || killer.team != Team.crux || killer.type == null) return;
+
+        creditKill(s, killer.type, pending);
+    }
+
+    /**
+     * A red ability killed a blue player's unit directly, without a bullet (the boss aura).
+     * Called right before {@code victim.kill()}, so the pending marker is already there when the
+     * death hook runs and the death is still counted exactly once.
+     */
+    public static void onRedDirectKill(Unit killer, Unit victim) {
+        try {
+            if (killer == null || victim == null || killer.type == null || victim.type == null) return;
+            if (!RedVsBluePlugin.playing || !Utils.gameRun) return;
+            if (killer.team != Team.crux || victim.team != Team.blue) return;
+            // only player instances take part in the statistics
+            if (!victim.isPlayer() || victim.getPlayer() == null) return;
+
+            Session s = session;
+            if (s == null) s = ensureSession();
+            if (s == null || s.finished) return;
+
+            Pending pending = s.pendingDeaths.get(victim.id);
+            if (pending == null) {
+                pending = new Pending(victim.type.name, clampStage(s, RedVsBluePlugin.stage));
+                s.pendingDeaths.put(victim.id, pending);
+            }
+            if (pending.resolved) return;
+            pending.resolved = true;
+
+            creditKill(s, killer.type, pending);
+        } catch (Throwable t) {
+            logOnce("red-direct-kill", t);
+        }
+    }
+
+    private static void creditKill(Session s, UnitType redType, Pending pending) {
+        RedStat stat = redStat(s, redType);
+        stat.kills++;
+        stat.byStage[pending.stageIndex - 1]++;
+        Integer current = stat.victims.get(pending.blueType);
+        stat.victims.put(pending.blueType, current == null ? 1 : current + 1);
     }
 
     private static void sample() {
@@ -211,36 +322,9 @@ public final class MapStats {
             if (delta <= 0 || delta > 5000L) delta = SAMPLE_INTERVAL_MS;
             int seconds = Math.max(1, (int) Math.round(delta / 1000.0));
 
-            StageStat stage = stage(s, RedVsBluePlugin.stage);
-            stage.seconds += seconds;
-            s.maxStage = Math.max(s.maxStage, stageIndex(s, RedVsBluePlugin.stage));
-
-            int blue = 0;
-            int crux = 0;
-            for (Player player : Groups.player) {
-                if (player == null) continue;
-
-                if (player.team() == Team.crux) {
-                    crux++;
-                    continue;
-                }
-                if (player.team() != Team.blue) continue;
-
-                blue++;
-                if (player.uuid() != null) s.uniqueBlue.add(player.uuid());
-
-                PlayerData data = RedVsBluePlugin.players.get(player.uuid());
-                Unit unit = data == null ? null : data.getUnit();
-                if (unit == null || unit.dead || !unit.isAdded() || unit.type == null) continue;
-
-                UnitStat stat = unitStat(s, unit.type);
-                stat.seconds += seconds;
-                s.blueSeconds += seconds;
-                stage.blueSeconds += seconds;
-            }
-
-            s.peakBlue = Math.max(s.peakBlue, blue);
-            s.peakCrux = Math.max(s.peakCrux, crux);
+            int stageIndex = clampStage(s, RedVsBluePlugin.stage);
+            stage(s, stageIndex).seconds += seconds;
+            s.maxStage = Math.max(s.maxStage, stageIndex);
         } catch (Throwable t) {
             logOnce("sample", t);
         }
@@ -260,12 +344,12 @@ public final class MapStats {
         if (s == null || s.finished) return;
         s.finished = true;
         if (s.startedAt <= 0) return;
+        if (s.endedAt <= 0) s.endedAt = System.currentTimeMillis();
         // maps that end with a nearly empty server are not representative
         if (s.playersAtEnd < 3) {
             Log.info("[MapStats] skipped @: only @ player(s) at the end", s.info.key, s.playersAtEnd);
             return;
         }
-        if (s.endedAt <= 0) s.endedAt = System.currentTimeMillis();
         try {
             write(s);
         } catch (Throwable t) {
@@ -317,61 +401,69 @@ public final class MapStats {
     }
 
     private static String toJson(Session s) {
-        MapInfo info = s.info;
-        long startedAt = s.startedAt / 1000L;
-        long endedAt = s.endedAt / 1000L;
-        long duration = Math.max(0L, (s.endedAt - s.startedAt) / 1000L);
-
         StringBuilder b = new StringBuilder(1024);
         b.append("{\"v\":").append(SCHEMA);
-        b.append(",\"startedAt\":").append(startedAt);
-        b.append(",\"endedAt\":").append(endedAt);
-        b.append(",\"durationSec\":").append(duration);
-        b.append(",\"map\":\"").append(esc(info.key)).append('"');
-        b.append(",\"mapName\":\"").append(esc(info.name)).append('"');
-        b.append(",\"mapHash\":\"").append(esc(info.hash)).append('"');
-        b.append(",\"mapWidth\":").append(info.width);
-        b.append(",\"mapHeight\":").append(info.height);
-        b.append(",\"balance\":\"").append(esc(info.balance)).append('"');
-        b.append(",\"plugin\":\"").append(esc(info.plugin)).append('"');
-        b.append(",\"endReason\":\"").append(esc(s.endReason)).append('"');
-        b.append(",\"winner\":\"").append(esc(s.winner)).append('"');
+        b.append(",\"map\":\"").append(esc(s.info.key)).append('"');
+        b.append(",\"mapName\":\"").append(esc(s.info.name)).append('"');
         b.append(",\"finalStage\":").append(Math.max(1, s.maxStage));
-        b.append(",\"playersAtEnd\":").append(s.playersAtEnd);
-        b.append(",\"blue\":{\"unique\":").append(s.uniqueBlue.size)
-                .append(",\"peak\":").append(s.peakBlue)
-                .append(",\"seconds\":").append(s.blueSeconds)
-                .append('}');
-        b.append(",\"crux\":{\"peak\":").append(s.peakCrux).append('}');
 
         b.append(",\"stages\":[");
-        int maxStage = Math.min(s.stages.length - 1, Math.max(s.maxStage, RedVsBluePlugin.finalStage));
-        for (int i = 1; i <= maxStage; i++) {
+        for (int i = 1; i <= s.stageSlots; i++) {
             if (i > 1) b.append(',');
             StageStat st = s.stages[i];
             b.append("{\"stage\":").append(i)
                     .append(",\"seconds\":").append(st.seconds)
-                    .append(",\"blueSeconds\":").append(st.blueSeconds)
                     .append(",\"blueDeaths\":").append(st.blueDeaths)
                     .append('}');
         }
         b.append(']');
 
-        Seq<UnitStat> units = new Seq<>();
-        for (UnitStat stat : s.units.values()) units.add(stat);
-        units.sort((a, c) -> a.name.compareToIgnoreCase(c.name));
+        Seq<BlueStat> blues = new Seq<>();
+        for (BlueStat stat : s.blue.values()) blues.add(stat);
+        blues.sort((a, c) -> a.name.compareToIgnoreCase(c.name));
 
-        b.append(",\"units\":[");
-        for (int i = 0; i < units.size; i++) {
+        b.append(",\"blue\":[");
+        for (int i = 0; i < blues.size; i++) {
             if (i > 0) b.append(',');
-            UnitStat u = units.get(i);
+            BlueStat u = blues.get(i);
             b.append("{\"name\":\"").append(esc(u.name)).append('"')
                     .append(",\"tier\":").append(u.tier)
                     .append(",\"picks\":").append(u.picks)
-                    .append(",\"seconds\":").append(u.seconds)
-                    .append(",\"deaths\":").append(u.deaths)
                     .append(",\"kills\":").append(u.kills)
-                    .append('}');
+                    .append(",\"deaths\":").append(u.deaths)
+                    .append(",\"lifeSec\":").append(u.lifeMs / 1000L)
+                    .append(",\"lifeCount\":").append(u.lifeCount)
+                    .append(",\"picksByStage\":[");
+            for (int stage = 0; stage < s.stageSlots; stage++) {
+                if (stage > 0) b.append(',');
+                b.append(u.picksByStage[stage]);
+            }
+            b.append("]}");
+        }
+        b.append(']');
+
+        Seq<RedStat> reds = new Seq<>();
+        for (RedStat stat : s.red.values()) reds.add(stat);
+        reds.sort((a, c) -> a.name.compareToIgnoreCase(c.name));
+
+        b.append(",\"red\":[");
+        for (int i = 0; i < reds.size; i++) {
+            if (i > 0) b.append(',');
+            RedStat u = reds.get(i);
+            b.append("{\"name\":\"").append(esc(u.name)).append('"')
+                    .append(",\"kills\":").append(u.kills)
+                    .append(",\"byStage\":[");
+            for (int stage = 0; stage < s.stageSlots; stage++) {
+                if (stage > 0) b.append(',');
+                b.append(u.byStage[stage]);
+            }
+            b.append("],\"victims\":{");
+            int written = 0;
+            for (ObjectMap.Entry<String, Integer> e : u.victims) {
+                if (written++ > 0) b.append(',');
+                b.append('"').append(esc(e.key)).append("\":").append(e.value);
+            }
+            b.append("}}");
         }
         b.append("]}");
         return b.toString();
@@ -387,61 +479,11 @@ public final class MapStats {
             String name = Strings.stripColors(map.name());
             if (name == null) name = key;
 
-            String hash;
-            if (map.file != null && map.file.exists()) {
-                hash = sha256(map.file.readBytes());
-            } else {
-                hash = sha256((key + "|" + map.width + "x" + map.height).getBytes(StandardCharsets.UTF_8));
-            }
-
-            return new MapInfo(key, name, hash, balanceHash(), pluginVersion(), map.width, map.height);
+            return new MapInfo(key, name);
         } catch (Throwable t) {
             logOnce("map-info", t);
             return null;
         }
-    }
-
-    private static String balanceHash() {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            for (String path : BALANCE_FILES) {
-                digest.update(path.getBytes(StandardCharsets.UTF_8));
-                Fi file = Vars.dataDirectory.child(path);
-                if (file.exists()) digest.update(file.readBytes());
-                else digest.update((byte) 0);
-            }
-            digest.update(pluginVersion().getBytes(StandardCharsets.UTF_8));
-            return hex(digest.digest());
-        } catch (Throwable t) {
-            logOnce("balance-hash", t);
-            return "unknown";
-        }
-    }
-
-    private static String pluginVersion() {
-        try {
-            return Vars.mods.getMod("red-vs-blue").meta.version;
-        } catch (Throwable t) {
-            return "unknown";
-        }
-    }
-
-    private static String sha256(byte[] bytes) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return hex(digest.digest(bytes));
-        } catch (Throwable t) {
-            return "unknown";
-        }
-    }
-
-    private static String hex(byte[] bytes) {
-        StringBuilder b = new StringBuilder(bytes.length * 2);
-        for (byte value : bytes) {
-            b.append(Character.forDigit((value >> 4) & 0xf, 16));
-            b.append(Character.forDigit(value & 0xf, 16));
-        }
-        return b.toString();
     }
 
     private static String esc(String value) {
@@ -472,11 +514,20 @@ public final class MapStats {
     // in-memory current map (cleared on every world load)
     // =====================================================================================================
 
-    private static UnitStat unitStat(Session s, UnitType type) {
-        UnitStat stat = s.units.get(type);
+    private static BlueStat blueStat(Session s, UnitType type) {
+        BlueStat stat = s.blue.get(type);
         if (stat == null) {
-            stat = new UnitStat(type.name, tier(type));
-            s.units.put(type, stat);
+            stat = new BlueStat(type.name, tier(type), s.stageSlots);
+            s.blue.put(type, stat);
+        }
+        return stat;
+    }
+
+    private static RedStat redStat(Session s, UnitType type) {
+        RedStat stat = s.red.get(type);
+        if (stat == null) {
+            stat = new RedStat(type.name, s.stageSlots);
+            s.red.put(type, stat);
         }
         return stat;
     }
@@ -486,12 +537,31 @@ public final class MapStats {
         return evolution == null ? 0 : evolution.tier;
     }
 
-    private static StageStat stage(Session s, int index) {
-        return s.stages[stageIndex(s, index)];
+    private static int clampStage(Session s, int stage) {
+        return Math.max(1, Math.min(s.stageSlots, stage));
     }
 
-    private static int stageIndex(Session s, int index) {
-        return Math.max(1, Math.min(s.stages.length - 1, index));
+    private static StageStat stage(Session s, int index) {
+        return s.stages[Math.max(1, Math.min(s.stageSlots, index))];
+    }
+
+    /** Ends the player's current unit instance and adds its lifetime to the type's average. */
+    private static void closeLife(Session s, String uuid, long now) {
+        if (uuid == null) return;
+        Life life = s.lives.remove(uuid);
+        addLife(s, life, now);
+    }
+
+    private static void closeAllLives(Session s, long now) {
+        for (ObjectMap.Entry<String, Life> e : s.lives) addLife(s, e.value, now);
+        s.lives.clear();
+    }
+
+    private static void addLife(Session s, Life life, long now) {
+        if (life == null || life.type == null || life.startedAt <= 0) return;
+        BlueStat stat = blueStat(s, life.type);
+        stat.lifeMs += Math.max(0L, now - life.startedAt);
+        stat.lifeCount++;
     }
 
     private static void safe(String where, Runnable action) {
@@ -510,59 +580,90 @@ public final class MapStats {
     }
 
     private static final class MapInfo {
-        final String key, name, hash, balance, plugin;
-        final int width, height;
+        final String key, name;
 
-        MapInfo(String key, String name, String hash, String balance, String plugin, int width, int height) {
+        MapInfo(String key, String name) {
             this.key = key;
             this.name = name;
-            this.hash = hash;
-            this.balance = balance;
-            this.plugin = plugin;
-            this.width = width;
-            this.height = height;
         }
     }
 
     private static final class Session {
         final MapInfo info;
+        final int stageSlots;
         final StageStat[] stages;
-        final ObjectMap<UnitType, UnitStat> units = new ObjectMap<>();
-        final ObjectSet<String> uniqueBlue = new ObjectSet<>();
+        final ObjectMap<UnitType, BlueStat> blue = new ObjectMap<>();
+        final ObjectMap<UnitType, RedStat> red = new ObjectMap<>();
+        final ObjectMap<String, Life> lives = new ObjectMap<>();
+        final IntMap<Pending> pendingDeaths = new IntMap<>();
 
         long startedAt, endedAt;
-        int peakBlue, peakCrux, blueSeconds;
         int playersAtEnd;
         int maxStage = 1;
-        String endReason = "unknown";
-        String winner = "none";
         boolean finished;
 
         Session(MapInfo info) {
             this.info = info;
-            this.stages = new StageStat[Math.max(32, RedVsBluePlugin.finalStage + 2)];
+            this.stageSlots = Math.max(1, RedVsBluePlugin.finalStage);
+            this.stages = new StageStat[stageSlots + 1];
             for (int i = 0; i < stages.length; i++) stages[i] = new StageStat();
         }
     }
 
     private static final class StageStat {
         int seconds;
-        int blueSeconds;
         int blueDeaths;
     }
 
-    private static final class UnitStat {
+    private static final class BlueStat {
         final String name;
         final int tier;
+        final int[] picksByStage;
 
         int picks;
-        int seconds;
-        int deaths;
         int kills;
+        int deaths;
+        long lifeMs;
+        int lifeCount;
 
-        UnitStat(String name, int tier) {
+        BlueStat(String name, int tier, int stageSlots) {
             this.name = name;
             this.tier = tier;
+            this.picksByStage = new int[stageSlots];
+        }
+    }
+
+    private static final class RedStat {
+        final String name;
+        final int[] byStage;
+        final ObjectMap<String, Integer> victims = new ObjectMap<>();
+
+        int kills;
+
+        RedStat(String name, int stageSlots) {
+            this.name = name;
+            this.byStage = new int[stageSlots];
+        }
+    }
+
+    private static final class Life {
+        final UnitType type;
+        long startedAt;
+
+        Life(UnitType type, long startedAt) {
+            this.type = type;
+            this.startedAt = startedAt;
+        }
+    }
+
+    private static final class Pending {
+        final String blueType;
+        final int stageIndex;
+        boolean resolved;
+
+        Pending(String blueType, int stageIndex) {
+            this.blueType = blueType;
+            this.stageIndex = stageIndex;
         }
     }
 }

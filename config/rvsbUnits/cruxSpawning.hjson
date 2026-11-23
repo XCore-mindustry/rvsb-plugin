@@ -3,7 +3,7 @@ formula: {
   playerWeight: 1
   stageWeight: 1
   stageCap: 12
-  divisor: 2
+  divisor: 2.5
   minUnitHp: 600
 }
 stageMultipliers: {

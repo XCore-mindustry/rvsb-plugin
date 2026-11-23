@@ -14,8 +14,8 @@ global: {
       graceSeconds: 600
       tiers: [
         {
-          min: 2232
-          max: 6694
+          min: 2344
+          max: 7029
           cooldown: 60
           units: [
             {type: "pulsar"}
@@ -24,8 +24,8 @@ global: {
           ]
         }
         {
-          min: 6694
-          max: 11158
+          min: 7029
+          max: 11716
           cooldown: 70
           units: [
             {type: "locus"}
@@ -34,8 +34,8 @@ global: {
           ]
         }
         {
-          min: 11158
-          max: 17852
+          min: 11716
+          max: 20483
           cooldown: 80
           units: [
             {type: "precept", effects: ["electrified"], effectSeconds: 999}
@@ -44,8 +44,8 @@ global: {
           ]
         }
         {
-          min: 17852
-          max: 26778
+          min: 20483
+          max: 30725
           cooldown: 90
           units: [
             {type: "scepter", effects: ["sapped"], effectSeconds: 999}
@@ -55,9 +55,9 @@ global: {
           ]
         }
         {
-          min: 26778
-          max: 33472
-          cooldown: 95
+          min: 30725
+          max: 38405
+          cooldown: 105
           units: [
             {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
             {type: "dp-aractid-unit"}
@@ -65,9 +65,9 @@ global: {
           ]
         }
         {
-          min: 33472
-          max: 40167
-          cooldown: 100
+          min: 38405
+          max: 46085
+          cooldown: 110
           units: [
             {type: "dp-regent-unit", effects: ["sapped"], effectSeconds: 999}
             {type: "dp-eliminate-unit"}
@@ -75,9 +75,9 @@ global: {
           ]
         }
         {
-          min: 40167
-          max: 53556
-          cooldown: 105
+          min: 46085
+          max: 61449
+          cooldown: 115
           units: [
             {type: "dp-regent-unit"}
             {type: "vanquish", effects: ["overclock"], effectSeconds: 999}
@@ -86,9 +86,9 @@ global: {
           ]
         }
         {
-          min: 53556
-          max: 62482
-          cooldown: 130
+          min: 61449
+          max: 71689
+          cooldown: 150
           units: [
             {type: "reign", effects: ["overclock", "shielded"], effectSeconds: 999}
             {type: "sei", effects: ["overclock"], effectSeconds: 999}
@@ -96,9 +96,9 @@ global: {
           ]
         }
         {
-          min: 62482
-          max: 80334
-          cooldown: 130
+          min: 71689
+          max: 92173
+          cooldown: 150
           units: [
             {type: "dp-annihilate-unit"}
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
@@ -106,9 +106,9 @@ global: {
           ]
         }
         {
-          min: 80334
-          max: 89260
-          cooldown: 130
+          min: 92173
+          max: 102414
+          cooldown: 150
           units: [
             {type: "dp-regent-unit", effects: ["overclock"], effectSeconds: 999}
             {type: "reign", effects: ["overclock"], effectSeconds: 999}
@@ -117,8 +117,8 @@ global: {
           ]
         }
         {
-          min: 89260
-          cooldown: 130
+          min: 102414
+          cooldown: 150
           units: [
             {type: "dp-regent-unit", count: 2}
             {type: "dp-vulcan-unit", effects: ["overclock"], effectSeconds: 999}
@@ -134,15 +134,14 @@ global: {
       decay: 0.8
       hp: max
       weighted: true
-      playersOnly: true
       playerScaling: 0.3
       maxUnitHp: 60000
       buildingBonus: {dp-conquer-turret: 2000}
       graceSeconds: 600
       tiers: [
         {
-          min: 2232
-          max: 6694
+          min: 2344
+          max: 7029
           cooldown: 30
           units: [
             {type: "pulsar"}
@@ -150,8 +149,8 @@ global: {
           ]
         }
         {
-          min: 6694
-          max: 11158
+          min: 7029
+          max: 11716
           cooldown: 35
           units: [
             {type: "locus"}
@@ -159,8 +158,8 @@ global: {
           ]
         }
         {
-          min: 11158
-          max: 17852
+          min: 11716
+          max: 20483
           cooldown: 40
           units: [
             {type: "locus"}
@@ -169,8 +168,8 @@ global: {
           ]
         }
         {
-          min: 17852
-          max: 26778
+          min: 20483
+          max: 30725
           cooldown: 45
           units: [
             {type: "dp-aractid-unit"}
@@ -178,61 +177,61 @@ global: {
           ]
         }
         {
-          min: 26778
-          max: 33472
-          cooldown: 47.5
+          min: 30725
+          max: 38405
+          cooldown: 57.5
           units: [
             {type: "vanquish"}
             {type: "dp-aractid-unit"}
           ]
         }
         {
-          min: 33472
-          max: 40167
-          cooldown: 50
+          min: 38405
+          max: 46085
+          cooldown: 60
           units: [
             {type: "dp-eliminate-unit"}
             {type: "toxopid"}
           ]
         }
         {
-          min: 40167
-          max: 53556
-          cooldown: 52.5
+          min: 46085
+          max: 61449
+          cooldown: 62.5
           units: [
             {type: "dp-incinerate-unit"}
             {type: "vanquish"}
           ]
         }
         {
-          min: 53556
-          max: 62482
-          cooldown: 55
+          min: 61449
+          max: 71689
+          cooldown: 75
           units: [
             {type: "vela"}
           ]
         }
         {
-          min: 62482
-          max: 80334
-          cooldown: 65
+          min: 71689
+          max: 92173
+          cooldown: 85
           units: [
             {type: "dp-vulcan-unit"}
             {type: "vela"}
           ]
         }
         {
-          min: 80334
-          max: 89260
-          cooldown: 60
+          min: 92173
+          max: 102414
+          cooldown: 80
           units: [
             {type: "reign"}
             {type: "vela"}
           ]
         }
         {
-          min: 89260
-          cooldown: 65
+          min: 102414
+          cooldown: 85
           units: [
             {type: "reign"}
             {type: "collaris"}

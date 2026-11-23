@@ -6,6 +6,7 @@ import arc.math.Mathf;
 import arc.struct.FloatSeq;
 import arc.struct.IntFloatMap;
 import arc.struct.ObjectFloatMap;
+import arc.struct.ObjectIntMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -48,6 +49,7 @@ public final class StrengthSpawner {
     private static boolean running, hooked;
     private static float clock, untilUpdate, untilCheck;
     private static int blueUnits, bluePlayers;
+    private static float mapMultiplier = 1f;
     private static String mapKey = "";
     private static final ObjectSet<String> warned = new ObjectSet<>();
 
@@ -118,17 +120,18 @@ public final class StrengthSpawner {
         untilUpdate = 0f;
         untilCheck = 0f;
         running = true;
+        mapMultiplier = 1f;
         if (config == null || Vars.state.map == null) return;
 
         String fileName = Vars.state.map.file != null ? Vars.state.map.file.nameWithoutExtension() : "";
         String displayName = Strings.stripColors(Vars.state.map.name());
         mapKey = fileName.isEmpty() ? displayName : fileName;
         Jval mapCfg = readMapConfig(fileName, displayName);
+        mapMultiplier = mapCfg == null ? 1f : mapCfg.getFloat("globalMultiplier", 1f);
 
         Jval global = config.has("global") ? config.get("global") : null;
         if (global != null && !isException(global, fileName, displayName)) {
-            float mult = mapCfg == null ? 1f : mapCfg.getFloat("globalMultiplier", 1f);
-            readSpawners(global.get("spawners"), mult, "global");
+            readSpawners(global.get("spawners"), mapMultiplier, "global");
         }
         if (mapCfg != null) readSpawners(mapCfg.get("spawners"), 1f, mapKey);
 
@@ -292,6 +295,68 @@ public final class StrengthSpawner {
             }
         }
         return b.toString();
+    }
+
+    /** One unit type counted by a spawner and its weight coefficient. */
+    public record UnitView(String name, int count, float weight) {
+    }
+
+    /** One unit type (and count) that the current tier can spawn. */
+    public record SpawnUnitView(String name, int count) {
+    }
+
+    /** One spawner line for the client balancer window. {@code tier} is 1-based, 0 when no tier matches. */
+    public record SpawnerView(String name, int tier, int tierCount, float min, float max, int cooldown,
+                              float value, Seq<SpawnUnitView> spawns, Seq<UnitView> units) {
+    }
+
+    /** Compact read-only state for the client balancer window. */
+    public record View(String map, float mapMultiplier, int stage, int finalStage, boolean running,
+                       int blueUnits, int bluePlayers, Seq<SpawnerView> spawners) {
+    }
+
+    /** Snapshot for the player-facing balancer window; much shorter than {@link #status()}. */
+    public static View view() {
+        Seq<SpawnerView> list = new Seq<>();
+        for (Spawner s : active) {
+            Tier tier = currentTier(s);
+            int index = 0;
+            if (tier != null) {
+                // tiers are stored highest-first, count by ascending min so #1 is the earliest tier
+                for (Tier t : s.tiers) {
+                    if (t.min <= tier.min) index++;
+                }
+            }
+
+            ObjectIntMap<UnitType> counted = new ObjectIntMap<>();
+            s.tally(counted);
+            Seq<UnitView> units = new Seq<>();
+            for (var e : counted) {
+                units.add(new UnitView(e.key.name, e.value, weight(e.key)));
+            }
+            units.sort((a, b) -> a.count() != b.count() ? b.count() - a.count() : a.name().compareTo(b.name()));
+
+            Seq<SpawnUnitView> spawns = new Seq<>();
+            if (tier != null) {
+                ObjectSet<String> seen = new ObjectSet<>();
+                for (Option option : tier.options) {
+                    for (UnitEntry entry : option.units) {
+                        String spawn = entry.type != null ? entry.type.name : entry.wave > 0 ? "wave " + entry.wave : null;
+                        if (spawn != null && seen.add(spawn)) {
+                            spawns.add(new SpawnUnitView(spawn, Math.max(1, entry.count)));
+                        }
+                    }
+                }
+            }
+
+            list.add(new SpawnerView(s.name, index, s.tiers.size,
+                    tier == null ? 0f : tier.min,
+                    tier == null ? 0f : tier.max,
+                    tier == null ? 0 : Math.round(effectiveCooldown(s, tier)),
+                    s.value, spawns, units));
+        }
+        return new View(mapKey, mapMultiplier, RedVsBluePlugin.stage, RedVsBluePlugin.finalStage,
+                running, blueUnits, bluePlayers, list);
     }
 
     private static Spawner find(String selector) {
@@ -600,14 +665,26 @@ public final class StrengthSpawner {
             }
         }
 
+        /** Whether this unit feeds the strength calculation (same filters as {@link #compute()}). */
+        boolean counts(Unit u) {
+            if (u.team != Team.blue || u.dead) return false;
+            if (playersOnly && !u.isPlayer()) return false;
+            if (exclude.contains(u.type) || (!include.isEmpty() && !include.contains(u.type))) return false;
+            return u.maxHealth >= minUnitHp && u.maxHealth <= maxUnitHp;
+        }
+
+        /** Counts of the unit types that feed the calculation, for the player-facing window. */
+        void tally(ObjectIntMap<UnitType> out) {
+            for (Unit u : Groups.unit) {
+                if (counts(u)) out.increment(u.type, 1);
+            }
+        }
+
         float compute() {
             scratch.clear();
             float bonus = 0f;
             for (Unit u : Groups.unit) {
-                if (u.team != Team.blue || u.dead) continue;
-                if (playersOnly && !u.isPlayer()) continue;
-                if (exclude.contains(u.type) || (!include.isEmpty() && !include.contains(u.type))) continue;
-                if (u.maxHealth < minUnitHp || u.maxHealth > maxUnitHp) continue;
+                if (!counts(u)) continue;
                 float hp = currentHealth ? u.health + 0.3f * u.maxHealth : u.maxHealth;
                 scratch.add(Math.max(0f, hp) * (weighted ? weight(u.type) : 1f));
             }
