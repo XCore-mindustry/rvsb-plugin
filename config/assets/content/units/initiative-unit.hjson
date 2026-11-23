@@ -281,7 +281,7 @@
             {
               type: WrapEffect
               color: bb5effff
-              rotation: 12.0
+              rotation: 12
               effect:
               {
                 type: SeqEffect
@@ -291,7 +291,7 @@
                   {
                     type: ParticleEffect
                     particles: 0
-                    lifetime: 1.0
+                    lifetime: 1
                   }
                   dynamicSpikes
                 ]
@@ -462,7 +462,7 @@
                   {
                     type: ParticleEffect
                     particles: 0
-                    lifetime: 84.0
+                    lifetime: 84
                   }
                   dynamicSpikes
                 ]
@@ -633,7 +633,7 @@
                   {
                     type: ParticleEffect
                     particles: 0
-                    lifetime: 167.0
+                    lifetime: 167
                   }
                   dynamicSpikes
                 ]
@@ -1132,9 +1132,9 @@
                       heatColor: 00000000
                       heatProgress: 0
                       x: 8.5
-                      y: -0.0
-                      rotation: -0.0
-                      xScl: 4.0
+                      y: 0
+                      rotation: 0
+                      xScl: 4
                       yScl: 1.4
                       color: e5deff
                       layerOffset: 0.027
@@ -1237,9 +1237,9 @@
                       heatColor: 00000000
                       heatProgress: 0
                       x: 8.5
-                      y: -0.0
-                      rotation: -0.0
-                      xScl: 4.0
+                      y: 0
+                      rotation: 0
+                      xScl: 4
                       yScl: 1.4
                       color: e5deff
                       layerOffset: 0.027
@@ -1342,9 +1342,9 @@
                       heatColor: 00000000
                       heatProgress: 0
                       x: 8.5
-                      y: -0.0
-                      rotation: -0.0
-                      xScl: 4.0
+                      y: 0
+                      rotation: 0
+                      xScl: 4
                       yScl: 1.4
                       color: e5deff
                       layerOffset: 0.027
@@ -1473,8 +1473,8 @@
           heatColor: 00000000
           heatProgress: 0
           x: 16.09909
-          y: -0.0
-          rotation: -0.0
+          y: 0
+          rotation: 0
           xScl: 7.57604
           yScl: 2.65162
           color: 625d73
@@ -1578,6 +1578,27 @@
                 }
               }
               {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
+                    }
+                  ]
+                }
+              }
+              {
                 op: clamp
               }
             ]
@@ -1591,8 +1612,8 @@
               heatColor: 00000000
               heatProgress: 0
               x: 19.35385
-              y: -0.0
-              rotation: -0.0
+              y: 0
+              rotation: 0
               xScl: 9.10769
               yScl: 1.73046
               color: b7b0cc
@@ -2091,6 +2112,27 @@
                 }
               }
               {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
+                    }
+                  ]
+                }
+              }
+              {
                 op: clamp
               }
             ]
@@ -2104,8 +2146,8 @@
               heatColor: 00000000
               heatProgress: 0
               x: 19.09231
-              y: -0.0
-              rotation: -0.0
+              y: 0
+              rotation: 0
               xScl: 8.98462
               yScl: 1.70708
               color: a59dbb
@@ -2604,6 +2646,27 @@
                 }
               }
               {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
+                    }
+                  ]
+                }
+              }
+              {
                 op: clamp
               }
             ]
@@ -2617,8 +2680,8 @@
               heatColor: 00000000
               heatProgress: 0
               x: 18.56923
-              y: -0.0
-              rotation: -0.0
+              y: 0
+              rotation: 0
               xScl: 8.73846
               yScl: 1.66031
               color: bfb8d1
@@ -3117,6 +3180,27 @@
                 }
               }
               {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
+                    }
+                  ]
+                }
+              }
+              {
                 op: clamp
               }
             ]
@@ -3130,8 +3214,8 @@
               heatColor: 00000000
               heatProgress: 0
               x: 18.04615
-              y: -0.0
-              rotation: -0.0
+              y: 0
+              rotation: 0
               xScl: 8.49231
               yScl: 1.61354
               color: 9d94b5
@@ -3630,6 +3714,27 @@
                 }
               }
               {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
+                    }
+                  ]
+                }
+              }
+              {
                 op: clamp
               }
             ]
@@ -3643,8 +3748,8 @@
               heatColor: 00000000
               heatProgress: 0
               x: 17.52308
-              y: -0.0
-              rotation: -0.0
+              y: 0
+              rotation: 0
               xScl: 8.24615
               yScl: 1.56677
               color: b0a8c6
@@ -4138,6 +4243,27 @@
                     }
                     {
                       op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: add
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: mul
+                      amount: 0.25
                     }
                   ]
                 }
