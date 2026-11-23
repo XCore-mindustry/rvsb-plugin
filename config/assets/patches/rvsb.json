@@ -1288,8 +1288,10 @@ unit.omura.omniMovement: true
 unit.retusa.omniMovement: true
 unit.oxynoe.omniMovement: true
 unit.cyerce.omniMovement: true
+unit.dp-glaucus-unit.omniMovement: true
 unit.aegires.omniMovement: true
 unit.navanax.omniMovement: true
+unit.dp-elysia-unit.omniMovement: true
 
 // balance changes
 unit.nova.weapons.0.bullet.healPercent: 0
