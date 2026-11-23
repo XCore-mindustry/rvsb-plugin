@@ -27,25 +27,11 @@
   engines:
   [
     {
-      x: -6
-      y: -38
-      radius: 3
-      rotation: -90
-      color: a45cff
-    }
-    {
-      x: 6
-      y: -38
-      radius: 3
-      rotation: -90
-      color: a45cff
-    }
-    {
       x: 0
-      y: -41
-      radius: 2.4
+      y: -34
+      radius: 7
       rotation: -90
-      color: d7b8ff
+      color: a45cff
     }
   ]
   trailLength: 14
@@ -79,6 +65,40 @@
         colorFrom: d7b8ff
         colorTo: 6a2cff
       }
+    }
+    {
+      type: SuppressionFieldAbility
+      active: false
+      display: false
+      x: 0
+      y: 0
+      orbRadius: 5
+      orbSinMag: 0.65
+      particleSize: 2.1
+      particleLen: 8
+      particles: 22
+      particleLife: 110
+      rotateScl: 3
+      layer: 110.01
+      color: b467ff
+      particleColor: d6a2ff
+    }
+    {
+      type: SuppressionFieldAbility
+      active: false
+      display: false
+      x: 0
+      y: -22
+      orbRadius: 3.4
+      orbSinMag: 0.4
+      particleSize: 1.4
+      particleLen: 6
+      particles: 16
+      particleLife: 95
+      rotateScl: 3.8
+      layer: 109.94
+      color: b467ff
+      particleColor: d6a2ff
     }
   ]
   weapons:
@@ -1019,27 +1039,39 @@
     }
     {
       name: clear
-      mirror: true
-      alternate: true
-      x: 20
-      y: 22
+      mirror: false
+      alternate: false
+      x: 0
+      y: -3
       shootX: 0
       shootY: 14
       rotate: true
       rotateSpeed: 2.4
       rotationLimit: 56
-      shootCone: 10
-      reload: 48
+      shootCone: 360
+      reload: 132
       recoilTime: 30
       recoil: 0
-      cooldownTime: 48
+      cooldownTime: 210
       top: true
-      layerOffset: 0.025
+      layerOffset: 0.04
       shake: 0.6
       inaccuracy: 0
       shootSound: shootSap
       parts:
       [
+        {
+          type: RegionPart
+          name: dp-initiative-claw-base-outline
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          x: 0
+          y: 0
+          layerOffset: -0.015
+          xScl: 0.85
+          yScl: 0.85
+        }
         {
           type: RegionPart
           name: clear
@@ -1127,17 +1159,34 @@
                   [
                     {
                       type: RegionPart
-                      name: anthicus-blade
+                      name: dp-initiative-claw-half
                       outline: false
                       heatColor: 00000000
                       heatProgress: 0
-                      x: 8.5
-                      y: 0
-                      rotation: 0
-                      xScl: 4
-                      yScl: 1.4
-                      color: e5deff
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
                       layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
                     }
                   ]
                 }
@@ -1232,17 +1281,34 @@
                   [
                     {
                       type: RegionPart
-                      name: anthicus-blade
+                      name: dp-initiative-claw-full
                       outline: false
                       heatColor: 00000000
                       heatProgress: 0
-                      x: 8.5
+                      x: 13
                       y: 0
-                      rotation: 0
-                      xScl: 4
-                      yScl: 1.4
-                      color: e5deff
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
                       layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-full-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 0
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
                     }
                   ]
                 }
@@ -1337,23 +1403,52 @@
                   [
                     {
                       type: RegionPart
-                      name: anthicus-blade
+                      name: dp-initiative-claw-half
                       outline: false
                       heatColor: 00000000
                       heatProgress: 0
-                      x: 8.5
-                      y: 0
-                      rotation: 0
-                      xScl: 4
-                      yScl: 1.4
-                      color: e5deff
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: ffffff
                       layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
                     }
                   ]
                 }
               ]
             }
           ]
+        }
+        {
+          type: RegionPart
+          name: dp-initiative-claw-base
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          x: 0
+          y: 0
+          layerOffset: 0.05
+          xScl: 0.85
+          yScl: 0.85
         }
       ]
       bullet:
@@ -1371,12 +1466,12 @@
         reflectable: false
         keepVelocity: true
         hitSize: 12
-        width: 6
+        width: 5.692
         height: 26
         shrinkX: 0
         shrinkY: 0
-        backColor: a45cff
-        frontColor: f3e8ff
+        backColor: ffffff
+        frontColor: ffffff
         hitColor: c58bff
         lightRadius: 12
         lightOpacity: 0.25
@@ -1405,8 +1500,8 @@
           colorTo: a45cff
         }
         despawnEffect: none
-        sprite: anthicus-blade
-        backSprite: anthicus-blade
+        sprite: dp-initiative-claw-half
+        backSprite: clear
         trailChance: 0
       }
       recoils: 3
@@ -1427,32 +1522,943 @@
           0
           0
         ]
+        firstShotDelay: 0
       }
+    }
+    {
+      name: clear
+      mirror: false
+      alternate: false
+      x: -25
+      y: 18.5
+      shootX: 0
+      shootY: 14
+      rotate: true
+      rotateSpeed: 2.4
+      rotationLimit: 56
+      shootCone: 360
+      reload: 132
+      recoilTime: 30
+      recoil: 0
+      cooldownTime: 210
+      top: true
+      layerOffset: -0.1
+      shake: 0.6
+      inaccuracy: 0
+      shootSound: shootSap
+      parts:
+      [
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: -6
+          y: 0
+          recoilIndex: 0
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 0
+          y: 3
+          recoilIndex: 1
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-full
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 0
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-full-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 0
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 6
+          y: 0
+          recoilIndex: 2
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      bullet:
+      {
+        type: BasicBulletType
+        speed: 11.8
+        lifetime: 10
+        damage: 260
+        knockback: 2.5
+        pierce: true
+        pierceCap: 4
+        pierceBuilding: true
+        hittable: false
+        absorbable: false
+        reflectable: false
+        keepVelocity: true
+        hitSize: 12
+        width: 5.692
+        height: 26
+        shrinkX: 0
+        shrinkY: 0
+        backColor: ffffff
+        frontColor: ffffff
+        hitColor: c58bff
+        lightRadius: 12
+        lightOpacity: 0.25
+        lightColor: a45cff
+        trailLength: 5
+        trailWidth: 1
+        trailColor: a45cff
+        trailInterval: 0
+        trailRotation: true
+        trailEffect: none
+        shootEffect: none
+        smokeEffect: none
+        hitEffect:
+        {
+          type: ParticleEffect
+          lifetime: 15
+          line: true
+          particles: 6
+          cone: 180
+          length: 15
+          lenFrom: 5
+          lenTo: 0
+          strokeFrom: 1.2
+          strokeTo: 0
+          colorFrom: f3e8ff
+          colorTo: a45cff
+        }
+        despawnEffect: none
+        sprite: dp-initiative-claw-half
+        backSprite: clear
+        trailChance: 0
+      }
+      recoils: 3
+      shoot:
+      {
+        type: ShootBarrel
+        shots: 3
+        shotDelay: 3
+        barrels:
+        [
+          6
+          0
+          0
+          0
+          3
+          0
+          -6
+          0
+          0
+        ]
+        firstShotDelay: 42
+      }
+      otherSide: -1
+      flipSprite: true
+    }
+    {
+      name: clear
+      mirror: false
+      alternate: false
+      x: 25
+      y: 18.5
+      shootX: 0
+      shootY: 14
+      rotate: true
+      rotateSpeed: 2.4
+      rotationLimit: 56
+      shootCone: 360
+      reload: 132
+      recoilTime: 30
+      recoil: 0
+      cooldownTime: 210
+      top: true
+      layerOffset: -0.1
+      shake: 0.6
+      inaccuracy: 0
+      shootSound: shootSap
+      parts:
+      [
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: -6
+          y: 0
+          recoilIndex: 0
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 1.95425
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 0
+          y: 3
+          recoilIndex: 1
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-full
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 0
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-full-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: 0
+                      rotation: -90
+                      xScl: 0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 6
+          y: 0
+          recoilIndex: 2
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: ffffff
+                      layerOffset: 0.027
+                    }
+                    {
+                      type: RegionPart
+                      name: dp-initiative-claw-half-heat
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 13
+                      y: -1.95425
+                      rotation: -90
+                      xScl: -0.679739
+                      yScl: 0.679739
+                      color: a45cff00
+                      layerOffset: 0.031
+                      progress: heat
+                      colorTo: ff3434e6
+                      blending: additive
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      bullet:
+      {
+        type: BasicBulletType
+        speed: 11.8
+        lifetime: 10
+        damage: 260
+        knockback: 2.5
+        pierce: true
+        pierceCap: 4
+        pierceBuilding: true
+        hittable: false
+        absorbable: false
+        reflectable: false
+        keepVelocity: true
+        hitSize: 12
+        width: 5.692
+        height: 26
+        shrinkX: 0
+        shrinkY: 0
+        backColor: ffffff
+        frontColor: ffffff
+        hitColor: c58bff
+        lightRadius: 12
+        lightOpacity: 0.25
+        lightColor: a45cff
+        trailLength: 5
+        trailWidth: 1
+        trailColor: a45cff
+        trailInterval: 0
+        trailRotation: true
+        trailEffect: none
+        shootEffect: none
+        smokeEffect: none
+        hitEffect:
+        {
+          type: ParticleEffect
+          lifetime: 15
+          line: true
+          particles: 6
+          cone: 180
+          length: 15
+          lenFrom: 5
+          lenTo: 0
+          strokeFrom: 1.2
+          strokeTo: 0
+          colorFrom: f3e8ff
+          colorTo: a45cff
+        }
+        despawnEffect: none
+        sprite: dp-initiative-claw-half
+        backSprite: clear
+        trailChance: 0
+      }
+      recoils: 3
+      shoot:
+      {
+        type: ShootBarrel
+        shots: 3
+        shotDelay: 3
+        barrels:
+        [
+          -6
+          0
+          0
+          0
+          3
+          0
+          6
+          0
+          0
+        ]
+        firstShotDelay: 84
+      }
+      otherSide: -1
     }
   ]
   parts:
   [
-    {
-      type: RegionPart
-      name: omura
-      outline: false
-      heatColor: 00000000
-      heatProgress: 0
-      xScl: 0.3
-      yScl: 1.02
-      layerOffset: 0.012
-    }
-    {
-      type: RegionPart
-      name: omura-cell
-      outline: false
-      heatColor: 00000000
-      heatProgress: 0
-      xScl: 0.54545
-      yScl: 1.9245
-      color: b89cff
-      layerOffset: 0.013
-    }
     {
       type: RegionPart
       name: clear
@@ -1463,21 +2469,21 @@
       x: 9
       y: -26
       mirror: true
-      rotation: 77.09259132873416
+      rotation: 71.56505
       children:
       [
         {
           type: RegionPart
-          name: anthicus-blade
+          name: dp-initiative-root-blade
           outline: false
           heatColor: 00000000
           heatProgress: 0
-          x: 16.09909
-          y: 0
-          rotation: 0
-          xScl: 7.57604
-          yScl: 2.65162
-          color: 625d73
+          x: 5.60037
+          y: 2.31739
+          rotation: -90
+          xScl: 0.772465
+          yScl: 0.772465
+          color: ffffff
           layerOffset: 0.001
         }
       ]
@@ -1489,7 +2495,7 @@
       heatColor: 00000000
       heatProgress: 0
       drawRegion: false
-      x: 20
+      x: 25
       y: 22
       mirror: true
       weaponIndex: 0
@@ -1593,7 +2599,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -1607,41 +2613,37 @@
           [
             {
               type: RegionPart
-              name: anthicus-blade
+              name: dp-initiative-inner-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 19.35385
-              y: 0
-              rotation: 0
-              xScl: 9.10769
-              yScl: 1.73046
-              color: b7b0cc
+              x: 24.28071
+              y: -3.12234
+              rotation: -94.28288
+              xScl: 1.040259
+              yScl: 1.040259
+              color: ffffff
               layerOffset: -0.022
             }
+          ]
+          clampProgress: false
+          moves:
+          [
             {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 3.7
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff27
               progress:
               {
-                type: reload
+                type: time
                 ops:
                 [
                   {
                     op: mul
-                    amount: 3
+                    amount: 0
                   }
                   {
-                    op: clamp
+                    op: sin
+                    offset: 0
+                    scl: 24
+                    mag: 1
                   }
                   {
                     op: mul
@@ -1657,375 +2659,12 @@
                         {
                           op: clamp
                         }
-                        {
-                          op: inv
-                        }
                       ]
                     }
                   }
-                  {
-                    op: clamp
-                  }
                 ]
               }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 11.100000000000001
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff3c
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 18.5
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff51
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 25.900000000000002
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff66
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 33.300000000000004
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff7b
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 40.7
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff90
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 48.1
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffa5
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 55.5
-              y: 0
-              xScl: 30.043999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffba
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
+              rot: 4
             }
           ]
         }
@@ -2127,7 +2766,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -2141,41 +2780,37 @@
           [
             {
               type: RegionPart
-              name: anthicus-blade
+              name: dp-initiative-inner-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 19.09231
-              y: 0
-              rotation: 0
-              xScl: 8.98462
-              yScl: 1.70708
-              color: a59dbb
+              x: 23.95259
+              y: -3.08015
+              rotation: -94.28288
+              xScl: 1.026201
+              yScl: 1.026201
+              color: ffffff
               layerOffset: -0.022
             }
+          ]
+          clampProgress: false
+          moves:
+          [
             {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 3.65
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff27
               progress:
               {
-                type: reload
+                type: time
                 ops:
                 [
                   {
                     op: mul
-                    amount: 3
+                    amount: 0
                   }
                   {
-                    op: clamp
+                    op: sin
+                    offset: 4
+                    scl: 24
+                    mag: 1
                   }
                   {
                     op: mul
@@ -2191,375 +2826,12 @@
                         {
                           op: clamp
                         }
-                        {
-                          op: inv
-                        }
                       ]
                     }
                   }
-                  {
-                    op: clamp
-                  }
                 ]
               }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 10.95
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff3c
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 18.25
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff51
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 25.55
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff66
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 32.85
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff7b
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 40.15
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff90
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 47.449999999999996
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffa5
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 54.75
-              y: 0
-              xScl: 29.637999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffba
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
+              rot: 4
             }
           ]
         }
@@ -2661,7 +2933,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -2675,41 +2947,37 @@
           [
             {
               type: RegionPart
-              name: anthicus-blade
+              name: dp-initiative-inner-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 18.56923
-              y: 0
-              rotation: 0
-              xScl: 8.73846
-              yScl: 1.66031
-              color: bfb8d1
+              x: 23.29635
+              y: -2.99576
+              rotation: -94.28288
+              xScl: 0.998086
+              yScl: 0.998086
+              color: ffffff
               layerOffset: -0.022
             }
+          ]
+          clampProgress: false
+          moves:
+          [
             {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 3.55
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff27
               progress:
               {
-                type: reload
+                type: time
                 ops:
                 [
                   {
                     op: mul
-                    amount: 3
+                    amount: 0
                   }
                   {
-                    op: clamp
+                    op: sin
+                    offset: 8
+                    scl: 24
+                    mag: 1
                   }
                   {
                     op: mul
@@ -2725,375 +2993,12 @@
                         {
                           op: clamp
                         }
-                        {
-                          op: inv
-                        }
                       ]
                     }
                   }
-                  {
-                    op: clamp
-                  }
                 ]
               }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 10.649999999999999
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff3c
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 17.75
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff51
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 24.849999999999998
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff66
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 31.95
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff7b
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 39.05
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff90
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 46.15
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffa5
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 53.25
-              y: 0
-              xScl: 28.825999999999997
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffba
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
+              rot: 4
             }
           ]
         }
@@ -3195,7 +3100,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -3209,41 +3114,37 @@
           [
             {
               type: RegionPart
-              name: anthicus-blade
+              name: dp-initiative-inner-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 18.04615
-              y: 0
-              rotation: 0
-              xScl: 8.49231
-              yScl: 1.61354
-              color: 9d94b5
+              x: 22.64012
+              y: -2.91137
+              rotation: -94.28288
+              xScl: 0.969971
+              yScl: 0.969971
+              color: ffffff
               layerOffset: -0.022
             }
+          ]
+          clampProgress: false
+          moves:
+          [
             {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 3.45
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff27
               progress:
               {
-                type: reload
+                type: time
                 ops:
                 [
                   {
                     op: mul
-                    amount: 3
+                    amount: 0
                   }
                   {
-                    op: clamp
+                    op: sin
+                    offset: 12
+                    scl: 24
+                    mag: 1
                   }
                   {
                     op: mul
@@ -3259,375 +3160,12 @@
                         {
                           op: clamp
                         }
-                        {
-                          op: inv
-                        }
                       ]
                     }
                   }
-                  {
-                    op: clamp
-                  }
                 ]
               }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 10.350000000000001
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff3c
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 17.25
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff51
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 24.150000000000002
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff66
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 31.05
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff7b
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 37.95
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff90
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 44.85
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffa5
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 51.75
-              y: 0
-              xScl: 28.014
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffba
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
+              rot: 4
             }
           ]
         }
@@ -3729,7 +3267,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -3743,41 +3281,37 @@
           [
             {
               type: RegionPart
-              name: anthicus-blade
+              name: dp-initiative-inner-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 17.52308
-              y: 0
-              rotation: 0
-              xScl: 8.24615
-              yScl: 1.56677
-              color: b0a8c6
+              x: 21.98388
+              y: -2.82699
+              rotation: -94.28288
+              xScl: 0.941856
+              yScl: 0.941856
+              color: ffffff
               layerOffset: -0.022
             }
+          ]
+          clampProgress: false
+          moves:
+          [
             {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 3.35
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff27
               progress:
               {
-                type: reload
+                type: time
                 ops:
                 [
                   {
                     op: mul
-                    amount: 3
+                    amount: 0
                   }
                   {
-                    op: clamp
+                    op: sin
+                    offset: 16
+                    scl: 24
+                    mag: 1
                   }
                   {
                     op: mul
@@ -3793,375 +3327,12 @@
                         {
                           op: clamp
                         }
-                        {
-                          op: inv
-                        }
                       ]
                     }
                   }
-                  {
-                    op: clamp
-                  }
                 ]
               }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 10.05
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff3c
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 16.75
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff51
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 23.45
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff66
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 30.150000000000002
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff7b
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 36.85
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffff90
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 43.550000000000004
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffa5
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
-            }
-            {
-              type: RegionPart
-              name: white
-              outline: false
-              heatColor: 00000000
-              heatProgress: 0
-              x: 50.25
-              y: 0
-              xScl: 27.201999999999998
-              yScl: 2.2
-              color: ffffff00
-              colorTo: ffffffba
-              progress:
-              {
-                type: reload
-                ops:
-                [
-                  {
-                    op: mul
-                    amount: 3
-                  }
-                  {
-                    op: clamp
-                  }
-                  {
-                    op: mul
-                    other:
-                    {
-                      type: charge
-                      ops:
-                      [
-                        {
-                          op: mul
-                          amount: 60
-                        }
-                        {
-                          op: clamp
-                        }
-                        {
-                          op: inv
-                        }
-                      ]
-                    }
-                  }
-                  {
-                    op: clamp
-                  }
-                ]
-              }
-              layerOffset: -0.018
+              rot: 4
             }
           ]
         }
@@ -4263,7 +3434,7 @@
                     }
                     {
                       op: mul
-                      amount: 0.25
+                      amount: 0.75
                     }
                   ]
                 }
@@ -4277,17 +3448,58 @@
           [
             {
               type: RegionPart
-              name: obviate-blade
+              name: dp-initiative-outer-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 40.2437
-              y: -10.93866
-              rotation: 78.60786
-              xScl: 1.10964
-              yScl: 3.6988
-              color: e3ddf1
+              x: 13.06344
+              y: 8.25562
+              rotation: -87.84997
+              xScl: 0.862191
+              yScl: 0.862191
+              color: ffffff
               layerOffset: -0.01
+            }
+          ]
+          clampProgress: false
+          moves:
+          [
+            {
+              progress:
+              {
+                type: time
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 0
+                  }
+                  {
+                    op: sin
+                    offset: 20
+                    scl: 24
+                    mag: 1
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+              rot: 4
             }
           ]
         }
@@ -4295,4 +3507,7 @@
     }
   ]
   buildSpeed: 0.01
+  drawBody: true
+  drawCell: true
+  outlineRadius: 0
 }

@@ -1,9 +1,9 @@
 {
   unit.dp-initiative-unit:
   {
-    region: clear
+    region: dp-initiative
     outlineRegion: clear
-    cellRegion: clear
+    cellRegion: dp-initiative-cell
     shadowRegion: clear
     wreckRegions:
     [
@@ -24,6 +24,10 @@
     weapons.2.heatRegion: clear
     weapons.2.cellRegion: clear
     weapons.2.outlineRegion: clear
+    weapons.3.region: clear
+    weapons.3.heatRegion: clear
+    weapons.3.cellRegion: clear
+    weapons.3.outlineRegion: clear
   }
   status.dp-initiative-oc:
   {
