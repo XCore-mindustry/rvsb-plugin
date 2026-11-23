@@ -2,7 +2,6 @@
   name: Glaucus
   description: Fires sticky bombs that shock enemy targets and repair allied structures. Repairs allied units.
   type: naval
-  flying: true
   lowAltitude: true
   alwaysUnlocked: true
   health: 3400
