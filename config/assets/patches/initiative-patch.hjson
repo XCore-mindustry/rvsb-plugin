@@ -1,0 +1,33 @@
+{
+  unit.dp-initiative-unit:
+  {
+    region: clear
+    outlineRegion: clear
+    cellRegion: clear
+    shadowRegion: clear
+    wreckRegions:
+    [
+      clear
+    ]
+    fullIcon: router
+    uiIcon: router
+    previewRegion: omura
+    weapons.0.region: clear
+    weapons.0.heatRegion: clear
+    weapons.0.cellRegion: clear
+    weapons.0.outlineRegion: clear
+    weapons.1.region: clear
+    weapons.1.heatRegion: clear
+    weapons.1.cellRegion: clear
+    weapons.1.outlineRegion: clear
+    weapons.2.region: clear
+    weapons.2.heatRegion: clear
+    weapons.2.cellRegion: clear
+    weapons.2.outlineRegion: clear
+  }
+  status.dp-initiative-oc:
+  {
+    fullIcon: clear
+    uiIcon: clear
+  }
+}

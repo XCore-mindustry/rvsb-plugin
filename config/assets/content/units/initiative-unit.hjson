@@ -1,0 +1,4172 @@
+//initiative unit by alphy
+{
+  type: flying
+  name: Test burd
+  description: you found the test burd
+  health: 21000
+  armor: 10
+  hitSize: 58
+  speed: 0.6
+  accel: 0.07
+  drag: 0.035
+  rotateSpeed: 2.4
+  flying: true
+  lowAltitude: true
+  circleTarget: true
+  faceTarget: true
+  targetAir: true
+  targetGround: true
+  range: 118
+  maxRange: 118
+  itemCapacity: 0
+  clipSize: 600
+  engineOffset: 37
+  engineSize: 0
+  engineColor: a45cff
+  engineColorInner: f3e8ff
+  engines:
+  [
+    {
+      x: -6
+      y: -38
+      radius: 3
+      rotation: -90
+      color: a45cff
+    }
+    {
+      x: 6
+      y: -38
+      radius: 3
+      rotation: -90
+      color: a45cff
+    }
+    {
+      x: 0
+      y: -41
+      radius: 2.4
+      rotation: -90
+      color: d7b8ff
+    }
+  ]
+  trailLength: 14
+  trailColor: a45cff
+  lightRadius: 60
+  lightOpacity: 0.22
+  lightColor: a45cff
+  abilities:
+  [
+    {
+      type: MoveEffectAbility
+      minVelocity: 1.75
+      interval: 5
+      x: 0
+      y: -39
+      rotateEffect: true
+      rotation: 180
+      color: a45cff
+      effect:
+      {
+        type: ParticleEffect
+        lifetime: 18
+        line: true
+        particles: 1
+        cone: 5
+        length: 34
+        lenFrom: 13
+        lenTo: 0
+        strokeFrom: 1.2
+        strokeTo: 0
+        colorFrom: d7b8ff
+        colorTo: 6a2cff
+      }
+    }
+  ]
+  weapons:
+  [
+    {
+      name: clear
+      mirror: false
+      rotate: false
+      x: 0
+      y: 0
+      shootX: 0
+      shootY: 0
+      recoil: 0
+      top: false
+      useAttackRange: false
+      ignoreRotation: true
+      shootCone: 360
+      reload: 522
+      linearWarmup: true
+      shootWarmupSpeed: 0.003703703703703704
+      minWarmup: 0.999
+      minShootVelocity: 0
+      shoot:
+      {
+        firstShotDelay: 252
+      }
+      shootStatus: dp-initiative-oc
+      shootStatusDuration: 252
+      parentizeEffects: true
+      chargeSound: chargeCorvus
+      shootSound: explosionReactor
+      shake: 14
+      parts:
+      [
+        {
+          type: ShapePart
+          circle: true
+          hollow: true
+          radius: 150
+          radiusTo: 25
+          stroke: 0
+          strokeTo: 5
+          color: a45cff00
+          colorTo: ff3434ff
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: min
+                other:
+                {
+                  type: reload
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 1.9333333333333333
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          layer: 110
+        }
+      ]
+      bullet:
+      {
+        type: ExplosionBulletType
+        killShooter: false
+        instantDisappear: true
+        despawnHit: true
+        speed: 0
+        lifetime: 1
+        rangeOverride: 118
+        splashDamage: 2200
+        splashDamageRadius: 160
+        scaledSplashDamage: false
+        splashDamagePierce: true
+        buildingDamageMultiplier: 0.3
+        collidesAir: true
+        collidesGround: true
+        status: unmoving
+        statusDuration: 150
+        hitColor: c58bff
+        hitShake: 18
+        despawnShake: 5
+        lightning: 10
+        lightningLength: 22
+        lightningLengthRand: 12
+        lightningDamage: 30
+        lightningColor: c58bff
+        chargeEffect:
+        {
+          type: MultiEffect
+          effects:
+          [
+            {
+              type: SeqEffect
+              clip: 800
+              followParent: true
+              effects:
+              [
+                {
+                  type: ParticleEffect
+                  particles: 0
+                  lifetime: 102
+                }
+                {
+                  type: ParticleEffect
+                  lifetime: 150
+                  clip: 600
+                  particles: 46
+                  cone: 180
+                  randLength: false
+                  baseLength: 64
+                  length: -60
+                  sizeFrom: 2.8
+                  sizeTo: 3.6
+                  colorFrom: e1caffee
+                  colorTo: ffffffff
+                  interp: linear
+                }
+              ]
+            }
+            {
+              type: SeqEffect
+              clip: 800
+              followParent: true
+              effects:
+              [
+                {
+                  type: ParticleEffect
+                  particles: 0
+                  lifetime: 102
+                }
+                {
+                  type: ParticleEffect
+                  lifetime: 150
+                  clip: 600
+                  line: true
+                  particles: 28
+                  cone: 180
+                  randLength: false
+                  baseLength: 64
+                  length: -60
+                  lenFrom: 7
+                  lenTo: 12
+                  strokeFrom: 0.8
+                  strokeTo: 2
+                  colorFrom: e1caffdd
+                  colorTo: ffffffff
+                  interp: linear
+                }
+              ]
+            }
+            {
+              type: ParticleEffect
+              lifetime: 252
+              clip: 600
+              particles: 1
+              length: 0
+              sizeFrom: 0
+              sizeTo: 22
+              colorFrom: 8a3cff00
+              colorTo: c58bff55
+              interp: pow2In
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 12.0
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 1.0
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 15.506
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 10.222222222222221
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 19.012
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 19.444444444444443
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 22.519
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 28.666666666666664
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 26.025
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 37.888888888888886
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 29.531
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 47.11111111111111
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 33.037
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 56.33333333333333
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 36.543
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 65.55555555555554
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 40.049
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 74.77777777777777
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 43.556
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 84.0
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 47.062
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 93.22222222222221
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 50.568
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 102.44444444444443
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 54.074
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 111.66666666666666
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 57.58
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 120.88888888888889
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 61.086
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 130.1111111111111
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 64.593
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 139.33333333333331
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 68.099
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 148.55555555555554
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 71.605
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 157.77777777777777
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 75.111
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 167.0
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 78.617
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 176.2222222222222
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 82.123
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 185.44444444444443
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 85.63
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 194.66666666666666
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 89.136
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 203.88888888888886
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 92.642
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 213.1111111111111
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 96.148
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 222.33333333333331
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 99.654
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 231.55555555555554
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 103.16
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 240.77777777777777
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+            {
+              type: WrapEffect
+              color: bb5effff
+              rotation: 106.667
+              effect:
+              {
+                type: SeqEffect
+                clip: 800
+                effects:
+                [
+                  {
+                    type: ParticleEffect
+                    particles: 0
+                    lifetime: 249.99999999999997
+                  }
+                  dynamicSpikes
+                ]
+              }
+            }
+          ]
+        }
+        shootEffect: none
+        smokeEffect: none
+        hitEffect:
+        {
+          type: MultiEffect
+          effects:
+          [
+            {
+              type: WrapEffect
+              effect: dynamicExplosion
+              rotation: 5.25
+              color: ffffff
+            }
+            {
+              type: ParticleEffect
+              lifetime: 22
+              particles: 1
+              length: 0
+              colorFrom: ffffffff
+              colorTo: c45dff00
+              sizeFrom: 50
+              sizeTo: 0
+              clip: 1000
+            }
+            {
+              type: ParticleEffect
+              lifetime: 90
+              particles: 55
+              cone: 180
+              length: 200
+              randLength: true
+              sizeFrom: 21
+              sizeTo: 0
+              colorFrom: dcb2ffff
+              colorTo: 6f269faa
+              interp: pow3Out
+              clip: 1000
+            }
+            {
+              type: ParticleEffect
+              lifetime: 60
+              particles: 48
+              cone: 180
+              length: 180
+              randLength: true
+              line: true
+              lenFrom: 32
+              lenTo: 0
+              strokeFrom: 3.5
+              strokeTo: 0
+              colorFrom: ffffffff
+              colorTo: ad42ffff
+              interp: pow3Out
+              clip: 1000
+            }
+            {
+              type: ParticleEffect
+              lifetime: 80
+              particles: 35
+              cone: 180
+              length: 170
+              randLength: true
+              line: true
+              lenFrom: 20
+              lenTo: 0
+              strokeFrom: 2
+              strokeTo: 0
+              colorFrom: ffd88aff
+              colorTo: e76b3900
+              interp: pow5Out
+              clip: 1000
+            }
+            {
+              type: ParticleEffect
+              lifetime: 140
+              particles: 53
+              cone: 180
+              length: 110
+              baseLength: 0
+              randLength: true
+              sizeFrom: 7
+              sizeTo: 16
+              colorFrom: 625f6677
+              colorTo: 44434a00
+              sizeInterp: pow2Out
+              colorInterp: pow3In
+              interp: pow5Out
+              startDelay: 3
+              clip: 1000
+              lightOpacity: 0
+              layer: 111
+            }
+            {
+              type: ParticleEffect
+              lifetime: 205
+              particles: 39
+              cone: 180
+              length: 135
+              baseLength: 6
+              randLength: true
+              sizeFrom: 5
+              sizeTo: 14
+              colorFrom: "74717966"
+              colorTo: 44434a00
+              sizeInterp: pow2Out
+              colorInterp: pow3In
+              interp: pow5Out
+              startDelay: 3
+              clip: 1000
+              lightOpacity: 0
+              layer: 111
+            }
+            {
+              type: ParticleEffect
+              lifetime: 280
+              particles: 29
+              cone: 180
+              length: 95
+              baseLength: 11
+              randLength: true
+              sizeFrom: 9
+              sizeTo: 19
+              colorFrom: 4e4d5366
+              colorTo: 44434a00
+              sizeInterp: pow2Out
+              colorInterp: pow3In
+              interp: pow5Out
+              startDelay: 3
+              clip: 1000
+              lightOpacity: 0
+              layer: 111
+            }
+            {
+              type: ParticleEffect
+              lifetime: 185
+              particles: 31
+              cone: 180
+              length: 160
+              baseLength: 0
+              randLength: true
+              sizeFrom: 5
+              sizeTo: 12
+              colorFrom: 85848a55
+              colorTo: 44434a00
+              sizeInterp: pow2Out
+              colorInterp: pow3In
+              interp: pow5Out
+              startDelay: 3
+              clip: 1000
+              lightOpacity: 0
+              layer: 111
+            }
+            {
+              type: ParticleEffect
+              lifetime: 235
+              particles: 20
+              cone: 180
+              length: 75
+              baseLength: 0
+              randLength: true
+              sizeFrom: 13
+              sizeTo: 23
+              colorFrom: 55545b66
+              colorTo: 44434a00
+              sizeInterp: pow2Out
+              colorInterp: pow3In
+              interp: pow5Out
+              startDelay: 3
+              clip: 1000
+              lightOpacity: 0
+              layer: 111
+            }
+          ]
+        }
+        despawnEffect: none
+        fragBullets: 1
+        fragRandomSpread: 0
+        fragVelocityMin: 0
+        fragVelocityMax: 0
+        fragBullet:
+        {
+          type: ExplosionBulletType
+          killShooter: false
+          instantDisappear: true
+          despawnHit: true
+          speed: 0
+          lifetime: 1
+          splashDamage: 1
+          splashDamageRadius: 160
+          scaledSplashDamage: false
+          buildingDamageMultiplier: 0
+          collidesAir: true
+          collidesGround: true
+          status: disarmed
+          statusDuration: 150
+          shootEffect: none
+          smokeEffect: none
+          despawnEffect: none
+          hitEffect: none
+        }
+        incendAmount: 24
+        incendSpread: 120
+        incendChance: 1
+      }
+    }
+    {
+      name: clear
+      mirror: true
+      alternate: true
+      x: 20
+      y: 22
+      shootX: 0
+      shootY: 14
+      rotate: true
+      rotateSpeed: 2.4
+      rotationLimit: 56
+      shootCone: 10
+      reload: 48
+      recoilTime: 30
+      recoil: 0
+      cooldownTime: 48
+      top: true
+      layerOffset: 0.025
+      shake: 0.6
+      inaccuracy: 0
+      shootSound: shootSap
+      parts:
+      [
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: -6
+          y: 0
+          recoilIndex: 0
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: anthicus-blade
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 8.5
+                      y: -0.0
+                      rotation: -0.0
+                      xScl: 4.0
+                      yScl: 1.4
+                      color: e5deff
+                      layerOffset: 0.027
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 0
+          y: 3
+          recoilIndex: 1
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: anthicus-blade
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 8.5
+                      y: -0.0
+                      rotation: -0.0
+                      xScl: 4.0
+                      yScl: 1.4
+                      color: e5deff
+                      layerOffset: 0.027
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          x: 6
+          y: 0
+          recoilIndex: 2
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 0
+              y: 0
+              rotation: 90
+              xScl: 0.0001
+              yScl: 0.35
+              growX: 21.784615384615385
+              moveY: 46.29230769230769
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              growProgress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              color: a45cff
+              layerOffset: 0.019
+            }
+            {
+              type: RegionPart
+              name: clear
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              drawRegion: false
+              moveY: 141.6
+              progress:
+              {
+                type: recoil
+                op: min
+                other:
+                {
+                  type: recoil
+                  op: curve
+                  offset: 1
+                  duration: -0.2
+                }
+              }
+              children:
+              [
+                {
+                  type: RegionPart
+                  name: clear
+                  outline: false
+                  heatColor: 00000000
+                  heatProgress: 0
+                  drawRegion: false
+                  y: -12
+                  rotation: 90
+                  children:
+                  [
+                    {
+                      type: RegionPart
+                      name: anthicus-blade
+                      outline: false
+                      heatColor: 00000000
+                      heatProgress: 0
+                      x: 8.5
+                      y: -0.0
+                      rotation: -0.0
+                      xScl: 4.0
+                      yScl: 1.4
+                      color: e5deff
+                      layerOffset: 0.027
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      bullet:
+      {
+        type: BasicBulletType
+        speed: 11.8
+        lifetime: 10
+        damage: 260
+        knockback: 2.5
+        pierce: true
+        pierceCap: 4
+        pierceBuilding: true
+        hittable: false
+        absorbable: false
+        reflectable: false
+        keepVelocity: true
+        hitSize: 12
+        width: 6
+        height: 26
+        shrinkX: 0
+        shrinkY: 0
+        backColor: a45cff
+        frontColor: f3e8ff
+        hitColor: c58bff
+        lightRadius: 12
+        lightOpacity: 0.25
+        lightColor: a45cff
+        trailLength: 5
+        trailWidth: 1
+        trailColor: a45cff
+        trailInterval: 0
+        trailRotation: true
+        trailEffect: none
+        shootEffect: none
+        smokeEffect: none
+        hitEffect:
+        {
+          type: ParticleEffect
+          lifetime: 15
+          line: true
+          particles: 6
+          cone: 180
+          length: 15
+          lenFrom: 5
+          lenTo: 0
+          strokeFrom: 1.2
+          strokeTo: 0
+          colorFrom: f3e8ff
+          colorTo: a45cff
+        }
+        despawnEffect: none
+        sprite: anthicus-blade
+        backSprite: anthicus-blade
+        trailChance: 0
+      }
+      recoils: 3
+      shoot:
+      {
+        type: ShootBarrel
+        shots: 3
+        shotDelay: 3
+        barrels:
+        [
+          -6
+          0
+          0
+          0
+          3
+          0
+          6
+          0
+          0
+        ]
+      }
+    }
+  ]
+  parts:
+  [
+    {
+      type: RegionPart
+      name: omura
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      xScl: 0.3
+      yScl: 1.02
+      layerOffset: 0.012
+    }
+    {
+      type: RegionPart
+      name: omura-cell
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      xScl: 0.54545
+      yScl: 1.9245
+      color: b89cff
+      layerOffset: 0.013
+    }
+    {
+      type: RegionPart
+      name: clear
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      drawRegion: false
+      x: 9
+      y: -26
+      mirror: true
+      rotation: 77.09259132873416
+      children:
+      [
+        {
+          type: RegionPart
+          name: anthicus-blade
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          x: 16.09909
+          y: -0.0
+          rotation: -0.0
+          xScl: 7.57604
+          yScl: 2.65162
+          color: 625d73
+          layerOffset: 0.001
+        }
+      ]
+    }
+    {
+      type: RegionPart
+      name: clear
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      drawRegion: false
+      x: 20
+      y: 22
+      mirror: true
+      weaponIndex: 0
+      children:
+      [
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -102
+          moveRot: 12
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 19.35385
+              y: -0.0
+              rotation: -0.0
+              xScl: 9.10769
+              yScl: 1.73046
+              color: b7b0cc
+              layerOffset: -0.022
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 3.7
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff27
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 11.100000000000001
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff3c
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 18.5
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff51
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 25.900000000000002
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff66
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 33.300000000000004
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff7b
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 40.7
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff90
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 48.1
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffa5
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 55.5
+              y: 0
+              xScl: 30.043999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffba
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -100
+          moveRot: 21
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 19.09231
+              y: -0.0
+              rotation: -0.0
+              xScl: 8.98462
+              yScl: 1.70708
+              color: a59dbb
+              layerOffset: -0.022
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 3.65
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff27
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 10.95
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff3c
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 18.25
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff51
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 25.55
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff66
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 32.85
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff7b
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 40.15
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff90
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 47.449999999999996
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffa5
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 54.75
+              y: 0
+              xScl: 29.637999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffba
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -98
+          moveRot: 31
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 18.56923
+              y: -0.0
+              rotation: -0.0
+              xScl: 8.73846
+              yScl: 1.66031
+              color: bfb8d1
+              layerOffset: -0.022
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 3.55
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff27
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 10.649999999999999
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff3c
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 17.75
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff51
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 24.849999999999998
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff66
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 31.95
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff7b
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 39.05
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff90
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 46.15
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffa5
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 53.25
+              y: 0
+              xScl: 28.825999999999997
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffba
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -96
+          moveRot: 42
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 18.04615
+              y: -0.0
+              rotation: -0.0
+              xScl: 8.49231
+              yScl: 1.61354
+              color: 9d94b5
+              layerOffset: -0.022
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 3.45
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff27
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 10.350000000000001
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff3c
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 17.25
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff51
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 24.150000000000002
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff66
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 31.05
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff7b
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 37.95
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff90
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 44.85
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffa5
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 51.75
+              y: 0
+              xScl: 28.014
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffba
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -94
+          moveRot: 53
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: anthicus-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 17.52308
+              y: -0.0
+              rotation: -0.0
+              xScl: 8.24615
+              yScl: 1.56677
+              color: b0a8c6
+              layerOffset: -0.022
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 3.35
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff27
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 10.05
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff3c
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 16.75
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff51
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 23.45
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff66
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 30.150000000000002
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff7b
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 36.85
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffff90
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 43.550000000000004
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffa5
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+            {
+              type: RegionPart
+              name: white
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 50.25
+              y: 0
+              xScl: 27.201999999999998
+              yScl: 2.2
+              color: ffffff00
+              colorTo: ffffffba
+              progress:
+              {
+                type: reload
+                ops:
+                [
+                  {
+                    op: mul
+                    amount: 3
+                  }
+                  {
+                    op: clamp
+                  }
+                  {
+                    op: mul
+                    other:
+                    {
+                      type: charge
+                      ops:
+                      [
+                        {
+                          op: mul
+                          amount: 60
+                        }
+                        {
+                          op: clamp
+                        }
+                        {
+                          op: inv
+                        }
+                      ]
+                    }
+                  }
+                  {
+                    op: clamp
+                  }
+                ]
+              }
+              layerOffset: -0.018
+            }
+          ]
+        }
+        {
+          type: RegionPart
+          name: clear
+          outline: false
+          heatColor: 00000000
+          heatProgress: 0
+          drawRegion: false
+          rotation: -92
+          moveRot: 60
+          progress:
+          {
+            type: warmup
+            ops:
+            [
+              {
+                op: mul
+                amount: 5
+              }
+              {
+                op: clamp
+              }
+              {
+                op: mul
+                amount: 0.55
+              }
+              {
+                op: add
+                amount: 0.45
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: warmup
+                  ops:
+                  [
+                    {
+                      op: min
+                      other:
+                      {
+                        type: reload
+                        ops:
+                        [
+                          {
+                            op: mul
+                            amount: 1.9333333333333333
+                          }
+                          {
+                            op: clamp
+                          }
+                          {
+                            op: inv
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: mul
+                other:
+                {
+                  type: charge
+                  ops:
+                  [
+                    {
+                      op: mul
+                      amount: 60
+                    }
+                    {
+                      op: clamp
+                    }
+                    {
+                      op: inv
+                    }
+                  ]
+                }
+              }
+              {
+                op: clamp
+              }
+            ]
+          }
+          children:
+          [
+            {
+              type: RegionPart
+              name: obviate-blade
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 40.2437
+              y: -10.93866
+              rotation: 78.60786
+              xScl: 1.10964
+              yScl: 3.6988
+              color: e3ddf1
+              layerOffset: -0.01
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  buildSpeed: 0.01
+}

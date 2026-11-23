@@ -1,0 +1,70 @@
+{
+  name: initiative-oc
+  speedMultiplier: 4.17
+  healthMultiplier: 2
+  color: a45cff
+  applyColor: d7b8ff
+  parentizeApplyEffect: true
+  applyEffect:
+  {
+    type: SoundEffect
+    sound: uiUnlock
+    minPitch: 1
+    maxPitch: 1
+    effect:
+    {
+      type: MultiEffect
+      effects:
+      [
+        {
+          type: WrapEffect
+          effect: dynamicSpikes
+          rotation: 64
+          color: b85dffff
+        }
+        {
+          type: WaveEffect
+          lifetime: 18
+          sizeFrom: 0
+          sizeTo: 12
+          strokeFrom: 3
+          strokeTo: 0
+          colorFrom: ffffffff
+          colorTo: a45cff
+          clip: 100
+        }
+        {
+          type: ParticleEffect
+          lifetime: 22
+          particles: 10
+          cone: 180
+          length: 12
+          sizeFrom: 2
+          sizeTo: 0
+          colorFrom: d7b8ff
+          colorTo: a45cff00
+        }
+      ]
+    }
+  }
+  parentizeEffect: true
+  effectChance: 0.32
+  effect:
+  {
+    type: ParticleEffect
+    lifetime: 18
+    line: true
+    particles: 1
+    cone: 180
+    length: 20
+    lenFrom: 10
+    lenTo: 0
+    strokeFrom: 2.6
+    strokeTo: 0
+    colorFrom: f1deffff
+    colorTo: a45cffdd
+  }
+  disarm: true
+  show: false
+  outline: false
+}
