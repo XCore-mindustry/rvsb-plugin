@@ -206,7 +206,7 @@
         speed: 0
         lifetime: 1
         rangeOverride: 118
-        splashDamage: 2200
+        splashDamage: 3620
         splashDamageRadius: 160
         scaledSplashDamage: false
         splashDamagePierce: true
