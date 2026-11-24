@@ -1,17 +1,18 @@
 //initiative unit by alphy
 {
   type: flying
-  name: Test burd
-  description: you found the test burd
-  health: 21000
-  armor: 10
-  hitSize: 58
+  name: Initiative
+  description: Pierces enemy targets with short-range retracting knives.
+  health: 12000
+  armor: 12
+  hitSize: 43
   speed: 0.6
   accel: 0.07
   drag: 0.035
   rotateSpeed: 2.4
   flying: true
   lowAltitude: true
+  drawSoftShadow: false
   circleTarget: true
   faceTarget: true
   targetAir: true
@@ -118,8 +119,8 @@
       shootCone: 360
       reload: 522
       linearWarmup: true
-      shootWarmupSpeed: 0.003703703703703704
-      minWarmup: 0.999
+      shootWarmupSpeed: 0.005185185185185185
+      minWarmup: 1
       minShootVelocity: 0
       shoot:
       {
@@ -128,8 +129,8 @@
       shootStatus: dp-initiative-oc
       shootStatusDuration: 252
       parentizeEffects: true
-      chargeSound: chargeCorvus
-      shootSound: explosionReactor
+      chargeSound: dp-initiative-rising-charge
+      shootSound: dp-initiative-explosion-15
       shake: 14
       parts:
       [
@@ -138,7 +139,7 @@
           circle: true
           hollow: true
           radius: 150
-          radiusTo: 25
+          radiusTo: 0
           stroke: 0
           strokeTo: 5
           color: a45cff00
@@ -1036,6 +1037,8 @@
         incendSpread: 120
         incendChance: 1
       }
+      soundPitchMin: 1
+      soundPitchMax: 1
     }
     {
       name: clear
@@ -1057,7 +1060,7 @@
       layerOffset: 0.04
       shake: 0.6
       inaccuracy: 0
-      shootSound: shootSap
+      shootSound: dp-initiative-shoot-metal
       parts:
       [
         {
@@ -1456,7 +1459,7 @@
         type: BasicBulletType
         speed: 11.8
         lifetime: 10
-        damage: 260
+        damage: 164
         knockback: 2.5
         pierce: true
         pierceCap: 4
@@ -1503,6 +1506,8 @@
         sprite: dp-initiative-claw-half
         backSprite: clear
         trailChance: 0
+        status: dp-pierced
+        statusDuration: 300
       }
       recoils: 3
       shoot:
@@ -1524,13 +1529,16 @@
         ]
         firstShotDelay: 0
       }
+      soundPitchMin: 1
+      soundPitchMax: 1
+      shootSoundVolume: 0.55
     }
     {
       name: clear
       mirror: false
       alternate: false
-      x: -25
-      y: 18.5
+      x: -20
+      y: 5.5
       shootX: 0
       shootY: 14
       rotate: true
@@ -1545,7 +1553,7 @@
       layerOffset: -0.1
       shake: 0.6
       inaccuracy: 0
-      shootSound: shootSap
+      shootSound: dp-initiative-shoot-metal
       parts:
       [
         {
@@ -1920,7 +1928,7 @@
         type: BasicBulletType
         speed: 11.8
         lifetime: 10
-        damage: 260
+        damage: 164
         knockback: 2.5
         pierce: true
         pierceCap: 4
@@ -1967,6 +1975,8 @@
         sprite: dp-initiative-claw-half
         backSprite: clear
         trailChance: 0
+        status: dp-pierced
+        statusDuration: 300
       }
       recoils: 3
       shoot:
@@ -1990,13 +2000,16 @@
       }
       otherSide: -1
       flipSprite: true
+      soundPitchMin: 1
+      soundPitchMax: 1
+      shootSoundVolume: 0.55
     }
     {
       name: clear
       mirror: false
       alternate: false
-      x: 25
-      y: 18.5
+      x: 20
+      y: 5.5
       shootX: 0
       shootY: 14
       rotate: true
@@ -2011,7 +2024,7 @@
       layerOffset: -0.1
       shake: 0.6
       inaccuracy: 0
-      shootSound: shootSap
+      shootSound: dp-initiative-shoot-metal
       parts:
       [
         {
@@ -2386,7 +2399,7 @@
         type: BasicBulletType
         speed: 11.8
         lifetime: 10
-        damage: 260
+        damage: 164
         knockback: 2.5
         pierce: true
         pierceCap: 4
@@ -2433,6 +2446,8 @@
         sprite: dp-initiative-claw-half
         backSprite: clear
         trailChance: 0
+        status: dp-pierced
+        statusDuration: 300
       }
       recoils: 3
       shoot:
@@ -2455,38 +2470,48 @@
         firstShotDelay: 84
       }
       otherSide: -1
+      soundPitchMin: 1
+      soundPitchMax: 1
+      shootSoundVolume: 0.55
     }
   ]
   parts:
   [
     {
       type: RegionPart
-      name: clear
+      name: dp-initiative-shared-outline
       outline: false
       heatColor: 00000000
       heatProgress: 0
-      drawRegion: false
-      x: 9
-      y: -26
+      layerOffset: -0.019
+    }
+    {
+      type: RegionPart
+      name: dp-initiative-wing-connector-shared-outline
       mirror: true
-      rotation: 71.56505
-      children:
-      [
-        {
-          type: RegionPart
-          name: dp-initiative-root-blade
-          outline: false
-          heatColor: 00000000
-          heatProgress: 0
-          x: 5.60037
-          y: 2.31739
-          rotation: -90
-          xScl: 0.772465
-          yScl: 0.772465
-          color: ffffff
-          layerOffset: 0.001
-        }
-      ]
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      x: 12
+      y: 2
+      rotation: 0
+      xScl: 1.25
+      yScl: -1.25
+      layerOffset: -0.019
+    }
+    {
+      type: RegionPart
+      name: dp-initiative-wing-connector
+      mirror: true
+      outline: false
+      heatColor: 00000000
+      heatProgress: 0
+      x: 12
+      y: 2
+      rotation: 0
+      xScl: 1.25
+      yScl: -1.25
+      layerOffset: -0.018
     }
     {
       type: RegionPart
@@ -2495,8 +2520,8 @@
       heatColor: 00000000
       heatProgress: 0
       drawRegion: false
-      x: 25
-      y: 22
+      x: 20
+      y: 9
       mirror: true
       weaponIndex: 0
       children:
@@ -2524,11 +2549,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -2691,11 +2716,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -2858,11 +2883,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -3025,11 +3050,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -3192,11 +3217,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -3359,11 +3384,11 @@
               }
               {
                 op: mul
-                amount: 0.55
+                amount: 0.83
               }
               {
                 op: add
-                amount: 0.45
+                amount: 0.17
               }
               {
                 op: mul
@@ -3448,15 +3473,29 @@
           [
             {
               type: RegionPart
+              name: dp-initiative-outer-blade-shared-outline
+              outline: false
+              heatColor: 00000000
+              heatProgress: 0
+              x: 33.20247
+              y: 0.1139
+              rotation: -87.84997
+              xScl: 0.94841
+              yScl: 0.94841
+              color: ffffff
+              layerOffset: -0.019
+            }
+            {
+              type: RegionPart
               name: dp-initiative-outer-blade
               outline: false
               heatColor: 00000000
               heatProgress: 0
-              x: 13.06344
-              y: 8.25562
+              x: 33.20247
+              y: 0.1139
               rotation: -87.84997
-              xScl: 0.862191
-              yScl: 0.862191
+              xScl: 0.94841
+              yScl: 0.94841
               color: ffffff
               layerOffset: -0.01
             }
@@ -3510,4 +3549,7 @@
   drawBody: true
   drawCell: true
   outlineRadius: 0
+  engineLayer: 89.8
+  moveSound: loopHover
+  moveSoundVolume: 0.5
 }

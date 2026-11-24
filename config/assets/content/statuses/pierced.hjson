@@ -1,0 +1,10 @@
+{
+  name: Pierced
+  show: true
+  speedMultiplier: 0.85
+  damage: 0.3333333333333333
+  color: ffffff
+  effect: none
+  outline: false
+  healthMultiplier: 0.9
+}

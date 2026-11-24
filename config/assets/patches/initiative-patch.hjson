@@ -9,8 +9,8 @@
     [
       clear
     ]
-    fullIcon: router
-    uiIcon: router
+    fullIcon: dp-initiative-full-icon
+    uiIcon: dp-initiative-ui-icon
     previewRegion: omura
     weapons.0.region: clear
     weapons.0.heatRegion: clear
@@ -33,5 +33,10 @@
   {
     fullIcon: clear
     uiIcon: clear
+  }
+  status.dp-pierced:
+  {
+    fullIcon: dp-pierced-icon
+    uiIcon: dp-pierced-icon
   }
 }
