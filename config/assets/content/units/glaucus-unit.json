@@ -4,7 +4,7 @@
   type: naval
   lowAltitude: true
   alwaysUnlocked: true
-  health: 3400
+  health: 3100
   armor: 9
   hitSize: 32.4
   speed: 0.6153846
@@ -147,7 +147,7 @@
           smokeEffect: none
           despawnEffect: none
           hitSound: dp-glaucus-orb-linger
-          hitSoundVolume: 0.19
+          hitSoundVolume: 0.1
           hitSoundPitch: 1
           despawnSound: none
           hitEffect: {
@@ -291,7 +291,7 @@
             despawnEffect: none
             despawnHit: true
             hitSound: dp-glaucus-orb-linger
-            hitSoundVolume: 0.19
+            hitSoundVolume: 0.1
             hitSoundPitch: 1
             despawnSound: none
             hitEffect: {
