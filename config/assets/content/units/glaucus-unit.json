@@ -17,6 +17,7 @@
   targetGround: true
   targetAir: true
   range: 174
+  buildSpeed: 0.01
   maxRange: 184
   outlineColor: "565666"
   outlineRadius: 2
