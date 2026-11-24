@@ -6,7 +6,7 @@
   alwaysUnlocked: true
   health: 3100
   armor: 9
-  hitSize: 32.4
+  hitSize: 19.9
   speed: 0.6153846
   accel: 0.13
   drag: 0.1
