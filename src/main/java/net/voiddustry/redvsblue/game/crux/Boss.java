@@ -80,7 +80,6 @@ public class Boss {
             int blue = Utils.playerCount(Team.blue);
             float health = blue <= 2 ? 700f : 250f * blue * stage;
             unit.health = health * multiplier;
-            Utils.applyEarlySpawnProtection(unit);
         }
 
         if (!player.dead() && player.unit() != null) {

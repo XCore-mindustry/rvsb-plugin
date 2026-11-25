@@ -1,4 +1,4 @@
-globalMultiplier: 0.55
+globalMultiplier: 0.65
 // --- map-specific spawners temporarily disabled for tests ---
 // spawners: [
 //   {

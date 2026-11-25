@@ -958,7 +958,7 @@ public final class StrengthSpawner {
 
     static final class UnitEntry {
         final UnitType type;
-        final int wave, count;
+        final int wave, count, max;
         final float extraPerBlueUnit, shield, health, effectSeconds;
         final double flag;
         final boolean setFlag;
@@ -971,6 +971,7 @@ public final class StrengthSpawner {
             if (!typeName.isEmpty() && type == null) unknown("unit", owner, typeName);
             wave = j.getInt("wave", 0);
             count = j.getInt("count", 1);
+            max = j.getInt("max", -1);
             extraPerBlueUnit = j.getFloat("extraPerBlueUnit", 0f);
             shield = j.getFloat("shield", 0f);
             health = j.getFloat("health", 0f);
@@ -998,6 +999,17 @@ public final class StrengthSpawner {
 
         void spawn(Tile tile, Spawner owner) {
             int amount = count + (extraPerBlueUnit > 0f ? (int) Mathf.random(extraPerBlueUnit * blueUnits) : 0);
+
+            // hard cap: never add a type beyond `max` alive red units (any source, not just this spawner)
+            if (wave <= 0 && type != null && max >= 0) {
+                int alive = 0;
+                for (Unit unit : Groups.unit) {
+                    if (unit.team == Team.crux && !unit.dead && unit.type == type) alive++;
+                }
+                amount = Math.min(amount, Math.max(0, max - alive));
+                if (amount <= 0) return;
+            }
+
             float x = tile.worldx(), y = tile.worldy();
             if (wave > 0) {
                 // spawn the map's wave groups of the given wave (1-based) like spawnwave would
@@ -1012,7 +1024,6 @@ public final class StrengthSpawner {
                             u.add();
                             decorate(u, owner);
                             spawnedUnits.add(u);
-                            Utils.applyEarlySpawnProtection(u);
                         }
                     }
                 }
@@ -1022,7 +1033,6 @@ public final class StrengthSpawner {
                 Unit u = type.spawn(Team.crux, x + Mathf.range(Vars.tilesize), y + Mathf.range(Vars.tilesize));
                 decorate(u, owner);
                 spawnedUnits.add(u);
-                Utils.applyEarlySpawnProtection(u);
             }
         }
 

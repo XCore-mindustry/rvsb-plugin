@@ -146,8 +146,6 @@ public class RedVsBluePlugin extends Plugin {
         Premium.init();
         CruxUnit.addEvent();
         BlueRespawn.init();
-        Events.on(EventType.UnitSpawnEvent.class, event -> Utils.applyEarlySpawnProtection(event.unit));
-        Events.on(EventType.UnitCreateEvent.class, event -> Utils.applyEarlySpawnProtection(event.unit));
         StationButtons.init();
         EvolutionMenu.init();
         

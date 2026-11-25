@@ -193,7 +193,6 @@ public class CruxUnit {
 
                 //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
                 unit.apply(Vars.content.statusEffect("shielded"), 300f);
-                Utils.applyEarlySpawnProtection(unit);
 
                 if (unit.type == UnitTypes.corvus) {
                     if (RedVsBluePlugin.stage == 11) {
@@ -249,7 +248,6 @@ public class CruxUnit {
 
             //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
             unit.apply(Vars.content.statusEffect("shielded"), 300f);
-            Utils.applyEarlySpawnProtection(unit);
 
             if (unit.type == UnitTypes.corvus) {
                 if (RedVsBluePlugin.stage == 11) {
@@ -297,8 +295,7 @@ public class CruxUnit {
             if (type == null) continue;
             int count = Mathf.random(special.min, special.max);
             for (int i = 0; i < count; i++) {
-                Unit unit = type.spawn(Team.crux, tile);
-                Utils.applyEarlySpawnProtection(unit);
+                type.spawn(Team.crux, tile);
             }
         }
     }
