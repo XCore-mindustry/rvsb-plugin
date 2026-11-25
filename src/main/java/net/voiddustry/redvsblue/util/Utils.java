@@ -12,6 +12,7 @@ import mindustry.content.*;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.type.UnitType;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.Prop;
 import mindustry.world.blocks.environment.TallBlock;
@@ -339,6 +340,20 @@ public class Utils {
         );
     }
 
+    /** Missiles are unit projectiles, not real combat units; the balancer must ignore them. */
+    public static boolean isMissile(Unit unit) {
+        if (unit == null || unit.type == null) return false;
+        return unit.type instanceof MissileUnitType || unit.type.name.contains("missile");
+    }
+
+    /** Stages 1-3: newly spawned red units get 2 seconds of invincibility instead of a map shield. */
+    public static void applyEarlySpawnProtection(Unit unit) {
+        if (unit == null || unit.dead || unit.team != Team.crux) return;
+        if (stage >= 1 && stage <= 3) {
+            unit.apply(StatusEffects.invincible, 120f);
+        }
+    }
+
     public static void spawnBoss() {
         UnitType bossType = StageUnits.bossForStage(stage);
 
@@ -362,6 +377,7 @@ public class Utils {
             );
 
             boss.health = boss.type.health + boss.type.health / 3;
+            applyEarlySpawnProtection(boss);
 
             if (!boss.dead() && i < controllers.size) {
                 Player player = controllers.get(i);

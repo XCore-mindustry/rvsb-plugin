@@ -3,19 +3,19 @@ formula: {
   playerWeight: 1
   stageWeight: 1
   stageCap: 12
-  divisor: 2.5
+  divisor: 3
   minUnitHp: 600
 }
 stageMultipliers: {
-  10: 0.8
-  11: 0.7
-  12: 0.6
+  10: 0.7
+  11: 0.6
+  12: 0.5
   13: 0.4
 }
 perStage: {
   11: {
     unitCounts: {
-      corvus: 4
+      corvus: 3
     }
   }
   12: {

@@ -61,6 +61,14 @@ public final class BalancerMenu {
         root.add(label(Bundle.get("menu.balancer.blue", locale)).color(C_LABEL).padRight(12f))
                 .add(label("[royal]" + view.bluePlayers() + "[] " + Bundle.get("menu.balancer.players", locale)
                         + " · [royal]" + view.blueUnits() + "[] " + Bundle.get("menu.balancer.units", locale))).row();
+        root.add(label(Bundle.get("menu.balancer.red-power", locale)).color(C_LABEL).padRight(12f))
+                .add(label("[scarlet]HP " + num(view.redPower()) + "[]")).row();
+        root.add(label(Bundle.get("menu.balancer.blue-power", locale)).color(C_LABEL).padRight(12f))
+                .add(label("[royal]HP " + num(view.bluePower()) + "[]")).row();
+        root.add(label(Bundle.get("menu.balancer.ratio", locale)).color(C_LABEL).padRight(12f))
+                .add(label("[lightgray]" + coef(view.pressureRatio()) + "[]")).row();
+        root.add(label(Bundle.get("menu.balancer.throttle", locale)).color(C_LABEL).padRight(12f))
+                .add(label(throttleText(view, locale))).row();
 
         root.add(label(Bundle.get("menu.balancer.spawners", locale)).color(C_TIER)
                 .colspan(2).padTop(18f).padBottom(6f)).row();
@@ -95,6 +103,24 @@ public final class BalancerMenu {
         }
         return "[white]" + spawner.name() + "[]   " + tier
                 + "   [lightgray]HP " + num(spawner.value()) + "[]";
+    }
+
+    private static String throttleText(StrengthSpawner.View view, Locale locale) {
+        if (!view.pressureEnabled()) {
+            return "[gray]" + Bundle.get("menu.balancer.brake-off", locale) + "[]";
+        }
+
+        if (view.throttle() > 1.01f) {
+            return "[scarlet]x" + coef(view.throttle()) + "[] [gray]("
+                    + Bundle.get("menu.balancer.brake", locale) + ", "
+                    + Bundle.format("menu.balancer.brake-threshold", locale, coef(view.pressureHigh())) + ")[]";
+        }
+        if (view.throttle() < 0.99f) {
+            return "[lime]x" + coef(view.throttle()) + "[] [gray]("
+                    + Bundle.get("menu.balancer.boost", locale) + ", "
+                    + Bundle.format("menu.balancer.brake-threshold", locale, coef(view.pressureBoost())) + ")[]";
+        }
+        return "[lightgray]x1.0[] [gray](" + Bundle.get("menu.balancer.normal", locale) + ")[]";
     }
 
     private static String spawnsText(StrengthSpawner.SpawnerView spawner, Locale locale) {

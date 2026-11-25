@@ -51,6 +51,15 @@ public final class StrengthSpawner {
     private static int blueUnits, bluePlayers;
     private static float mapMultiplier = 1f;
     private static String mapKey = "";
+    /** Red/blue pressure governor: only units spawned by this balancer count as red power. */
+    private static boolean pressureEnabled = true;
+    private static float pressureHigh = 1.9f, pressureLow = 1.35f, pressureMax = 2f;
+    private static float pressureMin = 0.6f, pressureBoost = 0.7f, pressureBoostRelease = 0.85f;
+    private static float pressureTrigger = 5f, pressureRelease = 8f;
+    private static float pressureRatio, pressureRed, pressureBlue;
+    private static float throttle = 1f, highSince, lowSince, boostSince, boostReleaseSince;
+    /** Units actually spawned by the balancer (global + map spawners), for the red-vs-blue power readout. */
+    private static final ObjectSet<Unit> spawnedUnits = new ObjectSet<>();
     private static final ObjectSet<String> warned = new ObjectSet<>();
 
     private StrengthSpawner() {
@@ -104,6 +113,27 @@ public final class StrengthSpawner {
                         stageSuppression.put(Integer.parseInt(e.key.trim()), Mathf.clamp(e.value.asFloat(), 0f, 0.95f));
                     }
                 }
+                pressureEnabled = true;
+                pressureHigh = 1.9f;
+                pressureLow = 1.35f;
+                pressureMax = 2f;
+                pressureMin = 0.6f;
+                pressureBoost = 0.7f;
+                pressureBoostRelease = 0.85f;
+                pressureTrigger = 5f;
+                pressureRelease = 8f;
+                if (config.has("pressure")) {
+                    Jval pressure = config.get("pressure");
+                    pressureEnabled = pressure.getBool("enabled", true);
+                    pressureHigh = Math.max(1.01f, pressure.getFloat("high", 1.9f));
+                    pressureLow = Mathf.clamp(pressure.getFloat("low", 1.35f), 1f, Math.max(1f, pressureHigh - 0.01f));
+                    pressureMax = Math.max(1f, pressure.getFloat("maxThrottle", 2f));
+                    pressureMin = Mathf.clamp(pressure.getFloat("minThrottle", 0.6f), 0.05f, 1f);
+                    pressureBoost = Mathf.clamp(pressure.getFloat("boostBelow", 0.7f), 0.01f, pressureLow);
+                    pressureBoostRelease = Mathf.clamp(pressure.getFloat("boostAbove", 0.85f), pressureBoost, pressureLow);
+                    pressureTrigger = Math.max(0f, pressure.getFloat("triggerSeconds", 5f));
+                    pressureRelease = Math.max(0f, pressure.getFloat("releaseSeconds", 8f));
+                }
             } else {
                 Log.warn("[StrengthSpawner] @ not found, spawner disabled", cf.absolutePath());
             }
@@ -116,6 +146,15 @@ public final class StrengthSpawner {
     /** Builds the spawner list for the current map and restarts the clock. Call on world load. */
     public static void reset() {
         active.clear();
+        spawnedUnits.clear();
+        throttle = 1f;
+        pressureRatio = 0f;
+        pressureRed = 0f;
+        pressureBlue = 0f;
+        highSince = 0f;
+        lowSince = 0f;
+        boostSince = 0f;
+        boostReleaseSince = 0f;
         clock = 0f;
         untilUpdate = 0f;
         untilCheck = 0f;
@@ -178,6 +217,15 @@ public final class StrengthSpawner {
     public static void stop() {
         running = false;
         active.clear();
+        spawnedUnits.clear();
+        throttle = 1f;
+        pressureRatio = 0f;
+        pressureRed = 0f;
+        pressureBlue = 0f;
+        highSince = 0f;
+        lowSince = 0f;
+        boostSince = 0f;
+        boostReleaseSince = 0f;
     }
 
     private static boolean isException(Jval global, String fileName, String displayName) {
@@ -220,15 +268,17 @@ public final class StrengthSpawner {
 
         if (untilCheck <= 0f) {
             untilCheck = 1f;
+            refreshPressure();
             for (Spawner s : active) s.check();
         }
     }
 
     private static void refreshStrength() {
+        pruneSpawned();
         blueUnits = 0;
         bluePlayers = 0;
         Groups.unit.each(u -> {
-            if (u.team == Team.blue && !u.dead) blueUnits++;
+            if (u.team == Team.blue && !u.dead && !Utils.isMissile(u)) blueUnits++;
         });
         Groups.player.each(p -> {
             if (p.team() == Team.blue) bluePlayers++;
@@ -312,11 +362,106 @@ public final class StrengthSpawner {
 
     /** Compact read-only state for the client balancer window. */
     public record View(String map, float mapMultiplier, int stage, int finalStage, boolean running,
-                       int blueUnits, int bluePlayers, Seq<SpawnerView> spawners) {
+                       int blueUnits, int bluePlayers, float redPower, float bluePower,
+                       float pressureRatio, float throttle, float pressureHigh, float pressureBoost,
+                       boolean pressureEnabled, Seq<SpawnerView> spawners) {
+    }
+
+    /** Removes dead/despawned units from the balancer tracking set. */
+    private static void pruneSpawned() {
+        if (spawnedUnits.isEmpty()) return;
+        Seq<Unit> dead = new Seq<>();
+        for (Unit unit : spawnedUnits) {
+            if (unit == null || unit.dead || !unit.isAdded()) dead.add(unit);
+        }
+        for (Unit unit : dead) spawnedUnits.remove(unit);
+    }
+
+    private static float computeRedPower() {
+        pruneSpawned();
+        float sum = 0f;
+        for (Unit unit : spawnedUnits) {
+            if (unit != null && !unit.dead && unit.team == Team.crux && !Utils.isMissile(unit)) {
+                sum += Math.max(0f, unit.health) * weight(unit.type);
+            }
+        }
+        return sum;
+    }
+
+    private static float computeBluePower() {
+        float sum = 0f;
+        for (Unit unit : Groups.unit) {
+            if (unit.team == Team.blue && !unit.dead && !Utils.isMissile(unit)) {
+                sum += Math.max(0f, unit.health) * weight(unit.type);
+            }
+        }
+        return sum;
+    }
+
+    /** Updates red/blue pressure and throttles spawn cooldowns when the balancer has produced too much red HP. */
+    private static void refreshPressure() {
+        if (!pressureEnabled) {
+            pressureRatio = 0f;
+            setThrottle(1f);
+            return;
+        }
+
+        pressureRed = computeRedPower();
+        pressureBlue = computeBluePower();
+        pressureRatio = pressureBlue <= 0.01f ? (pressureRed > 0.01f ? 999f : 0f) : pressureRed / pressureBlue;
+
+        if (pressureRatio >= pressureHigh) {
+            highSince += 1f;
+        } else {
+            highSince = 0f;
+        }
+
+        if (pressureRatio <= pressureBoost) {
+            boostSince += 1f;
+        } else {
+            boostSince = 0f;
+        }
+
+        if (pressureRatio <= pressureLow) {
+            lowSince += 1f;
+        } else {
+            lowSince = 0f;
+        }
+
+        if (pressureRatio >= pressureBoostRelease) {
+            boostReleaseSince += 1f;
+        } else {
+            boostReleaseSince = 0f;
+        }
+
+        float target = throttle;
+        if (highSince >= pressureTrigger) target = pressureMax;
+        else if (boostSince >= pressureTrigger) target = pressureMin;
+        else if (throttle > 1f && lowSince >= pressureRelease) target = 1f;
+        else if (throttle < 1f && boostReleaseSince >= pressureRelease) target = 1f;
+
+        setThrottle(Mathf.approach(throttle, target, 0.5f));
+    }
+
+    private static void setThrottle(float next) {
+        next = Mathf.clamp(next, pressureMin, Math.max(pressureMin, pressureMax));
+        if (Math.abs(next - throttle) < 0.0001f) return;
+
+        float factor = next / throttle;
+        for (Spawner spawner : active) {
+            if (spawner.nextTime > clock) {
+                spawner.nextTime = clock + (spawner.nextTime - clock) * factor;
+            }
+        }
+        throttle = next;
     }
 
     /** Snapshot for the player-facing balancer window; much shorter than {@link #status()}. */
     public static View view() {
+        pruneSpawned();
+        float redPower = computeRedPower();
+        float bluePower = computeBluePower();
+
         Seq<SpawnerView> list = new Seq<>();
         for (Spawner s : active) {
             Tier tier = currentTier(s);
@@ -356,7 +501,8 @@ public final class StrengthSpawner {
                     s.value, spawns, units));
         }
         return new View(mapKey, mapMultiplier, RedVsBluePlugin.stage, RedVsBluePlugin.finalStage,
-                running, blueUnits, bluePlayers, list);
+                running, blueUnits, bluePlayers, redPower, bluePower,
+                pressureRatio, throttle, pressureHigh, pressureBoost, pressureEnabled, list);
     }
 
     private static Spawner find(String selector) {
@@ -514,7 +660,7 @@ public final class StrengthSpawner {
 
     private static float effectiveCooldown(Spawner s, Tier tier) {
         int players = Math.max(1, bluePlayers);
-        return tier.cooldown * (float) Math.pow(1f - s.playerScaling, (players - 1) / 9f) * stageCooldownScale();
+        return tier.cooldown * (float) Math.pow(1f - s.playerScaling, (players - 1) / 9f) * stageCooldownScale() * throttle;
     }
 
     private static String metricName(Metric metric) {
@@ -667,7 +813,7 @@ public final class StrengthSpawner {
 
         /** Whether this unit feeds the strength calculation (same filters as {@link #compute()}). */
         boolean counts(Unit u) {
-            if (u.team != Team.blue || u.dead) return false;
+            if (u.team != Team.blue || u.dead || Utils.isMissile(u)) return false;
             if (playersOnly && !u.isPlayer()) return false;
             if (exclude.contains(u.type) || (!include.isEmpty() && !include.contains(u.type))) return false;
             return u.maxHealth >= minUnitHp && u.maxHealth <= maxUnitHp;
@@ -865,6 +1011,8 @@ public final class StrengthSpawner {
                             u.set(x + Mathf.range(Vars.tilesize), y + Mathf.range(Vars.tilesize));
                             u.add();
                             decorate(u, owner);
+                            spawnedUnits.add(u);
+                            Utils.applyEarlySpawnProtection(u);
                         }
                     }
                 }
@@ -873,6 +1021,8 @@ public final class StrengthSpawner {
             for (int i = 0; i < amount; i++) {
                 Unit u = type.spawn(Team.crux, x + Mathf.range(Vars.tilesize), y + Mathf.range(Vars.tilesize));
                 decorate(u, owner);
+                spawnedUnits.add(u);
+                Utils.applyEarlySpawnProtection(u);
             }
         }
 

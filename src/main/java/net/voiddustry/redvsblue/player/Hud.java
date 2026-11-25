@@ -14,7 +14,7 @@ import mindustry.type.UnitType;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
-import net.voiddustry.redvsblue.game.crux.CruxUnit;
+import net.voiddustry.redvsblue.game.crux.BlueRespawn;
 
 import static net.voiddustry.redvsblue.util.Utils.playerCount;
 
@@ -63,7 +63,7 @@ public class Hud {
                 
                 // fallback for the per-frame check in CruxUnit; only blue players, crux players keep their team and unit
                 if (RedVsBluePlugin.playing && player.team() == Team.blue && data.getUnit() != null && data.getUnit().dead) {
-                    CruxUnit.convertToCrux(player);
+                    BlueRespawn.onDeath(player);
                 }
                 
                 if (RedVsBluePlugin.playing && data.getUnit() != null && player.team() == Team.blue) {

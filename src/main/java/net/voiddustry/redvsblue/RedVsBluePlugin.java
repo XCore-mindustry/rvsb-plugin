@@ -66,7 +66,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.lang.Math;
-import java.time.Instant;
 
 import static net.voiddustry.redvsblue.util.MapVote.callMapVoting;
 import static net.voiddustry.redvsblue.util.Utils.*;
@@ -83,8 +82,8 @@ public class RedVsBluePlugin extends Plugin {
 
     private static final HashMap<Unit, WorldLabel> hitboxLabels = new HashMap<>();
 
-    public float blueSpawnX;
-    public float blueSpawnY;
+    public static float blueSpawnX;
+    public static float blueSpawnY;
 
     public static Seq<Tile> redSpawns = new Seq<>();
 
@@ -146,6 +145,9 @@ public class RedVsBluePlugin extends Plugin {
         UpdateConstructBlocks.start();
         Premium.init();
         CruxUnit.addEvent();
+        BlueRespawn.init();
+        Events.on(EventType.UnitSpawnEvent.class, event -> Utils.applyEarlySpawnProtection(event.unit));
+        Events.on(EventType.UnitCreateEvent.class, event -> Utils.applyEarlySpawnProtection(event.unit));
         StationButtons.init();
         EvolutionMenu.init();
         
@@ -183,11 +185,16 @@ public class RedVsBluePlugin extends Plugin {
         Events.on(EventType.PlayerJoin.class, event -> {
             Player player = event.player;
             if (playing) {
+                boolean cruxResumed = false;
                 if (players.containsKey(player.uuid())) {
                     PlayerData data = players.get(player.uuid());
                     player.team(data.getTeam());
                     if (player.team() == Team.blue) {
-                        Utils.assignUnit(player, data.getUnit());
+                        if (data.getUnit() != null && !data.getUnit().dead) {
+                            Utils.assignUnit(player, data.getUnit());
+                        } else {
+                            cruxResumed = BlueRespawn.resume(player);
+                        }
                     }
 
                 } else {
@@ -200,7 +207,7 @@ public class RedVsBluePlugin extends Plugin {
                     Utils.assignUnit(player, unit);
                     if (Utils.gameRun) MapStats.onPick(player, unit.type);
                 }
-                if (playing && player.team() == Team.crux) {
+                if (playing && player.team() == Team.crux && !cruxResumed) {
                     CruxUnit.callSpawn(player);
                 }
             }
@@ -323,9 +330,9 @@ public class RedVsBluePlugin extends Plugin {
                     // not their own unit (a controlled block or a grabbed unit): they still have theirs, the HUD loop puts them back
                     owner.clearUnit();
                 } else if (owner.team() == Team.blue) {
+                    // register the wait first: the renale below fires its own UnitDestroyEvent -> gameOverCheck
+                    BlueRespawn.onDeath(owner);
                     UnitTypes.renale.spawn(Team.malis, event.unit.x, event.unit.y).kill();
-                    // detaches the player from the dying unit before switching the team, then gives a fresh crux spawn
-                    CruxUnit.convertToCrux(owner);
                 } else if (owner.team() == Team.crux) {
                     owner.clearUnit();
                     CruxUnit.callSpawn(owner);
@@ -356,6 +363,7 @@ public class RedVsBluePlugin extends Plugin {
             Recycler.clearRecyclers();
             SuppressorTower.clearTowers();
             Boss.clear();
+            BlueRespawn.clear();
 
             initRules();
 
@@ -640,30 +648,6 @@ public class RedVsBluePlugin extends Plugin {
             }
         });
 
-        handler.<Player>register("blue", "Makes you blue, works only before stage 3", (args, player) -> {
-            if (stage <= 3 && playing && player.team() != Team.blue && players.get(player.uuid()).getLastRedeemTime()+45<Instant.now().getEpochSecond()) {
-                Unit old = player.unit();
-                // detach first: Player.team() also sets the team of the attached unit, so a crux unit the player had
-                // taken over (not spawnedByCore, so it is not despawned) was turned blue together with the player
-                player.clearUnit();
-                if (old != null && old.spawnedByCore) Call.unitDespawn(old);
-                CruxUnit.resetPossession(player);
-
-                player.team(Team.blue);
-                players.put(player.uuid(), new PlayerData(player));
-                PlayerData data = players.get(player.uuid());
-                Unit unit = getStartingUnit().spawn(Team.blue, blueSpawnX, blueSpawnY);
-
-                data.setUnit(unit);
-                Utils.assignUnit(player, unit);
-                MapStats.onPick(player, unit.type);
-                data.setLastRedeemTime(Instant.now().getEpochSecond());
-                sendBundled("game.redeemed", player.name);
-            } else {
-                player.sendMessage(Bundle.get("game.late", player.locale));
-            }
-        });
-        
         handler.<Player>removeCommand("rtv");
         handler.<Player>removeCommand("observer");
         handler.<Player>removeCommand("spectator");
@@ -1129,19 +1113,24 @@ public class RedVsBluePlugin extends Plugin {
     }    
 
     public static void gameOverCheck() {
+        if (!playing || Utils.gameover) return;
+
         int blueUnitCount = 0;
         int PlayerCount = 0;
         for (Unit u : Groups.unit) {
-            if (u.team == Team.blue) {
+            if (u.team == Team.blue && !Utils.isMissile(u)) {
                 blueUnitCount = blueUnitCount+1;
             }
         }
-        if ((playerCount(Team.blue) == 0 || blueUnitCount== 0) && ((playerCount(Team.blue) + playerCount(Team.crux)) != 0)) {
+        boolean returning = BlueRespawn.hasReturning();
+        if ((playerCount(Team.blue) == 0 || (blueUnitCount == 0 && !returning) || BlueRespawn.allBlueWaiting())
+                && ((playerCount(Team.blue) + playerCount(Team.crux)) != 0)) {
             gameOver(Team.crux);
         }
     }
 
     public static void gameOver(Team winner) {
+        BlueRespawn.clear();
         MapStats.onGameOver(winner);
         StageUnits.rollBosses();
         StrengthSpawner.stop();

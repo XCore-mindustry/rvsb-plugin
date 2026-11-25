@@ -1084,7 +1084,7 @@ unit.vanquish.hitSize: 16
 unit.nova.health: 250
 unit.stell.health: 400
 unit.mono.health: 200
-unit.locus.armor: -20
+unit.locus.armor: 2
 unit.retusa.health: 800
 unit.pulsar.health: 500
 unit.pulsar.armor: 6

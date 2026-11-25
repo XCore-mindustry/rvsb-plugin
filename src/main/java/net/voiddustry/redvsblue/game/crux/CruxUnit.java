@@ -85,12 +85,18 @@ public class CruxUnit {
      * The player is detached from whatever unit they are attached to BEFORE the team changes: Player.team() also
      * sets the team of the attached unit (and Player.update() keeps re-applying it), so changing the team first
      * recoloured that unit - e.g. a blue AI unit of the same type the client grabbed after the death.
+     *
+     * @param recordDeath false when the death was already recorded by the caller (the delayed respawn flow)
      */
-    public static void convertToCrux(Player player) {
+    public static void convertToCrux(Player player, boolean recordDeath) {
         if (player == null || player.team() != Team.blue) return;
-        PlayerData statsData = RedVsBluePlugin.players.get(player.uuid());
-        Unit statsUnit = statsData != null ? statsData.getUnit() : player.unit();
-        MapStats.onBlueUnitDeath(player, statsUnit);
+
+        if (recordDeath) {
+            PlayerData statsData = RedVsBluePlugin.players.get(player.uuid());
+            Unit statsUnit = statsData != null ? statsData.getUnit() : player.unit();
+            MapStats.onBlueUnitDeath(player, statsUnit);
+        }
+
         player.clearUnit();
         player.team(Team.crux);
 
@@ -127,7 +133,7 @@ public class CruxUnit {
                 if (player.team() != Team.blue) continue;
                 PlayerData data = RedVsBluePlugin.players.get(player.uuid());
                 if (data == null || data.getUnit() == null) continue;
-                if (data.getUnit().dead) convertToCrux(player);
+                if (data.getUnit().dead) BlueRespawn.onDeath(player);
             }
         });
 
@@ -187,6 +193,7 @@ public class CruxUnit {
 
                 //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
                 unit.apply(Vars.content.statusEffect("shielded"), 300f);
+                Utils.applyEarlySpawnProtection(unit);
 
                 if (unit.type == UnitTypes.corvus) {
                     if (RedVsBluePlugin.stage == 11) {
@@ -242,6 +249,7 @@ public class CruxUnit {
 
             //unit.apply(Vars.content.statusEffect("superShielded"), 120f);
             unit.apply(Vars.content.statusEffect("shielded"), 300f);
+            Utils.applyEarlySpawnProtection(unit);
 
             if (unit.type == UnitTypes.corvus) {
                 if (RedVsBluePlugin.stage == 11) {
@@ -288,7 +296,10 @@ public class CruxUnit {
             UnitType type = Vars.content.unit(special.type);
             if (type == null) continue;
             int count = Mathf.random(special.min, special.max);
-            for (int i = 0; i < count; i++) type.spawn(Team.crux, tile);
+            for (int i = 0; i < count; i++) {
+                Unit unit = type.spawn(Team.crux, tile);
+                Utils.applyEarlySpawnProtection(unit);
+            }
         }
     }
 
@@ -297,7 +308,7 @@ public class CruxUnit {
             int bluePopulation = 0;
             float minHp = CruxSpawning.minUnitHp();
             for (Unit unit : Groups.unit) {
-                if (unit.team == Team.blue && !unit.dead && unit.maxHealth > minHp) bluePopulation++;
+                if (unit.team == Team.blue && !unit.dead && !Utils.isMissile(unit) && unit.maxHealth > minHp) bluePopulation++;
             }
             int stage = RedVsBluePlugin.stage;
 
@@ -314,7 +325,7 @@ public class CruxUnit {
                 if (quota <= 0) continue;
 
                 Groups.unit.each(u -> {
-                    if (u.team == Team.crux && u.type == type) {
+                    if (u.team == Team.crux && !Utils.isMissile(u) && u.type == type) {
                         Long spawnedAt = spawnTimes.get(u);
                         if (spawnedAt != null && now - spawnedAt < CruxSpawning.recentWindowMillis()) {
                             cruxUnits.merge(type, 1, Integer::sum);
