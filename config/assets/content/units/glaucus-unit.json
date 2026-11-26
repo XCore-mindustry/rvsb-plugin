@@ -261,7 +261,8 @@
           statusDuration: 90
           damage: 0
           despawnHit: true
-          splashDamage: 145
+          splashDamage: 125
+          healAmount: 350
           splashDamageRadius: 22
           hitShake: 3
           buildingDamageMultiplier: 0.8
