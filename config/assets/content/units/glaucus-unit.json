@@ -1,5 +1,6 @@
 {
   name: Glaucus
+  credit: alphy
   description: Fires sticky bombs that shock enemy targets and repair allied structures. Repairs allied units.
   type: naval
   lowAltitude: true
