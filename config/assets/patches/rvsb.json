@@ -632,6 +632,9 @@ reload: 9999
 bullet: {
 collidesAir: true
 killShooter: false
+// never reflectable: ShieldArcAbility redirects a reflected bullet's owner to the shield unit,
+// and the killShooter frag below would then kill that unit instantly
+reflectable: false
 fragBullets: 1
 fragBullet: {
 type: basicBulletType
@@ -639,10 +642,12 @@ collides: false
 speed: 0f
 lifetime: 5f
 drawSize: 0
+reflectable: false
 fragBullets: 1
 fragBullet: {
 killShooter: true
 instantDisappear: true
+reflectable: false
 }
 }
 }
@@ -726,6 +731,9 @@ reload: 9999
 bullet: {
 collidesAir: true
 killShooter: false
+// never reflectable: ShieldArcAbility redirects a reflected bullet's owner to the shield unit,
+// and the killShooter frag below would then kill that unit instantly
+reflectable: false
 fragBullets: 1
 fragBullet: {
 type: basicBulletType
@@ -733,10 +741,12 @@ collides: false
 speed: 0f
 lifetime: 5f
 drawSize: 0
+reflectable: false
 fragBullets: 1
 fragBullet: {
 killShooter: true
 instantDisappear: true
+reflectable: false
 }
 }
 }

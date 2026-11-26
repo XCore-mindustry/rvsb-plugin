@@ -1,14 +1,14 @@
 recentWindowSeconds: 55
 formula: {
-  playerWeight: 1
+  playerWeight: 1.2
   stageWeight: 1
   stageCap: 12
   divisor: 2
-  minUnitHp: 600
+  minUnitHp: 0
 }
 stageMultipliers: {
-  1: 2
-  2: 1.5
+  1: 1.5
+  2: 1.2
   10: 0.7
   11: 0.6
   12: 0.5
@@ -22,12 +22,12 @@ perStage: {
   }
   12: {
     unitCounts: {
-      dp-incinerate-unit: 4
+      dp-incinerate-unit: 5
     }
   }
   13: {
     unitCounts: {
-      dp-vulcan-unit: 4
+      dp-vulcan-unit: 5
     }
   }
 }

@@ -12,6 +12,7 @@ import mindustry.world.Tile;
 import net.voiddustry.redvsblue.Bundle;
 import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
+import net.voiddustry.redvsblue.game.stations.StationCleanup;
 import net.voiddustry.redvsblue.game.stats.MapStats;
 import net.voiddustry.redvsblue.util.Utils;
 
@@ -53,6 +54,8 @@ public final class BlueRespawn {
     /** Called when a blue player's unit dies, or when they use /suicide. */
     public static void onDeath(Player player) {
         if (player == null || !RedVsBluePlugin.playing || Utils.gameover || player.team() != Team.blue) return;
+
+        StationCleanup.destroyFor(player);
 
         if (RedVsBluePlugin.stage >= 4) {
             // after stage 3 death is an immediate crux conversion, no respawn wait

@@ -1,0 +1,25 @@
+// Per-map enforcement of the game's limited map area (rules.limitMapArea, set by logic setMapArea).
+//
+// Background: the engine clamps units and pathfinding only for non-AI teams, so crux AI (and any
+// client that ignores the dark zone) can physically walk outside the allowed rectangle.
+// When a map is listed here, the plugin:
+//   - clamps every unit (optionally only players, see clampAI) to limitX/Y/Width/Height each tick;
+//   - blocks place/break/rotate/configure actions outside the area.
+// Darkness rendering itself is client-side and cannot be enforced by a server plugin.
+// Fog of war (rules.fog) is not a movement boundary: the black around a fog map is visibility,
+// not the limit; only the limitX/Y/Width/Height rectangle is enforced here.
+//
+// enabled: false    - disable the guard everywhere, even on listed maps.
+// all: true         - apply to every map, ignoring the list below.
+// clampAI: true     - also clamp AI units (crux). false = only player-controlled units.
+// maps              - map file names (without .msav) or in-game display names, case-insensitive.
+//                     Empty list = guard inactive. Add only maps that actually use limitMapArea.
+{
+    enabled: true
+    all: false
+    clampAI: true
+    maps: [
+        "archipelago"
+        "lab"
+    ]
+}

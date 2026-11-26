@@ -28,7 +28,7 @@ import static net.voiddustry.redvsblue.RedVsBluePlugin.players;
 
 public class SuppressorTower {
     private static final Map<String, StationData> suppressorTowerMap = new ConcurrentHashMap<>();
-    private static final Seq<String> suppressorPlaced = new Seq<>();
+    private static final Map<String, Tile> suppressorPlaced = new ConcurrentHashMap<>();
 
     private static int tick;
 
@@ -85,8 +85,28 @@ public class SuppressorTower {
         return false;
     }
 
+    /** Breaks this player's suppressor tower, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+
+        // tower still in its deploy delay: kill the pending block so the timer aborts
+        Tile pending = suppressorPlaced.remove(player.uuid());
+        if (pending != null && pending.block() == Blocks.phaseWall && pending.build != null) {
+            pending.build.kill();
+        }
+
+        StationData data = suppressorTowerMap.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.tileOn();
+        if (tile != null && tile.block() == Blocks.phaseWall && tile.build != null) {
+            tile.build.kill();
+        }
+    }
+
     public static boolean owns(String uuid) {
-        return suppressorTowerMap.containsKey(uuid) || suppressorPlaced.contains(uuid);
+        return suppressorTowerMap.containsKey(uuid) || suppressorPlaced.containsKey(uuid);
     }
 
     public static boolean ownsAt(String uuid, Tile tile) {
@@ -99,7 +119,7 @@ public class SuppressorTower {
         if (players.get(player.uuid()).getScore() < 20) {
             player.sendMessage(Bundle.format("station.not-enough-money", Bundle.findLocale(player.locale), 20));
         } else {
-            if (!suppressorTowerMap.containsKey(player.uuid()) && !suppressorPlaced.contains(player.uuid())) {
+            if (!suppressorTowerMap.containsKey(player.uuid()) && !suppressorPlaced.containsKey(player.uuid())) {
                 if (!player.dead()) {
                     Tile playerTileOn = player.tileOn();
                     Tile tileUnderPlayer = Vars.world.tile(playerTileOn.x, playerTileOn.y - 1);
@@ -112,7 +132,7 @@ public class SuppressorTower {
                         Call.constructFinish(tile, Blocks.phaseWall, null, (byte) 0, Team.blue, null);
                         players.get(player.uuid()).subtractScore(20);
                         StationUtils.drawStationName(tile, player.name + "[gold]'s\n[accent]Tesla Tower" + " - deploying", 10.5F);
-                        suppressorPlaced.add(player.uuid());
+                        suppressorPlaced.put(player.uuid(), placeTile);
                         Timer.schedule(() -> {
                             // the tower may have been deconstructed during the deploy delay
                             if (placeTile.block() != Blocks.phaseWall) {

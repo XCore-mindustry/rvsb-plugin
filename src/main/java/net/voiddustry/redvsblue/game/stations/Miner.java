@@ -59,6 +59,19 @@ public class Miner {
         return false;
     }
 
+    /** Breaks this player's miner, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+        MinerData data = minersMap.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.getTileOn();
+        if (tile != null && tile.block() == Blocks.pulverizer && tile.build != null) {
+            tile.build.kill();
+        }
+    }
+
     public static boolean owns(String uuid) {
         return minersMap.containsKey(uuid);
     }

@@ -21,6 +21,7 @@ import net.voiddustry.redvsblue.PlayerData;
 import net.voiddustry.redvsblue.RedVsBluePlugin;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.game.crux.StageUnits;
+import net.voiddustry.redvsblue.game.stations.StationCleanup;
 import net.voiddustry.redvsblue.game.stats.MapStats;
 
 import java.util.HashMap;
@@ -90,6 +91,8 @@ public class CruxUnit {
      */
     public static void convertToCrux(Player player, boolean recordDeath) {
         if (player == null || player.team() != Team.blue) return;
+
+        StationCleanup.destroyFor(player);
 
         if (recordDeath) {
             PlayerData statsData = RedVsBluePlugin.players.get(player.uuid());

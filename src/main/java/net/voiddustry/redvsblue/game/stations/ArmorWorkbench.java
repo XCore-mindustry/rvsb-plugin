@@ -69,6 +69,20 @@ public class ArmorWorkbench {
         return false;
     }
 
+    /** Breaks this player's workbench, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+        StationData data = workbenches.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.tileOn();
+        var block = Vars.content.block("dp-workbench-station");
+        if (tile != null && block != null && tile.block() == block && tile.build != null) {
+            tile.build.kill();
+        }
+    }
+
     public static boolean owns(String uuid) {
         return workbenches.containsKey(uuid);
     }

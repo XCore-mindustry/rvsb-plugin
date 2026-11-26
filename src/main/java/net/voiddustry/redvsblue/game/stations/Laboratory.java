@@ -13,6 +13,7 @@ import mindustry.content.Fx;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
+import mindustry.gen.Player;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
@@ -302,6 +303,23 @@ public class Laboratory {
             }
         }
         return false;
+    }
+
+    /** Breaks this player's laboratory, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+        StationData data = labsMap.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.tileOn();
+        var block = Vars.content.block("dp-laboratory-station");
+        if (tile != null && block != null && tile.block() == block && tile.build != null) {
+            tile.build.kill();
+        }
+        if (players.get(player.uuid()) != null) {
+            players.get(player.uuid()).setCanEvolve(false);
+        }
     }
 
     public static boolean owns(String uuid) {

@@ -1,0 +1,13 @@
+// Invisible 1x1 spawn shield placed by the plugin on every map `spawn` overlay.
+// No collision, no power consumer, effectively infinite health: only non-absorbable attacks
+// (lasers) can damage it. The shield polygon itself is drawn like the Erekir shield projector.
+type: BaseShield
+size: 1
+radius: 64
+solid: false
+health: 2147483000
+armor: 100
+region: "dp-spawn-shield"
+sides: 24
+category: effect
+buildVisibility: editorOnly

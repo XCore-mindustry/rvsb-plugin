@@ -1,0 +1,65 @@
+// Invisible 1x1 shield placed by the plugin on every `spawn` overlay of the map (red spawn points).
+// The block does not collide, has no power requirement and effectively infinite health: only
+// non-absorbable attacks (lasers) can damage it. The shield absorbs enemy projectiles and pushes
+// enemy units out; red units are on the shield's team and walk out of spawn freely.
+//
+// activation: shields are placed only after the balancer's HP reaches `hp`.
+//   metric  - spawner metric to read (sum / average / max / decaying); empty = any.
+//   spawner - optional spawner name; empty = highest value among matching spawners.
+//   delay   - seconds between the notification and the actual placement.
+//   enabled: false or hp <= 0 places the shields immediately on world load.
+{
+    enabled: true
+    block: "dp-spawn-shield"
+    radius: 100
+    health: 2147483000
+
+    // All currently installed maps; remove a line to skip that map.
+    all: false
+    maps: [
+        "10m_under_raccoon_city"
+        "abandoned_canyon"
+        "abandoned_metro"
+        "abandoned_ruins"
+        "aircraft_carrier"
+        "archipelago"
+        "bunker"
+        "bunker(rerun)"
+        "central_plant"
+        "desert"
+        "dune"
+        "emergency_incidents"
+        "erekir_labyrinth"
+        "factory_ruins"
+        "fallen_reactor"
+        "fortress_rvsb"
+        "FrostBite"
+        "gm_construct"
+        "lab"
+        "last_defence"
+        "letroy"
+        "MBRL"
+        "mines"
+        "mineshaft"
+        "molten_crater"
+        "mount"
+        "nexus"
+        "pr_22"
+        "sandy_infection"
+        "sea_port"
+        "space_ship (rerun castle)"
+        "space_station"
+        "swamp"
+        "unbeatable"
+        "under_water"
+        "void"
+    ]
+
+    activation: {
+        enabled: true
+        hp: 1000
+        delay: 20
+        metric: "decaying"
+        spawner: ""
+    }
+}

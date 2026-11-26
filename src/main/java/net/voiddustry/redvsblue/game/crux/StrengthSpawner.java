@@ -505,6 +505,32 @@ public final class StrengthSpawner {
                 pressureRatio, throttle, pressureHigh, pressureBoost, pressureEnabled, list);
     }
 
+    /**
+     * Highest current HP value among spawners matching the given metric and optional spawner name.
+     * This is the same value the balancer window shows on a spawner line. 0 when nothing matches.
+     */
+    public static float balancerHp(String metric, String spawnerName) {
+        Metric filter = null;
+        if (metric != null && !metric.isBlank()) {
+            try {
+                filter = Metric.parse(metric);
+            } catch (IllegalArgumentException ignored) {
+                // unknown metric: fall back to all spawners
+            }
+        }
+
+        String name = spawnerName == null ? "" : spawnerName.trim();
+        float max = 0f;
+        boolean any = false;
+        for (Spawner s : active) {
+            if (filter != null && s.metric != filter) continue;
+            if (!name.isEmpty() && !s.name.equalsIgnoreCase(name)) continue;
+            any = true;
+            max = Math.max(max, s.value);
+        }
+        return any ? max : 0f;
+    }
+
     private static Spawner find(String selector) {
         String value = selector.startsWith("#") ? selector.substring(1) : selector;
         try {

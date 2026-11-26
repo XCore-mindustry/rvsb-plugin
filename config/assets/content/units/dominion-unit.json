@@ -34,6 +34,7 @@ outlines: true
 outlineColor: "2e191d"
 
 abilities: [
+  // no deflection: a reflected killShooter projectile (quell/disrupt missile payload) one-shots the shield owner
   {
     type: ShieldArcAbility
     radius: 31
@@ -46,7 +47,7 @@ abilities: [
     cooldown: 480
     width: 1.8
     whenShooting: false
-    chanceDeflect: 0
+    chanceDeflect: -1
     pushUnits: false
     drawArc: true
   }

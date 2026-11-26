@@ -73,6 +73,19 @@ public class Recycler {
         return false;
     }
 
+    /** Breaks this player's recycler, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+        StationData data = recyclersmap.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.tileOn();
+        if (tile != null && tile.block() == Blocks.slagIncinerator && tile.build != null) {
+            tile.build.kill();
+        }
+    }
+
     public static boolean owns(String uuid) {
         return recyclersmap.containsKey(uuid);
     }

@@ -69,6 +69,19 @@ public class RepairPoint {
         return false;
     }
 
+    /** Breaks this player's repair point, if any. Called on death. */
+    public static void destroyFor(Player player) {
+        if (player == null) return;
+        StationData data = repairPointsMap.remove(player.uuid());
+        if (data == null) return;
+
+        data.destroy();
+        Tile tile = data.tileOn();
+        if (tile != null && tile.block() == Blocks.mender && tile.build != null) {
+            tile.build.kill();
+        }
+    }
+
     public static boolean owns(String uuid) {
         return repairPointsMap.containsKey(uuid);
     }

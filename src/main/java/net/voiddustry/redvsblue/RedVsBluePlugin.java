@@ -54,9 +54,11 @@ import net.voiddustry.redvsblue.game.units.SpecialUnits;
 import net.voiddustry.redvsblue.game.units.special.Serverminate;
 import net.voiddustry.redvsblue.player.Hud;
 import net.voiddustry.redvsblue.player.Premium;
+import net.voiddustry.redvsblue.util.MapAreaGuard;
 import net.voiddustry.redvsblue.util.MapVote;
 import net.voiddustry.redvsblue.util.MenuGuard;
 import net.voiddustry.redvsblue.util.OrbitalStrike;
+import net.voiddustry.redvsblue.util.SpawnShields;
 import net.voiddustry.redvsblue.util.UnitsConfig;
 import net.voiddustry.redvsblue.util.Utils;
 import net.voiddustry.redvsblue.logic.LInstructions;
@@ -146,6 +148,8 @@ public class RedVsBluePlugin extends Plugin {
         Premium.init();
         CruxUnit.addEvent();
         BlueRespawn.init();
+        MapAreaGuard.init();
+        SpawnShields.init();
         StationButtons.init();
         EvolutionMenu.init();
         
@@ -589,6 +593,12 @@ public class RedVsBluePlugin extends Plugin {
         handler.<Player>register("s", "Open stations selecting menu", (args, player) -> StationsMenu.openMenu(player));
 
         handler.<Player>register("balancer", "Open the balancer status window", (args, player) -> BalancerMenu.open(player));
+
+        handler.<Player>register("maparea", "[scarlet]Admin only", (args, player) -> {
+            if (player.admin) {
+                player.sendMessage(MapAreaGuard.describe(player));
+            }
+        });
 
         handler.<Player>register("vote-map", "<map-number>", "Vote for specific map", (args, player) -> {
             if (Strings.canParseInt(args[0])) {
