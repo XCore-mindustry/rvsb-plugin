@@ -12,4 +12,5 @@ weights: {
   quad: 1.2
   conquer: 1.2
   dp-spearhead-unit: 1.7
+  dp-initiative-unit: 2.2
 }
