@@ -1,5 +1,6 @@
 {
   "type": "flying",
+  "credit": "xexebe",
   "template": "ErekirUnitType",
   "name": "Interdict",
   "flying": true,
