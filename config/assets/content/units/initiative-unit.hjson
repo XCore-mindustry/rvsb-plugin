@@ -2,6 +2,7 @@
 {
   type: flying
   name: Initiative
+  credit: alphy
   description: Pierces enemy targets with short-range retracting knives.
   health: 12000
   armor: 12
