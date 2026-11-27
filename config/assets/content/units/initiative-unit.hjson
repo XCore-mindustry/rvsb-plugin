@@ -214,7 +214,7 @@
         collidesAir: true
         collidesGround: true
         status: unmoving
-        statusDuration: 150
+        statusDuration: 90
         hitColor: c58bff
         hitShake: 18
         despawnShake: 5
@@ -1027,7 +1027,7 @@
           collidesAir: true
           collidesGround: true
           status: disarmed
-          statusDuration: 150
+          statusDuration: 90
           shootEffect: none
           smokeEffect: none
           despawnEffect: none
