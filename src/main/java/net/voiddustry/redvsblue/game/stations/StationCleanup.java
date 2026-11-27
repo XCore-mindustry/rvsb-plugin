@@ -1,6 +1,7 @@
 package net.voiddustry.redvsblue.game.stations;
 
 import mindustry.gen.Player;
+import net.voiddustry.redvsblue.game.building.TankBuildMenu;
 
 /**
  * Breaks every station owned by a player. Called on blue death: after stage 3 deaths no longer
@@ -21,5 +22,7 @@ public final class StationCleanup {
         ArmorWorkbench.destroyFor(player);
         Recycler.destroyFor(player);
         SuppressorTower.destroyFor(player);
+        ConquerTurrets.destroyFor(player);
+        TankBuildMenu.refresh(player);
     }
 }

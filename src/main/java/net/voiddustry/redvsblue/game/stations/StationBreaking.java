@@ -76,6 +76,7 @@ public final class StationBreaking {
         if (block == Vars.content.block("dp-laboratory-station")) return "laboratory";
         if (block == Blocks.slagIncinerator) return "recycler";
         if (block == Blocks.beamNode) return "booster";
+        if (block == Vars.content.block("dp-conquer-turret")) return "conquerTurret";
         return block.name;
     }
 

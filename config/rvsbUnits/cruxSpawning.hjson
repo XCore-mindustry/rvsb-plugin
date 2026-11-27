@@ -1,6 +1,6 @@
-recentWindowSeconds: 55
+recentWindowSeconds: 45
 formula: {
-  playerWeight: 1.2
+  playerWeight: 1
   stageWeight: 1
   stageCap: 12
   divisor: 2
@@ -9,6 +9,7 @@ formula: {
 stageMultipliers: {
   1: 1.5
   2: 1.2
+  9: 0.8
   10: 0.7
   11: 0.6
   12: 0.5

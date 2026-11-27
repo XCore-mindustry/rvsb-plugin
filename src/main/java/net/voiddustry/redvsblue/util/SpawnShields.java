@@ -45,6 +45,7 @@ public final class SpawnShields {
     private static boolean placedThisWorld;
     private static boolean announced;
     private static int worldGen;
+    private static final Seq<Tile> shieldTiles = new Seq<>();
 
     private SpawnShields() {
     }
@@ -57,6 +58,7 @@ public final class SpawnShields {
             worldGen++;
             placedThisWorld = false;
             announced = false;
+            shieldTiles.clear();
         });
         Timer.schedule(SpawnShields::tick, 1f, 1f);
     }
@@ -129,9 +131,13 @@ public final class SpawnShields {
     }
 
     private static void tick() {
-        if (placedThisWorld || announced || !enabled || Vars.net.client()
-                || !Vars.state.isGame() || Vars.world == null) return;
-        if (!activeForMap()) return;
+        if (!enabled || Vars.net.client() || !Vars.state.isGame() || Vars.world == null) return;
+
+        if (placedThisWorld) {
+            maintain();
+            return;
+        }
+        if (announced || !activeForMap()) return;
 
         if (activationEnabled && activationHp > 0f) {
             float hp = StrengthSpawner.balancerHp(activationMetric, activationSpawner);
@@ -160,13 +166,15 @@ public final class SpawnShields {
     private static void notifyPlayers() {
         for (Player player : Groups.player) {
             if (player.con != null && player.con.isConnected()) {
-                Call.announce(player.con, Bundle.format("spawnShield.incoming", player.locale, String.valueOf(Math.round(activationDelay))));
+                Call.announce(player.con, Bundle.format("spawnShield.incoming",
+                        Bundle.findLocale(player.locale), String.valueOf(Math.round(activationDelay))));
             }
         }
     }
 
     private static void place() {
         placedThisWorld = true;
+        shieldTiles.clear();
 
         Block block = Vars.content.block(blockName);
         if (block == null) block = Vars.content.block("spawn-shield");
@@ -179,10 +187,13 @@ public final class SpawnShields {
         if (health > 0) shieldBlock.health = health;
 
         int placed = 0, skipped = 0;
+        Seq<String> occupied = new Seq<>();
         for (int y = 0; y < Vars.world.height(); y++) {
             for (int x = 0; x < Vars.world.width(); x++) {
                 Tile tile = Vars.world.tile(x, y);
                 if (tile == null || tile.overlay() != Blocks.spawn) continue;
+
+                shieldTiles.add(tile);
 
                 if (tile.block() == shieldBlock) {
                     skipped++;
@@ -190,19 +201,56 @@ public final class SpawnShields {
                 }
                 if (tile.block() != Blocks.air) {
                     skipped++;
+                    if (occupied.size < 6) occupied.add("(" + x + "," + y + ") " + tile.block().name);
                     continue;
                 }
 
-                Call.constructFinish(tile, shieldBlock, null, (byte) 0, Team.crux, null);
-
-                // protection is active immediately, not after the radius lerp-in
-                if (tile.build instanceof BaseShield.BaseShieldBuild shield) {
-                    shield.smoothRadius = shieldBlock.radius;
-                }
+                spawnShield(tile, shieldBlock);
                 placed++;
             }
         }
 
-        Log.info("[SpawnShields] placed @ spawn shield(s), skipped @ occupied spawn tile(s)", placed, skipped);
+        if (placed + skipped == 0) {
+            Log.warn("[SpawnShields] no spawn overlays found on map '@'", mapName());
+        } else {
+            Log.info("[SpawnShields] placed @ spawn shield(s), skipped @ occupied spawn tile(s)", placed, skipped);
+            if (!occupied.isEmpty()) {
+                Log.info("[SpawnShields] occupied spawn tiles: @", occupied.toString(", "));
+            }
+        }
+    }
+
+    /** Keeps placed shields alive and re-places ones that were destroyed or removed. */
+    private static void maintain() {
+        if (!activeForMap() || shieldTiles.isEmpty()) return;
+
+        Block block = Vars.content.block(blockName);
+        if (block == null) block = Vars.content.block("spawn-shield");
+        if (!(block instanceof BaseShield shieldBlock)) return;
+
+        int restored = 0;
+        for (Tile tile : shieldTiles) {
+            if (tile == null) continue;
+
+            if (tile.block() == shieldBlock) {
+                if (tile.build instanceof BaseShield.BaseShieldBuild shield && shield.health() < shield.maxHealth()) {
+                    shield.health(shield.maxHealth());
+                }
+            } else if (tile.block() == Blocks.air) {
+                spawnShield(tile, shieldBlock);
+                restored++;
+            }
+        }
+        if (restored > 0) {
+            Log.info("[SpawnShields] restored @ spawn shield(s)", restored);
+        }
+    }
+
+    private static void spawnShield(Tile tile, BaseShield shieldBlock) {
+        Call.constructFinish(tile, shieldBlock, null, (byte) 0, Team.crux, null);
+        if (tile.build instanceof BaseShield.BaseShieldBuild shield) {
+            shield.smoothRadius = shieldBlock.radius;
+            shield.health(shield.maxHealth());
+        }
     }
 }

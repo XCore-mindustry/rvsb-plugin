@@ -41,7 +41,8 @@ public class StationUtils {
         return block == Blocks.pulverizer || block == Blocks.mender || block == Blocks.phaseWall
                 || block == Blocks.beamNode || block == Blocks.slagIncinerator
                 || block == Vars.content.block("dp-workbench-station")
-                || block == Vars.content.block("dp-laboratory-station");
+                || block == Vars.content.block("dp-laboratory-station")
+                || block == Vars.content.block("dp-conquer-turret");
     }
 
     /** Station block on this tile, including an in-progress deconstruction, or null. */

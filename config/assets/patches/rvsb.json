@@ -1275,6 +1275,7 @@ unit.locus.buildSpeed: 0.01
 unit.precept.buildSpeed: 0.01
 unit.vanquish.buildSpeed: 0.01
 unit.conquer.buildSpeed: 0.01
+unit.conquer.buildRange: 288
 
 unit.merui.buildSpeed: 0.01
 unit.cleroi.buildSpeed: 0.01

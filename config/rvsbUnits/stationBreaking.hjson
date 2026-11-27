@@ -7,4 +7,5 @@ stations: {
   laboratory: 3
   recycler: 3
   booster: 8
+  conquerTurret: 20
 }

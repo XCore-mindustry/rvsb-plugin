@@ -1,10 +1,10 @@
 updateSeconds: 30
 pressure: {
   enabled: true
-  high: 1.9
+  high: 1.8
   low: 1.35
   maxThrottle: 2.0
-  minThrottle: 0.3
+  minThrottle: 0.4
   boostBelow: 0.3333
   boostAbove: 0.45
   triggerSeconds: 5

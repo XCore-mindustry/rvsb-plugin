@@ -11,11 +11,11 @@
 {
     enabled: true
     block: "dp-spawn-shield"
-    radius: 100
+    radius: 120
     health: 2147483000
 
     // All currently installed maps; remove a line to skip that map.
-    all: false
+    all: true
     maps: [
         "10m_under_raccoon_city"
         "abandoned_canyon"
@@ -57,7 +57,7 @@
 
     activation: {
         enabled: true
-        hp: 1000
+        hp: 10000
         delay: 20
         metric: "decaying"
         spawner: ""

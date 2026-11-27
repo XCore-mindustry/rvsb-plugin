@@ -22,6 +22,7 @@ import mindustry.game.Rules;
 import mindustry.content.*;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
+import mindustry.type.UnitType;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.gen.Call;
@@ -62,6 +63,7 @@ public class UpdateConstructBlocks implements Runnable {
       Recycler.removeAt(tile);
       ArmorWorkbench.removeAt(tile);
       Laboratory.removeAt(tile);
+      ConquerTurrets.removeAt(tile);
     });
     Events.on(WorldLoadEvent.class, e -> {
       breakSessions.clear();
@@ -86,6 +88,7 @@ public class UpdateConstructBlocks implements Runnable {
     if (block == Blocks.slagIncinerator) return Recycler.ownsAt(uuid, tile);
     if (block == Vars.content.block("dp-workbench-station")) return ArmorWorkbench.ownsAt(uuid, tile);
     if (block == Vars.content.block("dp-laboratory-station")) return Laboratory.ownsAt(uuid, tile);
+    if (block == Vars.content.block("dp-conquer-turret")) return ConquerTurrets.owns(uuid, tile);
     return false;
   }
 
@@ -179,6 +182,23 @@ public class UpdateConstructBlocks implements Runnable {
     return 0;
   }
 
+  private static boolean isConquerTurret(Block block) {
+    return block != null && block == Vars.content.block("dp-conquer-turret");
+  }
+
+  /** Only a live conquer unit may build the turret, and only up to two per conquer unit on the team. */
+  public static boolean canBuildConquer(Unit unit) {
+    UnitType conquer = Vars.content.unit("conquer");
+    Block turret = Vars.content.block("dp-conquer-turret");
+    if (unit == null || unit.dead || conquer == null || turret == null || unit.type != conquer) return false;
+
+    int conquerUnits = 0;
+    for (Unit other : Groups.unit) {
+      if (other.team == Team.blue && !other.dead && other.type == conquer) conquerUnits++;
+    }
+    return Team.blue.data().getBuildings(turret).size < conquerUnits * 2;
+  }
+
   /** Half of the station price, paid only after the owner fully deconstructs it. */
   static void refund(Player player, Block station) {
     if (player == null || station == null || player.team() != Team.blue) return;
@@ -192,6 +212,9 @@ public class UpdateConstructBlocks implements Runnable {
     var data = RedVsBluePlugin.players.get(player.uuid());
     int cost = cost(block);
     if (player.team() != Team.blue || data == null || cost == 0 || data.getScore() < cost || Vars.state.rules.isBanned(block)) return false;
+    if (isConquerTurret(block)) {
+      return StationUtils.isFreePlacement(block, tile) && canBuildConquer(player.unit());
+    }
 
     if (isStationBlock(block)) {
       // stations still must go on a free tile and obey the one-per-player limit
@@ -226,7 +249,12 @@ public class UpdateConstructBlocks implements Runnable {
               BuildPlan bp = u.buildPlan();
               // breaking plans carry no block and deconstruct instantly on their own
               if (bp.breaking) continue;
-              
+
+              if (isConquerTurret(bp.block) && !canBuildConquer(u)) {
+                u.plans().removeFirst();
+                continue;
+              }
+
               int cost = cost(bp.block);
               Tile tile = Vars.world.tile(bp.x,bp.y);
 
@@ -238,14 +266,21 @@ public class UpdateConstructBlocks implements Runnable {
                 continue;
               }
                            
-              if (u.getPlayer() != null && u.buildPlan().placeable(Team.blue) && u.dst(bp.x*8,bp.y*8)<Vars.buildingRange) {
+              if (u.getPlayer() != null && u.buildPlan().placeable(Team.blue) && u.dst(bp.x*8,bp.y*8) < Math.max(Vars.buildingRange, u.type.buildRange)) {
                 Player player = u.getPlayer();
                 if (u.buildPlan().breaking == false && u.isBuilding()) {
                   //Log.info("Attempting to consume " + cost + " ,from player " + player);
                   if (RedVsBluePlugin.players.get(player.uuid()).getScore()>=cost && cost!=0) {
                     //Log.info("finishing construction");
-                    if (bp.block.category == Category.logic) {
-                      if (bp.block == Blocks.pulverizer) {
+                    if (isStationBlock(bp.block)) {
+                      if (isConquerTurret(bp.block)) {
+                        RedVsBluePlugin.players.get(player.uuid()).subtractScore(cost);
+                        Call.constructFinish(tile, bp.block, null, (byte) bp.rotation, player.team(), bp.config);
+                        if (tile.build != null) {
+                          tile.build.placed();
+                          ConquerTurrets.register(player.uuid(), tile.build.tile);
+                        }
+                      } else if (bp.block == Blocks.pulverizer) {
                         Miner.buyMiner(player, tile);
                       } else if (bp.block == Blocks.mender) {
                         RepairPoint.buyRepairPoint(player, tile);

@@ -3,9 +3,15 @@
   "name": "Conquer turret",
   "size": 2,
   "health": 10000,
-  "category": "turret",
-  "requirements": [],
-  "buildVisibility": "sandboxOnly",
+  "category": "logic",
+  "requirements": [
+    {
+      "item": "dormant-cyst",
+      "amount": 750
+    }
+  ],
+  "buildVisibility": "shown",
+  "region": "dp-conquer-turret",
   "range": 280,
   "reload": 90,
   "shootY": 32.5,

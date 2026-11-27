@@ -48,6 +48,7 @@ import net.voiddustry.redvsblue.game.stats.MapStats;
 import net.voiddustry.redvsblue.game.stations.StationsMenu;
 import net.voiddustry.redvsblue.game.stations.Laboratory;
 import net.voiddustry.redvsblue.game.building.UpdateConstructBlocks;
+import net.voiddustry.redvsblue.game.building.TankBuildMenu;
 import net.voiddustry.redvsblue.game.starting_menu.StartingMenu;
 import net.voiddustry.redvsblue.game.stations.*;
 import net.voiddustry.redvsblue.game.units.SpecialUnits;
@@ -145,6 +146,8 @@ public class RedVsBluePlugin extends Plugin {
         Boss.forEachBoss();
         Utils.initControlFilter();
         UpdateConstructBlocks.start();
+        TankBuildMenu.init();
+        ConquerTurrets.init();
         Premium.init();
         CruxUnit.addEvent();
         BlueRespawn.init();
