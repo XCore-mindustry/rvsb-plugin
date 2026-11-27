@@ -47,6 +47,6 @@ weights: {
   dp-vela-blue-unit: 0.8
   dp-venomreach-unit: 1.0 // t6
   dp-vulcan-unit: 1.2
-  dp-initiative-unit: 2.2
-  disrupt: 2
+  dp-initiative-unit: 2.0
+  disrupt: 2.0
 }
